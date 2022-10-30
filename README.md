@@ -1,0 +1,2 @@
+# Plaktago
+Bingo Mobile App
