@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'bingo.dart';
+import 'game.dart';
 import 'statistic.dart';
 import 'settings.dart';
 
@@ -26,7 +26,7 @@ class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Home(),
-    Bingo(),
+    Game(),
     Statistic(),
     Settings(),
   ];
@@ -40,9 +40,7 @@ class _NavigationBarState extends State<NavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
             canvasColor: Colors.orange,
@@ -51,6 +49,7 @@ class _NavigationBarState extends State<NavigationBar> {
                 .textTheme
                 .copyWith(caption: TextStyle(color: Colors.grey))),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
