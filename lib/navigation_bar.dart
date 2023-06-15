@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'game.dart';
+import 'Game/game.dart';
+import 'Game/bingo.dart';
 import 'statistic.dart';
 import 'settings.dart';
 
@@ -24,12 +25,13 @@ class NavigationBar extends StatefulWidget {
 
 class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Game(),
-    Statistic(),
-    Settings(),
-  ];
+  List<Widget> _widgetOptions() => [
+        Home(),
+        Game(onItemTapped: () => _onItemTapped()),
+        Statistic(),
+        Settings(),
+        Bingo(),
+      ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,8 +41,9 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> widgetList = _widgetOptions();
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: widgetList[_selectedIndex],
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
             canvasColor: Colors.orange,
