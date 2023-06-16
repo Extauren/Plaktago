@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'Game/game.dart';
-import 'Game/bingo.dart';
 import 'statistic.dart';
 import 'settings.dart';
 
@@ -27,10 +25,8 @@ class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions() => [
         Home(),
-        Game(onItemTapped: () => _onItemTapped()),
         Statistic(),
         Settings(),
-        Bingo(),
       ];
 
   void _onItemTapped(int index) {
@@ -57,10 +53,6 @@ class _NavigationBarState extends State<NavigationBar> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.games_outlined),
-              label: 'Bingo',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.graphic_eq),

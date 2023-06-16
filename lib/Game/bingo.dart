@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/Game/cardName.dart';
+import 'timer.dart';
 
 class Bingo extends StatefulWidget {
-  const Bingo({super.key});
+  final String gameType;
+  const Bingo({Key? key, required this.gameType}) : super(key: key);
 
   @override
   State<Bingo> createState() => _Bingo();
 }
 
 class _Bingo extends State<Bingo> {
-  static const nbLines = 5;
+  static const nbLines = 4;
   static List<BingoCard> _bingoCard = [];
 
   @override
   void initState() {
     super.initState();
     for (int it = 0; it < nbLines * nbLines; it++) {
-      _bingoCard.add(BingoCard());
+      _bingoCard.add(BingoCard(cardNameList.elementAt(it).name));
+      _bingoCard.elementAt(it).isSelect = false;
+      _bingoCard.elementAt(it).nbLineComplete = 0;
     }
   }
 
@@ -24,9 +29,12 @@ class _Bingo extends State<Bingo> {
       for (int it = 0; it < nbLines * nbLines; it++) {
         _bingoCard.elementAt(it).isSelect = false;
         _bingoCard.elementAt(it).nbLineComplete = 0;
-        _bingoCard.elementAt(it).name = "Card name";
       }
     });
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => CountUpTimerPage()),
+    // );
   }
 
   Color getCardColor(int index) {
@@ -136,27 +144,41 @@ class _Bingo extends State<Bingo> {
     return Column(children: [
       Expanded(
           child: Scaffold(
+              appBar: AppBar(
+                title: Text('Bingo ${widget.gameType}'),
+                backgroundColor: Colors.orange,
+              ),
               body: Container(
-                  margin: const EdgeInsets.only(left: 80.0, right: 80.0),
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: nbLines,
-                      ),
-                      itemCount: nbLines * nbLines,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                            onTap: () => _onCardTapped(index),
-                            child: SizedBox(
-                              height: 500,
-                              child: Card(
-                                color: getCardColor(index),
-                                child: Center(
-                                    child:
-                                        Text(_bingoCard.elementAt(index).name)),
-                              ),
-                            ));
-                      })))),
+                  margin:
+                      const EdgeInsets.only(left: 80.0, right: 80.0, top: 80.0),
+                  child: MaterialApp(
+                      theme: ThemeData(useMaterial3: true),
+                      home: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: nbLines,
+                          ),
+                          itemCount: nbLines * nbLines,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                                onTap: () => _onCardTapped(index),
+                                child: Card(
+                                  color: getCardColor(index),
+                                  child: SizedBox(
+                                    width: 150,
+                                    height: 150,
+                                    child: Center(
+                                        child: Text(
+                                            _bingoCard.elementAt(index).name)),
+                                  ),
+                                ));
+                          }))))),
+      ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width - 50,
+            maxHeight: 200,
+          ),
+          child: CountUpTimerPage()),
       TextButton(
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
@@ -169,9 +191,9 @@ class _Bingo extends State<Bingo> {
 }
 
 class BingoCard {
-  String name = "Card name";
+  String name;
   bool isSelect = false;
   int nbLineComplete = 0;
 
-  //BingoCard({this.name, this.isSelect});
+  BingoCard(this.name);
 }
