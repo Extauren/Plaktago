@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/Game/plakChoiceButton.dart';
-import 'Game/bingo.dart';
-import 'Game/plaqueType.dart';
 import 'Game/difficultyButton.dart';
+import 'Game/bingo.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,7 +20,7 @@ class _Home extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => const Bingo(
+          builder: (context) => const Game(
                 gameType: "Surfacien",
               )),
     );
