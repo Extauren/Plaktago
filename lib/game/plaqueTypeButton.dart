@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
+enum PlaqueType {
+  triangle('Triangle'),
+  ronde('Ronde'),
+  tortue('Tortue'),
+  soleil('Soleil'),
+  carrer('Carré');
 
-  @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
+  const PlaqueType(this.name);
+  final String name;
 }
 
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
+class PlaqueTypeButton extends StatefulWidget {
+  PlaqueType selectecPlaque;
+  PlaqueTypeButton({Key? key, required this.selectecPlaque}) : super(key: key);
+
+  @override
+  State<PlaqueTypeButton> createState() => _PlaqueTypeButtonState();
+}
+
+class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
   final TextEditingController colorController = TextEditingController();
   final TextEditingController iconController = TextEditingController();
-  PlaqueLabel? selectedColor;
-  IconLabel? selectedIcon;
+  //PlaqueType? selectecPlaque;
 
   @override
   Widget build(BuildContext context) {
-    final List<DropdownMenuEntry<PlaqueLabel>> colorEntries =
-        <DropdownMenuEntry<PlaqueLabel>>[];
-    for (final PlaqueLabel color in PlaqueLabel.values) {
-      colorEntries.add(
-        DropdownMenuEntry<PlaqueLabel>(
-            value: color, label: color.label, enabled: color.label != 'Grey'),
+    final List<DropdownMenuEntry<PlaqueType>> plaqueEntries =
+        <DropdownMenuEntry<PlaqueType>>[];
+    for (final PlaqueType plaque in PlaqueType.values) {
+      plaqueEntries.add(
+        DropdownMenuEntry<PlaqueType>(value: plaque, label: plaque.name),
       );
     }
 
@@ -34,7 +44,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.green,
+        colorSchemeSeed: Colors.orange,
       ),
       home: Scaffold(
         body: SafeArea(
@@ -47,14 +57,15 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text("Type de plaque :"),
-                    DropdownMenu<PlaqueLabel>(
-                      initialSelection: PlaqueLabel.green,
+                    DropdownMenu<PlaqueType>(
+                      initialSelection: PlaqueType.triangle,
                       controller: colorController,
                       //label: const Text('Color'),
-                      dropdownMenuEntries: colorEntries,
-                      onSelected: (PlaqueLabel? color) {
+                      dropdownMenuEntries: plaqueEntries,
+                      onSelected: (PlaqueType? plaque) {
                         setState(() {
-                          selectedColor = color;
+                          widget.selectecPlaque = plaque!;
+                          print(widget.selectecPlaque);
                         });
                       },
                     ),
@@ -67,18 +78,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       ),
     );
   }
-}
-
-enum PlaqueLabel {
-  blue('Triangle', Colors.blue),
-  pink('Ronde', Colors.pink),
-  green('Tortue', Colors.green),
-  yellow('Soleil', Colors.yellow),
-  grey('Carré', Colors.grey);
-
-  const PlaqueLabel(this.label, this.color);
-  final String label;
-  final Color color;
 }
 
 enum IconLabel {

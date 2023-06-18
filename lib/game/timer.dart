@@ -25,7 +25,7 @@ class _State extends State<CountUpTimerPage> {
     onEnded: () {},
   );
 
-  final _scrollController = ScrollController();
+  //final _scrollController = ScrollController();
 
   @override
   void initState() {

@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/Game/cardName.dart';
+import 'dart:math';
+import 'dart:convert';
+import 'package:plaktago/game/cardName.dart';
 
 class BingoCard {
   String name;
-  bool isSelect = false;
-  int nbLineComplete = 0;
+  bool isSelect;
+  int nbLineComplete;
 
-  BingoCard(this.name);
+  BingoCard(
+      {required this.name, this.isSelect = false, this.nbLineComplete = 0});
+
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'isSelect': isSelect,
+        'nbLineComplete': nbLineComplete,
+      };
+
+  factory BingoCard.fromMap(Map<String, dynamic> map) => BingoCard(
+        name: map['name'] as String,
+        isSelect: map['isSelect'] as bool,
+        nbLineComplete: map['nbLinesComplete'] as int,
+      );
+
+  String toJson() => json.encode(toMap());
+
+  factory BingoCard.fromJson(String source) {
+    return BingoCard.fromMap(json.decode(source) as Map<String, dynamic>);
+  }
 }
 
 class Board extends StatefulWidget {
@@ -18,26 +39,20 @@ class Board extends StatefulWidget {
 }
 
 class _Board extends State<Board> {
-  static const nbLines = 4;
-  static List<BingoCard> _bingoCard = [];
+  static const int nbLines = 5;
+  static List<BingoCard> _bingoCard = <BingoCard>[];
 
   @override
   void initState() {
+    CardName card;
+    List<CardName> cardList = <CardName>[];
+    cardList.addAll(cardNameList);
     super.initState();
     for (int it = 0; it < nbLines * nbLines; it++) {
-      _bingoCard.add(BingoCard(cardNameList.elementAt(it).name));
-      _bingoCard.elementAt(it).isSelect = false;
-      _bingoCard.elementAt(it).nbLineComplete = 0;
+      card = cardList.elementAt(Random().nextInt(cardList.length));
+      cardList.remove(card);
+      _bingoCard.add(BingoCard(name: card.name));
     }
-  }
-
-  void resetCard() {
-    setState(() {
-      for (int it = 0; it < nbLines * nbLines; it++) {
-        _bingoCard.elementAt(it).isSelect = false;
-        _bingoCard.elementAt(it).nbLineComplete = 0;
-      }
-    });
   }
 
   Color getCardColor(int index) {
@@ -143,37 +158,60 @@ class _Board extends State<Board> {
   }
 
   void refreshBoard() {
-    print("refresh");
+    CardName card;
+    List<CardName> cardList = [];
+    cardList.addAll(cardNameList);
+    _bingoCard.clear();
+    setState(() {
+      for (int it = 0; it < nbLines * nbLines; it++) {
+        card = cardList.elementAt(Random().nextInt(cardList.length));
+        cardList.remove(card);
+        _bingoCard.add(BingoCard(name: card.name));
+        _bingoCard.elementAt(it).isSelect = false;
+        _bingoCard.elementAt(it).nbLineComplete = 0;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(useMaterial3: true),
-        home: Column(children: [
-          Container(
-              height: 800,
-              margin: const EdgeInsets.only(bottom: 30.0),
-              child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: nbLines,
+    // return MaterialApp(
+    //     theme: ThemeData(useMaterial3: true),
+    //     home:
+    return Column(children: [
+      SizedBox(
+          height: 430,
+          child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: nbLines,
+              ),
+              padding: EdgeInsets.all(5.0),
+              itemCount: nbLines * nbLines,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () => _onCardTapped(index),
+                  child: Card(
+                    margin: const EdgeInsets.all(0.8),
+                    color: getCardColor(index),
+                    child: Center(
+                        child: Container(
+                            margin: const EdgeInsets.all(0.5),
+                            child: Text(_bingoCard.elementAt(index).name,
+                                textAlign: TextAlign.center))),
                   ),
-                  itemCount: nbLines * nbLines,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () => _onCardTapped(index),
-                      child: Card(
-                        color: getCardColor(index),
-                        child: Center(
-                            child: Text(_bingoCard.elementAt(index).name)),
-                      ),
-                    );
-                  })),
-          TextButton.icon(
-            onPressed: refreshBoard,
-            icon: const Icon(Icons.restart_alt),
-            label: const Text('Random'),
-          ),
-        ]));
+                );
+              })),
+      TextButton.icon(
+        onPressed: refreshBoard,
+        icon: const Icon(
+          Icons.restart_alt,
+          color: Colors.orange,
+        ),
+        label: const Text(
+          'Random',
+          style: TextStyle(color: Colors.orange),
+        ),
+      ),
+    ]);
   }
 }

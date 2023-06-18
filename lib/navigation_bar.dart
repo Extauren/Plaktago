@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'statistic.dart';
+import 'statistic/statistic.dart';
 import 'settings.dart';
+import 'utils/saveGame.dart';
 
 class NavigationBarApp extends StatelessWidget {
   const NavigationBarApp({super.key});
@@ -25,7 +26,7 @@ class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions() => [
         Home(),
-        Statistic(),
+        Statistic(readGame: SaveGame()),
         Settings(),
       ];
 
