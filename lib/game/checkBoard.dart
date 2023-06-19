@@ -9,7 +9,6 @@ class CheckBoard {
     int counter = 0;
     double buffer = index - ((index / nbLines) * nbLines) + index % nbLines;
     int cardPos = buffer.round();
-
     for (int it = 0; it < nbLines; it++) {
       if (bingoCard.elementAt(cardPos + (it * nbLines)).isSelect == true) {
         counter += 1;
@@ -47,32 +46,17 @@ class CheckBoard {
 
   void checkDiagonal(
       List<BingoCard> bingoCard, int index, bool newState, int incrementValue) {
-    int cardPos = index;
     int counter = 0;
     int buffer = 0;
-    double halLines = (nbLines / 2) - 1;
 
-    // if (index == nbLines * (halLines.round() - 1) + 1) {
-    //   _checkDiagonal(nbLines - 1, newState);
-    // }
-    // while (cardPos >= nbLines + 1) {
-    //   cardPos -= nbLines + 1;
-    // }
-    // if (cardPos == 0) {
-    //   incrementValue = nbLines + 1;
-    // } else if (cardPos == nbLines - 1) {
-    //   incrementValue = cardPos;
-    // } else {
-    //   return;
-    // }
-    buffer = cardPos;
+    buffer = index;
     for (int it = 0; it < nbLines; it++) {
       if (bingoCard.elementAt(buffer).isSelect) {
         counter += 1;
       }
       buffer += incrementValue;
     }
-    buffer = cardPos;
+    buffer = index;
     if (counter == nbLines) {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(buffer).nbLineComplete += 1;

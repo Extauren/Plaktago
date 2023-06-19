@@ -22,11 +22,16 @@ class Board extends StatefulWidget {
 
 class _Board extends State<Board> {
   static const int nbLines = 4;
+  static List<int> firstDiagonalValues =
+      List<int>.generate(nbLines, (index) => index * (nbLines + 1));
+  static List<int> secondDiagonalValues =
+      List<int>.generate(nbLines, (index) => (nbLines - 1) * (index + 1));
   static List<BingoCard> _bingoCard = <BingoCard>[];
   static CheckBoard checkBoard = CheckBoard(nbLines: nbLines);
 
   @override
   void initState() {
+    print(secondDiagonalValues);
     CardName card;
     List<CardName> cardList = <CardName>[];
     _bingoCard.clear();
@@ -57,8 +62,12 @@ class _Board extends State<Board> {
           !_bingoCard.elementAt(index).isSelect;
       checkBoard.checkColumn(_bingoCard, index, newState);
       checkBoard.checkLine(_bingoCard, index, newState);
-      checkBoard.checkDiagonal(_bingoCard, 0, newState, nbLines + 1);
-      //_checkDiagonal(nbLines - 1, newState, nbLines - 1);
+      if (firstDiagonalValues.contains(index)) {
+        checkBoard.checkDiagonal(_bingoCard, 0, newState, nbLines + 1);
+      } else if (secondDiagonalValues.contains(index)) {
+        checkBoard.checkDiagonal(
+            _bingoCard, nbLines - 1, newState, nbLines - 1);
+      }
     });
   }
 
@@ -81,9 +90,6 @@ class _Board extends State<Board> {
 
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //     theme: ThemeData(useMaterial3: true),
-    //     home:
     return Column(children: [
       SizedBox(
           height: 430,
