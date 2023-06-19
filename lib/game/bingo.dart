@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'board.dart';
-import 'timer.dart';
+import 'board/board.dart';
+import 'timer/timer.dart';
 import '../utils/saveGame.dart';
 
 class Game extends StatefulWidget {

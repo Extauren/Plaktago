@@ -69,4 +69,20 @@ class CheckBoard {
       }
     }
   }
+
+  // void checkAllBoard(
+  //     final int index,
+  //     List<BingoCard> bingoCard,
+  //     final List<int> firstDiagonalValues,
+  //     final List<int> secondDiagonalValues) {
+  //   bool newState = !bingoCard.elementAt(index).isSelect;
+
+  //   checkColumn(bingoCard, index, newState);
+  //   checkLine(bingoCard, index, newState);
+  //   if (firstDiagonalValues.contains(index)) {
+  //     checkDiagonal(bingoCard, 0, newState, nbLines + 1);
+  //   } else if (secondDiagonalValues.contains(index)) {
+  //     checkDiagonal(bingoCard, nbLines - 1, newState, nbLines - 1);
+  //   }
+  // }
 }

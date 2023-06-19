@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:plaktago/game/cardName.dart';
+import 'package:plaktago/game/board/cardName.dart';
 import 'bingoCard.dart';
 import 'checkBoard.dart';
 
@@ -54,7 +54,7 @@ class _Board extends State<Board> {
     return Colors.orange;
   }
 
-  void _onCardTapped(int index) {
+  void _onCardTapped(final int index) {
     bool newState = !_bingoCard.elementAt(index).isSelect;
     setState(() {
       widget.changePoints(!_bingoCard.elementAt(index).isSelect);
