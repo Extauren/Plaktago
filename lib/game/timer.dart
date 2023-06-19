@@ -46,8 +46,8 @@ class _State extends State<CountUpTimerPage> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 32,
-              horizontal: 16,
+              vertical: 30,
+              horizontal: 0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,11 +64,11 @@ class _State extends State<CountUpTimerPage> {
                     return Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(0),
                           child: Text(
                             displayTime,
                             style: const TextStyle(
-                                fontSize: 40,
+                                fontSize: 28,
                                 fontFamily: 'Helvetica',
                                 fontWeight: FontWeight.bold),
                           ),
@@ -77,42 +77,31 @@ class _State extends State<CountUpTimerPage> {
                     );
                   },
                 ),
-
-                /// Button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
                       child: RoundedButton(
-                        color: Colors.lightBlue,
+                        icon: Icons.play_arrow,
+                        color: Colors.orange,
                         onTap: _stopWatchTimer.onStartTimer,
-                        child: const Text(
-                          'Start',
-                          style: TextStyle(color: Colors.white),
-                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
                       child: RoundedButton(
-                        color: Colors.green,
+                        icon: Icons.stop,
+                        color: Colors.orange,
                         onTap: _stopWatchTimer.onStopTimer,
-                        child: const Text(
-                          'Stop',
-                          style: TextStyle(color: Colors.white),
-                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
                       child: RoundedButton(
-                        color: Colors.red,
+                        icon: Icons.restart_alt,
+                        color: Colors.orange,
                         onTap: _stopWatchTimer.onResetTimer,
-                        child: const Text(
-                          'Reset',
-                          style: TextStyle(color: Colors.white),
-                        ),
                       ),
                     ),
                   ],

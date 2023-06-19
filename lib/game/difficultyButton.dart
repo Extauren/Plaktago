@@ -34,7 +34,7 @@ class _DifficultyButtonState extends State<DifficultyButton> {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.green,
+        //colorSchemeSeed: Colors.green,
       ),
       home: Scaffold(
         body: SafeArea(

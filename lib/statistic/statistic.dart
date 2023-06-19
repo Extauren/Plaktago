@@ -10,7 +10,7 @@ class Statistic extends StatefulWidget {
 }
 
 class _Statistic extends State<Statistic> {
-  static int gamesNumber = 0;
+  static Future<int> _gamesNumber = Future.value(0);
 
   @override
   void initState() {
@@ -19,19 +19,51 @@ class _Statistic extends State<Statistic> {
   }
 
   void _getGamesNumber() async {
-    gamesNumber = await widget.readGame.readGames();
+    _gamesNumber = widget.readGame.readGames();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: Column(children: [
-      Container(
-          margin: const EdgeInsets.only(top: 80.0),
-          child: Text("Nombre de partie jouées : $gamesNumber",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-              textAlign: TextAlign.center))
-    ])));
+    return FutureBuilder<int>(
+      future: _gamesNumber,
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        List<Widget> children;
+        if (snapshot.hasData) {
+          children = <Widget>[
+            Text('Nombre de parties: ${snapshot.data}'),
+          ];
+        } else if (snapshot.hasError) {
+          children = <Widget>[
+            const Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 60,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text('Error: ${snapshot.error}'),
+            ),
+          ];
+        } else {
+          children = const <Widget>[
+            SizedBox(
+              width: 60,
+              height: 60,
+              child: CircularProgressIndicator(),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: Text('Awaiting result...'),
+            ),
+          ];
+        }
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: children,
+          ),
+        );
+      },
+    );
   }
 }
