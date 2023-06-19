@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'bingoCard.dart';
 
 class CheckBoard {
@@ -77,7 +76,6 @@ class CheckBoard {
     if (counter == nbLines) {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(buffer).nbLineComplete += 1;
-        print(bingoCard.elementAt(index).nbLineComplete);
         buffer += incrementValue;
       }
     } else if (counter == nbLines - 1 && !newState) {
