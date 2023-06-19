@@ -11,25 +11,26 @@ class Home extends StatefulWidget {
   State<Home> createState() => _Home();
 }
 
-enum SingingCharacter { surface, sousterre }
+enum BingoType {
+  plaque('plaque'),
+  sousterre('sous terrain');
+
+  const BingoType(this.name);
+  final String name;
+}
 
 class _Home extends State<Home> {
   _Home();
-  SingingCharacter? _character = SingingCharacter.surface;
+  String _bingoTypeName = BingoType.plaque.name;
+  BingoType? _bingoType = BingoType.plaque;
   PlaqueType? selectePlaque = PlaqueType.triangle;
 
   void launchGame() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: (context) =>
-    //           Game(gameType: "Surfacien", saveGame: SaveGame())),
-    // );
     Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    Game(gameType: "Surfacien", saveGame: SaveGame())))
+                    Game(gameType: _bingoTypeName, saveGame: SaveGame())))
         .then((value) {
       setState(() {});
     });
@@ -49,18 +50,17 @@ class _Home extends State<Home> {
               Container(
                   margin: const EdgeInsets.only(left: 10),
                   child: Text(
-                    'KTA Bingo',
+                    'Plaktago',
                     style: TextStyle(color: Colors.black),
                   )),
             ],
           ),
           backgroundColor: Colors.orange,
         ),
-        body: Center(
-            child: ListView(children: [
+        body: ListView(children: [
           Container(
               margin: const EdgeInsets.only(top: 30.0, left: 10, right: 10),
-              child: Text("Bienvenue sur le KTA Bingo",
+              child: Text("Bienvenue sur Plaktago",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center)),
           Container(
@@ -82,35 +82,37 @@ class _Home extends State<Home> {
                 style: TextStyle(fontSize: 13),
               )),
           Container(
-              margin: const EdgeInsets.only(top: 30.0),
+              margin: const EdgeInsets.only(top: 30.0, left: 10, right: 10),
               child: ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width - 50,
-                  ),
+                      //maxWidth: MediaQuery.of(context).size.width - 50,
+                      ),
                   child: Row(
                     children: <Widget>[
                       Expanded(
                           child: ListTile(
-                        title: const Text('Surfacien'),
-                        leading: Radio<SingingCharacter>(
-                          value: SingingCharacter.surface,
-                          groupValue: _character,
-                          onChanged: (SingingCharacter? value) {
+                        title: Text(BingoType.plaque.name),
+                        leading: Radio<BingoType>(
+                          value: BingoType.plaque,
+                          groupValue: _bingoType,
+                          onChanged: (BingoType? value) {
                             setState(() {
-                              _character = value;
+                              _bingoType = value;
+                              _bingoTypeName = BingoType.plaque.name;
                             });
                           },
                         ),
                       )),
                       Expanded(
                         child: ListTile(
-                          title: const Text('Sous terre'),
-                          leading: Radio<SingingCharacter>(
-                            value: SingingCharacter.sousterre,
-                            groupValue: _character,
-                            onChanged: (SingingCharacter? value) {
+                          title: Text(BingoType.sousterre.name),
+                          leading: Radio<BingoType>(
+                            value: BingoType.sousterre,
+                            groupValue: _bingoType,
+                            onChanged: (BingoType? value) {
                               setState(() {
-                                _character = value;
+                                _bingoType = value;
+                                _bingoTypeName = BingoType.sousterre.name;
                               });
                             },
                           ),
@@ -118,22 +120,26 @@ class _Home extends State<Home> {
                       )
                     ],
                   ))),
-          if (_character == SingingCharacter.surface)
+          Row(children: [
+            if (_bingoType == BingoType.plaque)
+              Container(
+                  margin: EdgeInsets.only(right: 70),
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 110,
+                        maxHeight: 200,
+                      ),
+                      child: PlaqueTypeButton(
+                        selectecPlaque: selectePlaque!,
+                      ))),
             ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: 200,
+                  maxWidth: 100,
                   maxHeight: 200,
                 ),
-                child: PlaqueTypeButton(
-                  selectecPlaque: selectePlaque!,
-                )),
-          ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 200,
-                maxHeight: 200,
-              ),
-              child: DifficultyButton()),
+                child: DifficultyButton()),
+          ]),
           OutlinedButton(onPressed: launchGame, child: const Text('Jouer')),
-        ])));
+        ]));
   }
 }

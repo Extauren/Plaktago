@@ -60,31 +60,35 @@ class _Game extends State<Game> {
           ],
         ),
         body: ListView(children: [
-          Center(
-              child: Row(
+          //Center(
+          //child:
+          Row(
             children: [
               ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: 300,
-                    maxHeight: 150,
+                    maxWidth: 200,
+                    maxHeight: 130,
                   ),
-                  child: CountUpTimerPage()),
-              Row(
-                children: [
-                  Text("Points : ",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Text(
-                        points.toString(),
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w400),
-                      ))
-                ],
-              )
+                  child: Timer()),
+              Container(
+                  margin: const EdgeInsets.only(left: 50, top: 15),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Points : ",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500)),
+                      Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            points.toString(),
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w400),
+                          ))
+                    ],
+                  ))
             ],
-          )),
+          ),
           Center(
               child: ConstrainedBox(
                   constraints:

@@ -9,7 +9,7 @@ class Board extends StatefulWidget {
   final Function changePoints;
   final VoidCallback resetPoint;
 
-  Board(
+  const Board(
       {Key? key,
       required this.gameType,
       required this.changePoints,
@@ -92,7 +92,7 @@ class _Board extends State<Board> {
   Widget build(BuildContext context) {
     return Column(children: [
       SizedBox(
-          height: 430,
+          height: 410,
           child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: nbLines,

@@ -34,12 +34,12 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
       );
     }
 
-    final List<DropdownMenuEntry<IconLabel>> iconEntries =
-        <DropdownMenuEntry<IconLabel>>[];
-    for (final IconLabel icon in IconLabel.values) {
-      iconEntries
-          .add(DropdownMenuEntry<IconLabel>(value: icon, label: icon.label));
-    }
+    // final List<DropdownMenuEntry<IconLabel>> iconEntries =
+    //     <DropdownMenuEntry<IconLabel>>[];
+    // for (final IconLabel icon in IconLabel.values) {
+    //   iconEntries
+    //       .add(DropdownMenuEntry<IconLabel>(value: icon, label: icon.label));
+    // }
 
     return MaterialApp(
       theme: ThemeData(
@@ -51,7 +51,7 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 0),
                 child: Center(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +65,6 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
                       onSelected: (PlaqueType? plaque) {
                         setState(() {
                           widget.selectecPlaque = plaque!;
-                          print(widget.selectecPlaque);
                         });
                       },
                     ),
@@ -80,16 +79,16 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
   }
 }
 
-enum IconLabel {
-  smile('Smile', Icons.sentiment_satisfied_outlined),
-  cloud(
-    'Cloud',
-    Icons.cloud_outlined,
-  ),
-  brush('Brush', Icons.brush_outlined),
-  heart('Heart', Icons.favorite);
+// enum IconLabel {
+//   smile('Smile', Icons.sentiment_satisfied_outlined),
+//   cloud(
+//     'Cloud',
+//     Icons.cloud_outlined,
+//   ),
+//   brush('Brush', Icons.brush_outlined),
+//   heart('Heart', Icons.favorite);
 
-  const IconLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-}
+//   const IconLabel(this.label, this.icon);
+//   final String label;
+//   final IconData icon;
+// }

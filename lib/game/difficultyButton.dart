@@ -41,26 +41,26 @@ class _DifficultyButtonState extends State<DifficultyButton> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Difficulté :"),
-                    DropdownMenu<DifficultyLabel>(
-                      initialSelection: DifficultyLabel.green,
-                      controller: colorController,
-                      //label: const Text('Color'),
-                      dropdownMenuEntries: colorEntries,
-                      onSelected: (DifficultyLabel? color) {
-                        setState(() {
-                          selectedColor = color;
-                        });
-                      },
-                    ),
-                  ],
-                )),
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  // child: Center(
+                  //     child:
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Difficulté :"),
+                      DropdownMenu<DifficultyLabel>(
+                        initialSelection: DifficultyLabel.green,
+                        controller: colorController,
+                        //label: const Text('Color'),
+                        dropdownMenuEntries: colorEntries,
+                        onSelected: (DifficultyLabel? color) {
+                          setState(() {
+                            selectedColor = color;
+                          });
+                        },
+                      ),
+                    ],
+                  )),
             ],
           ),
         ),
