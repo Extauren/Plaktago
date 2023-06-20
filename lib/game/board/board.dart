@@ -51,7 +51,7 @@ class _Board extends State<Board> {
       }
       return Colors.lightGreen;
     }
-    return Colors.orange;
+    return Colors.amber;
   }
 
   void _onCardTapped(final int index) {
@@ -94,7 +94,7 @@ class _Board extends State<Board> {
       SizedBox(
           height: 410,
           child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: nbLines,
               ),
               padding: EdgeInsets.all(10.0),
@@ -117,13 +117,13 @@ class _Board extends State<Board> {
               })),
       TextButton.icon(
         onPressed: refreshBoard,
-        icon: const Icon(
+        icon: Icon(
           Icons.restart_alt,
-          color: Colors.orange,
+          color: Colors.amber[300],
         ),
-        label: const Text(
+        label: Text(
           'Random',
-          style: TextStyle(color: Colors.orange),
+          style: TextStyle(color: Colors.amber[300]),
         ),
       ),
     ]);

@@ -24,6 +24,9 @@ class _Home extends State<Home> {
   String _bingoTypeName = BingoType.plaque.name;
   BingoType? _bingoType = BingoType.plaque;
   PlaqueType? selectePlaque = PlaqueType.triangle;
+  //final color = Color(#F5F5DC);
+  final color = Color.fromRGBO(189, 201, 236, 1);
+  final test = Color.fromRGBO(236, 224, 189, 1);
 
   void launchGame() {
     Navigator.push(
@@ -55,7 +58,7 @@ class _Home extends State<Home> {
                   )),
             ],
           ),
-          backgroundColor: Colors.orange,
+          backgroundColor: test,
         ),
         body: ListView(children: [
           Container(
@@ -135,19 +138,6 @@ class _Home extends State<Home> {
                 ),
                 child: DifficultyButton()),
           ]),
-          // ElevatedButton(
-          //   style: ElevatedButton.styleFrom(
-          //     primary: Colors.green,
-          //     onPrimary: Colors.white,
-          //     shadowColor: Colors.greenAccent,
-          //     elevation: 3,
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(32.0)),
-          //     minimumSize: Size(100, 40), //////// HERE
-          //   ),
-          //   onPressed: () {},
-          //   child: Text('Hey bro'),
-          // ),
           LimitedBox(
             maxWidth: 100, //MediaQuery.of(context).size.width / 2,
             child: ElevatedButton(
@@ -156,7 +146,7 @@ class _Home extends State<Home> {
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0)),
-                backgroundColor: Colors.orange,
+                backgroundColor: color,
                 fixedSize:
                     Size.fromWidth(MediaQuery.of(context).size.width / 2),
               ),

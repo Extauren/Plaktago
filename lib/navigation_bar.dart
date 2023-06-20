@@ -23,6 +23,7 @@ class NavigationBar extends StatefulWidget {
 }
 
 class _NavigationBarState extends State<NavigationBar> {
+  final test = Color.fromRGBO(236, 224, 189, 1);
   int _selectedIndex = 0;
   List<Widget> _widgetOptions() => [
         Home(),
@@ -43,7 +44,7 @@ class _NavigationBarState extends State<NavigationBar> {
       body: widgetList[_selectedIndex],
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-            canvasColor: Colors.orange,
+            canvasColor: test,
             primaryColor: Colors.white,
             textTheme: Theme.of(context)
                 .textTheme

@@ -47,13 +47,16 @@ class _Game extends State<Game> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Bingo ${widget.gameType}'),
-          backgroundColor: Colors.orange,
+          title: Text(
+            'Bingo ${widget.gameType}',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.amber[300],
           actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.save,
-                color: Colors.white,
+                color: Colors.black,
               ),
               onPressed: _saveGame,
             )
