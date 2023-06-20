@@ -22,7 +22,6 @@ class PlaqueTypeButton extends StatefulWidget {
 class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
   final TextEditingController colorController = TextEditingController();
   final TextEditingController iconController = TextEditingController();
-  //PlaqueType? selectecPlaque;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +33,6 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
       );
     }
 
-    // final List<DropdownMenuEntry<IconLabel>> iconEntries =
-    //     <DropdownMenuEntry<IconLabel>>[];
-    // for (final IconLabel icon in IconLabel.values) {
-    //   iconEntries
-    //       .add(DropdownMenuEntry<IconLabel>(value: icon, label: icon.label));
-    // }
-
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
@@ -48,6 +40,8 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
       ),
       home: Scaffold(
         body: SafeArea(
+            child: Container(
+          alignment: Alignment.center,
           child: Column(
             children: <Widget>[
               Padding(
@@ -60,7 +54,6 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
                     DropdownMenu<PlaqueType>(
                       initialSelection: PlaqueType.triangle,
                       controller: colorController,
-                      //label: const Text('Color'),
                       dropdownMenuEntries: plaqueEntries,
                       onSelected: (PlaqueType? plaque) {
                         setState(() {
@@ -73,22 +66,8 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
               ),
             ],
           ),
-        ),
+        )),
       ),
     );
   }
 }
-
-// enum IconLabel {
-//   smile('Smile', Icons.sentiment_satisfied_outlined),
-//   cloud(
-//     'Cloud',
-//     Icons.cloud_outlined,
-//   ),
-//   brush('Brush', Icons.brush_outlined),
-//   heart('Heart', Icons.favorite);
-
-//   const IconLabel(this.label, this.icon);
-//   final String label;
-//   final IconData icon;
-// }

@@ -34,24 +34,21 @@ class _DifficultyButtonState extends State<DifficultyButton> {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        //colorSchemeSeed: Colors.green,
       ),
       home: Scaffold(
         body: SafeArea(
+            child: Container(
+          alignment: Alignment.center,
           child: Column(
             children: <Widget>[
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 0),
-                  // child: Center(
-                  //     child:
                   child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text("Difficulté :"),
                       DropdownMenu<DifficultyLabel>(
                         initialSelection: DifficultyLabel.green,
                         controller: colorController,
-                        //label: const Text('Color'),
                         dropdownMenuEntries: colorEntries,
                         onSelected: (DifficultyLabel? color) {
                           setState(() {
@@ -63,7 +60,7 @@ class _DifficultyButtonState extends State<DifficultyButton> {
                   )),
             ],
           ),
-        ),
+        )),
       ),
     );
   }

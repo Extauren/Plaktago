@@ -33,10 +33,8 @@ class _Timer extends State<Timer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(left: 40, top: 40),
+        margin: const EdgeInsets.only(top: 40, right: 30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             StreamBuilder<int>(
               stream: _stopWatchTimer.rawTime,
@@ -53,7 +51,7 @@ class _Timer extends State<Timer> {
               },
             ),
             Row(
-              //mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2),

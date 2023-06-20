@@ -60,35 +60,33 @@ class _Game extends State<Game> {
           ],
         ),
         body: ListView(children: [
-          //Center(
-          //child:
-          Row(
-            children: [
-              ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: 200,
-                    maxHeight: 130,
-                  ),
-                  child: Timer()),
-              Container(
-                  margin: const EdgeInsets.only(left: 50, top: 15),
-                  child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Points : ",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500)),
-                      Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
-                            points.toString(),
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w400),
-                          ))
-                    ],
-                  ))
-            ],
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: 200,
+                  maxHeight: 130,
+                ),
+                child: Timer()),
+            Container(
+                //margin: const EdgeInsets.only(left: 60, top: 15),
+                child: Row(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Points : ",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      points.toString(),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                    ))
+              ],
+            ))
+            //],
+            //),
+          ]),
           Center(
               child: ConstrainedBox(
                   constraints:

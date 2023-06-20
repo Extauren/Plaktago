@@ -82,15 +82,12 @@ class _Home extends State<Home> {
                 style: TextStyle(fontSize: 13),
               )),
           Container(
-              margin: const EdgeInsets.only(top: 30.0, left: 10, right: 10),
-              child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                      //maxWidth: MediaQuery.of(context).size.width - 50,
-                      ),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                          child: ListTile(
+              margin: EdgeInsets.all(20),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      child: ListTile(
                         title: Text(BingoType.plaque.name),
                         leading: Radio<BingoType>(
                           value: BingoType.plaque,
@@ -103,43 +100,72 @@ class _Home extends State<Home> {
                           },
                         ),
                       )),
-                      Expanded(
-                        child: ListTile(
-                          title: Text(BingoType.sousterre.name),
-                          leading: Radio<BingoType>(
-                            value: BingoType.sousterre,
-                            groupValue: _bingoType,
-                            onChanged: (BingoType? value) {
-                              setState(() {
-                                _bingoType = value;
-                                _bingoTypeName = BingoType.sousterre.name;
-                              });
-                            },
-                          ),
-                        ),
-                      )
-                    ],
-                  ))),
-          Row(children: [
-            if (_bingoType == BingoType.plaque)
-              Container(
-                  margin: EdgeInsets.only(right: 70),
-                  child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 110,
-                        maxHeight: 200,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: ListTile(
+                      title: Text(BingoType.sousterre.name),
+                      leading: Radio<BingoType>(
+                        value: BingoType.sousterre,
+                        groupValue: _bingoType,
+                        onChanged: (BingoType? value) {
+                          setState(() {
+                            _bingoType = value;
+                            _bingoTypeName = BingoType.sousterre.name;
+                          });
+                        },
                       ),
-                      child: PlaqueTypeButton(
-                        selectecPlaque: selectePlaque!,
-                      ))),
+                    ),
+                  )
+                ],
+              )),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            if (_bingoType == BingoType.plaque)
+              ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 2,
+                    maxHeight: 180,
+                  ),
+                  child: PlaqueTypeButton(
+                    selectecPlaque: selectePlaque!,
+                  )),
             ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: 100,
-                  maxHeight: 200,
+                  maxWidth: MediaQuery.of(context).size.width / 2,
+                  maxHeight: 180,
                 ),
                 child: DifficultyButton()),
           ]),
-          OutlinedButton(onPressed: launchGame, child: const Text('Jouer')),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     primary: Colors.green,
+          //     onPrimary: Colors.white,
+          //     shadowColor: Colors.greenAccent,
+          //     elevation: 3,
+          //     shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(32.0)),
+          //     minimumSize: Size(100, 40), //////// HERE
+          //   ),
+          //   onPressed: () {},
+          //   child: Text('Hey bro'),
+          // ),
+          LimitedBox(
+            maxWidth: 100, //MediaQuery.of(context).size.width / 2,
+            child: ElevatedButton(
+              onPressed: launchGame,
+              style: ElevatedButton.styleFrom(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.0)),
+                backgroundColor: Colors.orange,
+                fixedSize:
+                    Size.fromWidth(MediaQuery.of(context).size.width / 2),
+              ),
+              child: const Text(
+                'Jouer',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          )
         ]));
   }
 }
