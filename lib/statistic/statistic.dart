@@ -24,13 +24,15 @@ class _Statistic extends State<Statistic> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<int>(
+    return Scaffold(
+        body: FutureBuilder<int>(
       future: _gamesNumber,
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
         List<Widget> children;
         if (snapshot.hasData) {
           children = <Widget>[
-            Text('Nombre de parties: ${snapshot.data}'),
+            Text('Nombre de parties: ${snapshot.data}',
+                style: Theme.of(context).textTheme.bodySmall),
           ];
         } else if (snapshot.hasError) {
           children = <Widget>[
@@ -64,6 +66,6 @@ class _Statistic extends State<Statistic> {
           ),
         );
       },
-    );
+    ));
   }
 }

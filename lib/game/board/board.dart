@@ -51,7 +51,7 @@ class _Board extends State<Board> {
       }
       return Colors.lightGreen;
     }
-    return Colors.amber;
+    return Theme.of(context).primaryColor;
   }
 
   void _onCardTapped(final int index) {
@@ -110,8 +110,9 @@ class _Board extends State<Board> {
                             margin: const EdgeInsets.all(0.5),
                             child: Text(_bingoCard.elementAt(index).name,
                                 textAlign: TextAlign.center,
-                                style:
-                                    TextStyle(fontWeight: FontWeight.w600)))),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black)))),
                   ),
                 );
               })),
@@ -119,11 +120,11 @@ class _Board extends State<Board> {
         onPressed: refreshBoard,
         icon: Icon(
           Icons.restart_alt,
-          color: Colors.amber[300],
+          color: Theme.of(context).secondaryHeaderColor,
         ),
         label: Text(
           'Random',
-          style: TextStyle(color: Colors.amber[300]),
+          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
         ),
       ),
     ]);

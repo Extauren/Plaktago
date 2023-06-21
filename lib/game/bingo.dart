@@ -51,7 +51,7 @@ class _Game extends State<Game> {
             'Bingo ${widget.gameType}',
             style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Colors.amber[300],
+          //backgroundColor: Theme.of(context).primaryColor,
           actions: <Widget>[
             IconButton(
               icon: Icon(

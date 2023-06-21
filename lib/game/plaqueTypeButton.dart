@@ -33,41 +33,43 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
       );
     }
 
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.orange,
-      ),
-      home: Scaffold(
-        body: SafeArea(
-            child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 0),
-                child: Center(
-                    child: Column(
+    return Scaffold(
+      body: SafeArea(
+          child: Container(
+        alignment: Alignment.center,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0),
+              child: Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Type de plaque :"),
-                    DropdownMenu<PlaqueType>(
-                      initialSelection: PlaqueType.triangle,
-                      controller: colorController,
-                      dropdownMenuEntries: plaqueEntries,
-                      onSelected: (PlaqueType? plaque) {
-                        setState(() {
-                          widget.selectecPlaque = plaque!;
-                        });
-                      },
-                    ),
+                    Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Text("Type de plaque :")),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(129, 153, 219, 1),
+                          borderRadius: BorderRadius.circular(3)),
+                      child: DropdownMenu<PlaqueType>(
+                        initialSelection: PlaqueType.triangle,
+                        controller: colorController,
+                        dropdownMenuEntries: plaqueEntries,
+                        onSelected: (PlaqueType? plaque) {
+                          setState(() {
+                            widget.selectecPlaque = plaque!;
+                          });
+                        },
+                      ),
+                    )
                   ],
-                )),
+                ),
               ),
-            ],
-          ),
-        )),
-      ),
+            )
+          ],
+        ),
+      )),
     );
   }
 }

@@ -31,37 +31,33 @@ class _DifficultyButtonState extends State<DifficultyButton> {
           .add(DropdownMenuEntry<IconLabel>(value: icon, label: icon.label));
     }
 
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-        body: SafeArea(
-            child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 0),
-                  child: Column(
-                    children: <Widget>[
-                      Text("Difficulté :"),
-                      DropdownMenu<DifficultyLabel>(
-                        initialSelection: DifficultyLabel.green,
-                        controller: colorController,
-                        dropdownMenuEntries: colorEntries,
-                        onSelected: (DifficultyLabel? color) {
-                          setState(() {
-                            selectedColor = color;
-                          });
-                        },
-                      ),
-                    ],
-                  )),
-            ],
-          ),
-        )),
-      ),
+    return Scaffold(
+      body: SafeArea(
+          child: Container(
+        alignment: Alignment.center,
+        child: Column(
+          children: <Widget>[
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 0),
+                child: Column(
+                  children: <Widget>[
+                    Text("Difficulté :",
+                        style: Theme.of(context).textTheme.bodyMedium),
+                    DropdownMenu<DifficultyLabel>(
+                      initialSelection: DifficultyLabel.green,
+                      controller: colorController,
+                      dropdownMenuEntries: colorEntries,
+                      onSelected: (DifficultyLabel? color) {
+                        setState(() {
+                          selectedColor = color;
+                        });
+                      },
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      )),
     );
   }
 }
