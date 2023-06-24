@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:plaktago/game/board/cardName.dart';
 import 'bingoCard.dart';
 import 'checkBoard.dart';
 
@@ -9,13 +7,19 @@ class Board extends StatefulWidget {
   final Function changePoints;
   final VoidCallback resetPoint;
   final ThemeMode theme;
+  List<BingoCard> bingoCard;
+  final int nbLines;
+  final VoidCallback refreshBoard;
 
-  const Board(
+  Board(
       {Key? key,
       required this.gameType,
       required this.changePoints,
       required this.resetPoint,
-      required this.theme})
+      required this.theme,
+      required this.bingoCard,
+      required this.nbLines,
+      required this.refreshBoard})
       : super(key: key);
 
   @override
@@ -23,35 +27,24 @@ class Board extends StatefulWidget {
 }
 
 class _Board extends State<Board> {
-  static const int nbLines = 4;
-  static List<int> firstDiagonalValues =
-      List<int>.generate(nbLines, (index) => index * (nbLines + 1));
-  static List<int> secondDiagonalValues =
-      List<int>.generate(nbLines, (index) => (nbLines - 1) * (index + 1));
-  static List<BingoCard> _bingoCard = <BingoCard>[];
-  static CheckBoard checkBoard = CheckBoard(nbLines: nbLines);
+  static List<int> firstDiagonalValues = [];
+  static List<int> secondDiagonalValues = [];
+  static CheckBoard checkBoard = CheckBoard(nbLines: 0);
 
   @override
   void initState() {
-    CardName card;
-    List<CardName> cardList = <CardName>[];
-    _bingoCard.clear();
-    cardList.addAll(cardNameList);
     super.initState();
-    for (int it = 0; it < nbLines * nbLines; it++) {
-      card = cardList.elementAt(Random().nextInt(cardList.length));
-      cardList.remove(card);
-      _bingoCard.add(BingoCard(name: card.name));
-    }
+    firstDiagonalValues = List<int>.generate(
+        widget.nbLines, (index) => index * (widget.nbLines + 1));
+    secondDiagonalValues = List<int>.generate(
+        widget.nbLines, (index) => (widget.nbLines - 1) * (index + 1));
+    checkBoard = CheckBoard(nbLines: widget.nbLines);
   }
 
   Color getCardColor(int index) {
-    if (_bingoCard.elementAt(index).isSelect == true) {
-      if (_bingoCard.elementAt(index).nbLineComplete > 0) {
-        //if (widget.theme == ThemeMode.dark) {
+    if (widget.bingoCard.elementAt(index).isSelect == true) {
+      if (widget.bingoCard.elementAt(index).nbLineComplete > 0) {
         return Color.fromRGBO(219, 150, 129, 1);
-        //}
-        //return Colors.black12;
       }
       return Color.fromRGBO(153, 219, 129, 1);
     }
@@ -59,35 +52,19 @@ class _Board extends State<Board> {
   }
 
   void _onCardTapped(final int index) {
-    bool newState = !_bingoCard.elementAt(index).isSelect;
+    bool newState = !widget.bingoCard.elementAt(index).isSelect;
     setState(() {
-      widget.changePoints(!_bingoCard.elementAt(index).isSelect);
-      _bingoCard.elementAt(index).isSelect =
-          !_bingoCard.elementAt(index).isSelect;
-      checkBoard.checkColumn(_bingoCard, index, newState);
-      checkBoard.checkLine(_bingoCard, index, newState);
+      widget.changePoints(!widget.bingoCard.elementAt(index).isSelect);
+      widget.bingoCard.elementAt(index).isSelect =
+          !widget.bingoCard.elementAt(index).isSelect;
+      checkBoard.checkColumn(widget.bingoCard, index, newState);
+      checkBoard.checkLine(widget.bingoCard, index, newState);
       if (firstDiagonalValues.contains(index)) {
-        checkBoard.checkDiagonal(_bingoCard, 0, newState, nbLines + 1);
+        checkBoard.checkDiagonal(
+            widget.bingoCard, 0, newState, widget.nbLines + 1);
       } else if (secondDiagonalValues.contains(index)) {
         checkBoard.checkDiagonal(
-            _bingoCard, nbLines - 1, newState, nbLines - 1);
-      }
-    });
-  }
-
-  void refreshBoard() {
-    CardName card;
-    List<CardName> cardList = [];
-    cardList.addAll(cardNameList);
-    _bingoCard.clear();
-    setState(() {
-      widget.resetPoint();
-      for (int it = 0; it < nbLines * nbLines; it++) {
-        card = cardList.elementAt(Random().nextInt(cardList.length));
-        cardList.remove(card);
-        _bingoCard.add(BingoCard(name: card.name));
-        _bingoCard.elementAt(it).isSelect = false;
-        _bingoCard.elementAt(it).nbLineComplete = 0;
+            widget.bingoCard, widget.nbLines - 1, newState, widget.nbLines - 1);
       }
     });
   }
@@ -99,10 +76,10 @@ class _Board extends State<Board> {
           height: 410,
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: nbLines,
+                crossAxisCount: widget.nbLines,
               ),
               padding: EdgeInsets.all(10.0),
-              itemCount: nbLines * nbLines,
+              itemCount: widget.nbLines * widget.nbLines,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () => _onCardTapped(index),
@@ -112,7 +89,7 @@ class _Board extends State<Board> {
                     child: Center(
                         child: Container(
                             margin: const EdgeInsets.all(0.5),
-                            child: Text(_bingoCard.elementAt(index).name,
+                            child: Text(widget.bingoCard.elementAt(index).name,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
@@ -124,18 +101,17 @@ class _Board extends State<Board> {
           margin: EdgeInsets.only(top: 20),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                //backgroundColor: Theme.of(context).colorScheme.primary,
                 //fixedSize: Size.fromWidth(MediaQuery.of(context).size.width / 2),
                 ),
-            onPressed: refreshBoard,
+            onPressed: widget.refreshBoard,
             child: TextButton.icon(
-              onPressed: refreshBoard,
+              onPressed: widget.refreshBoard,
               icon: Icon(
                 Icons.restart_alt,
                 color: Colors.black, //Theme.of(context).secondaryHeaderColor,
               ),
               label: Text(
-                'Random',
+                'Aléatoire',
                 style: TextStyle(color: Colors.black),
               ),
             ),

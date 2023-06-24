@@ -13,18 +13,13 @@ class NavigationBarApp extends StatefulWidget {
 
   @override
   State<NavigationBarApp> createState() => _NavigationBar();
-  // Widget build(BuildContext context) {
-  //   return const MaterialApp(
-  //     home: NavigationBar(),
-  //   );
-  // }
 }
 
 class _NavigationBar extends State<NavigationBarApp> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions() => [
         Home(changeTheme: widget.changeTheme, theme: widget.theme),
-        Statistic(readGame: SaveGame()),
+        Statistic(),
         Settings(changeTheme: widget.changeTheme),
       ];
 

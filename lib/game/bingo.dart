@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'board/board.dart';
 import 'timer/timer.dart';
 import '../utils/saveGame.dart';
+import 'package:plaktago/game/board/cardName.dart';
+import 'board/bingoCard.dart';
+import 'dart:math';
 
 class Game extends StatefulWidget {
-  final SaveGame saveGame;
   final String gameType;
   final ThemeMode theme;
-  const Game(
-      {Key? key,
-      required this.gameType,
-      required this.saveGame,
-      required this.theme})
+  const Game({Key? key, required this.gameType, required this.theme})
       : super(key: key);
 
   @override
@@ -20,15 +18,45 @@ class Game extends StatefulWidget {
 
 class _Game extends State<Game> {
   static int points = 0;
+  static const int nbLines = 4;
+  static List<BingoCard> bingoCard = <BingoCard>[];
 
   @override
   void initState() {
     super.initState();
     points = 0;
+    CardName card;
+    List<CardName> cardList = <CardName>[];
+    bingoCard.clear();
+    cardList.addAll(cardNameList);
+    super.initState();
+    for (int it = 0; it < nbLines * nbLines; it++) {
+      card = cardList.elementAt(Random().nextInt(cardList.length));
+      cardList.remove(card);
+      bingoCard.add(BingoCard(name: card.name));
+    }
+  }
+
+  void refreshBoard() {
+    CardName card;
+    List<CardName> cardList = [];
+    cardList.addAll(cardNameList);
+    bingoCard.clear();
+    setState(() {
+      points = 0;
+      for (int it = 0; it < nbLines * nbLines; it++) {
+        card = cardList.elementAt(Random().nextInt(cardList.length));
+        cardList.remove(card);
+        bingoCard.add(BingoCard(name: card.name));
+        bingoCard.elementAt(it).isSelect = false;
+        bingoCard.elementAt(it).nbLineComplete = 0;
+      }
+    });
   }
 
   void _saveGame() {
-    widget.saveGame.writeGame();
+    SaveGame saveGame = SaveGame();
+    saveGame.writeGame(bingoCard, points, widget.gameType);
     Navigator.pop(context);
   }
 
@@ -52,8 +80,9 @@ class _Game extends State<Game> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Bingo ${widget.gameType}'),
-          //backgroundColor: Theme.of(context).primaryColor,
+          title: Text(
+            'Bingo ${widget.gameType}',
+          ),
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -96,10 +125,14 @@ class _Game extends State<Game> {
                   constraints:
                       const BoxConstraints(maxHeight: 500, maxWidth: 800),
                   child: Board(
-                      gameType: widget.gameType,
-                      changePoints: changePoints,
-                      resetPoint: resetPoints,
-                      theme: widget.theme))),
+                    gameType: widget.gameType,
+                    changePoints: changePoints,
+                    resetPoint: resetPoints,
+                    theme: widget.theme,
+                    bingoCard: bingoCard,
+                    nbLines: nbLines,
+                    refreshBoard: refreshBoard,
+                  ))),
         ]));
   }
 }

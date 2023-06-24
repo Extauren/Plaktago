@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/game/plaqueTypeButton.dart';
+import 'package:plaktago/game/ratDropdownButton.dart';
+import 'package:plaktago/utils/saveGame.dart';
 import 'game/difficultyButton.dart';
 import 'game/bingo.dart';
-import 'utils/saveGame.dart';
 import 'drawer.dart';
 
 enum BingoType {
-  plaque('plaque'),
-  sousterre('sous terrain');
+  plaque('Plaque'),
+  sousterre('Sous terrain');
 
   const BingoType(this.name);
   final String name;
@@ -27,23 +28,25 @@ class _Home extends State<Home> {
   String _bingoTypeName = BingoType.plaque.name;
   BingoType? _bingoType = BingoType.plaque;
   PlaqueType? selectePlaque = PlaqueType.triangle;
+  RatType? ratType = RatType.salle;
+  final saveGame = SaveGame();
 
   void resetHome() {
     setState(() {
       _bingoTypeName = BingoType.plaque.name;
       _bingoType = BingoType.plaque;
       selectePlaque = PlaqueType.triangle;
+      ratType = RatType.salle;
     });
   }
 
   void launchGame() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Game(
-                gameType: _bingoTypeName,
-                saveGame: SaveGame(),
-                theme: widget.theme))).then((value) {
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Game(gameType: _bingoTypeName, theme: widget.theme)))
+        .then((value) {
       resetHome();
     });
   }
@@ -70,7 +73,6 @@ class _Home extends State<Home> {
                   margin: const EdgeInsets.only(left: 10),
                   child: Text(
                     'Plaktago',
-                    style: Theme.of(context).textTheme.bodyLarge,
                   )),
             ],
           ),
@@ -83,7 +85,7 @@ class _Home extends State<Home> {
           Container(
               margin: const EdgeInsets.only(top: 30.0, left: 10, right: 10),
               child: Text("Bienvenue sur Plaktago",
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
           Container(
               margin: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
@@ -100,7 +102,7 @@ class _Home extends State<Home> {
           Container(
               margin: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20),
               child: Text(
-                "Sous terrain : C'est partie ce passe sous terre. Vous allez jouer avec les cataphiles que vous croiserez sous terre dans un salle ou dans un galerie.",
+                "Sous terrain : C'est partie ce passe sous terre. Vous allez jouer avec les cataphiles que vous croiserez sous terre dans une salle ou dans une galerie.",
                 style: Theme.of(context).textTheme.bodySmall,
               )),
           Container(
@@ -113,7 +115,8 @@ class _Home extends State<Home> {
                           selectedColor: Colors.red,
                           child: ListTile(
                             title: Text(BingoType.plaque.name,
-                                style: Theme.of(context).textTheme.bodyMedium),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
                             leading: Radio<BingoType>(
                               value: BingoType.plaque,
                               groupValue: _bingoType,
@@ -129,7 +132,8 @@ class _Home extends State<Home> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: ListTile(
                       title: Text(BingoType.sousterre.name,
-                          style: Theme.of(context).textTheme.bodyMedium),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       leading: Radio<BingoType>(
                         value: BingoType.sousterre,
                         groupValue: _bingoType,
@@ -154,6 +158,13 @@ class _Home extends State<Home> {
                   child: PlaqueTypeButton(
                     selectecPlaque: selectePlaque!,
                   )),
+            if (_bingoType == BingoType.sousterre)
+              ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 2,
+                    maxHeight: 180,
+                  ),
+                  child: RatDropdownButton(type: ratType!)),
             ConstrainedBox(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width / 2,
@@ -167,10 +178,11 @@ class _Home extends State<Home> {
               onPressed: launchGame,
               child: Text(
                 'Jouer',
-                style: TextStyle(color: _getTextColor()),
+                style: TextStyle(color: Colors.black),
               ),
             ),
-          )
+          ),
+          TextButton(onPressed: saveGame.resetFile, child: Text("Reset file"))
         ]));
   }
 }
