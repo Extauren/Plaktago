@@ -6,7 +6,12 @@ import '../utils/saveGame.dart';
 class Game extends StatefulWidget {
   final SaveGame saveGame;
   final String gameType;
-  const Game({Key? key, required this.gameType, required this.saveGame})
+  final ThemeMode theme;
+  const Game(
+      {Key? key,
+      required this.gameType,
+      required this.saveGame,
+      required this.theme})
       : super(key: key);
 
   @override
@@ -47,16 +52,12 @@ class _Game extends State<Game> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Bingo ${widget.gameType}',
-            style: TextStyle(color: Colors.black),
-          ),
+          title: Text('Bingo ${widget.gameType}'),
           //backgroundColor: Theme.of(context).primaryColor,
           actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.save,
-                color: Colors.black,
               ),
               onPressed: _saveGame,
             )
@@ -95,10 +96,10 @@ class _Game extends State<Game> {
                   constraints:
                       const BoxConstraints(maxHeight: 500, maxWidth: 800),
                   child: Board(
-                    gameType: widget.gameType,
-                    changePoints: changePoints,
-                    resetPoint: resetPoints,
-                  ))),
+                      gameType: widget.gameType,
+                      changePoints: changePoints,
+                      resetPoint: resetPoints,
+                      theme: widget.theme))),
         ]));
   }
 }

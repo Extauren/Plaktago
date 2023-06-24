@@ -21,7 +21,7 @@ class _Drawer extends State<DrawerApp> {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).secondaryHeaderColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
             child: Text('Settings'),
           ),

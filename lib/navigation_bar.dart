@@ -6,7 +6,9 @@ import 'utils/saveGame.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
-  const NavigationBarApp({Key? key, required this.changeTheme})
+  final ThemeMode theme;
+  const NavigationBarApp(
+      {Key? key, required this.changeTheme, required this.theme})
       : super(key: key);
 
   @override
@@ -21,9 +23,7 @@ class NavigationBarApp extends StatefulWidget {
 class _NavigationBar extends State<NavigationBarApp> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions() => [
-        Home(
-          changeTheme: widget.changeTheme,
-        ),
+        Home(changeTheme: widget.changeTheme, theme: widget.theme),
         Statistic(readGame: SaveGame()),
         Settings(changeTheme: widget.changeTheme),
       ];

@@ -21,7 +21,7 @@ class PlaqueTypeButton extends StatefulWidget {
 
 class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
   final TextEditingController colorController = TextEditingController();
-  final TextEditingController iconController = TextEditingController();
+  //final TextEditingController iconController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
                         child: Text("Type de plaque :")),
                     Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(129, 153, 219, 1),
+                          //color: Color.fromRGBO(129, 153, 219, 1),
                           borderRadius: BorderRadius.circular(3)),
                       child: DropdownMenu<PlaqueType>(
                         initialSelection: PlaqueType.triangle,

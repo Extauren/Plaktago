@@ -15,7 +15,9 @@ enum BingoType {
 
 class Home extends StatefulWidget {
   final Function changeTheme;
-  const Home({Key? key, required this.changeTheme}) : super(key: key);
+  final ThemeMode theme;
+  const Home({Key? key, required this.changeTheme, required this.theme})
+      : super(key: key);
 
   @override
   State<Home> createState() => _Home();
@@ -26,15 +28,31 @@ class _Home extends State<Home> {
   BingoType? _bingoType = BingoType.plaque;
   PlaqueType? selectePlaque = PlaqueType.triangle;
 
+  void resetHome() {
+    setState(() {
+      _bingoTypeName = BingoType.plaque.name;
+      _bingoType = BingoType.plaque;
+      selectePlaque = PlaqueType.triangle;
+    });
+  }
+
   void launchGame() {
     Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Game(gameType: _bingoTypeName, saveGame: SaveGame())))
-        .then((value) {
-      setState(() {});
+        context,
+        MaterialPageRoute(
+            builder: (context) => Game(
+                gameType: _bingoTypeName,
+                saveGame: SaveGame(),
+                theme: widget.theme))).then((value) {
+      resetHome();
     });
+  }
+
+  Color _getTextColor() {
+    if (widget.theme == ThemeMode.dark) {
+      return Colors.white;
+    }
+    return Colors.black;
   }
 
   @override
@@ -91,20 +109,22 @@ class _Home extends State<Home> {
                 children: <Widget>[
                   SizedBox(
                       width: MediaQuery.of(context).size.width / 2.5,
-                      child: ListTile(
-                        title: Text(BingoType.plaque.name,
-                            style: Theme.of(context).textTheme.bodyMedium),
-                        leading: Radio<BingoType>(
-                          value: BingoType.plaque,
-                          groupValue: _bingoType,
-                          onChanged: (BingoType? value) {
-                            setState(() {
-                              _bingoType = value;
-                              _bingoTypeName = BingoType.plaque.name;
-                            });
-                          },
-                        ),
-                      )),
+                      child: ListTileTheme(
+                          selectedColor: Colors.red,
+                          child: ListTile(
+                            title: Text(BingoType.plaque.name,
+                                style: Theme.of(context).textTheme.bodyMedium),
+                            leading: Radio<BingoType>(
+                              value: BingoType.plaque,
+                              groupValue: _bingoType,
+                              onChanged: (BingoType? value) {
+                                setState(() {
+                                  _bingoType = value;
+                                  _bingoTypeName = BingoType.plaque.name;
+                                });
+                              },
+                            ),
+                          ))),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: ListTile(
@@ -145,17 +165,9 @@ class _Home extends State<Home> {
             maxWidth: 100, //MediaQuery.of(context).size.width / 2,
             child: ElevatedButton(
               onPressed: launchGame,
-              style: ElevatedButton.styleFrom(
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
-                backgroundColor: Theme.of(context).secondaryHeaderColor,
-                fixedSize:
-                    Size.fromWidth(MediaQuery.of(context).size.width / 2),
-              ),
-              child: const Text(
+              child: Text(
                 'Jouer',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: _getTextColor()),
               ),
             ),
           )

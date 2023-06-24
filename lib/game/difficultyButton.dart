@@ -11,25 +11,25 @@ class _DifficultyButtonState extends State<DifficultyButton> {
   final TextEditingController colorController = TextEditingController();
   final TextEditingController iconController = TextEditingController();
   DifficultyLabel? selectedColor;
-  IconLabel? selectedIcon;
+  //IconLabel? selectedIcon;
 
   @override
   Widget build(BuildContext context) {
-    final List<DropdownMenuEntry<DifficultyLabel>> colorEntries =
+    final List<DropdownMenuEntry<DifficultyLabel>> difficultyEntry =
         <DropdownMenuEntry<DifficultyLabel>>[];
-    for (final DifficultyLabel color in DifficultyLabel.values) {
-      colorEntries.add(
+    for (final DifficultyLabel difficulty in DifficultyLabel.values) {
+      difficultyEntry.add(
         DropdownMenuEntry<DifficultyLabel>(
-            value: color, label: color.label, enabled: color.label != 'Grey'),
+            value: difficulty, label: difficulty.name),
       );
     }
 
-    final List<DropdownMenuEntry<IconLabel>> iconEntries =
-        <DropdownMenuEntry<IconLabel>>[];
-    for (final IconLabel icon in IconLabel.values) {
-      iconEntries
-          .add(DropdownMenuEntry<IconLabel>(value: icon, label: icon.label));
-    }
+    // final List<DropdownMenuEntry<IconLabel>> iconEntries =
+    //     <DropdownMenuEntry<IconLabel>>[];
+    // for (final IconLabel icon in IconLabel.values) {
+    //   iconEntries
+    //       .add(DropdownMenuEntry<IconLabel>(value: icon, label: icon.label));
+    // }
 
     return Scaffold(
       body: SafeArea(
@@ -41,18 +41,25 @@ class _DifficultyButtonState extends State<DifficultyButton> {
                 padding: const EdgeInsets.symmetric(vertical: 0),
                 child: Column(
                   children: <Widget>[
-                    Text("Difficulté :",
-                        style: Theme.of(context).textTheme.bodyMedium),
-                    DropdownMenu<DifficultyLabel>(
-                      initialSelection: DifficultyLabel.green,
-                      controller: colorController,
-                      dropdownMenuEntries: colorEntries,
-                      onSelected: (DifficultyLabel? color) {
-                        setState(() {
-                          selectedColor = color;
-                        });
-                      },
-                    ),
+                    Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Text("Difficulté :",
+                            style: Theme.of(context).textTheme.bodyMedium)),
+                    Container(
+                      decoration: BoxDecoration(
+                          //color: Color.fromRGBO(129, 153, 219, 1),
+                          borderRadius: BorderRadius.circular(3)),
+                      child: DropdownMenu<DifficultyLabel>(
+                        initialSelection: DifficultyLabel.green,
+                        controller: colorController,
+                        dropdownMenuEntries: difficultyEntry,
+                        onSelected: (DifficultyLabel? color) {
+                          setState(() {
+                            selectedColor = color;
+                          });
+                        },
+                      ),
+                    )
                   ],
                 )),
           ],
@@ -63,27 +70,24 @@ class _DifficultyButtonState extends State<DifficultyButton> {
 }
 
 enum DifficultyLabel {
-  blue('Facile', Colors.blue),
-  pink('Moyen', Colors.pink),
-  green('Difficile', Colors.green),
-  yellow('Soleil', Colors.yellow),
-  grey('Carré', Colors.grey);
+  blue('Facile'),
+  pink('Moyen'),
+  green('Difficile');
 
-  const DifficultyLabel(this.label, this.color);
-  final String label;
-  final Color color;
+  const DifficultyLabel(this.name);
+  final String name;
 }
 
-enum IconLabel {
-  smile('Smile', Icons.sentiment_satisfied_outlined),
-  cloud(
-    'Cloud',
-    Icons.cloud_outlined,
-  ),
-  brush('Brush', Icons.brush_outlined),
-  heart('Heart', Icons.favorite);
+// enum IconLabel {
+//   smile('Smile', Icons.sentiment_satisfied_outlined),
+//   cloud(
+//     'Cloud',
+//     Icons.cloud_outlined,
+//   ),
+//   brush('Brush', Icons.brush_outlined),
+//   heart('Heart', Icons.favorite);
 
-  const IconLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-}
+//   const IconLabel(this.label, this.icon);
+//   final String label;
+//   final IconData icon;
+// }

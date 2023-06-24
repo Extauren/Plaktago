@@ -57,7 +57,7 @@ class _Timer extends State<Timer> {
                   padding: const EdgeInsets.symmetric(horizontal: 2),
                   child: RoundedButton(
                     icon: Icons.play_arrow,
-                    color: Theme.of(context).secondaryHeaderColor,
+                    color: Theme.of(context).colorScheme.primary,
                     onTap: _stopWatchTimer.onStartTimer,
                   ),
                 ),
@@ -65,7 +65,7 @@ class _Timer extends State<Timer> {
                   padding: const EdgeInsets.symmetric(horizontal: 2),
                   child: RoundedButton(
                     icon: Icons.stop,
-                    color: Theme.of(context).secondaryHeaderColor,
+                    color: Theme.of(context).colorScheme.primary,
                     onTap: _stopWatchTimer.onStopTimer,
                   ),
                 ),
@@ -73,7 +73,7 @@ class _Timer extends State<Timer> {
                   padding: const EdgeInsets.symmetric(horizontal: 2),
                   child: RoundedButton(
                     icon: Icons.restart_alt,
-                    color: Theme.of(context).secondaryHeaderColor,
+                    color: Theme.of(context).colorScheme.primary,
                     onTap: _stopWatchTimer.onResetTimer,
                   ),
                 ),

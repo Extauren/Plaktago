@@ -8,12 +8,14 @@ class Board extends StatefulWidget {
   final String gameType;
   final Function changePoints;
   final VoidCallback resetPoint;
+  final ThemeMode theme;
 
   const Board(
       {Key? key,
       required this.gameType,
       required this.changePoints,
-      required this.resetPoint})
+      required this.resetPoint,
+      required this.theme})
       : super(key: key);
 
   @override
@@ -31,7 +33,6 @@ class _Board extends State<Board> {
 
   @override
   void initState() {
-    print(secondDiagonalValues);
     CardName card;
     List<CardName> cardList = <CardName>[];
     _bingoCard.clear();
@@ -47,11 +48,14 @@ class _Board extends State<Board> {
   Color getCardColor(int index) {
     if (_bingoCard.elementAt(index).isSelect == true) {
       if (_bingoCard.elementAt(index).nbLineComplete > 0) {
-        return Colors.black12;
+        //if (widget.theme == ThemeMode.dark) {
+        return Color.fromRGBO(219, 150, 129, 1);
+        //}
+        //return Colors.black12;
       }
-      return Colors.lightGreen;
+      return Color.fromRGBO(153, 219, 129, 1);
     }
-    return Theme.of(context).primaryColor;
+    return Theme.of(context).cardColor;
   }
 
   void _onCardTapped(final int index) {
@@ -116,17 +120,26 @@ class _Board extends State<Board> {
                   ),
                 );
               })),
-      TextButton.icon(
-        onPressed: refreshBoard,
-        icon: Icon(
-          Icons.restart_alt,
-          color: Theme.of(context).secondaryHeaderColor,
-        ),
-        label: Text(
-          'Random',
-          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-        ),
-      ),
+      Container(
+          margin: EdgeInsets.only(top: 20),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                //backgroundColor: Theme.of(context).colorScheme.primary,
+                //fixedSize: Size.fromWidth(MediaQuery.of(context).size.width / 2),
+                ),
+            onPressed: refreshBoard,
+            child: TextButton.icon(
+              onPressed: refreshBoard,
+              icon: Icon(
+                Icons.restart_alt,
+                color: Colors.black, //Theme.of(context).secondaryHeaderColor,
+              ),
+              label: Text(
+                'Random',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ))
     ]);
   }
 }
