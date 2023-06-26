@@ -66,7 +66,7 @@ class _Statistic extends State<Statistic> {
   Widget build(BuildContext context) {
     final String nbGames = _general["nbGames"].toString();
     return Scaffold(
-        appBar: AppBar(title: Text("Statistique")),
+        appBar: AppBar(title: Text("Statistiques")),
         body: Column(children: [
           Container(
               margin: EdgeInsets.symmetric(vertical: 20),
@@ -83,13 +83,14 @@ class _Statistic extends State<Statistic> {
                       final String gameType = _bingoGames[index]["gameType"];
                       final String date = _bingoGames[index]["date"];
                       final String hour = _bingoGames[index]["hour"];
+                      final String time = _bingoGames[index]["time"];
                       final String gameNumber =
                           _bingoGames[index]["gameNumber"].toString();
                       return GestureDetector(
                           onTap: () => {print("Click")},
                           child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: 120,
+                              height: 130,
                               child: Card(
                                   key: ValueKey(
                                       _bingoGames[index]["gameNumber"]),
@@ -106,6 +107,8 @@ class _Statistic extends State<Statistic> {
                                     Text("Heure : $hour",
                                         style: TextStyle(color: Colors.black)),
                                     Text("Partie numéro : $gameNumber",
+                                        style: TextStyle(color: Colors.black)),
+                                    Text("Temps : $time",
                                         style: TextStyle(color: Colors.black))
                                   ]))));
                     },

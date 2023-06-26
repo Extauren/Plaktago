@@ -13,7 +13,7 @@ class SaveGame {
   //const SaveGame(this.bingoCardList, this.points);
 
   Future<Map<String, dynamic>> getJson(final List<BingoCard> bingoCardList,
-      final int points, final String gameType) async {
+      final int points, final String gameType, final String time) async {
     List<Map<String, dynamic>> jsonList = [];
     Map<String, dynamic> oldJson = {};
     Map<String, dynamic> newJson = {};
@@ -40,6 +40,7 @@ class SaveGame {
       "gameType": gameType,
       "date": DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
       "hour": DateFormat("HH:mm").format(DateTime.now()),
+      "time": time,
       "bingoCardList": jsonList
     };
 
@@ -79,10 +80,10 @@ class SaveGame {
   }
 
   Future<File> writeGame(final List<BingoCard> bingoCardList, final int points,
-      final String gameType) async {
+      final String gameType, final String time) async {
     final file = await _localFile;
     final Map<String, dynamic> jsont =
-        await getJson(bingoCardList, points, gameType);
+        await getJson(bingoCardList, points, gameType, time);
 
     return file.writeAsString(json.encode(jsont));
   }

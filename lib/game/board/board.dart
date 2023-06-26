@@ -69,6 +69,27 @@ class _Board extends State<Board> {
     });
   }
 
+  ShapeBorder getCardShape(final int index) {
+    final Radius corner = Radius.circular(8);
+    if (index == 0) {
+      return RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topLeft: corner));
+    }
+    if (index == widget.nbLines - 1) {
+      return RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: corner));
+    }
+    if (index == widget.nbLines * (widget.nbLines - 1)) {
+      return RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomLeft: corner));
+    }
+    if (index == widget.nbLines * widget.nbLines - 1) {
+      return RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomRight: corner));
+    }
+    return RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -84,7 +105,8 @@ class _Board extends State<Board> {
                 return GestureDetector(
                   onTap: () => _onCardTapped(index),
                   child: Card(
-                    margin: const EdgeInsets.all(0.8),
+                    shape: getCardShape(index),
+                    margin: const EdgeInsets.all(0.5),
                     color: getCardColor(index),
                     child: Center(
                         child: Container(

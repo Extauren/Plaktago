@@ -20,6 +20,7 @@ class _Game extends State<Game> {
   static int points = 0;
   static const int nbLines = 4;
   static List<BingoCard> bingoCard = <BingoCard>[];
+  static Timer timer = Timer();
 
   @override
   void initState() {
@@ -56,7 +57,7 @@ class _Game extends State<Game> {
 
   void _saveGame() {
     SaveGame saveGame = SaveGame();
-    saveGame.writeGame(bingoCard, points, widget.gameType);
+    saveGame.writeGame(bingoCard, points, widget.gameType, timer.getTime());
     Navigator.pop(context);
   }
 
@@ -99,7 +100,7 @@ class _Game extends State<Game> {
                   maxWidth: 200,
                   maxHeight: 130,
                 ),
-                child: Timer()),
+                child: timer),
             Container(
                 //margin: const EdgeInsets.only(left: 60, top: 15),
                 child: Row(

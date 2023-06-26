@@ -70,7 +70,7 @@ class _Plaktago extends State<Plaktago> {
             textTheme: TextTheme(
                 titleLarge: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 18,
+              fontSize: 26,
             )),
             switchTheme: SwitchThemeData(
                 trackColor: MaterialStateProperty.resolveWith((states) {

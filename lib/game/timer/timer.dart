@@ -3,10 +3,15 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'timerButton.dart';
 
 class Timer extends StatefulWidget {
-  const Timer({Key? key}) : super(key: key);
+  String time;
+  Timer({Key? key, this.time = ""}) : super(key: key);
 
   @override
   State<Timer> createState() => _Timer();
+
+  String getTime() {
+    return time;
+  }
 }
 
 class _Timer extends State<Timer> {
@@ -41,10 +46,10 @@ class _Timer extends State<Timer> {
               initialData: _stopWatchTimer.rawTime.value,
               builder: (context, snap) {
                 final value = snap.data!;
-                final displayTime =
-                    StopWatchTimer.getDisplayTime(value, hours: _isHours);
+                widget.time = StopWatchTimer.getDisplayTime(value,
+                    hours: _isHours, milliSecond: false);
                 return Text(
-                  displayTime,
+                  widget.time,
                   style: const TextStyle(
                       fontSize: 28, fontWeight: FontWeight.bold),
                 );
