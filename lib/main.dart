@@ -104,11 +104,17 @@ class _Plaktago extends State<Plaktago> {
                 backgroundColor: Colors.grey[800],
                 unselectedItemColor: Colors.white,
                 selectedItemColor: darkColor.primary),
+              textTheme: TextTheme(
+                titleLarge: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 26,
+            )
+              ),
             dropdownMenuTheme: DropdownMenuThemeData(menuStyle:
                 MenuStyle(backgroundColor: MaterialStateProperty.resolveWith((states) {
               return Colors.grey[800];
             }))),
-            cardColor: Colors.grey[300],
+            cardColor: Colors.grey[100],
             elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) {
               return lightColor.primary;
             }))),

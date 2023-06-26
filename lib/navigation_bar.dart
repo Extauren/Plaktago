@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'home/home.dart';
 import 'statistic/statistic.dart';
 import 'settings.dart';
 import 'utils/saveGame.dart';
