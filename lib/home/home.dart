@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/home/plaqueTypeButton.dart';
 import 'package:plaktago/home/ratDropdownButton.dart';
-import 'package:plaktago/utils/saveGame.dart';
+import 'package:plaktago/utils/appSettings.dart';
 import 'difficultyButton.dart';
 import '../game/bingo.dart';
 import 'drawer.dart';
@@ -12,8 +12,8 @@ import '../utils/bingoParams.dart';
 
 class Home extends StatefulWidget {
   final Function changeTheme;
-  final ThemeMode theme;
-  const Home({Key? key, required this.changeTheme, required this.theme})
+  AppSettings appSettings;
+  Home({Key? key, required this.changeTheme, required this.appSettings})
       : super(key: key);
 
   @override
@@ -21,7 +21,6 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  final saveGame = SaveGame();
   BingoParams bingoParams = BingoParams();
 
   void updateState() {
@@ -36,11 +35,12 @@ class _Home extends State<Home> {
 
   void launchGame() {
     Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Game(bingoParams: bingoParams, theme: widget.theme)))
-        .then((value) {
+        context,
+        MaterialPageRoute(
+            builder: (context) => Game(
+                  bingoParams: bingoParams,
+                  //theme: widget.theme
+                ))).then((value) {
       resetHome();
     });
   }
@@ -67,11 +67,9 @@ class _Home extends State<Home> {
                   )),
             ],
           ),
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         ),
         drawer: DrawerApp(
-          changeTheme: widget.changeTheme,
-        ),
+            changeTheme: widget.changeTheme, appSettings: widget.appSettings),
         body: ListView(children: [
           Container(
               margin: const EdgeInsets.only(top: 60.0, left: 10, right: 10),
@@ -79,16 +77,13 @@ class _Home extends State<Home> {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
           Container(
-              height: 80,
-              width: 100,
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 40),
               child: BingoTypeButton(
                   bingoType: bingoParams.bingoType,
                   updateBingoType: bingoParams.updateBingoType,
                   updateParentState: updateState)),
           Container(
-              margin: EdgeInsets.only(bottom: 20),
-              height: 80,
+              margin: EdgeInsets.only(top: 30, bottom: 40),
               child: ModeButton(
                   mode: bingoParams.mode,
                   updateBingoMode: bingoParams.updateMode,
@@ -98,7 +93,7 @@ class _Home extends State<Home> {
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 160,
+                    maxHeight: 60,
                   ),
                   child: PlaqueTypeButton(
                     selectecPlaque: bingoParams.plaque,
@@ -108,7 +103,7 @@ class _Home extends State<Home> {
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 160,
+                    maxHeight: 60,
                   ),
                   child: RatDropdownButton(
                       type: bingoParams.ratType,
@@ -116,14 +111,15 @@ class _Home extends State<Home> {
             ConstrainedBox(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width / 2,
-                  maxHeight: 160,
+                  maxHeight: 60,
                 ),
                 child: DifficultyButton(
                     difficulty: bingoParams.difficulty,
                     update: bingoParams.updateDifficulty)),
           ]),
-          LaunchGame(launchGame: launchGame, btek: btek),
-          TextButton(onPressed: saveGame.resetFile, child: Text("Reset file"))
+          Container(
+              margin: EdgeInsets.only(top: 50),
+              child: LaunchGame(launchGame: launchGame, btek: btek)),
         ]));
   }
 }

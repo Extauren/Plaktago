@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/appSettings.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
 import 'settings.dart';
@@ -6,9 +7,9 @@ import 'utils/saveGame.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
-  final ThemeMode theme;
-  const NavigationBarApp(
-      {Key? key, required this.changeTheme, required this.theme})
+  AppSettings appSettings;
+  NavigationBarApp(
+      {Key? key, required this.changeTheme, required this.appSettings})
       : super(key: key);
 
   @override
@@ -18,7 +19,7 @@ class NavigationBarApp extends StatefulWidget {
 class _NavigationBar extends State<NavigationBarApp> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions() => [
-        Home(changeTheme: widget.changeTheme, theme: widget.theme),
+        Home(changeTheme: widget.changeTheme, appSettings: widget.appSettings),
         Statistic(),
         Settings(changeTheme: widget.changeTheme),
       ];

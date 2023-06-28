@@ -1,14 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import '../utils/saveGame.dart';
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
 class Statistic extends StatefulWidget {
-  //final SaveGame readGame;
   const Statistic({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +12,6 @@ class Statistic extends StatefulWidget {
 }
 
 class _Statistic extends State<Statistic> {
-  //static Future<String> _gamesNumber = Future.value("");
   var _bingoGames = [];
   static Map<String, dynamic> _general = {};
 
@@ -49,7 +44,6 @@ class _Statistic extends State<Statistic> {
   }
 
   Future<void> test() async {
-    //final data = await readGames();
     final data = jsonDecode(await readGames());
     setState(() {
       _general = data["general"];

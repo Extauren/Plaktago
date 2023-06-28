@@ -9,9 +9,12 @@ import 'package:plaktago/utils/bingoParams.dart';
 
 class Game extends StatefulWidget {
   final BingoParams bingoParams;
-  final ThemeMode theme;
-  const Game({Key? key, required this.bingoParams, required this.theme})
-      : super(key: key);
+  //final ThemeMode theme;
+  const Game({
+    Key? key,
+    required this.bingoParams,
+    //required this.theme
+  }) : super(key: key);
 
   @override
   State<Game> createState() => _Game();
@@ -26,10 +29,18 @@ class _Game extends State<Game> {
   @override
   void initState() {
     super.initState();
+    points = 0;
     CardName card;
     List<CardName> cardList = <CardName>[];
     bingoCard.clear();
-    cardList.addAll(cardNameList);
+    //cardList.addAll(cardNameList);
+    cardList = cardNameListPlaque
+        .where((element) =>
+            element.difficulty <= widget.bingoParams.difficulty.value)
+        .toList();
+    for (int it = 0; it < 15; it++) {
+      print(cardList[it].difficulty);
+    }
     super.initState();
     for (int it = 0; it < nbLines * nbLines; it++) {
       card = cardList.elementAt(Random().nextInt(cardList.length));
@@ -41,7 +52,10 @@ class _Game extends State<Game> {
   void refreshBoard() {
     CardName card;
     List<CardName> cardList = [];
-    cardList.addAll(cardNameList);
+    cardList = cardNameListPlaque
+        .where((element) =>
+            element.difficulty <= widget.bingoParams.difficulty.value)
+        .toList();
     bingoCard.clear();
     setState(() {
       points = 0;
@@ -57,7 +71,6 @@ class _Game extends State<Game> {
 
   void _saveGame() {
     SaveGame saveGame = SaveGame();
-    print(widget.bingoParams.difficulty);
     saveGame.writeGame(bingoCard, points, widget.bingoParams, timer.getTime());
     Navigator.pop(context);
   }
@@ -69,12 +82,6 @@ class _Game extends State<Game> {
       } else {
         points -= 1;
       }
-    });
-  }
-
-  void resetPoints() {
-    setState(() {
-      points = 0;
     });
   }
 
@@ -124,8 +131,7 @@ class _Game extends State<Game> {
                   child: Board(
                     gameType: widget.bingoParams.bingoType.name,
                     changePoints: changePoints,
-                    resetPoint: resetPoints,
-                    theme: widget.theme,
+                    //theme: widget.theme,
                     bingoCard: bingoCard,
                     nbLines: nbLines,
                     refreshBoard: refreshBoard,

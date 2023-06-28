@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/appSettings.dart';
+import 'package:plaktago/utils/saveGame.dart';
 
 class DrawerApp extends StatefulWidget {
   final Function changeTheme;
-  const DrawerApp({Key? key, required this.changeTheme});
+  AppSettings appSettings;
+  DrawerApp({Key? key, required this.changeTheme, required this.appSettings});
 
   @override
   State<DrawerApp> createState() => _Drawer();
 }
 
 class _Drawer extends State<DrawerApp> {
-  static bool _darkMode = false;
+  bool _darkMode = false;
+  final saveGame = SaveGame();
+
+  @override
+  void initState() {
+    super.initState();
+    _darkMode = widget.appSettings.darkMode;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       width: MediaQuery.of(context).size.width / 2,
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
@@ -30,14 +39,16 @@ class _Drawer extends State<DrawerApp> {
                 margin: EdgeInsets.only(right: 10), child: Text("Dark mode")),
             Switch(
                 value: _darkMode,
-                //activeColor: Colors.red,
                 onChanged: (bool value) {
                   setState(() {
                     _darkMode = value;
                     widget.changeTheme();
                   });
                 }),
-          ])
+          ]),
+          TextButton(
+              onPressed: saveGame.resetFile,
+              child: Text("Supprimer les données"))
         ],
       ),
     );

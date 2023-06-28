@@ -8,7 +8,7 @@ class CardName {
   CardName(this.name, this.plaqueType, this.difficulty);
 }
 
-List<CardName> cardNameList = [
+List<CardName> cardNameListPlaque = [
   CardName("Bus (sup à 6 pers)", plaqueTypeList.all, 3),
   CardName("Kta star", plaqueTypeList.all, 3),
   CardName("Copain", plaqueTypeList.all, 1),

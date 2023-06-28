@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/appSettings.dart';
 import 'navigation_bar.dart';
+import 'app.dart';
 
 void main() {
-  runApp(const Plaktago());
+  runApp(App());
 }
 
 class Plaktago extends StatefulWidget {
-  const Plaktago({Key? key});
+  AppSettings appSettings;
+  Plaktago({Key? key, required this.appSettings});
 
   @override
   State<Plaktago> createState() => _Plaktago();
 }
 
 class _Plaktago extends State<Plaktago> {
-  ThemeMode _themeMode = ThemeMode.light;
+  late ThemeMode _themeMode;
   final ColorScheme lightColor = ColorScheme(
       brightness: Brightness.light,
       primary: Color.fromRGBO(149, 169, 225, 1),
@@ -36,17 +39,29 @@ class _Plaktago extends State<Plaktago> {
       onError: Colors.red,
       background: Colors.grey[900]!,
       onBackground: Colors.white,
-      surface: Colors.black,
+      surface: Colors.grey[900]!,
       onSurface: Colors.white);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.appSettings.darkMode) {
+      _themeMode = ThemeMode.dark;
+    } else {
+      _themeMode = ThemeMode.light;
+    }
+  }
 
   void changeTheme() {
     setState(() {
+      widget.appSettings.darkMode = !widget.appSettings.darkMode;
       if (_themeMode == ThemeMode.light) {
         _themeMode = ThemeMode.dark;
       } else {
         _themeMode = ThemeMode.light;
       }
     });
+    widget.appSettings.saveAppSettings();
   }
 
   @override
@@ -123,6 +138,8 @@ class _Plaktago extends State<Plaktago> {
             }))),
             useMaterial3: true),
         themeMode: _themeMode,
-        home: NavigationBarApp(changeTheme: changeTheme, theme: _themeMode));
+        home: NavigationBarApp(changeTheme: changeTheme, appSettings: widget.appSettings
+            //theme: _themeMode
+            ));
   }
 }

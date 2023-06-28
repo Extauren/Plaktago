@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 enum Difficulty {
-  easy('Facile'),
-  medium('Moyen'),
-  difficult('Difficile');
+  easy('Facile', 1),
+  medium('Moyen', 2),
+  difficult('Difficile', 3);
 
-  const Difficulty(this.name);
+  const Difficulty(this.name, this.value);
   final String name;
+  final int value;
 }
 
 class DifficultyButton extends StatefulWidget {
@@ -42,9 +43,9 @@ class _DifficultyButtonState extends State<DifficultyButton> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Text("Difficultée :")),
+                  // Container(
+                  //     margin: EdgeInsets.only(bottom: 10),
+                  //     child: Text("Difficultée :")),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),

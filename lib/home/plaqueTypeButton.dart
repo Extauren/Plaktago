@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum PlaqueType {
+  //placeHolder('Type de plaque'),
   triangle('Triangle'),
   ronde('Ronde'),
   tortue('Tortue'),
@@ -46,9 +47,6 @@ class _PlaqueTypeButtonState extends State<PlaqueTypeButton> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Text("Type de plaque :")),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),

@@ -31,7 +31,7 @@ class _BingoTypeButton extends State<BingoTypeButton> {
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
             if (states.contains(MaterialState.selected)) {
-              return Theme.of(context).primaryColor;
+              return Theme.of(context).colorScheme.primary;
             }
             return Theme.of(context).colorScheme.surface;
           },

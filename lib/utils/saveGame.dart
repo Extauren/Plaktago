@@ -63,7 +63,6 @@ class SaveGame {
     try {
       final file = await _localFile;
       final contents = await file.readAsString();
-
       return contents;
     } catch (e) {
       return "";

@@ -38,34 +38,28 @@ class _RatDropdownButton extends State<RatDropdownButton> {
         alignment: Alignment.center,
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        child: Text("Type de soirée :")),
-                    Container(
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(3)),
-                      child: DropdownMenu<RatType>(
-                        initialSelection: RatType.salle,
-                        controller: colorController,
-                        dropdownMenuEntries: plaqueEntries,
-                        onSelected: (RatType? plaque) {
-                          setState(() {
-                            widget.type = plaque!;
-                            widget.update(widget.type);
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    child: DropdownMenu<RatType>(
+                      initialSelection: RatType.salle,
+                      controller: colorController,
+                      dropdownMenuEntries: plaqueEntries,
+                      onSelected: (RatType? plaque) {
+                        setState(() {
+                          widget.type = plaque!;
+                          widget.update(widget.type);
+                        });
+                      },
+                    ),
+                  )
+                ],
               ),
-            )
+            ),
           ],
         ),
       )),
