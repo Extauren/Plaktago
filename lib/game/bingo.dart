@@ -9,11 +9,9 @@ import 'package:plaktago/utils/bingoParams.dart';
 
 class Game extends StatefulWidget {
   final BingoParams bingoParams;
-  //final ThemeMode theme;
   const Game({
     Key? key,
     required this.bingoParams,
-    //required this.theme
   }) : super(key: key);
 
   @override
@@ -33,7 +31,6 @@ class _Game extends State<Game> {
     CardName card;
     List<CardName> cardList = <CardName>[];
     bingoCard.clear();
-    //cardList.addAll(cardNameList);
     cardList = cardNameListPlaque
         .where((element) =>
             element.difficulty <= widget.bingoParams.difficulty.value)
@@ -131,7 +128,6 @@ class _Game extends State<Game> {
                   child: Board(
                     gameType: widget.bingoParams.bingoType.name,
                     changePoints: changePoints,
-                    //theme: widget.theme,
                     bingoCard: bingoCard,
                     nbLines: nbLines,
                     refreshBoard: refreshBoard,

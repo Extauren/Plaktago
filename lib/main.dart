@@ -138,8 +138,6 @@ class _Plaktago extends State<Plaktago> {
             }))),
             useMaterial3: true),
         themeMode: _themeMode,
-        home: NavigationBarApp(changeTheme: changeTheme, appSettings: widget.appSettings
-            //theme: _themeMode
-            ));
+        home: NavigationBarApp(changeTheme: changeTheme, appSettings: widget.appSettings));
   }
 }

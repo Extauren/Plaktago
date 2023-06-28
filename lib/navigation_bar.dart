@@ -3,7 +3,6 @@ import 'package:plaktago/utils/appSettings.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
 import 'settings.dart';
-import 'utils/saveGame.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;

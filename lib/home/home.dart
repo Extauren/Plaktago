@@ -39,7 +39,6 @@ class _Home extends State<Home> {
         MaterialPageRoute(
             builder: (context) => Game(
                   bingoParams: bingoParams,
-                  //theme: widget.theme
                 ))).then((value) {
       resetHome();
     });
