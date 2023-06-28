@@ -5,7 +5,7 @@ import '../utils/saveGame.dart';
 import 'package:plaktago/game/board/cardName.dart';
 import 'board/bingoCard.dart';
 import 'dart:math';
-import 'package:plaktago/home/bingoParams.dart';
+import 'package:plaktago/utils/bingoParams.dart';
 
 class Game extends StatefulWidget {
   final BingoParams bingoParams;
@@ -26,11 +26,6 @@ class _Game extends State<Game> {
   @override
   void initState() {
     super.initState();
-    print(widget.bingoParams.bingoType);
-    print(widget.bingoParams.difficulty);
-    print(widget.bingoParams.mode);
-    print(widget.bingoParams.plaque);
-    print(widget.bingoParams.ratType);
     CardName card;
     List<CardName> cardList = <CardName>[];
     bingoCard.clear();
@@ -62,7 +57,8 @@ class _Game extends State<Game> {
 
   void _saveGame() {
     SaveGame saveGame = SaveGame();
-    saveGame.writeGame(bingoCard, points, "test", timer.getTime());
+    print(widget.bingoParams.difficulty);
+    saveGame.writeGame(bingoCard, points, widget.bingoParams, timer.getTime());
     Navigator.pop(context);
   }
 
@@ -106,10 +102,7 @@ class _Game extends State<Game> {
                   maxHeight: 130,
                 ),
                 child: timer),
-            Container(
-                //margin: const EdgeInsets.only(left: 60, top: 15),
-                child: Row(
-              //mainAxisAlignment: MainAxisAlignment.center,
+            Row(
               children: [
                 Text("Points : ",
                     style:
@@ -122,9 +115,7 @@ class _Game extends State<Game> {
                           TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                     ))
               ],
-            ))
-            //],
-            //),
+            )
           ]),
           Center(
               child: ConstrainedBox(

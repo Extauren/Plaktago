@@ -5,15 +5,14 @@ import 'package:plaktago/game/board/bingoCard.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:plaktago/utils/bingoParams.dart';
 
 class SaveGame {
-  //final List<BingoCard> bingoCardList;
-  //final int points;
-
-  //const SaveGame(this.bingoCardList, this.points);
-
-  Future<Map<String, dynamic>> getJson(final List<BingoCard> bingoCardList,
-      final int points, final String gameType, final String time) async {
+  Future<Map<String, dynamic>> getJson(
+      final List<BingoCard> bingoCardList,
+      final int points,
+      final BingoParams bingoParams,
+      final String time) async {
     List<Map<String, dynamic>> jsonList = [];
     Map<String, dynamic> oldJson = {};
     Map<String, dynamic> newJson = {};
@@ -37,7 +36,7 @@ class SaveGame {
     newJson = {
       "gameNumber": general["nbGames"],
       "points": points,
-      "gameType": gameType,
+      "gameType": bingoParams.bingoType.name,
       "date": DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
       "hour": DateFormat("HH:mm").format(DateTime.now()),
       "time": time,
@@ -80,11 +79,12 @@ class SaveGame {
   }
 
   Future<File> writeGame(final List<BingoCard> bingoCardList, final int points,
-      final String gameType, final String time) async {
+      final BingoParams bingoParams, final String time) async {
     final file = await _localFile;
-    final Map<String, dynamic> jsont =
-        await getJson(bingoCardList, points, gameType, time);
+    print(bingoParams.difficulty);
+    final Map<String, dynamic> newJson =
+        await getJson(bingoCardList, points, bingoParams, time);
 
-    return file.writeAsString(json.encode(jsont));
+    return file.writeAsString(json.encode(newJson));
   }
 }

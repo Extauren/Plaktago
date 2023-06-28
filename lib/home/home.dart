@@ -8,7 +8,7 @@ import 'drawer.dart';
 import 'bingoTypeButton.dart';
 import 'modeButton.dart';
 import 'launchGame.dart';
-import 'bingoParams.dart';
+import '../utils/bingoParams.dart';
 
 class Home extends StatefulWidget {
   final Function changeTheme;
@@ -30,7 +30,7 @@ class _Home extends State<Home> {
 
   void resetHome() {
     setState(() {
-      bingoParams.resetParams();
+      bingoParams = BingoParams.newBingoParams();
     });
   }
 

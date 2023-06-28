@@ -36,5 +36,10 @@ class BingoParams {
     plaque = PlaqueType.triangle;
     ratType = RatType.salle;
     mode = Mode.random;
+    difficulty = Difficulty.easy;
+  }
+
+  static BingoParams newBingoParams() {
+    return BingoParams();
   }
 }
