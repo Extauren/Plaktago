@@ -5,11 +5,12 @@ import '../utils/saveGame.dart';
 import 'package:plaktago/game/board/cardName.dart';
 import 'board/bingoCard.dart';
 import 'dart:math';
+import 'package:plaktago/home/bingoParams.dart';
 
 class Game extends StatefulWidget {
-  final String gameType;
+  final BingoParams bingoParams;
   final ThemeMode theme;
-  const Game({Key? key, required this.gameType, required this.theme})
+  const Game({Key? key, required this.bingoParams, required this.theme})
       : super(key: key);
 
   @override
@@ -25,7 +26,11 @@ class _Game extends State<Game> {
   @override
   void initState() {
     super.initState();
-    points = 0;
+    print(widget.bingoParams.bingoType);
+    print(widget.bingoParams.difficulty);
+    print(widget.bingoParams.mode);
+    print(widget.bingoParams.plaque);
+    print(widget.bingoParams.ratType);
     CardName card;
     List<CardName> cardList = <CardName>[];
     bingoCard.clear();
@@ -57,7 +62,7 @@ class _Game extends State<Game> {
 
   void _saveGame() {
     SaveGame saveGame = SaveGame();
-    saveGame.writeGame(bingoCard, points, widget.gameType, timer.getTime());
+    saveGame.writeGame(bingoCard, points, "test", timer.getTime());
     Navigator.pop(context);
   }
 
@@ -82,7 +87,7 @@ class _Game extends State<Game> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Bingo ${widget.gameType}',
+            'Bingo ${widget.bingoParams.bingoType.name}',
           ),
           actions: <Widget>[
             IconButton(
@@ -126,7 +131,7 @@ class _Game extends State<Game> {
                   constraints:
                       const BoxConstraints(maxHeight: 500, maxWidth: 800),
                   child: Board(
-                    gameType: widget.gameType,
+                    gameType: widget.bingoParams.bingoType.name,
                     changePoints: changePoints,
                     resetPoint: resetPoints,
                     theme: widget.theme,

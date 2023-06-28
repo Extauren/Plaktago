@@ -9,18 +9,20 @@ enum BingoType {
 }
 
 class BingoTypeButton extends StatefulWidget {
-  BingoType bingoTypeView;
+  BingoType bingoType;
   final Function updateBingoType;
+  final Function updateParentState;
   BingoTypeButton(
-      {super.key, required this.bingoTypeView, required this.updateBingoType});
+      {super.key,
+      required this.bingoType,
+      required this.updateBingoType,
+      required this.updateParentState});
 
   @override
   State<BingoTypeButton> createState() => _BingoTypeButton();
 }
 
 class _BingoTypeButton extends State<BingoTypeButton> {
-  //BingoType bingoTypeView = BingoType.plaque;
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -31,11 +33,9 @@ class _BingoTypeButton extends State<BingoTypeButton> {
             if (states.contains(MaterialState.selected)) {
               return Theme.of(context).primaryColor;
             }
-            return Colors.white;
+            return Theme.of(context).colorScheme.surface;
           },
         ),
-        // surfaceTintColor:
-        //     MaterialStateProperty.all(Theme.of(context).primaryColor),
       ),
       segments: <ButtonSegment<BingoType>>[
         ButtonSegment<BingoType>(
@@ -47,14 +47,12 @@ class _BingoTypeButton extends State<BingoTypeButton> {
             label: Text(BingoType.sousterrain.name),
             icon: Icon(Icons.adjust_rounded))
       ],
-      selected: <BingoType>{widget.bingoTypeView},
+      selected: <BingoType>{widget.bingoType},
       onSelectionChanged: (Set<BingoType> newSelection) {
         setState(() {
-          // By default there is only a single segment that can be
-          // selected at one time, so its value is always the first
-          // item in the selected set.
-          widget.bingoTypeView = newSelection.first;
-          widget.updateBingoType(newSelection.first);
+          widget.bingoType = newSelection.first;
+          widget.updateBingoType(widget.bingoType);
+          widget.updateParentState();
         });
       },
     ));

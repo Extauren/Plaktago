@@ -24,7 +24,7 @@ class _Plaktago extends State<Plaktago> {
       onError: Colors.red,
       background: Colors.grey[100]!,
       onBackground: Colors.black,
-      surface: Colors.black,
+      surface: Colors.white,
       onSurface: Colors.black);
   final ColorScheme darkColor = ColorScheme(
       brightness: Brightness.dark,
@@ -36,7 +36,7 @@ class _Plaktago extends State<Plaktago> {
       onError: Colors.red,
       background: Colors.grey[900]!,
       onBackground: Colors.white,
-      surface: Colors.white,
+      surface: Colors.black,
       onSurface: Colors.white);
 
   void changeTheme() {
@@ -67,6 +67,10 @@ class _Plaktago extends State<Plaktago> {
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                     color: Colors.black)),
+            // menuButtonTheme: MenuButtonThemeData(
+            //     style: ButtonStyle(
+            //   surfaceTintColor: MaterialStateProperty.all(Colors.red),
+            // )),
             textTheme: TextTheme(
                 titleLarge: TextStyle(
               fontWeight: FontWeight.bold,
@@ -104,12 +108,11 @@ class _Plaktago extends State<Plaktago> {
                 backgroundColor: Colors.grey[800],
                 unselectedItemColor: Colors.white,
                 selectedItemColor: darkColor.primary),
-              textTheme: TextTheme(
+            textTheme: TextTheme(
                 titleLarge: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 26,
-            )
-              ),
+            )),
             dropdownMenuTheme: DropdownMenuThemeData(menuStyle:
                 MenuStyle(backgroundColor: MaterialStateProperty.resolveWith((states) {
               return Colors.grey[800];

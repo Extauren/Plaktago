@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/game/plaqueTypeButton.dart';
-import 'package:plaktago/game/ratDropdownButton.dart';
+import 'package:plaktago/home/plaqueTypeButton.dart';
+import 'package:plaktago/home/ratDropdownButton.dart';
 import 'package:plaktago/utils/saveGame.dart';
-import '../game/difficultyButton.dart';
+import 'difficultyButton.dart';
 import '../game/bingo.dart';
 import 'drawer.dart';
 import 'bingoTypeButton.dart';
-import 'package:flutter/gestures.dart';
 import 'modeButton.dart';
+import 'launchGame.dart';
+import 'bingoParams.dart';
 
 class Home extends StatefulWidget {
   final Function changeTheme;
@@ -21,23 +22,16 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   final saveGame = SaveGame();
-  PlaqueType? selectePlaque = PlaqueType.triangle;
-  RatType? ratType = RatType.salle;
-  BingoType bingoTypeView = BingoType.plaque;
-  Mode modeView = Mode.random;
+  BingoParams bingoParams = BingoParams();
+
+  void updateState() {
+    setState(() {});
+  }
 
   void resetHome() {
     setState(() {
-      bingoTypeView = BingoType.plaque;
-      selectePlaque = PlaqueType.triangle;
-      ratType = RatType.salle;
+      bingoParams.resetParams();
     });
-  }
-
-  void updateBingoType(final BingoType newValue) {
-    // setState(() {
-    //   bingoTypeView = newValue;
-    // });
   }
 
   void launchGame() {
@@ -45,17 +39,10 @@ class _Home extends State<Home> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    Game(gameType: bingoTypeView.name, theme: widget.theme)))
+                    Game(bingoParams: bingoParams, theme: widget.theme)))
         .then((value) {
       resetHome();
     });
-  }
-
-  Color _getTextColor() {
-    if (widget.theme == ThemeMode.dark) {
-      return Colors.white;
-    }
-    return Colors.black;
   }
 
   void btek() {
@@ -93,80 +80,50 @@ class _Home extends State<Home> {
                   textAlign: TextAlign.center)),
           Container(
               height: 80,
+              width: 100,
               margin: EdgeInsets.only(top: 20),
               child: BingoTypeButton(
-                  bingoTypeView: bingoTypeView,
-                  updateBingoType: updateBingoType)),
+                  bingoType: bingoParams.bingoType,
+                  updateBingoType: bingoParams.updateBingoType,
+                  updateParentState: updateState)),
           Container(
               margin: EdgeInsets.only(bottom: 20),
               height: 80,
               child: ModeButton(
-                modeView: modeView,
-              )),
+                  mode: bingoParams.mode,
+                  updateBingoMode: bingoParams.updateMode,
+                  updateParentState: updateState)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (bingoTypeView == BingoType.plaque)
+            if (bingoParams.bingoType == BingoType.plaque)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
                     maxHeight: 160,
                   ),
                   child: PlaqueTypeButton(
-                    selectecPlaque: selectePlaque!,
+                    selectecPlaque: bingoParams.plaque,
+                    updatePlaque: bingoParams.updatePlaque,
                   )),
-            if (bingoTypeView == BingoType.sousterrain)
+            if (bingoParams.bingoType == BingoType.sousterrain)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
                     maxHeight: 160,
                   ),
-                  child: RatDropdownButton(type: ratType!)),
+                  child: RatDropdownButton(
+                      type: bingoParams.ratType,
+                      update: bingoParams.updateRat)),
             ConstrainedBox(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width / 2,
                   maxHeight: 160,
                 ),
-                child: DifficultyButton()),
+                child: DifficultyButton(
+                    difficulty: bingoParams.difficulty,
+                    update: bingoParams.updateDifficulty)),
           ]),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 150),
-              child: ExtraLongDetector(
-                  duration: Duration(seconds: 10),
-                  onLongPress: btek,
-                  child: ElevatedButton(
-                    onPressed: launchGame,
-                    child: Text(
-                      'Jouer',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ))),
+          LaunchGame(launchGame: launchGame, btek: btek),
           TextButton(onPressed: saveGame.resetFile, child: Text("Reset file"))
         ]));
-  }
-}
-
-class ExtraLongDetector extends StatelessWidget {
-  final Widget? child;
-  final Duration duration;
-  final VoidCallback onLongPress;
-
-  const ExtraLongDetector({
-    super.key,
-    this.child,
-    required this.duration,
-    required this.onLongPress,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return RawGestureDetector(
-      gestures: <Type, GestureRecognizerFactory>{
-        LongPressGestureRecognizer:
-            GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
-          () => LongPressGestureRecognizer(duration: duration),
-          (instance) => instance.onLongPress = onLongPress,
-        ),
-      },
-      child: child,
-    );
   }
 }

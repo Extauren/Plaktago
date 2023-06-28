@@ -10,8 +10,9 @@ enum RatType {
 
 class RatDropdownButton extends StatefulWidget {
   RatType type;
-
-  RatDropdownButton({Key? key, required this.type}) : super(key: key);
+  final Function update;
+  RatDropdownButton({Key? key, required this.type, required this.update})
+      : super(key: key);
 
   @override
   State<RatDropdownButton> createState() => _RatDropdownButton();
@@ -56,6 +57,7 @@ class _RatDropdownButton extends State<RatDropdownButton> {
                         onSelected: (RatType? plaque) {
                           setState(() {
                             widget.type = plaque!;
+                            widget.update(widget.type);
                           });
                         },
                       ),

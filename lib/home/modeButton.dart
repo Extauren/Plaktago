@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 enum Mode { random, personalize }
 
 class ModeButton extends StatefulWidget {
-  Mode modeView;
-  ModeButton({super.key, required this.modeView});
+  Mode mode;
+  final Function updateBingoMode;
+  final Function updateParentState;
+  ModeButton(
+      {super.key,
+      required this.mode,
+      required this.updateBingoMode,
+      required this.updateParentState});
 
   @override
   State<ModeButton> createState() => _ModeButton();
@@ -25,13 +31,12 @@ class _ModeButton extends State<ModeButton> {
             label: Text('Personalisé'),
             icon: Icon(Icons.settings)),
       ],
-      selected: <Mode>{widget.modeView},
+      selected: <Mode>{widget.mode},
       onSelectionChanged: (Set<Mode> newSelection) {
         setState(() {
-          // By default there is only a single segment that can be
-          // selected at one time, so its value is always the first
-          // item in the selected set.
-          widget.modeView = newSelection.first;
+          widget.mode = newSelection.first;
+          widget.updateBingoMode(widget.mode);
+          widget.updateParentState();
         });
       },
     ));
