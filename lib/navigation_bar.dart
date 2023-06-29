@@ -6,8 +6,8 @@ import 'settings.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
-  AppSettings appSettings;
-  NavigationBarApp(
+  final AppSettings appSettings;
+  const NavigationBarApp(
       {Key? key, required this.changeTheme, required this.appSettings})
       : super(key: key);
 
@@ -20,7 +20,7 @@ class _NavigationBar extends State<NavigationBarApp> {
   List<Widget> _widgetOptions() => [
         Home(changeTheme: widget.changeTheme, appSettings: widget.appSettings),
         Statistic(),
-        Settings(changeTheme: widget.changeTheme),
+        Settings(),
       ];
 
   void _onItemTapped(int index) {

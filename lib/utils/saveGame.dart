@@ -5,6 +5,7 @@ import 'package:plaktago/game/board/bingoCard.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:plaktago/home/bingoTypeButton.dart';
 import 'package:plaktago/utils/bingoParams.dart';
 
 class SaveGame {
@@ -22,7 +23,7 @@ class SaveGame {
       oldJson = jsonDecode(data);
     } catch (e) {
       oldJson = {
-        "general": {"nbGames": 0},
+        "general": {"nbGames": 0, "BingoPlaque": 0, "BingoRat": 0},
         "games": []
       };
     }
@@ -33,6 +34,12 @@ class SaveGame {
     //print(DateFormat("dd MMMM yyyy", 'fr').format((DateTime.now())));
     Map<String, dynamic> general = oldJson["general"];
     general["nbGames"] += 1;
+    if (bingoParams.bingoType == BingoType.plaque) {
+      general["BingoPlaque"] += 1;
+    }
+    if (bingoParams.bingoType == BingoType.sousterrain) {
+      general["BingoRat"] += 1;
+    }
     newJson = {
       "gameNumber": general["nbGames"],
       "points": points,
@@ -72,7 +79,7 @@ class SaveGame {
   Future<void> resetFile() async {
     final file = await _localFile;
     file.writeAsString(json.encode({
-      "general": {"nbGames": 0},
+      "general": {"nbGames": 0, "BingoPlaque": 0, "BingoRat": 0},
       "games": []
     }));
   }

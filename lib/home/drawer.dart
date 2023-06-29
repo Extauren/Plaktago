@@ -4,8 +4,9 @@ import 'package:plaktago/utils/saveGame.dart';
 
 class DrawerApp extends StatefulWidget {
   final Function changeTheme;
-  AppSettings appSettings;
-  DrawerApp({Key? key, required this.changeTheme, required this.appSettings});
+  final AppSettings appSettings;
+  const DrawerApp(
+      {Key? key, required this.changeTheme, required this.appSettings});
 
   @override
   State<DrawerApp> createState() => _Drawer();
@@ -32,7 +33,8 @@ class _Drawer extends State<DrawerApp> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
-            child: Text('Settings'),
+            child: Text('Settings',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(

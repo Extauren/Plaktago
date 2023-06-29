@@ -5,7 +5,7 @@ import 'checkBoard.dart';
 class Board extends StatefulWidget {
   final String gameType;
   final Function changePoints;
-  List<BingoCard> bingoCard;
+  final List<BingoCard> bingoCard;
   final int nbLines;
   final VoidCallback refreshBoard;
 

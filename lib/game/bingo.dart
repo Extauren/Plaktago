@@ -35,10 +35,6 @@ class _Game extends State<Game> {
         .where((element) =>
             element.difficulty <= widget.bingoParams.difficulty.value)
         .toList();
-    for (int it = 0; it < 15; it++) {
-      print(cardList[it].difficulty);
-    }
-    super.initState();
     for (int it = 0; it < nbLines * nbLines; it++) {
       card = cardList.elementAt(Random().nextInt(cardList.length));
       cardList.remove(card);

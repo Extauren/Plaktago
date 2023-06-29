@@ -12,8 +12,8 @@ import '../utils/bingoParams.dart';
 
 class Home extends StatefulWidget {
   final Function changeTheme;
-  AppSettings appSettings;
-  Home({Key? key, required this.changeTheme, required this.appSettings})
+  final AppSettings appSettings;
+  const Home({Key? key, required this.changeTheme, required this.appSettings})
       : super(key: key);
 
   @override

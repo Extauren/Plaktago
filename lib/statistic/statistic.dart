@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
+import 'general.dart';
 
 class Statistic extends StatefulWidget {
   const Statistic({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class Statistic extends StatefulWidget {
 
 class _Statistic extends State<Statistic> {
   var _bingoGames = [];
-  static Map<String, dynamic> _general = {};
+  Map<String, dynamic> _general = {};
 
   @override
   void initState() {
@@ -51,6 +52,11 @@ class _Statistic extends State<Statistic> {
     });
   }
 
+  Future<Map<String, dynamic>> getGeneralStatistics() async {
+    final data = jsonDecode(await readGames());
+    return data["general"];
+  }
+
   Color getCardColor(final String gameType) {
     if (gameType == "Plaque") return Theme.of(context).colorScheme.primary;
     return Theme.of(context).colorScheme.secondary;
@@ -58,17 +64,18 @@ class _Statistic extends State<Statistic> {
 
   @override
   Widget build(BuildContext context) {
-    final String nbGames = _general["nbGames"].toString();
     return Scaffold(
         appBar: AppBar(title: Text("Statistiques")),
         body: Column(children: [
-          Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: Text("Nombre de partie joué : $nbGames")),
+          GeneralStatistic(
+            getGeneralStatistics: getGeneralStatistics,
+          ),
+          Text("Listes des parties",
+              style: Theme.of(context).textTheme.titleMedium),
           _bingoGames.isNotEmpty
               ? Container(
                   margin: EdgeInsets.symmetric(vertical: 20),
-                  height: 500,
+                  height: 430,
                   child: ListView.builder(
                     itemCount: _bingoGames.length,
                     itemBuilder: (context, index) {
@@ -83,7 +90,7 @@ class _Statistic extends State<Statistic> {
                       return GestureDetector(
                           onTap: () => {print("Click")},
                           child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              margin: EdgeInsets.symmetric(horizontal: 30),
                               height: 130,
                               child: Card(
                                   key: ValueKey(
