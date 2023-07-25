@@ -4,7 +4,8 @@ import 'timerButton.dart';
 
 class Timer extends StatefulWidget {
   String time;
-  Timer({Key? key, this.time = ""}) : super(key: key);
+  int timer;
+  Timer({Key? key, this.time = "", this.timer = 0}) : super(key: key);
 
   @override
   State<Timer> createState() => _Timer();
@@ -16,6 +17,7 @@ class Timer extends StatefulWidget {
 
 class _Timer extends State<Timer> {
   final _isHours = true;
+  int test = 0;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
@@ -26,6 +28,7 @@ class _Timer extends State<Timer> {
   @override
   void initState() {
     super.initState();
+    test = widget.timer;
     _stopWatchTimer.onStartTimer();
   }
 
@@ -38,53 +41,53 @@ class _Timer extends State<Timer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 40, right: 30),
+        //margin: const EdgeInsets.only(top: 40),
         child: Column(
+      children: <Widget>[
+        StreamBuilder<int>(
+          stream: _stopWatchTimer.rawTime,
+          initialData: _stopWatchTimer.rawTime.value,
+          builder: (context, snap) {
+            final value = snap.data! + test;
+            widget.timer = value;
+            widget.time = StopWatchTimer.getDisplayTime(value,
+                hours: _isHours, milliSecond: false);
+            return Text(
+              widget.time,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            );
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            StreamBuilder<int>(
-              stream: _stopWatchTimer.rawTime,
-              initialData: _stopWatchTimer.rawTime.value,
-              builder: (context, snap) {
-                final value = snap.data!;
-                widget.time = StopWatchTimer.getDisplayTime(value,
-                    hours: _isHours, milliSecond: false);
-                return Text(
-                  widget.time,
-                  style: const TextStyle(
-                      fontSize: 28, fontWeight: FontWeight.bold),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: RoundedButton(
+                icon: Icons.play_arrow,
+                color: Theme.of(context).colorScheme.primary,
+                onTap: _stopWatchTimer.onStartTimer,
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: RoundedButton(
-                    icon: Icons.play_arrow,
-                    color: Theme.of(context).colorScheme.primary,
-                    onTap: _stopWatchTimer.onStartTimer,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: RoundedButton(
-                    icon: Icons.stop,
-                    color: Theme.of(context).colorScheme.primary,
-                    onTap: _stopWatchTimer.onStopTimer,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: RoundedButton(
-                    icon: Icons.restart_alt,
-                    color: Theme.of(context).colorScheme.primary,
-                    onTap: _stopWatchTimer.onResetTimer,
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: RoundedButton(
+                icon: Icons.stop,
+                color: Theme.of(context).colorScheme.primary,
+                onTap: _stopWatchTimer.onStopTimer,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: RoundedButton(
+                icon: Icons.restart_alt,
+                color: Theme.of(context).colorScheme.primary,
+                onTap: _stopWatchTimer.onResetTimer,
+              ),
             ),
           ],
-        ));
+        ),
+      ],
+    ));
   }
 }

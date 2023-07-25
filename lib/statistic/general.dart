@@ -16,7 +16,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     "Partie total",
     "Bingo Plaque",
     "Bingo Rat",
-    "test",
+    "Bingo gagnés",
     "test",
     "test"
   ];
@@ -30,8 +30,9 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   void getStatistics() async {
     data = await widget.getGeneralStatistics();
     values[0] = data["nbGames"].toString();
-    values[1] = data["BingoPlaque"].toString();
-    values[2] = data["BingoRat"].toString();
+    values[1] = data["bingoPlaque"].toString();
+    values[2] = data["bingoRat"].toString();
+    values[3] = data["bingoWin"].toString();
     setState(() {});
   }
 

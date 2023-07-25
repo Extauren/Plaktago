@@ -17,7 +17,7 @@ class BingoCard {
   factory BingoCard.fromMap(Map<String, dynamic> map) => BingoCard(
         name: map['name'] as String,
         isSelect: map['isSelect'] as bool,
-        nbLineComplete: map['nbLinesComplete'] as int,
+        nbLineComplete: map['nbLineComplete'] as int,
       );
 
   String toJson() => json.encode(toMap());

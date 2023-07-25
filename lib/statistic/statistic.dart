@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'general.dart';
+import "gameStats.dart";
 
 class Statistic extends StatefulWidget {
   const Statistic({Key? key}) : super(key: key);
@@ -62,6 +63,15 @@ class _Statistic extends State<Statistic> {
     return Theme.of(context).colorScheme.secondary;
   }
 
+  void goToGameStats(final int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => GameStats(
+                  bingoStat: _bingoGames[index],
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +98,7 @@ class _Statistic extends State<Statistic> {
                       final String gameNumber =
                           _bingoGames[index]["gameNumber"].toString();
                       return GestureDetector(
-                          onTap: () => {print("Click")},
+                          onTap: () => goToGameStats(index),
                           child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 30),
                               height: 130,

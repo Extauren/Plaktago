@@ -45,10 +45,10 @@ class _NavigationBar extends State<NavigationBarApp> {
             icon: Icon(Icons.graphic_eq),
             label: 'Statistics',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.menu_book),
+          //   label: 'Aide',
+          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

@@ -17,17 +17,21 @@ class SaveGame {
     List<Map<String, dynamic>> jsonList = [];
     Map<String, dynamic> oldJson = {};
     Map<String, dynamic> newJson = {};
-
     try {
       final data = await readGames();
       oldJson = jsonDecode(data);
     } catch (e) {
       oldJson = {
-        "general": {"nbGames": 0, "BingoPlaque": 0, "BingoRat": 0},
+        "general": {
+          "nbGames": 0,
+          "bingoPlaque": 0,
+          "bingoRat": 0,
+          "bingoWin": 0
+        },
         "games": []
       };
     }
-    for (int it = 0; it < 12; it++) {
+    for (int it = 0; it < bingoCardList.length; it++) {
       jsonList.add(bingoCardList.elementAt(it).toMap());
     }
     initializeDateFormatting();
@@ -35,10 +39,13 @@ class SaveGame {
     Map<String, dynamic> general = oldJson["general"];
     general["nbGames"] += 1;
     if (bingoParams.bingoType == BingoType.plaque) {
-      general["BingoPlaque"] += 1;
+      general["bingoPlaque"] += 1;
     }
     if (bingoParams.bingoType == BingoType.sousterrain) {
-      general["BingoRat"] += 1;
+      general["bingoRat"] += 1;
+    }
+    if (points == 16) {
+      general["bingoWin"] += 1;
     }
     newJson = {
       "gameNumber": general["nbGames"],
@@ -79,7 +86,7 @@ class SaveGame {
   Future<void> resetFile() async {
     final file = await _localFile;
     file.writeAsString(json.encode({
-      "general": {"nbGames": 0, "BingoPlaque": 0, "BingoRat": 0},
+      "general": {"nbGames": 0, "bingoPlaque": 0, "bingoRat": 0, "bingoWin": 0},
       "games": []
     }));
   }
@@ -87,7 +94,6 @@ class SaveGame {
   Future<File> writeGame(final List<BingoCard> bingoCardList, final int points,
       final BingoParams bingoParams, final String time) async {
     final file = await _localFile;
-    print(bingoParams.difficulty);
     final Map<String, dynamic> newJson =
         await getJson(bingoCardList, points, bingoParams, time);
 

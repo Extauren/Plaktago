@@ -1,41 +1,162 @@
-enum plaqueTypeList { triangle, ronde, tortue, soleil, carrer, all }
+import '../../home/bingoTypeButton.dart';
+
+enum plaqueTypeList { triangle, ronde, tortue, soleil, carrer, all, none }
 
 class CardName {
   String name;
   plaqueTypeList plaqueType;
+  List<BingoType> type;
   int difficulty;
 
-  CardName(this.name, this.plaqueType, this.difficulty);
+  CardName(
+      {required this.name,
+      this.plaqueType = plaqueTypeList.none,
+      required this.type,
+      required this.difficulty});
 }
 
 List<CardName> cardNameListPlaque = [
-  CardName("Bus (sup à 6 pers)", plaqueTypeList.all, 3),
-  CardName("Kta star", plaqueTypeList.all, 3),
-  CardName("Copain", plaqueTypeList.all, 1),
-  CardName("Lampe allumée", plaqueTypeList.all, 1),
-  CardName("Touristes (> 50 % du groupe / +2 ristou que de ktaphile)",
-      plaqueTypeList.all, 1),
-  CardName("Regarde mais s'arrête pas", plaqueTypeList.all, 1),
-  CardName("Police", plaqueTypeList.all, 3),
-  CardName("Fermeture de plaque hasardeuse", plaqueTypeList.all, 1),
-  CardName("Dégonde la plaque", plaqueTypeList.triangle, 2),
-  CardName("Claque le plaque", plaqueTypeList.all, 1),
-  CardName("Solitaire", plaqueTypeList.all, 1),
-  CardName("Arrive pas à ouvrir", plaqueTypeList.all, 2),
-  CardName("Galère à cause du sac", plaqueTypeList.all, 1),
-  CardName("Reste à côté de la plaque", plaqueTypeList.all, 1),
-  CardName("Fil d'attente", plaqueTypeList.all, 1),
-  CardName("Tir sur la mauvaise plaque", plaqueTypeList.all, 1),
-  CardName("Random qui s'arrête regarder", plaqueTypeList.all, 1),
-  CardName("Fifi tier", plaqueTypeList.all, 3),
-  CardName("Tir plaque original", plaqueTypeList.all, 1),
-  CardName("Couple / Duo", plaqueTypeList.all, 1),
-  CardName("Attent un pote", plaqueTypeList.all, 1),
-  CardName("Laisse la plaque ouverte", plaqueTypeList.all, 3),
-  CardName("Plaque ouverte +1min / pers", plaqueTypeList.all, 1),
-  CardName("Trop propre", plaqueTypeList.all, 1),
-  CardName("Discute à coté (d'autre joueur)", plaqueTypeList.all, 1),
-  CardName("Discute plaque ouverte", plaqueTypeList.all, 2),
-  CardName("Fusion de groupe", plaqueTypeList.all, 2),
-  CardName("Tous dans le même tenue", plaqueTypeList.all, 2),
+  CardName(
+      name: "Bus (sup à 6 pers)",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 3),
+  CardName(
+      name: "Kta star",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 3),
+  CardName(
+      name: "Copain",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Lampe allumée",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Touristes (> 50 % du groupe / +2 ristou que de ktaphile)",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Regarde mais s'arrête pas",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Police",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 3),
+  CardName(
+      name: "Fermeture de plaque hasardeuse",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Dégonde la plaque",
+      plaqueType: plaqueTypeList.triangle,
+      type: [BingoType.plaque],
+      difficulty: 2),
+  CardName(
+      name: "Claque la plaque",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Solitaire",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Arrive pas à ouvrir",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 2),
+  CardName(
+      name: "Galère à cause du sac",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Reste à côté de la plaque",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Fil d'attente",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Tir sur la mauvaise plaque",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Random qui s'arrête regarder",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Fifi tier",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 3),
+  CardName(
+      name: "Tir plaque original",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Couple / Duo",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Attent un pote",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Laisse la plaque ouverte",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 3),
+  CardName(
+      name: "Plaque ouverte +1min / pers",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Trop propre",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 1),
+  CardName(
+      name: "Discute à coté (d'autre joueur)",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 1),
+  CardName(
+      name: "Discute plaque ouverte",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque],
+      difficulty: 2),
+  CardName(
+      name: "Fusion de groupe",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 2),
+  CardName(
+      name: "Tous dans le même tenue",
+      plaqueType: plaqueTypeList.all,
+      type: [BingoType.plaque, BingoType.sousterrain],
+      difficulty: 2),
+  CardName(name: "Fumi", type: [BingoType.sousterrain], difficulty: 1),
+  CardName(name: "Chantier", type: [BingoType.sousterrain], difficulty: 2),
+  CardName(name: "Traquenar", type: [BingoType.sousterrain], difficulty: 1)
 ];

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:plaktago/home/modeButton.dart';
 
 class LaunchGame extends StatefulWidget {
   final VoidCallback launchGame;
   final VoidCallback btek;
-  const LaunchGame({Key? key, required this.launchGame, required this.btek})
+  final int nbCards;
+  final Mode mode;
+  const LaunchGame(
+      {Key? key,
+      required this.launchGame,
+      required this.btek,
+      required this.nbCards,
+      required this.mode})
       : super(key: key);
 
   @override
@@ -12,6 +20,13 @@ class LaunchGame extends StatefulWidget {
 }
 
 class _LaunchGame extends State<LaunchGame> {
+  MaterialStateProperty<Color> getButtonColor() {
+    if (widget.nbCards < 16 && widget.mode == Mode.personalize) {
+      return MaterialStateProperty.all(Colors.grey);
+    }
+    return MaterialStateProperty.all(Theme.of(context).colorScheme.primary);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,6 +36,7 @@ class _LaunchGame extends State<LaunchGame> {
             onLongPress: widget.btek,
             child: ElevatedButton(
               onPressed: widget.launchGame,
+              style: ButtonStyle(backgroundColor: getButtonColor()),
               child: Text(
                 'Jouer',
                 style: TextStyle(color: Colors.black),
