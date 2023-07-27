@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/home/plaqueTypeButton.dart';
 import 'package:plaktago/home/ratDropdownButton.dart';
 import 'package:plaktago/utils/appSettings.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
+//import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'difficultyButton.dart';
 import '../game/bingo.dart';
 import 'drawer.dart';
@@ -14,9 +14,16 @@ import 'personalize.dart';
 import 'package:plaktago/game/timer/timer.dart';
 
 class Home extends StatefulWidget {
+  BingoParams bingoParams;
   final Function changeTheme;
   final AppSettings appSettings;
-  const Home({Key? key, required this.changeTheme, required this.appSettings})
+  bool isPlaying;
+  Home(
+      {Key? key,
+      required this.changeTheme,
+      required this.appSettings,
+      required this.bingoParams,
+      required this.isPlaying})
       : super(key: key);
 
   @override
@@ -24,24 +31,19 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  BingoParams bingoParams = BingoParams();
+  //BingoParams widget.bingoParams = widget.bingoParams();
+  final Key testKey = PageStorageKey('test');
   List<PersonalizeCard> personalizeCard = <PersonalizeCard>[];
   int nbCards = 0;
-  bool isPlaying = false;
-  final StopWatchTimer stopWatchTimer = StopWatchTimer(
-    mode: StopWatchMode.countUp,
-    onStopped: () {},
-    onEnded: () {},
-  );
+  //bool isPlaying = false;
+  // final StopWatchTimer stopWatchTimer = StopWatchTimer(
+  //   mode: StopWatchMode.countUp,
+  //   onStopped: () {},
+  //   onEnded: () {},
+  // );
   late Timer timer = Timer(
     timer: 0,
   );
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer();
-  // }
 
   void updateState() {
     setState(() {});
@@ -49,15 +51,15 @@ class _Home extends State<Home> {
 
   void resetHome() {
     setState(() {
-      bingoParams = BingoParams.newBingoParams();
+      widget.bingoParams = BingoParams.newBingoParams();
       personalizeCard = [];
       nbCards = 0;
     });
   }
 
   void changeIsPlaying(bool newValue) {
-    if (isPlaying != newValue) {
-      isPlaying = newValue;
+    if (widget.isPlaying != newValue) {
+      widget.isPlaying = newValue;
     }
   }
 
@@ -71,7 +73,7 @@ class _Home extends State<Home> {
     final int nbCardNeed = 16 - nbCards;
     timer = Timer(timer: 0);
 
-    if (nbCards < 16 && bingoParams.mode == Mode.personalize) {
+    if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -86,7 +88,7 @@ class _Home extends State<Home> {
           context,
           MaterialPageRoute(
               builder: (context) => Game(
-                  bingoParams: bingoParams,
+                  bingoParams: widget.bingoParams,
                   personalizeCards: personalizeCard,
                   changeIsPlaying: changeIsPlaying,
                   timer: timer,
@@ -103,7 +105,7 @@ class _Home extends State<Home> {
         context,
         MaterialPageRoute(
             builder: (context) => Game(
-                bingoParams: bingoParams,
+                bingoParams: widget.bingoParams,
                 personalizeCards: personalizeCard,
                 changeIsPlaying: changeIsPlaying,
                 timer: timer,
@@ -137,8 +139,9 @@ class _Home extends State<Home> {
             ],
           ),
           actions: <Widget>[
-            if (isPlaying == true)
+            if (widget.isPlaying == true)
               IconButton(
+                //key: PageStorageKey(isPlaying),
                 icon: Icon(
                   Icons.play_circle_fill_outlined,
                 ),
@@ -157,17 +160,18 @@ class _Home extends State<Home> {
           Container(
               margin: EdgeInsets.only(top: 50),
               child: BingoTypeButton(
-                  bingoType: bingoParams.bingoType,
-                  updateBingoType: bingoParams.updateBingoType,
+                  key: testKey,
+                  bingoType: widget.bingoParams.bingoType,
+                  updateBingoType: widget.bingoParams.updateBingoType,
                   updateParentState: updateState)),
           Container(
               margin: EdgeInsets.only(top: 40, bottom: 50),
               child: ModeButton(
-                  mode: bingoParams.mode,
-                  updateBingoMode: bingoParams.updateMode,
+                  mode: widget.bingoParams.mode,
+                  updateBingoMode: widget.bingoParams.updateMode,
                   updateParentState: updateState)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (bingoParams.mode == Mode.personalize)
+            if (widget.bingoParams.mode == Mode.personalize)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width,
@@ -175,49 +179,49 @@ class _Home extends State<Home> {
                   ),
                   child: Personalize(
                       cards: personalizeCard,
-                      type: bingoParams.bingoType,
+                      type: widget.bingoParams.bingoType,
                       nbCardSelect: nbCards,
                       changeNbCardValue: changeNbCardValue))
-            else if (bingoParams.bingoType == BingoType.plaque &&
-                bingoParams.mode == Mode.random)
+            else if (widget.bingoParams.bingoType == BingoType.plaque &&
+                widget.bingoParams.mode == Mode.random)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
                     maxHeight: 60,
                   ),
                   child: PlaqueTypeButton(
-                    selectecPlaque: bingoParams.plaque,
-                    updatePlaque: bingoParams.updatePlaque,
+                    selectecPlaque: widget.bingoParams.plaque,
+                    updatePlaque: widget.bingoParams.updatePlaque,
                   )),
-            if (bingoParams.bingoType == BingoType.sousterrain &&
-                bingoParams.mode == Mode.random)
+            if (widget.bingoParams.bingoType == BingoType.sousterrain &&
+                widget.bingoParams.mode == Mode.random)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
                     maxHeight: 60,
                   ),
                   child: RatDropdownButton(
-                      type: bingoParams.ratType,
-                      update: bingoParams.updateRat)),
-            if (bingoParams.mode == Mode.random)
+                      type: widget.bingoParams.ratType,
+                      update: widget.bingoParams.updateRat)),
+            if (widget.bingoParams.mode == Mode.random)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
                     maxHeight: 60,
                   ),
                   child: DifficultyButton(
-                      difficulty: bingoParams.difficulty,
-                      update: bingoParams.updateDifficulty)),
+                      difficulty: widget.bingoParams.difficulty,
+                      update: widget.bingoParams.updateDifficulty)),
           ]),
-          if ((bingoParams.mode == Mode.personalize) ||
-              bingoParams.mode == Mode.random)
+          if ((widget.bingoParams.mode == Mode.personalize) ||
+              widget.bingoParams.mode == Mode.random)
             Container(
                 margin: EdgeInsets.symmetric(vertical: 50),
                 child: LaunchGame(
                     launchGame: launchGame,
                     btek: btek,
                     nbCards: nbCards,
-                    mode: bingoParams.mode)),
+                    mode: widget.bingoParams.mode)),
         ]));
   }
 }
