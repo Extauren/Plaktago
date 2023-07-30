@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/game/board/cardName.dart';
+import '../utils/saveGame.dart';
+import 'graph.dart';
+import 'graph2.dart';
 
 class GeneralStatistic extends StatefulWidget {
   final Function getGeneralStatistics;
@@ -20,6 +24,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     "test",
     "test"
   ];
+  List<CardList> cardList = [];
 
   @override
   void initState() {
@@ -29,18 +34,23 @@ class _GeneralStatistic extends State<GeneralStatistic> {
 
   void getStatistics() async {
     data = await widget.getGeneralStatistics();
-    values[0] = data["nbGames"].toString();
-    values[1] = data["bingoPlaque"].toString();
-    values[2] = data["bingoRat"].toString();
-    values[3] = data["bingoWin"].toString();
-    setState(() {});
+    setState(() {
+      values[0] = data["nbGames"].toString();
+      values[1] = data["bingoPlaque"].toString();
+      values[2] = data["bingoRat"].toString();
+      values[3] = data["bingoWin"].toString();
+      final List tmp = data["cardList"];
+      for (int it = 0; it < tmp.length; it++) {
+        cardList.add(CardList.fromJson(tmp.elementAt(it)));
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       SizedBox(
-          height: 220,
+          height: 200,
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, childAspectRatio: 1.4),
@@ -49,7 +59,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                     margin: const EdgeInsets.all(5),
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Colors.indigo[100],
                     child: Center(
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +79,17 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                       color: Colors.black,
                                       fontSize: 26)))
                         ])));
-              }))
+              })),
+      if (cardList.length == cardNameListPlaque.length)
+        PieChartSample2(
+          nbGames: values[0],
+          bingoPlaque: values[1],
+          bingoRat: values[2],
+        ),
+      if (cardList.length == cardNameListPlaque.length)
+        BarChartSample2(
+          cardList: cardList,
+        ),
     ]);
   }
 }

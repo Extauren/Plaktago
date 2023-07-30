@@ -33,12 +33,12 @@ class _Drawer extends State<DrawerApp> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
-            child: Text('Settings',
+            child: Text('Paramètres',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
-                margin: EdgeInsets.only(right: 10), child: Text("Dark mode")),
+                margin: EdgeInsets.only(right: 10), child: Text("mode sombre")),
             Switch(
                 value: _darkMode,
                 onChanged: (bool value) {

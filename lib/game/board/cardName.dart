@@ -17,7 +17,7 @@ class CardName {
 
 List<CardName> cardNameListPlaque = [
   CardName(
-      name: "Bus (sup à 6 pers)",
+      name: "Bus",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 3),
@@ -37,7 +37,7 @@ List<CardName> cardNameListPlaque = [
       type: [BingoType.plaque],
       difficulty: 1),
   CardName(
-      name: "Touristes (> 50 % du groupe / +2 ristou que de ktaphile)",
+      name: "Touristes",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 1),
@@ -137,7 +137,7 @@ List<CardName> cardNameListPlaque = [
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 1),
   CardName(
-      name: "Discute à coté (d'autre joueur)",
+      name: "Discute à coté",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque],
       difficulty: 1),
@@ -152,7 +152,7 @@ List<CardName> cardNameListPlaque = [
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 2),
   CardName(
-      name: "Tous dans le même tenue",
+      name: "Tous dans la même tenue",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 2),

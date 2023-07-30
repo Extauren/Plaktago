@@ -7,8 +7,58 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:plaktago/home/bingoTypeButton.dart';
 import 'package:plaktago/utils/bingoParams.dart';
+import '../game/board/cardName.dart';
+
+class CardList {
+  String cardName;
+  int nbPlayed;
+  int nbCheck;
+
+  CardList({required this.cardName, this.nbPlayed = 0, this.nbCheck = 0});
+
+  Map<String, dynamic> toMap() => {
+        'cardName': cardName,
+        'nbPlayed': nbPlayed,
+        'nbCheck': nbCheck,
+      };
+
+  factory CardList.fromMap(Map<String, dynamic> map) => CardList(
+        cardName: map['cardName'] as String,
+        nbPlayed: map['nbPlayed'] as int,
+        nbCheck: map['nbCheck'] as int,
+      );
+
+  String toJson() => json.encode(toMap());
+
+  factory CardList.fromJson(String source) {
+    return CardList.fromMap(json.decode(source) as Map<String, dynamic>);
+  }
+}
 
 class SaveGame {
+  List<CardList> initilizeCardList() {
+    List<CardList> cardList = [];
+
+    for (int i = 0; i < cardNameListPlaque.length; i++) {
+      cardList.add(CardList(cardName: cardNameListPlaque[i].name));
+    }
+    return cardList;
+  }
+
+  List<CardList> getCardList(
+      final List<BingoCard> bingoCard, List<CardList> cardList) {
+    for (int i = 0; i < bingoCard.length; i++) {
+      final int index = cardList
+          .indexWhere((element) => element.cardName == bingoCard[i].name);
+      cardList[index].nbPlayed += 1;
+      if (bingoCard[i].isSelect) {
+        cardList[index].nbCheck += 1;
+      }
+    }
+
+    return cardList;
+  }
+
   Future<Map<String, dynamic>> getJson(
       final List<BingoCard> bingoCardList,
       final int points,
@@ -26,7 +76,8 @@ class SaveGame {
           "nbGames": 0,
           "bingoPlaque": 0,
           "bingoRat": 0,
-          "bingoWin": 0
+          "bingoWin": 0,
+          "cardList": initilizeCardList()
         },
         "games": []
       };
@@ -47,6 +98,12 @@ class SaveGame {
     if (points == 16) {
       general["bingoWin"] += 1;
     }
+    List<CardList> cardList = [];
+    List tmp = general["cardList"];
+    for (int it = 0; it < tmp.length; it++) {
+      cardList.add(CardList.fromJson(tmp.elementAt(it)));
+    }
+    general["cardList"] = getCardList(bingoCardList, cardList);
     newJson = {
       "gameNumber": general["nbGames"],
       "points": points,
@@ -86,7 +143,13 @@ class SaveGame {
   Future<void> resetFile() async {
     final file = await _localFile;
     file.writeAsString(json.encode({
-      "general": {"nbGames": 0, "bingoPlaque": 0, "bingoRat": 0, "bingoWin": 0},
+      "general": {
+        "nbGames": 0,
+        "bingoPlaque": 0,
+        "bingoRat": 0,
+        "bingoWin": 0,
+        "cardList": initilizeCardList()
+      },
       "games": []
     }));
   }
@@ -96,7 +159,7 @@ class SaveGame {
     final file = await _localFile;
     final Map<String, dynamic> newJson =
         await getJson(bingoCardList, points, bingoParams, time);
-
+    //print(newJson["general"]['cardList']);
     return file.writeAsString(json.encode(newJson));
   }
 }

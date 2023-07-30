@@ -142,9 +142,8 @@ class _Home extends State<Home> {
             if (widget.isPlaying == true)
               IconButton(
                 //key: PageStorageKey(isPlaying),
-                icon: Icon(
-                  Icons.play_circle_fill_outlined,
-                ),
+                icon: Icon(Icons.play_circle_fill_outlined,
+                    color: Theme.of(context).colorScheme.primary, size: 28),
                 onPressed: comeBacktoGame,
               )
           ],
@@ -157,6 +156,19 @@ class _Home extends State<Home> {
               child: Text("Le bingo des catacombes",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
+          // if (widget.isPlaying == true)
+          //   Container(
+          //       margin: EdgeInsets.only(top: 40, left: 60, right: 60),
+          //       child: ElevatedButton(
+          //         onPressed: comeBacktoGame,
+          //         //style: ButtonStyle(
+          //         //backgroundColor: MaterialStateProperty.all(
+          //         //    Theme.of(context).colorScheme.secondary)),
+          //         child: Text(
+          //           'Reprendre la partie',
+          //           style: TextStyle(color: Colors.black),
+          //         ),
+          //       )),
           Container(
               margin: EdgeInsets.only(top: 50),
               child: BingoTypeButton(
