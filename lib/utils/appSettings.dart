@@ -34,10 +34,10 @@ class AppSettings {
     final contents = await readFile();
     try {
       data = jsonDecode(contents);
+      darkMode = data["darkMode"];
     } catch (e) {
       data = {"darkMode": false};
     }
-    //darkMode = data["darkMode"];
     return true;
   }
 
