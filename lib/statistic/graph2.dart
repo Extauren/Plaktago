@@ -74,7 +74,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                 ),
                 const Text(
                   'Card',
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                  style: TextStyle(fontSize: 22),
                 ),
                 const SizedBox(
                   width: 4,
@@ -186,8 +186,8 @@ class BarChartSample2State extends State<BarChartSample2> {
     final Widget text = Text(
       titles[value.toInt()],
       textAlign: TextAlign.center,
-      style: const TextStyle(
-        color: Color(0xff7589a2),
+      style: TextStyle(
+        //color: Theme.of(context).colorScheme.onSurface, //Color(0xff7589a2),
         fontWeight: FontWeight.bold,
         fontSize: 14,
       ),
@@ -232,7 +232,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 10,
-          color: Colors.white.withOpacity(0.4),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
         ),
         const SizedBox(
           width: space,
@@ -240,7 +240,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 28,
-          color: Colors.white.withOpacity(0.8),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
         ),
         const SizedBox(
           width: space,
@@ -248,7 +248,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 42,
-          color: Colors.white.withOpacity(1),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(1),
         ),
         const SizedBox(
           width: space,
@@ -256,7 +256,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 28,
-          color: Colors.white.withOpacity(0.8),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
         ),
         const SizedBox(
           width: space,
@@ -264,7 +264,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         Container(
           width: width,
           height: 10,
-          color: Colors.white.withOpacity(0.4),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
         ),
       ],
     );

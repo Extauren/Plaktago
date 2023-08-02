@@ -53,6 +53,13 @@ class _GameList extends State<GameList> {
     );
   }
 
+  Color getCardColor(final String points) {
+    if (points == "16") {
+      return Colors.amber[300]!;
+    }
+    return Colors.indigo[200]!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpansionTileCard(
@@ -73,8 +80,9 @@ class _GameList extends State<GameList> {
                 children: [Text(widget.date)])
           ])),
       trailing: getTraillingIcon(),
-      baseColor: Colors.indigo[200], //Theme.of(context).colorScheme.primary,
-      expandedColor: Colors.indigo[200],
+      baseColor:
+          getCardColor(widget.points), //Theme.of(context).colorScheme.primary,
+      expandedColor: getCardColor(widget.points),
       expandedTextColor: Colors.black,
       initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
       finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),

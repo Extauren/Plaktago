@@ -35,7 +35,6 @@ class _Game extends State<Game> {
 
   @override
   void initState() {
-    //print(widget.timer.getTime());
     if (widget.newGame) {
       widget.changeIsPlaying(true);
       super.initState();

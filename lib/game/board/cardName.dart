@@ -117,7 +117,7 @@ List<CardName> cardNameListPlaque = [
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 1),
   CardName(
-      name: "Attent un pote",
+      name: "Attend un pote",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 1),
@@ -158,5 +158,5 @@ List<CardName> cardNameListPlaque = [
       difficulty: 2),
   CardName(name: "Fumi", type: [BingoType.sousterrain], difficulty: 1),
   CardName(name: "Chantier", type: [BingoType.sousterrain], difficulty: 2),
-  CardName(name: "Traquenar", type: [BingoType.sousterrain], difficulty: 1)
+  CardName(name: "Traquenard", type: [BingoType.sousterrain], difficulty: 1)
 ];
