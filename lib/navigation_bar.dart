@@ -39,8 +39,8 @@ class _NavigationBar extends State<NavigationBarApp> {
         isPlaying: isPlaying,
       ),
       Statistic(
-        key: PageStorageKey('stats'),
-      ),
+          //key: PageStorageKey('stats'),
+          ),
     ];
   }
 

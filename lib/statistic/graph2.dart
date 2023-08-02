@@ -3,6 +3,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../utils/saveGame.dart';
+import './indicator.dart';
 
 class BarChartSample2 extends StatefulWidget {
   final List<CardList> cardList;
@@ -24,7 +25,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   void initState() {
     super.initState();
     int index = 0;
-    widget.cardList.sort((a, b) => b.nbCheck.compareTo(a.nbCheck));
+    widget.cardList.sort((a, b) => b.nbPlayed.compareTo(a.nbPlayed));
     for (int it = 0; it < widget.cardList.length; it++) {
       if (it % 5 == 0) {
         index = 0;
@@ -127,6 +128,28 @@ class BarChartSample2State extends State<BarChartSample2> {
                     ),
                   )),
             ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Indicator(
+                  color: Colors.indigo[300]!,
+                  text: 'Played',
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: Color.fromRGBO(208, 118, 89, 1),
+                  text: 'Check',
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -144,7 +167,7 @@ class BarChartSample2State extends State<BarChartSample2> {
     if (value == 0) {
       text = '0';
     } else if (value == test) {
-      text = test.toString();
+      text = test.toInt().toString();
     } else if (value == widget.cardList[0].nbPlayed) {
       text = widget.cardList[0].nbPlayed.toString();
     } else {
@@ -162,6 +185,7 @@ class BarChartSample2State extends State<BarChartSample2> {
     final List<String> titles = tmp.map((e) => e.cardName).toList();
     final Widget text = Text(
       titles[value.toInt()],
+      textAlign: TextAlign.center,
       style: const TextStyle(
         color: Color(0xff7589a2),
         fontWeight: FontWeight.bold,

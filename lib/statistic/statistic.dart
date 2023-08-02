@@ -6,6 +6,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'general_statistics.dart';
 import "gameStats.dart";
+import 'game_list.dart';
 
 class Statistic extends StatefulWidget {
   const Statistic({Key? key}) : super(key: key);
@@ -52,6 +53,7 @@ class _Statistic extends State<Statistic> {
     setState(() {
       _general = data["general"];
       _bingoGames = data["games"];
+      _bingoGames = _bingoGames.reversed.toList();
     });
   }
 
@@ -105,52 +107,80 @@ class _Statistic extends State<Statistic> {
                         margin: EdgeInsets.symmetric(vertical: 20),
                         height: 600,
                         child: ListView.builder(
-                          itemCount: _bingoGames.length,
-                          itemBuilder: (context, index) {
-                            final String points =
-                                _bingoGames[index]["points"].toString();
-                            final String gameType =
-                                _bingoGames[index]["gameType"];
-                            final String date = _bingoGames[index]["date"];
-                            final String hour = _bingoGames[index]["hour"];
-                            final String time = _bingoGames[index]["time"];
-                            final String gameNumber =
-                                _bingoGames[index]["gameNumber"].toString();
-                            return GestureDetector(
-                                onTap: () => goToGameStats(index),
-                                child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    height: 130,
-                                    child: Card(
-                                        key: ValueKey(
-                                            _bingoGames[index]["gameNumber"]),
-                                        margin: const EdgeInsets.all(5),
-                                        color: getCardColor(gameType),
-                                        elevation: 2,
-                                        child: Column(children: [
-                                          Text("Bingo $gameType",
-                                              style: TextStyle(
-                                                  color: Colors.black)),
-                                          Text("Points: $points",
-                                              style: TextStyle(
-                                                  color: Colors.black)),
-                                          Text("Date : $date",
-                                              style: TextStyle(
-                                                  color: Colors.black)),
-                                          Text("Heure : $hour",
-                                              style: TextStyle(
-                                                  color: Colors.black)),
-                                          Text("Partie numéro : $gameNumber",
-                                              style: TextStyle(
-                                                  color: Colors.black)),
-                                          Text("Temps : $time",
-                                              style: TextStyle(
-                                                  color: Colors.black))
-                                        ]))));
-                          },
-                        ))
+                            itemCount: _bingoGames.length,
+                            itemBuilder: (context, index) {
+                              final String points =
+                                  _bingoGames[index]["points"].toString();
+                              final String gameType =
+                                  _bingoGames[index]["gameType"];
+                              final String date = _bingoGames[index]["date"];
+                              final String hour = _bingoGames[index]["hour"];
+                              final String time = _bingoGames[index]["time"];
+                              final String gameNumber =
+                                  _bingoGames[index]["gameNumber"].toString();
+                              return GameList(
+                                  points: points,
+                                  gameType: gameType,
+                                  date: date,
+                                  hour: hour,
+                                  time: time,
+                                  gameNumber: gameNumber,
+                                  index: index,
+                                  board: _bingoGames[index]);
+                            }))
                     : Container()
+              //GameList()
+              // _bingoGames.isNotEmpty
+              //     ? Container(
+              //         margin: EdgeInsets.symmetric(vertical: 20),
+              //         height: 600,
+              //         child: ListView.builder(
+              //           itemCount: _bingoGames.length,
+              //           itemBuilder: (context, index) {
+              //             final String points =
+              //                 _bingoGames[index]["points"].toString();
+              //             final String gameType =
+              //                 _bingoGames[index]["gameType"];
+              //             final String date = _bingoGames[index]["date"];
+              //             final String hour = _bingoGames[index]["hour"];
+              //             final String time = _bingoGames[index]["time"];
+              //             final String gameNumber =
+              //                 _bingoGames[index]["gameNumber"].toString();
+              //             return GestureDetector(
+              //                 onTap: () => goToGameStats(index),
+              //                 child: Container(
+              //                     margin:
+              //                         EdgeInsets.symmetric(horizontal: 30),
+              //                     height: 130,
+              //                     child: Card(
+              //                         key: ValueKey(
+              //                             _bingoGames[index]["gameNumber"]),
+              //                         margin: const EdgeInsets.all(5),
+              //                         color: getCardColor(gameType),
+              //                         elevation: 2,
+              //                         child: Column(children: [
+              //                           Text("Bingo $gameType",
+              //                               style: TextStyle(
+              //                                   color: Colors.black)),
+              //                           Text("Points: $points",
+              //                               style: TextStyle(
+              //                                   color: Colors.black)),
+              //                           Text("Date : $date",
+              //                               style: TextStyle(
+              //                                   color: Colors.black)),
+              //                           Text("Heure : $hour",
+              //                               style: TextStyle(
+              //                                   color: Colors.black)),
+              //                           Text("Partie numéro : $gameNumber",
+              //                               style: TextStyle(
+              //                                   color: Colors.black)),
+              //                           Text("Temps : $time",
+              //                               style: TextStyle(
+              //                                   color: Colors.black))
+              //                         ]))));
+              //           },
+              //         ))
+              //     : Container()
             ])));
   }
 }

@@ -21,7 +21,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     "Bingo Plaque",
     "Bingo Rat",
     "Bingo gagnés",
-    "test",
+    "Carte",
     "test"
   ];
   List<CardList> cardList = [];
@@ -43,6 +43,9 @@ class _GeneralStatistic extends State<GeneralStatistic> {
       for (int it = 0; it < tmp.length; it++) {
         cardList.add(CardList.fromJson(tmp.elementAt(it)));
       }
+      //cardList.sort((a, b) => b.nbCheck.compareTo(a.nbCheck));
+      values[4] = "0"; //cardList[0].cardName.toString();
+      values[5] = "0"; //cardList[cardList.length - 1].cardName.toString();
     });
   }
 
@@ -90,6 +93,8 @@ class _GeneralStatistic extends State<GeneralStatistic> {
         BarChartSample2(
           cardList: cardList,
         ),
+      // if (cardList.length != cardNameListPlaque.length)
+      //   CircularProgressIndicator(),
     ]);
   }
 }
