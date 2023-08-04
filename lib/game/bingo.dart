@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../home/modeButton.dart';
 import 'board/board.dart';
@@ -100,6 +101,18 @@ class _Game extends State<Game> {
     setState(() {
       if (newPoint) {
         points += 1;
+        if (points == 16) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text(style: TextStyle(color: Colors.black), "Bingo"),
+                    content: Text(
+                        style: TextStyle(color: Colors.black),
+                        "Vous avez gagné"),
+                    backgroundColor: Colors.yellow[300]);
+              });
+        }
       } else {
         points -= 1;
       }

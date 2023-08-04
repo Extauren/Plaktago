@@ -33,11 +33,9 @@ class _Personalize extends State<Personalize> {
   void initState() {
     List<CardName> cardList = [];
     super.initState();
-    for (int it = 0; it < cardNameListPlaque.length; it++) {
-      if (cardNameListPlaque.elementAt(it).type.contains(widget.type)) {
-        cardList.add(cardNameListPlaque.elementAt(it));
-      }
-    }
+    cardList = cardNameListPlaque
+        .where((element) => element.type.contains(widget.type))
+        .toList();
     for (int it = 0; it < cardList.length; it++) {
       widget.cards.add(PersonalizeCard(name: cardList.elementAt(it).name));
     }

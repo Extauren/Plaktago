@@ -1,5 +1,3 @@
-//import 'package:fl_chart_app/presentation/resources/app_resources.dart';
-//import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../utils/saveGame.dart';
@@ -14,33 +12,54 @@ class BarChartSample2 extends StatefulWidget {
 
 class BarChartSample2State extends State<BarChartSample2> {
   final double width = 5;
-  late List<BarChartGroupData> rawBarGroups;
+  List<List<BarChartGroupData>> rawBarGroups = [[], []];
   late List<BarChartGroupData> showingBarGroups;
-  List<BarChartGroupData> groupData = [];
+  List<List<BarChartGroupData>> groupData = [[], []];
   int skip = 0;
-
   int touchedGroupIndex = -1;
+  int sortIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    sortByPlayed();
+    sortByCheck();
+  }
+
+  void sortByPlayed() {
     int index = 0;
     widget.cardList.sort((a, b) => b.nbPlayed.compareTo(a.nbPlayed));
     for (int it = 0; it < widget.cardList.length; it++) {
       if (it % 5 == 0) {
         index = 0;
       }
-      groupData.add(makeGroupData(
+      groupData[0].add(makeGroupData(
           index,
           widget.cardList.elementAt(it).nbCheck.toDouble(),
           widget.cardList.elementAt(it).nbPlayed.toDouble()));
       index += 1;
     }
-    rawBarGroups = groupData.skip(skip).take(5).toList();
-    showingBarGroups = rawBarGroups;
+    rawBarGroups[0] = groupData[0].skip(skip).take(5).toList();
+    showingBarGroups = rawBarGroups[0];
   }
 
-  void test1(DragEndDetails detail) {
+  void sortByCheck() {
+    int index = 0;
+    widget.cardList.sort((a, b) => b.nbCheck.compareTo(a.nbCheck));
+    for (int it = 0; it < widget.cardList.length; it++) {
+      if (it % 5 == 0) {
+        index = 0;
+      }
+      groupData[1].add(makeGroupData(
+          index,
+          widget.cardList.elementAt(it).nbCheck.toDouble(),
+          widget.cardList.elementAt(it).nbPlayed.toDouble()));
+      index += 1;
+    }
+    rawBarGroups[1] = groupData[1].skip(skip).take(5).toList();
+  }
+
+  void changePage(DragEndDetails detail) {
     if (detail.primaryVelocity! > 0.0) {
       if (skip >= 5) {
         skip -= 5;
@@ -51,8 +70,20 @@ class BarChartSample2State extends State<BarChartSample2> {
       }
     }
     setState(() {
-      rawBarGroups = groupData.skip(skip).take(5).toList();
-      showingBarGroups = List.of(rawBarGroups);
+      rawBarGroups[sortIndex] =
+          groupData[sortIndex].skip(skip).take(5).toList();
+      showingBarGroups = List.of(rawBarGroups[sortIndex]);
+    });
+  }
+
+  void changeSort(final int index) {
+    setState(() {
+      sortIndex = index;
+      showingBarGroups = rawBarGroups[sortIndex];
+      skip = 0;
+      rawBarGroups[sortIndex] =
+          groupData[sortIndex].skip(skip).take(5).toList();
+      showingBarGroups = List.of(rawBarGroups[sortIndex]);
     });
   }
 
@@ -86,7 +117,7 @@ class BarChartSample2State extends State<BarChartSample2> {
             ),
             Expanded(
               child: GestureDetector(
-                  onHorizontalDragEnd: test1,
+                  onHorizontalDragEnd: changePage,
                   child: BarChart(
                     BarChartData(
                       maxY: widget.cardList[0].nbPlayed.toDouble(),
@@ -128,26 +159,41 @@ class BarChartSample2State extends State<BarChartSample2> {
                     ),
                   )),
             ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               //crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Indicator(
-                  color: Colors.indigo[300]!,
-                  text: 'Played',
-                  isSquare: true,
-                ),
                 SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color.fromRGBO(208, 118, 89, 1),
-                  text: 'Check',
-                  isSquare: true,
-                ),
+                    width: 100,
+                    child: TextButton(
+                        onPressed: () => {changeSort(0)},
+                        // style: TextButton.styleFrom(
+                        //     padding: EdgeInsets.only(bottom: 0)),
+                        child: Indicator(
+                          color: Colors.indigo[300]!,
+                          text: 'Partie',
+                          isSquare: false,
+                          textColor: Theme.of(context).colorScheme.onSurface,
+                        ))),
+                // SizedBox(
+                //   height: 4,
+                // ),
                 SizedBox(
-                  height: 4,
-                ),
+                    width: 140,
+                    child: TextButton(
+                        onPressed: () => {changeSort(1)},
+                        child: Indicator(
+                          color: Color.fromRGBO(208, 118, 89, 1),
+                          text: 'Sélectionné',
+                          isSquare: false,
+                          textColor: Theme.of(context).colorScheme.onSurface,
+                        ))),
+                // SizedBox(
+                //   height: 4,
+                // ),
               ],
             ),
           ],
@@ -158,8 +204,10 @@ class BarChartSample2State extends State<BarChartSample2> {
 
   Widget leftTitles(double value, TitleMeta meta) {
     final test = widget.cardList[0].nbPlayed / 2;
-    const style = TextStyle(
-      color: Color(0xff7589a2),
+    final style = TextStyle(
+      color: Theme.of(context)
+          .colorScheme
+          .onSurface, //Colors.white, //Color(0xff7589a2),
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
@@ -195,9 +243,8 @@ class BarChartSample2State extends State<BarChartSample2> {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 0,
       child: Container(
-          margin: EdgeInsets.only(left: 0),
+          margin: EdgeInsets.only(top: 5),
           constraints: BoxConstraints(maxWidth: 65),
           child: text),
     );

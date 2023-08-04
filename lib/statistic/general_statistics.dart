@@ -15,14 +15,21 @@ class GeneralStatistic extends StatefulWidget {
 
 class _GeneralStatistic extends State<GeneralStatistic> {
   Map<String, dynamic> data = {};
-  List<String> values = ["", "", "", "", "", ""];
+  List<Widget> values = [
+    Container(),
+    Container(),
+    Container(),
+    Container(),
+    Container(),
+    Container(),
+  ];
   final List<String> titles = [
     "Partie total",
     "Bingo Plaque",
     "Bingo Rat",
     "Bingo gagnés",
-    "Carte",
-    "test"
+    "Carte la + jouée",
+    "Carte la - jouée"
   ];
   List<CardList> cardList = [];
 
@@ -35,17 +42,28 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   void getStatistics() async {
     data = await widget.getGeneralStatistics();
     setState(() {
-      values[0] = data["nbGames"].toString();
-      values[1] = data["bingoPlaque"].toString();
-      values[2] = data["bingoRat"].toString();
-      values[3] = data["bingoWin"].toString();
+      values[0] = Text(data["nbGames"].toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
+      values[1] = Text(data["bingoPlaque"].toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
+      values[2] = Text(data["bingoRat"].toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
+      values[3] = Text(data["bingoWin"].toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
       final List tmp = data["cardList"];
       for (int it = 0; it < tmp.length; it++) {
         cardList.add(CardList.fromJson(tmp.elementAt(it)));
       }
-      //cardList.sort((a, b) => b.nbCheck.compareTo(a.nbCheck));
-      values[4] = "0"; //cardList[0].cardName.toString();
-      values[5] = "0"; //cardList[cardList.length - 1].cardName.toString();
+      values[4] = Text(cardList[0].cardName.toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 18));
+      values[5] = Text(cardList[cardList.length - 1].cardName.toString(),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 18));
     });
   }
 
@@ -65,29 +83,24 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                     color: Colors.indigo[100],
                     child: Center(
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                           Container(
-                              margin: const EdgeInsets.all(0.5),
+                              margin: const EdgeInsets.symmetric(vertical: 5),
                               child: Text(titles[index],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black))),
-                          Container(
-                              margin: EdgeInsets.only(top: 2),
-                              child: Text(values[index],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      fontSize: 26)))
+                          values[index]
                         ])));
               })),
       if (cardList.length == cardNameListPlaque.length)
         PieChartSample2(
-          nbGames: values[0],
-          bingoPlaque: values[1],
-          bingoRat: values[2],
+          nbGames: data["nbGames"].toString(),
+          bingoPlaque: data["bingoPlaque"].toString(),
+          bingoRat: data["bingoRat"].toString(),
         ),
       if (cardList.length == cardNameListPlaque.length)
         BarChartSample2(

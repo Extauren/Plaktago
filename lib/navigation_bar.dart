@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/utils/appSettings.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
-//import 'settings.dart';
 import '../utils/bingoParams.dart';
 
 class NavigationBarApp extends StatefulWidget {
@@ -22,6 +21,7 @@ class _NavigationBar extends State<NavigationBarApp> {
   bool isPlaying = false;
   final PageStorageBucket bucket = PageStorageBucket();
   List<Widget> pages = [];
+  final Key homeKey = PageStorageKey('home');
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _NavigationBar extends State<NavigationBarApp> {
   List<Widget> getPages() {
     return [
       Home(
-        key: PageStorageKey('home'),
+        key: homeKey,
         changeTheme: widget.changeTheme,
         appSettings: widget.appSettings,
         bingoParams: bingoParams,
@@ -55,6 +55,7 @@ class _NavigationBar extends State<NavigationBarApp> {
     return Scaffold(
       body: PageStorage(bucket: bucket, child: pages[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
+        //unselectedItemColor: Colors.grey[200],
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

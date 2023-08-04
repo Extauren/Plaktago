@@ -64,7 +64,7 @@ class PieChart2State extends State<PieChartSample2> {
               Indicator(
                 color: Colors.indigo[300]!,
                 text: 'Plaque',
-                isSquare: true,
+                isSquare: false,
               ),
               SizedBox(
                 height: 4,
@@ -72,7 +72,7 @@ class PieChart2State extends State<PieChartSample2> {
               Indicator(
                 color: Color.fromRGBO(208, 118, 89, 1),
                 text: 'Sous terrain',
-                isSquare: true,
+                isSquare: false,
               ),
               SizedBox(
                 height: 4,

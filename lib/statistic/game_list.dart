@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-
+import 'package:intl/intl.dart';
 import 'gameStats.dart';
 
 class GameList extends StatefulWidget {
@@ -53,11 +53,20 @@ class _GameList extends State<GameList> {
     );
   }
 
-  Color getCardColor(final String points) {
+  Color getCardColor(final String points, final String gameType) {
     if (points == "16") {
       return Colors.amber[300]!;
+    } else if (gameType == "Plaque") {
+      return Colors.indigo[200]!;
     }
-    return Colors.indigo[200]!;
+    return Theme.of(context).colorScheme.secondary;
+  }
+
+  Color getButtonColor(final String gameType) {
+    if (gameType == "Plaque") {
+      return Theme.of(context).colorScheme.secondary;
+    }
+    return Theme.of(context).colorScheme.primary;
   }
 
   @override
@@ -80,12 +89,13 @@ class _GameList extends State<GameList> {
                 children: [Text(widget.date)])
           ])),
       trailing: getTraillingIcon(),
-      baseColor:
-          getCardColor(widget.points), //Theme.of(context).colorScheme.primary,
-      expandedColor: getCardColor(widget.points),
+      baseColor: getCardColor(widget.points, widget.gameType),
+      expandedColor: getCardColor(widget.points, widget.gameType),
       expandedTextColor: Colors.black,
       initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
       finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+      initialElevation: 2.0,
+      elevation: 4.0,
       children: [
         DefaultTextStyle(
             style: TextStyle(fontSize: 16, color: Colors.black),
@@ -97,15 +107,13 @@ class _GameList extends State<GameList> {
               Text("Durée : ${widget.time}"),
             ])),
         Container(
-            //minWidth: 150.0,
             height: 30.0,
             margin: EdgeInsets.symmetric(vertical: 10),
             child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                      Theme.of(context).colorScheme.secondary),
+                  backgroundColor:
+                      MaterialStatePropertyAll(getButtonColor(widget.gameType)),
                 ),
-                //    fixedSize: MaterialStatePropertyAll(Size(150, 0))),
                 onPressed: goToGameStats,
                 child: Text(
                     style: TextStyle(fontSize: 12, color: Colors.black),

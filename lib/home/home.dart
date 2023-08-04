@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/home/plaqueTypeButton.dart';
 import 'package:plaktago/home/ratDropdownButton.dart';
 import 'package:plaktago/utils/appSettings.dart';
-//import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'difficultyButton.dart';
 import '../game/bingo.dart';
 import 'drawer.dart';
@@ -31,17 +30,11 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  //BingoParams widget.bingoParams = widget.bingoParams();
-  final Key testKey = PageStorageKey('test');
+  final Key bingoTypeKey = PageStorageKey('bingoType');
+  final Key personalizeKey = PageStorageKey('personalizeKey');
   List<PersonalizeCard> personalizeCard = <PersonalizeCard>[];
   int nbCards = 0;
-  //bool isPlaying = false;
-  // final StopWatchTimer stopWatchTimer = StopWatchTimer(
-  //   mode: StopWatchMode.countUp,
-  //   onStopped: () {},
-  //   onEnded: () {},
-  // );
-  late Timer timer = Timer(
+  Timer timer = Timer(
     timer: 0,
   );
 
@@ -78,8 +71,9 @@ class _Home extends State<Home> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-                title: Text("Erreur"),
+                title: Text("Erreur", style: TextStyle(color: Colors.black)),
                 content: Text(
+                    style: TextStyle(color: Colors.black),
                     "Vous devez sélectionner $nbCardNeed cases supplémentaires"),
                 backgroundColor: Colors.red[300]);
           });
@@ -94,8 +88,6 @@ class _Home extends State<Home> {
                   timer: timer,
                   newGame: true))).then((value) {
         updateState();
-        //time = timer.getTime();
-        //print(time);
       });
     }
   }
@@ -111,8 +103,6 @@ class _Home extends State<Home> {
                 timer: timer,
                 newGame: false))).then((value) {
       updateState();
-      //time = timer.getTime();
-      //print(time);
     });
   }
 
@@ -141,7 +131,6 @@ class _Home extends State<Home> {
           actions: <Widget>[
             if (widget.isPlaying == true)
               IconButton(
-                //key: PageStorageKey(isPlaying),
                 icon: Icon(Icons.play_circle_fill_outlined,
                     color: Theme.of(context).colorScheme.primary, size: 28),
                 onPressed: comeBacktoGame,
@@ -172,7 +161,7 @@ class _Home extends State<Home> {
           Container(
               margin: EdgeInsets.only(top: 50),
               child: BingoTypeButton(
-                  key: testKey,
+                  key: bingoTypeKey,
                   bingoType: widget.bingoParams.bingoType,
                   updateBingoType: widget.bingoParams.updateBingoType,
                   updateParentState: updateState)),
@@ -190,6 +179,7 @@ class _Home extends State<Home> {
                     maxHeight: MediaQuery.of(context).size.height,
                   ),
                   child: Personalize(
+                      key: personalizeKey,
                       cards: personalizeCard,
                       type: widget.bingoParams.bingoType,
                       nbCardSelect: nbCards,
