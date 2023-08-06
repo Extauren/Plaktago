@@ -17,12 +17,14 @@ class Home extends StatefulWidget {
   final Function changeTheme;
   final AppSettings appSettings;
   bool isPlaying;
+  Timer timer;
   Home(
       {Key? key,
       required this.changeTheme,
       required this.appSettings,
       required this.bingoParams,
-      required this.isPlaying})
+      required this.isPlaying,
+      required this.timer})
       : super(key: key);
 
   @override
@@ -34,9 +36,6 @@ class _Home extends State<Home> {
   final Key personalizeKey = PageStorageKey('personalizeKey');
   List<PersonalizeCard> personalizeCard = <PersonalizeCard>[];
   int nbCards = 0;
-  Timer timer = Timer(
-    timer: 0,
-  );
 
   void updateState() {
     setState(() {});
@@ -64,7 +63,7 @@ class _Home extends State<Home> {
 
   void launchGame() {
     final int nbCardNeed = 16 - nbCards;
-    timer = Timer(timer: 0);
+    widget.timer = Timer(timer: 0);
 
     if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
       showDialog(
@@ -85,7 +84,7 @@ class _Home extends State<Home> {
                   bingoParams: widget.bingoParams,
                   personalizeCards: personalizeCard,
                   changeIsPlaying: changeIsPlaying,
-                  timer: timer,
+                  timer: widget.timer,
                   newGame: true))).then((value) {
         updateState();
       });
@@ -100,7 +99,7 @@ class _Home extends State<Home> {
                 bingoParams: widget.bingoParams,
                 personalizeCards: personalizeCard,
                 changeIsPlaying: changeIsPlaying,
-                timer: timer,
+                timer: widget.timer,
                 newGame: false))).then((value) {
       updateState();
     });

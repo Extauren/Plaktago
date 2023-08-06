@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/utils/appSettings.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
@@ -22,6 +23,9 @@ class _NavigationBar extends State<NavigationBarApp> {
   final PageStorageBucket bucket = PageStorageBucket();
   List<Widget> pages = [];
   final Key homeKey = PageStorageKey('home');
+  Timer timer = Timer(
+    timer: 0,
+  );
 
   @override
   void initState() {
@@ -32,12 +36,12 @@ class _NavigationBar extends State<NavigationBarApp> {
   List<Widget> getPages() {
     return [
       Home(
-        key: homeKey,
-        changeTheme: widget.changeTheme,
-        appSettings: widget.appSettings,
-        bingoParams: bingoParams,
-        isPlaying: isPlaying,
-      ),
+          key: homeKey,
+          changeTheme: widget.changeTheme,
+          appSettings: widget.appSettings,
+          bingoParams: bingoParams,
+          isPlaying: isPlaying,
+          timer: timer),
       Statistic(
           //key: PageStorageKey('stats'),
           ),
@@ -53,7 +57,8 @@ class _NavigationBar extends State<NavigationBarApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageStorage(bucket: bucket, child: pages[_selectedIndex]),
+      body: pages[
+          _selectedIndex], //PageStorage(bucket: bucket, child: pages[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
         //unselectedItemColor: Colors.grey[200],
         type: BottomNavigationBarType.fixed,
