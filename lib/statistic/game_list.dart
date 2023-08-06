@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:intl/intl.dart';
 import 'gameStats.dart';
 
 class GameList extends StatefulWidget {

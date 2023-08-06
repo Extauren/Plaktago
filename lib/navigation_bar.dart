@@ -26,6 +26,7 @@ class _NavigationBar extends State<NavigationBarApp> {
   Timer timer = Timer(
     timer: 0,
   );
+  BingoParams playingGame = BingoParams();
 
   @override
   void initState() {
@@ -41,7 +42,8 @@ class _NavigationBar extends State<NavigationBarApp> {
           appSettings: widget.appSettings,
           bingoParams: bingoParams,
           isPlaying: isPlaying,
-          timer: timer),
+          timer: timer,
+          playingGame: playingGame),
       Statistic(
           //key: PageStorageKey('stats'),
           ),

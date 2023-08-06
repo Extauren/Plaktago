@@ -18,13 +18,15 @@ class Home extends StatefulWidget {
   final AppSettings appSettings;
   bool isPlaying;
   Timer timer;
+  BingoParams playingGame;
   Home(
       {Key? key,
       required this.changeTheme,
       required this.appSettings,
       required this.bingoParams,
       required this.isPlaying,
-      required this.timer})
+      required this.timer,
+      required this.playingGame})
       : super(key: key);
 
   @override
@@ -36,7 +38,6 @@ class _Home extends State<Home> {
   final Key personalizeKey = PageStorageKey('personalizeKey');
   List<PersonalizeCard> personalizeCard = <PersonalizeCard>[];
   int nbCards = 0;
-  late BingoParams playingGame;
 
   void updateState() {
     setState(() {});
@@ -78,13 +79,12 @@ class _Home extends State<Home> {
                 backgroundColor: Colors.red[300]);
           });
     } else {
-      playingGame = widget.bingoParams.clone();
-      widget.bingoParams;
+      widget.playingGame = widget.bingoParams.clone();
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => Game(
-                  bingoParams: playingGame,
+                  bingoParams: widget.playingGame,
                   personalizeCards: personalizeCard,
                   changeIsPlaying: changeIsPlaying,
                   timer: widget.timer,
@@ -95,12 +95,11 @@ class _Home extends State<Home> {
   }
 
   void comeBacktoGame() {
-    print(playingGame.bingoType);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Game(
-                bingoParams: playingGame,
+                bingoParams: widget.playingGame,
                 personalizeCards: personalizeCard,
                 changeIsPlaying: changeIsPlaying,
                 timer: widget.timer,
@@ -122,7 +121,7 @@ class _Home extends State<Home> {
               // const Image(
               //   image: AssetImage('logo.png'),
               //   height: 40,
-              //   width: 40,//MediaQuery.of(context).size.width / 2,
+              //   width: 40, //MediaQuery.of(context).size.width / 2,
               // ),
               Container(
                   margin: const EdgeInsets.only(left: 0),
