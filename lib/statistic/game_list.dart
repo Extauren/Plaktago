@@ -62,13 +62,6 @@ class _GameList extends State<GameList> {
     return Theme.of(context).colorScheme.secondary;
   }
 
-  Color getButtonColor(final String gameType) {
-    if (gameType == "Plaque") {
-      return Theme.of(context).colorScheme.secondary;
-    }
-    return Theme.of(context).colorScheme.primary;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ExpansionTileCard(
@@ -111,8 +104,7 @@ class _GameList extends State<GameList> {
             margin: EdgeInsets.symmetric(vertical: 10),
             child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStatePropertyAll(getButtonColor(widget.gameType)),
+                  backgroundColor: MaterialStatePropertyAll(Colors.grey[50]!),
                 ),
                 onPressed: goToGameStats,
                 child: Text(
