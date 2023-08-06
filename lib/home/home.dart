@@ -36,6 +36,7 @@ class _Home extends State<Home> {
   final Key personalizeKey = PageStorageKey('personalizeKey');
   List<PersonalizeCard> personalizeCard = <PersonalizeCard>[];
   int nbCards = 0;
+  late BingoParams playingGame;
 
   void updateState() {
     setState(() {});
@@ -43,7 +44,7 @@ class _Home extends State<Home> {
 
   void resetHome() {
     setState(() {
-      widget.bingoParams = BingoParams.newBingoParams();
+      widget.bingoParams = BingoParams();
       personalizeCard = [];
       nbCards = 0;
     });
@@ -77,11 +78,13 @@ class _Home extends State<Home> {
                 backgroundColor: Colors.red[300]);
           });
     } else {
+      playingGame = widget.bingoParams.clone();
+      widget.bingoParams;
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => Game(
-                  bingoParams: widget.bingoParams,
+                  bingoParams: playingGame,
                   personalizeCards: personalizeCard,
                   changeIsPlaying: changeIsPlaying,
                   timer: widget.timer,
@@ -92,11 +95,12 @@ class _Home extends State<Home> {
   }
 
   void comeBacktoGame() {
+    print(playingGame.bingoType);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Game(
-                bingoParams: widget.bingoParams,
+                bingoParams: playingGame,
                 personalizeCards: personalizeCard,
                 changeIsPlaying: changeIsPlaying,
                 timer: widget.timer,
