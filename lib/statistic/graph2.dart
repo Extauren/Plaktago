@@ -18,6 +18,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   int skip = 0;
   int touchedGroupIndex = -1;
   int sortIndex = 0;
+  int maxY = 0; //widget.cardList.where((element) => element.nbPlayed);
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   void sortByPlayed() {
     int index = 0;
     widget.cardList.sort((a, b) => b.nbPlayed.compareTo(a.nbPlayed));
+    maxY = widget.cardList[0].nbPlayed;
     for (int it = 0; it < widget.cardList.length; it++) {
       if (it % 5 == 0) {
         index = 0;
@@ -120,7 +122,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                   onHorizontalDragEnd: changePage,
                   child: BarChart(
                     BarChartData(
-                      maxY: widget.cardList[0].nbPlayed.toDouble(),
+                      maxY: maxY.toDouble(),
                       barTouchData: BarTouchData(
                         touchTooltipData: BarTouchTooltipData(
                           tooltipBgColor: Colors.grey,
@@ -170,8 +172,6 @@ class BarChartSample2State extends State<BarChartSample2> {
                     width: 100,
                     child: TextButton(
                         onPressed: () => {changeSort(0)},
-                        // style: TextButton.styleFrom(
-                        //     padding: EdgeInsets.only(bottom: 0)),
                         child: Indicator(
                           color: Colors.indigo[300]!,
                           text: 'Partie',
@@ -203,21 +203,19 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   Widget leftTitles(double value, TitleMeta meta) {
-    final test = widget.cardList[0].nbPlayed / 2;
+    final half = maxY / 2;
     final style = TextStyle(
-      color: Theme.of(context)
-          .colorScheme
-          .onSurface, //Colors.white, //Color(0xff7589a2),
+      color: Theme.of(context).colorScheme.onSurface,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
     String text;
     if (value == 0) {
       text = '0';
-    } else if (value == test) {
-      text = test.toInt().toString();
-    } else if (value == widget.cardList[0].nbPlayed) {
-      text = widget.cardList[0].nbPlayed.toString();
+    } else if (value == half) {
+      text = half.toInt().toString();
+    } else if (value == maxY) {
+      text = maxY.toString();
     } else {
       return Container();
     }
@@ -235,7 +233,6 @@ class BarChartSample2State extends State<BarChartSample2> {
       titles[value.toInt()],
       textAlign: TextAlign.center,
       style: TextStyle(
-        //color: Theme.of(context).colorScheme.onSurface, //Color(0xff7589a2),
         fontWeight: FontWeight.bold,
         fontSize: 14,
       ),
@@ -257,13 +254,12 @@ class BarChartSample2State extends State<BarChartSample2> {
       barRods: [
         BarChartRodData(
           toY: y2,
-          color: Colors.indigo[300], //Theme.of(context).colorScheme.secondary,
+          color: Colors.indigo[300],
           width: width,
         ),
         BarChartRodData(
           toY: y1,
-          color: Color.fromRGBO(
-              208, 118, 89, 1), //Theme.of(context).colorScheme.primary,
+          color: Color.fromRGBO(208, 118, 89, 1),
           width: width,
         ),
       ],

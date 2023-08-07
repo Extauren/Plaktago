@@ -71,7 +71,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   Widget build(BuildContext context) {
     return Column(children: [
       SizedBox(
-          height: 200,
+          height: 190,
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, childAspectRatio: 1.4),
