@@ -4,8 +4,6 @@ enum PlaqueType {
   //placeHolder('Type de plaque'),
   triangle('Triangle'),
   ronde('Ronde'),
-  tortue('Tortue'),
-  soleil('Soleil'),
   carrer('Carré');
 
   const PlaqueType(this.name);
