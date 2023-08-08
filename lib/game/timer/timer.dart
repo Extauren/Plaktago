@@ -40,9 +40,7 @@ class _Timer extends State<Timer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        //margin: const EdgeInsets.only(top: 40),
-        child: Column(
+    return Column(
       children: <Widget>[
         StreamBuilder<int>(
           stream: _stopWatchTimer.rawTime,
@@ -88,6 +86,6 @@ class _Timer extends State<Timer> {
           ],
         ),
       ],
-    ));
+    );
   }
 }

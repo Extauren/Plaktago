@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'game/timer/timer.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);

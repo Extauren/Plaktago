@@ -130,14 +130,14 @@ class _Home extends State<Home> {
                   )),
             ],
           ),
-          actions: <Widget>[
-            if (widget.isPlaying == true)
-              IconButton(
-                icon: Icon(Icons.play_circle_fill_outlined,
-                    color: Theme.of(context).colorScheme.primary, size: 28),
-                onPressed: comeBacktoGame,
-              )
-          ],
+          // actions: <Widget>[
+          //   if (widget.isPlaying == true)
+          //     IconButton(
+          //       icon: Icon(Icons.play_circle_fill_outlined,
+          //           color: Theme.of(context).colorScheme.primary, size: 28),
+          //       onPressed: comeBacktoGame,
+          //     )
+          // ],
         ),
         drawer: DrawerApp(
             changeTheme: widget.changeTheme, appSettings: widget.appSettings),
@@ -147,19 +147,19 @@ class _Home extends State<Home> {
               child: Text("Le bingo des catacombes",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
-          // if (widget.isPlaying == true)
-          //   Container(
-          //       margin: EdgeInsets.only(top: 40, left: 60, right: 60),
-          //       child: ElevatedButton(
-          //         onPressed: comeBacktoGame,
-          //         //style: ButtonStyle(
-          //         //backgroundColor: MaterialStateProperty.all(
-          //         //    Theme.of(context).colorScheme.secondary)),
-          //         child: Text(
-          //           'Reprendre la partie',
-          //           style: TextStyle(color: Colors.black),
-          //         ),
-          //       )),
+          if (widget.isPlaying == true)
+            Container(
+                margin: EdgeInsets.only(top: 40, left: 100, right: 100),
+                child: ElevatedButton(
+                  onPressed: comeBacktoGame,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.secondary)),
+                  child: Text(
+                    'Reprendre la partie',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )),
           Container(
               margin: EdgeInsets.only(top: 50),
               child: BingoTypeButton(
@@ -191,7 +191,7 @@ class _Home extends State<Home> {
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 60,
+                    maxHeight: 70,
                   ),
                   child: PlaqueTypeButton(
                     selectecPlaque: widget.bingoParams.plaque,
@@ -202,20 +202,20 @@ class _Home extends State<Home> {
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 60,
+                    maxHeight: 70,
                   ),
                   child: RatDropdownButton(
                       type: widget.bingoParams.ratType,
                       update: widget.bingoParams.updateRat)),
-            if (widget.bingoParams.mode == Mode.random)
-              ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 60,
-                  ),
-                  child: DifficultyButton(
-                      difficulty: widget.bingoParams.difficulty,
-                      update: widget.bingoParams.updateDifficulty)),
+            // if (widget.bingoParams.mode == Mode.random)
+            //   ConstrainedBox(
+            //       constraints: BoxConstraints(
+            //         maxWidth: MediaQuery.of(context).size.width / 2,
+            //         maxHeight: 70,
+            //       ),
+            //       child: DifficultyButton(
+            //           difficulty: widget.bingoParams.difficulty,
+            //           update: widget.bingoParams.updateDifficulty)),
           ]),
           if ((widget.bingoParams.mode == Mode.personalize) ||
               widget.bingoParams.mode == Mode.random)

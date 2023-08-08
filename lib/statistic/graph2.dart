@@ -18,7 +18,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   int skip = 0;
   int touchedGroupIndex = -1;
   int sortIndex = 0;
-  int maxY = 0; //widget.cardList.where((element) => element.nbPlayed);
+  int maxY = 0;
 
   @override
   void initState() {
@@ -92,7 +92,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 0.9,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

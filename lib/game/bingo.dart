@@ -55,7 +55,6 @@ class _Game extends State<Game> {
         bingoCard.clear();
         cardList = cardNameListPlaque
             .where((element) =>
-                element.difficulty <= widget.bingoParams.difficulty.value &&
                 element.type.contains(widget.bingoParams.bingoType))
             .toList();
         for (int it = 0; it < nbLines * nbLines; it++) {
@@ -125,14 +124,14 @@ class _Game extends State<Game> {
           title: Text(
             'Bingo ${widget.bingoParams.bingoType.name}',
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.save,
-              ),
-              onPressed: _saveGame,
-            )
-          ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(
+          //       Icons.save,
+          //     ),
+          //     onPressed: _saveGame,
+          //   )
+          // ],
         ),
         body: ListView(children: [
           Container(
@@ -183,7 +182,7 @@ class _Game extends State<Game> {
                         changePoints: changePoints,
                         bingoCard: bingoCard,
                         nbLines: nbLines,
-                        refreshBoard: refreshBoard,
+                        saveGame: _saveGame,
                       )))),
         ]));
   }

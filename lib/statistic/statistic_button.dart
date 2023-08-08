@@ -11,14 +11,10 @@ enum StatType {
 class StatTypeButton extends StatefulWidget {
   StatType statType;
   Function updateStatType;
-  //final Function updateBingoType;
-  //final Function updateParentState;
   StatTypeButton({
     super.key,
     required this.statType,
     required this.updateStatType,
-    //required this.updateBingoType,
-    //required this.updateParentState
   });
 
   @override
@@ -26,7 +22,6 @@ class StatTypeButton extends StatefulWidget {
 }
 
 class _StatTypeButton extends State<StatTypeButton> {
-  //StatType statType = StatType.general;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -55,9 +50,7 @@ class _StatTypeButton extends State<StatTypeButton> {
       onSelectionChanged: (Set<StatType> newSelection) {
         setState(() {
           widget.statType = StatType.list;
-          // widget.bingoType = newSelection.first;
           widget.updateStatType();
-          // widget.updateParentState();
         });
       },
     ));

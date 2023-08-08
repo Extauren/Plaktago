@@ -7,7 +7,7 @@ class Board extends StatefulWidget {
   final Function changePoints;
   final List<BingoCard> bingoCard;
   final int nbLines;
-  final VoidCallback refreshBoard;
+  final VoidCallback saveGame;
 
   Board(
       {Key? key,
@@ -15,7 +15,7 @@ class Board extends StatefulWidget {
       required this.changePoints,
       required this.bingoCard,
       required this.nbLines,
-      required this.refreshBoard})
+      required this.saveGame})
       : super(key: key);
 
   @override
@@ -121,15 +121,15 @@ class _Board extends State<Board> {
             style: ElevatedButton.styleFrom(
                 //fixedSize: Size.fromWidth(MediaQuery.of(context).size.width / 2),
                 ),
-            onPressed: widget.refreshBoard,
+            onPressed: widget.saveGame,
             child: TextButton.icon(
-              onPressed: widget.refreshBoard,
+              onPressed: widget.saveGame,
               icon: Icon(
-                Icons.restart_alt,
+                Icons.save,
                 color: Colors.black, //Theme.of(context).secondaryHeaderColor,
               ),
               label: Text(
-                'Aléatoire',
+                'Sauvegarder la partie',
                 style: TextStyle(color: Colors.black),
               ),
             ),

@@ -30,7 +30,7 @@ class _LaunchGame extends State<LaunchGame> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 150),
+        margin: EdgeInsets.symmetric(horizontal: 140),
         child: ExtraLongDetector(
             duration: Duration(seconds: 10),
             onLongPress: widget.btek,
