@@ -40,9 +40,12 @@ class _Board extends State<Board> {
   Color getCardColor(int index) {
     if (widget.bingoCard.elementAt(index).isSelect == true) {
       if (widget.bingoCard.elementAt(index).nbLineComplete > 0) {
-        return Colors.grey[600]!; //Color.fromRGBO(219, 150, 129, 1);
+        return Color.fromRGBO(153, 219, 129,
+            1); //Colors.grey[600]!; //Color.fromRGBO(219, 150, 129, 1);
       }
-      return Color.fromRGBO(153, 219, 129, 1);
+      return Theme.of(context)
+          .colorScheme
+          .secondary; //Color.fromRGBO(153, 219, 129, 1);
     }
     return Theme.of(context).cardColor;
   }
