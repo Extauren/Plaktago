@@ -1,6 +1,6 @@
 import '../../home/bingoTypeButton.dart';
 
-enum plaqueTypeList { triangle, ronde, tortue, soleil, carrer, all, none }
+enum plaqueTypeList { triangle, ronde, carrer, all, none }
 
 class CardName {
   String name;
@@ -56,11 +56,11 @@ List<CardName> cardNameListPlaque = [
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque],
       difficulty: 1),
-  CardName(
-      name: "Dégonde la plaque",
-      plaqueType: plaqueTypeList.triangle,
-      type: [BingoType.plaque],
-      difficulty: 2),
+  // CardName(
+  //     name: "Dégonde la plaque",
+  //     plaqueType: plaqueTypeList.triangle,
+  //     type: [BingoType.plaque],
+  //     difficulty: 2),
   CardName(
       name: "Claque la plaque",
       plaqueType: plaqueTypeList.all,
@@ -79,7 +79,7 @@ List<CardName> cardNameListPlaque = [
   CardName(
       name: "Galère à cause du sac",
       plaqueType: plaqueTypeList.all,
-      type: [BingoType.plaque, BingoType.sousterrain],
+      type: [BingoType.plaque, BingoType.sousterrain], //balade
       difficulty: 1),
   CardName(
       name: "Reste à côté de la plaque",
@@ -157,6 +157,8 @@ List<CardName> cardNameListPlaque = [
       type: [BingoType.plaque, BingoType.sousterrain],
       difficulty: 2),
   CardName(name: "Fumi", type: [BingoType.sousterrain], difficulty: 1),
+  CardName(name: "Perdu", type: [BingoType.sousterrain], difficulty: 1),
   CardName(name: "Chantier", type: [BingoType.sousterrain], difficulty: 2),
-  CardName(name: "Traquenard", type: [BingoType.sousterrain], difficulty: 1)
+  CardName(name: "Traquenard", type: [BingoType.sousterrain], difficulty: 1),
+  CardName(name: "Hamac", type: [BingoType.sousterrain], difficulty: 1)
 ];

@@ -52,19 +52,22 @@ class _Board extends State<Board> {
 
   void _onCardTapped(final int index) {
     bool newState = !widget.bingoCard.elementAt(index).isSelect;
+    int points = 0;
+
+    (newState) ? points += 1 : points -= 1;
     setState(() {
-      widget.changePoints(!widget.bingoCard.elementAt(index).isSelect);
       widget.bingoCard.elementAt(index).isSelect =
           !widget.bingoCard.elementAt(index).isSelect;
-      checkBoard.checkColumn(widget.bingoCard, index, newState);
-      checkBoard.checkLine(widget.bingoCard, index, newState);
+      points += checkBoard.checkColumn(widget.bingoCard, index, newState);
+      points += checkBoard.checkLine(widget.bingoCard, index, newState);
       if (firstDiagonalValues.contains(index)) {
-        checkBoard.checkDiagonal(
+        points += checkBoard.checkDiagonal(
             widget.bingoCard, 0, newState, widget.nbLines + 1);
       } else if (secondDiagonalValues.contains(index)) {
-        checkBoard.checkDiagonal(
+        points += checkBoard.checkDiagonal(
             widget.bingoCard, widget.nbLines - 1, newState, widget.nbLines - 1);
       }
+      widget.changePoints(points);
     });
   }
 
@@ -103,6 +106,9 @@ class _Board extends State<Board> {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () => _onCardTapped(index),
+                  // child: SizedBox(
+                  //   height: 10,
+                  //   width: 10,
                   child: Card(
                     shape: getCardShape(index),
                     margin: const EdgeInsets.all(0.5),

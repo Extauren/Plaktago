@@ -5,7 +5,7 @@ class CheckBoard {
 
   CheckBoard({required this.nbLines});
 
-  void checkColumn(List<BingoCard> bingoCard, int index, bool newState) {
+  int checkColumn(List<BingoCard> bingoCard, int index, bool newState) {
     int counter = 0;
     double buffer = index - ((index / nbLines) * nbLines) + index % nbLines;
     int cardPos = buffer.round();
@@ -18,14 +18,17 @@ class CheckBoard {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(cardPos + (it * nbLines)).nbLineComplete += 1;
       }
+      return 4;
     } else if (counter == nbLines - 1 && !newState) {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(cardPos + (it * nbLines)).nbLineComplete -= 1;
       }
+      return -4;
     }
+    return 0;
   }
 
-  void checkLine(List<BingoCard> bingoCard, int index, bool newState) {
+  int checkLine(List<BingoCard> bingoCard, int index, bool newState) {
     int cardPos = index - (index % nbLines);
     int counter = 0;
     for (int it = 0; it < nbLines; it++) {
@@ -37,14 +40,17 @@ class CheckBoard {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(cardPos + it).nbLineComplete += 1;
       }
+      return 4;
     } else if (counter == nbLines - 1 && !newState) {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(cardPos + it).nbLineComplete -= 1;
       }
+      return -4;
     }
+    return 0;
   }
 
-  void checkDiagonal(
+  int checkDiagonal(
       List<BingoCard> bingoCard, int index, bool newState, int incrementValue) {
     int counter = 0;
     int buffer = 0;
@@ -62,27 +68,14 @@ class CheckBoard {
         bingoCard.elementAt(buffer).nbLineComplete += 1;
         buffer += incrementValue;
       }
+      return 4;
     } else if (counter == nbLines - 1 && !newState) {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(buffer).nbLineComplete -= 1;
         buffer += incrementValue;
       }
+      return -4;
     }
+    return 0;
   }
-
-  // void checkAllBoard(
-  //     final int index,
-  //     List<BingoCard> bingoCard,
-  //     final List<int> firstDiagonalValues,
-  //     final List<int> secondDiagonalValues) {
-  //   bool newState = !bingoCard.elementAt(index).isSelect;
-
-  //   checkColumn(bingoCard, index, newState);
-  //   checkLine(bingoCard, index, newState);
-  //   if (firstDiagonalValues.contains(index)) {
-  //     checkDiagonal(bingoCard, 0, newState, nbLines + 1);
-  //   } else if (secondDiagonalValues.contains(index)) {
-  //     checkDiagonal(bingoCard, nbLines - 1, newState, nbLines - 1);
-  //   }
-  // }
 }

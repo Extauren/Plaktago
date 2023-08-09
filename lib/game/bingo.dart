@@ -87,32 +87,56 @@ class _Game extends State<Game> {
     });
   }
 
-  void _saveGame() {
+  void askSaveGame() {
+    BuildContext dialogContext;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return AlertDialog(
+              title: Text("Voulez vous vraiment sauvegarder cette partie ?",
+                  style: TextStyle(color: Colors.black, fontSize: 18)),
+              content:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: ElevatedButton(
+                        onPressed: () => {_saveGame(dialogContext)},
+                        child: Text("Oui",
+                            style: TextStyle(color: Colors.black)))),
+                Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: ElevatedButton(
+                        onPressed: () => {Navigator.pop(dialogContext)},
+                        child:
+                            Text("Non", style: TextStyle(color: Colors.black))))
+              ]),
+              backgroundColor: Colors.grey[300]);
+        });
+  }
+
+  void _saveGame(final BuildContext dialogContext) {
     SaveGame saveGame = SaveGame();
     saveGame.writeGame(
         bingoCard, points, widget.bingoParams, widget.timer.getTime());
     widget.changeIsPlaying(false);
+    Navigator.pop(dialogContext);
     Navigator.pop(context);
   }
 
-  void changePoints(bool newPoint) {
+  void changePoints(int newPoint) {
     setState(() {
-      if (newPoint) {
-        points += 1;
-        if (points == 16) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                    title: Text(style: TextStyle(color: Colors.black), "Bingo"),
-                    content: Text(
-                        style: TextStyle(color: Colors.black),
-                        "Vous avez gagné"),
-                    backgroundColor: Colors.yellow[300]);
-              });
-        }
-      } else {
-        points -= 1;
+      points += newPoint;
+      if (points == 56) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: Text(style: TextStyle(color: Colors.black), "Bingo"),
+                  content: Text(
+                      style: TextStyle(color: Colors.black), "Vous avez gagné"),
+                  backgroundColor: Colors.yellow[300]);
+            });
       }
     });
   }
@@ -124,14 +148,6 @@ class _Game extends State<Game> {
           title: Text(
             'Bingo ${widget.bingoParams.bingoType.name}',
           ),
-          // actions: <Widget>[
-          //   IconButton(
-          //     icon: Icon(
-          //       Icons.save,
-          //     ),
-          //     onPressed: _saveGame,
-          //   )
-          // ],
         ),
         body: ListView(children: [
           Container(
@@ -182,7 +198,7 @@ class _Game extends State<Game> {
                         changePoints: changePoints,
                         bingoCard: bingoCard,
                         nbLines: nbLines,
-                        saveGame: _saveGame,
+                        saveGame: askSaveGame,
                       )))),
         ]));
   }

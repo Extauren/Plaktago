@@ -53,7 +53,7 @@ class _GameList extends State<GameList> {
   }
 
   Color getCardColor(final String points, final String gameType) {
-    if (points == "16") {
+    if (points == "56") {
       return Colors.amber[300]!;
     } else if (gameType == "Plaque") {
       return Colors.indigo[200]!;

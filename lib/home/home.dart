@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/home/plaqueTypeButton.dart';
-import 'package:plaktago/home/ratDropdownButton.dart';
 import 'package:plaktago/utils/appSettings.dart';
-import 'difficultyButton.dart';
 import '../game/bingo.dart';
 import 'drawer.dart';
 import 'bingoTypeButton.dart';
@@ -118,38 +115,25 @@ class _Home extends State<Home> {
         appBar: AppBar(
           title: Row(
             children: [
-              // const Image(
-              //   image: AssetImage('logo.png'),
-              //   height: 40,
-              //   width: 40, //MediaQuery.of(context).size.width / 2,
-              // ),
-              Container(
-                  margin: const EdgeInsets.only(left: 0),
-                  child: Text(
-                    'Plaktago',
-                  )),
+              Text(
+                'Plaktago',
+              ),
             ],
           ),
-          // actions: <Widget>[
-          //   if (widget.isPlaying == true)
-          //     IconButton(
-          //       icon: Icon(Icons.play_circle_fill_outlined,
-          //           color: Theme.of(context).colorScheme.primary, size: 28),
-          //       onPressed: comeBacktoGame,
-          //     )
-          // ],
         ),
         drawer: DrawerApp(
             changeTheme: widget.changeTheme, appSettings: widget.appSettings),
         body: ListView(children: [
           Container(
-              margin: const EdgeInsets.only(top: 60.0, left: 10, right: 10),
+              margin: const EdgeInsets.only(
+                  top: 60.0, left: 10, right: 10, bottom: 40),
               child: Text("Le bingo des catacombes",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
           if (widget.isPlaying == true)
             Container(
-                margin: EdgeInsets.only(top: 40, left: 100, right: 100),
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 4),
                 child: ElevatedButton(
                   onPressed: comeBacktoGame,
                   style: ButtonStyle(
@@ -186,46 +170,19 @@ class _Home extends State<Home> {
                       type: widget.bingoParams.bingoType,
                       nbCardSelect: nbCards,
                       changeNbCardValue: changeNbCardValue))
-            else if (widget.bingoParams.bingoType == BingoType.plaque &&
-                widget.bingoParams.mode == Mode.random)
-              ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 70,
-                  ),
-                  child: PlaqueTypeButton(
-                    selectecPlaque: widget.bingoParams.plaque,
-                    updatePlaque: widget.bingoParams.updatePlaque,
-                  )),
-            if (widget.bingoParams.bingoType == BingoType.sousterrain &&
-                widget.bingoParams.mode == Mode.random)
-              ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width / 2,
-                    maxHeight: 70,
-                  ),
-                  child: RatDropdownButton(
-                      type: widget.bingoParams.ratType,
-                      update: widget.bingoParams.updateRat)),
-            // if (widget.bingoParams.mode == Mode.random)
-            //   ConstrainedBox(
-            //       constraints: BoxConstraints(
-            //         maxWidth: MediaQuery.of(context).size.width / 2,
-            //         maxHeight: 70,
-            //       ),
-            //       child: DifficultyButton(
-            //           difficulty: widget.bingoParams.difficulty,
-            //           update: widget.bingoParams.updateDifficulty)),
           ]),
           if ((widget.bingoParams.mode == Mode.personalize) ||
               widget.bingoParams.mode == Mode.random)
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 50),
-                child: LaunchGame(
-                    launchGame: launchGame,
-                    btek: btek,
-                    nbCards: nbCards,
-                    mode: widget.bingoParams.mode)),
+            Align(
+              child: Container(
+                  constraints: BoxConstraints(maxWidth: 100),
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: LaunchGame(
+                      launchGame: launchGame,
+                      btek: btek,
+                      nbCards: nbCards,
+                      mode: widget.bingoParams.mode)),
+            )
         ]));
   }
 }

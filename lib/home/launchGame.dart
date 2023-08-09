@@ -29,19 +29,17 @@ class _LaunchGame extends State<LaunchGame> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.symmetric(horizontal: 140),
-        child: ExtraLongDetector(
-            duration: Duration(seconds: 10),
-            onLongPress: widget.btek,
-            child: ElevatedButton(
-              onPressed: widget.launchGame,
-              style: ButtonStyle(backgroundColor: getButtonColor()),
-              child: Text(
-                'Jouer',
-                style: TextStyle(color: Colors.black),
-              ),
-            )));
+    return ExtraLongDetector(
+        duration: Duration(seconds: 10),
+        onLongPress: widget.btek,
+        child: ElevatedButton(
+          onPressed: widget.launchGame,
+          style: ButtonStyle(backgroundColor: getButtonColor()),
+          child: Text(
+            'Jouer',
+            style: TextStyle(color: Colors.black),
+          ),
+        ));
   }
 }
 

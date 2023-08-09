@@ -40,9 +40,9 @@ class _GameStats extends State<GameStats> {
   Color getCardColor(int index) {
     if (bingoCard.elementAt(index)["isSelect"] == true) {
       if (bingoCard.elementAt(index)["nbLineComplete"] > 0) {
-        return Colors.grey[600]!; //Color.fromRGBO(219, 150, 129, 1);
+        return Color.fromRGBO(153, 219, 129, 1);
       }
-      return Color.fromRGBO(153, 219, 129, 1);
+      return Theme.of(context).colorScheme.secondary;
     }
     return Theme.of(context).cardColor;
   }
