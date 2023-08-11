@@ -60,9 +60,25 @@ class _Home extends State<Home> {
     });
   }
 
+  void startGame() {
+    widget.timer = Timer(timer: 0);
+    widget.playingGame = widget.bingoParams.clone();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Game(
+                bingoParams: widget.playingGame,
+                personalizeCards: personalizeCard,
+                changeIsPlaying: changeIsPlaying,
+                timer: widget.timer,
+                newGame: true))).then((value) {
+      updateState();
+    });
+  }
+
   void launchGame() {
     final int nbCardNeed = 16 - nbCards;
-    widget.timer = Timer(timer: 0);
+    BuildContext dialogContext;
 
     if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
       showDialog(
@@ -75,20 +91,38 @@ class _Home extends State<Home> {
                     "Vous devez sélectionner $nbCardNeed cases supplémentaires"),
                 backgroundColor: Colors.red[300]);
           });
-    } else {
-      widget.playingGame = widget.bingoParams.clone();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Game(
-                  bingoParams: widget.playingGame,
-                  personalizeCards: personalizeCard,
-                  changeIsPlaying: changeIsPlaying,
-                  timer: widget.timer,
-                  newGame: true))).then((value) {
-        updateState();
-      });
+      return;
     }
+    if (widget.isPlaying) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            dialogContext = context;
+            return AlertDialog(
+                title: Text(
+                    "Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?",
+                    style: TextStyle(color: Colors.black, fontSize: 18)),
+                content:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: ElevatedButton(
+                          onPressed: () =>
+                              {Navigator.pop(dialogContext), startGame()},
+                          child: Text("Oui",
+                              style: TextStyle(color: Colors.black)))),
+                  Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: ElevatedButton(
+                          onPressed: () => {Navigator.pop(dialogContext)},
+                          child: Text("Non",
+                              style: TextStyle(color: Colors.black))))
+                ]),
+                backgroundColor: Colors.grey[300]);
+          });
+      return;
+    }
+    startGame();
   }
 
   void comeBacktoGame() {
@@ -131,19 +165,21 @@ class _Home extends State<Home> {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
           if (widget.isPlaying == true)
-            Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 4),
-                child: ElevatedButton(
-                  onPressed: comeBacktoGame,
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.secondary)),
-                  child: Text(
-                    'Reprendre la partie',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )),
+            Align(
+                child: Container(
+                    constraints: BoxConstraints(maxWidth: 180),
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: ElevatedButton(
+                      onPressed: comeBacktoGame,
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondary)),
+                      child: Text(
+                        'Reprendre la partie',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ))),
           Container(
               margin: EdgeInsets.only(top: 50),
               child: BingoTypeButton(

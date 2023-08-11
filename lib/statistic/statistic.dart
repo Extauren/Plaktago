@@ -22,13 +22,12 @@ class _Statistic extends State<Statistic> {
 
   @override
   void initState() {
-    super.initState();
     test();
+    super.initState();
   }
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
@@ -41,7 +40,6 @@ class _Statistic extends State<Statistic> {
     try {
       final file = await _localFile;
       final contents = await file.readAsString();
-
       return contents;
     } catch (e) {
       return "";
@@ -49,16 +47,201 @@ class _Statistic extends State<Statistic> {
   }
 
   Future<void> test() async {
-    final data = jsonDecode(await readGames());
+    //final data = jsonDecode(await readGames());
+    _general = {}; //await getGeneralStatistics();
+    print(_general);
+    final Map<String, dynamic> data = {
+      "general": {
+        "nbGames": 3,
+        "bingoPlaque": 2,
+        "bingoRat": 1,
+        "bingoWin": 0,
+        "cardList": [
+          {"cardName": "Bus", "nbPlayed": 2, "nbCheck": 0},
+          {"cardName": "Kta star", "nbPlayed": 3, "nbCheck": 1},
+          {"cardName": "Copain", "nbPlayed": 2, "nbCheck": 0},
+          {"cardName": "Lampe allumée", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Touristes", "nbPlayed": 2, "nbCheck": 0},
+          {
+            "cardName": "Regarde mais s'arrête pas",
+            "nbPlayed": 0,
+            "nbCheck": 0
+          },
+          {"cardName": "Police", "nbPlayed": 1, "nbCheck": 1},
+          {
+            "cardName": "Fermeture de plaque hasardeuse",
+            "nbPlayed": 2,
+            "nbCheck": 1
+          },
+          {"cardName": "Claque la plaque", "nbPlayed": 0, "nbCheck": 0},
+          {"cardName": "Solitaire", "nbPlayed": 3, "nbCheck": 1},
+          {"cardName": "Arrive pas à ouvrir", "nbPlayed": 1, "nbCheck": 1},
+          {"cardName": "Galère à cause du sac", "nbPlayed": 3, "nbCheck": 1},
+          {
+            "cardName": "Reste à côté de la plaque",
+            "nbPlayed": 2,
+            "nbCheck": 0
+          },
+          {"cardName": "Fil d'attente", "nbPlayed": 2, "nbCheck": 2},
+          {
+            "cardName": "Tir sur la mauvaise plaque",
+            "nbPlayed": 2,
+            "nbCheck": 1
+          },
+          {
+            "cardName": "Random qui s'arrête regarder",
+            "nbPlayed": 0,
+            "nbCheck": 0
+          },
+          {"cardName": "tier", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Tir plaque original", "nbPlayed": 2, "nbCheck": 2},
+          {"cardName": "Couple / Duo", "nbPlayed": 2, "nbCheck": 1},
+          {"cardName": "Attend un pote", "nbPlayed": 2, "nbCheck": 1},
+          {"cardName": "Laisse la plaque ouverte", "nbPlayed": 1, "nbCheck": 0},
+          {
+            "cardName": "Plaque ouverte +1min / pers",
+            "nbPlayed": 1,
+            "nbCheck": 0
+          },
+          {"cardName": "Trop propre", "nbPlayed": 3, "nbCheck": 2},
+          {"cardName": "Discute à coté", "nbPlayed": 0, "nbCheck": 0},
+          {"cardName": "Discute plaque ouverte", "nbPlayed": 2, "nbCheck": 0},
+          {"cardName": "Fusion de groupe", "nbPlayed": 2, "nbCheck": 2},
+          {"cardName": "Tous dans la même tenue", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Fumi", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Perdu", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Chantier", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Traquenard", "nbPlayed": 1, "nbCheck": 1},
+          {"cardName": "Hamac", "nbPlayed": 1, "nbCheck": 0}
+        ]
+      },
+      "games": [
+        {
+          "gameNumber": 1,
+          "points": 8,
+          "gameType": "Plaque",
+          "date": "09 août 2023",
+          "hour": "20:13",
+          "time": "00:00:04",
+          "bingoCardList": [
+            {"name": "Fil d'attente", "isSelect": true, "nbLineComplete": 1},
+            {"name": "Kta star", "isSelect": false, "nbLineComplete": 0},
+            {"name": "Attend un pote", "isSelect": false, "nbLineComplete": 0},
+            {"name": "Solitaire", "isSelect": false, "nbLineComplete": 0},
+            {
+              "name": "Reste à côté de la plaque",
+              "isSelect": false,
+              "nbLineComplete": 0
+            },
+            {
+              "name": "Tir plaque original",
+              "isSelect": true,
+              "nbLineComplete": 1
+            },
+            {"name": "Bus", "isSelect": false, "nbLineComplete": 0},
+            {"name": "Lampe allumée", "isSelect": false, "nbLineComplete": 0},
+            {
+              "name": "Galère à cause du sac",
+              "isSelect": false,
+              "nbLineComplete": 0
+            },
+            {
+              "name": "Discute plaque ouverte",
+              "isSelect": false,
+              "nbLineComplete": 0
+            },
+            {"name": "Trop propre", "isSelect": true, "nbLineComplete": 1},
+            {"name": "Fifi tier", "isSelect": false, "nbLineComplete": 0},
+            {
+              "name": "Fermeture de plaque hasardeuse",
+              "isSelect": false,
+              "nbLineComplete": 0
+            },
+            {"name": "Copain", "isSelect": false, "nbLineComplete": 0},
+            {"name": "Touristes", "isSelect": false, "nbLineComplete": 0},
+            {
+              "name": "Tir sur la mauvaise plaque",
+              "isSelect": true,
+              "nbLineComplete": 1
+            }
+          ]
+        }
+      ]
+    };
     setState(() {
-      _general = data["general"];
+      //_general = //await getGeneralStatistics(); //data["general"];
       _bingoGames = data["games"];
       _bingoGames = _bingoGames.reversed.toList();
     });
   }
 
   Future<Map<String, dynamic>> getGeneralStatistics() async {
-    final data = jsonDecode(await readGames());
+    final Map<String, dynamic> data = {
+      "general": {
+        "nbGames": 3,
+        "bingoPlaque": 2,
+        "bingoRat": 1,
+        "bingoWin": 0,
+        "cardList": [
+          {"cardName": "Bus", "nbPlayed": 2, "nbCheck": 0},
+          {"cardName": "Kta star", "nbPlayed": 3, "nbCheck": 1},
+          {"cardName": "Copain", "nbPlayed": 2, "nbCheck": 0},
+          {"cardName": "Lampe allumée", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Touristes", "nbPlayed": 2, "nbCheck": 0},
+          {
+            "cardName": "Regarde mais s'arrête pas",
+            "nbPlayed": 0,
+            "nbCheck": 0
+          },
+          {"cardName": "Police", "nbPlayed": 1, "nbCheck": 1},
+          {
+            "cardName": "Fermeture de plaque hasardeuse",
+            "nbPlayed": 2,
+            "nbCheck": 1
+          },
+          {"cardName": "Claque la plaque", "nbPlayed": 0, "nbCheck": 0},
+          {"cardName": "Solitaire", "nbPlayed": 3, "nbCheck": 1},
+          {"cardName": "Arrive pas à ouvrir", "nbPlayed": 1, "nbCheck": 1},
+          {"cardName": "Galère à cause du sac", "nbPlayed": 3, "nbCheck": 1},
+          {
+            "cardName": "Reste à côté de la plaque",
+            "nbPlayed": 2,
+            "nbCheck": 0
+          },
+          {"cardName": "Fil d'attente", "nbPlayed": 2, "nbCheck": 2},
+          {
+            "cardName": "Tir sur la mauvaise plaque",
+            "nbPlayed": 2,
+            "nbCheck": 1
+          },
+          {
+            "cardName": "Random qui s'arrête regarder",
+            "nbPlayed": 0,
+            "nbCheck": 0
+          },
+          {"cardName": "tier", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Tir plaque original", "nbPlayed": 2, "nbCheck": 2},
+          {"cardName": "Couple / Duo", "nbPlayed": 2, "nbCheck": 1},
+          {"cardName": "Attend un pote", "nbPlayed": 2, "nbCheck": 1},
+          {"cardName": "Laisse la plaque ouverte", "nbPlayed": 1, "nbCheck": 0},
+          {
+            "cardName": "Plaque ouverte +1min / pers",
+            "nbPlayed": 1,
+            "nbCheck": 0
+          },
+          {"cardName": "Trop propre", "nbPlayed": 3, "nbCheck": 2},
+          {"cardName": "Discute à coté", "nbPlayed": 0, "nbCheck": 0},
+          {"cardName": "Discute plaque ouverte", "nbPlayed": 2, "nbCheck": 0},
+          {"cardName": "Fusion de groupe", "nbPlayed": 2, "nbCheck": 2},
+          {"cardName": "Tous dans la même tenue", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Fumi", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Perdu", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Chantier", "nbPlayed": 1, "nbCheck": 0},
+          {"cardName": "Traquenard", "nbPlayed": 1, "nbCheck": 1},
+          {"cardName": "Hamac", "nbPlayed": 1, "nbCheck": 0}
+        ]
+      }
+    }; //jsonDecode(await readGames());
     return data["general"];
   }
 
@@ -94,18 +277,18 @@ class _Statistic extends State<Statistic> {
             height: MediaQuery.of(context).size.height,
             child: ListView(children: [
               Container(
-                  margin: EdgeInsets.only(top: 30, bottom: 20),
+                  margin: EdgeInsets.only(top: 20, bottom: 20),
                   child: StatTypeButton(
                       statType: statType, updateStatType: updateStatType)),
               if (statType == StatType.general)
                 GeneralStatistic(
-                  getGeneralStatistics: getGeneralStatistics,
+                  statistics: getGeneralStatistics,
                 ),
               if (statType == StatType.list)
                 _bingoGames.isNotEmpty
                     ? Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
-                        height: 600,
+                        height: MediaQuery.of(context).size.height,
                         child: ListView.builder(
                             itemCount: _bingoGames.length,
                             itemBuilder: (context, index) {
@@ -129,58 +312,6 @@ class _Statistic extends State<Statistic> {
                                   board: _bingoGames[index]);
                             }))
                     : Container()
-              //GameList()
-              // _bingoGames.isNotEmpty
-              //     ? Container(
-              //         margin: EdgeInsets.symmetric(vertical: 20),
-              //         height: 600,
-              //         child: ListView.builder(
-              //           itemCount: _bingoGames.length,
-              //           itemBuilder: (context, index) {
-              //             final String points =
-              //                 _bingoGames[index]["points"].toString();
-              //             final String gameType =
-              //                 _bingoGames[index]["gameType"];
-              //             final String date = _bingoGames[index]["date"];
-              //             final String hour = _bingoGames[index]["hour"];
-              //             final String time = _bingoGames[index]["time"];
-              //             final String gameNumber =
-              //                 _bingoGames[index]["gameNumber"].toString();
-              //             return GestureDetector(
-              //                 onTap: () => goToGameStats(index),
-              //                 child: Container(
-              //                     margin:
-              //                         EdgeInsets.symmetric(horizontal: 30),
-              //                     height: 130,
-              //                     child: Card(
-              //                         key: ValueKey(
-              //                             _bingoGames[index]["gameNumber"]),
-              //                         margin: const EdgeInsets.all(5),
-              //                         color: getCardColor(gameType),
-              //                         elevation: 2,
-              //                         child: Column(children: [
-              //                           Text("Bingo $gameType",
-              //                               style: TextStyle(
-              //                                   color: Colors.black)),
-              //                           Text("Points: $points",
-              //                               style: TextStyle(
-              //                                   color: Colors.black)),
-              //                           Text("Date : $date",
-              //                               style: TextStyle(
-              //                                   color: Colors.black)),
-              //                           Text("Heure : $hour",
-              //                               style: TextStyle(
-              //                                   color: Colors.black)),
-              //                           Text("Partie numéro : $gameNumber",
-              //                               style: TextStyle(
-              //                                   color: Colors.black)),
-              //                           Text("Temps : $time",
-              //                               style: TextStyle(
-              //                                   color: Colors.black))
-              //                         ]))));
-              //           },
-              //         ))
-              //     : Container()
             ])));
   }
 }

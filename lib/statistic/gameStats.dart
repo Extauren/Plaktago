@@ -47,71 +47,6 @@ class _GameStats extends State<GameStats> {
     return Theme.of(context).cardColor;
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   final String type = widget.bingoStat["gameType"];
-  //   return Scaffold(
-  //       appBar: AppBar(title: Text("Bingo $type")),
-  //       body: ListView(children: [
-  //         Text(widget.bingoStat["date"]),
-  //         ConstrainedBox(
-  //             constraints: BoxConstraints(
-  //               maxWidth: MediaQuery.of(context).size.width / 2,
-  //               //maxHeight: 130,
-  //             ),
-  //             child: Text(
-  //               widget.bingoStat["time"],
-  //               style:
-  //                   const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-  //             )),
-  //         ConstrainedBox(
-  //             constraints: BoxConstraints(
-  //               maxWidth: MediaQuery.of(context).size.width / 2,
-  //               //maxHeight: 130,
-  //             ),
-  //             child: Container(
-  //                 margin: EdgeInsets.only(top: 20),
-  //                 child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: [
-  //                     Text("Points : ",
-  //                         style: TextStyle(
-  //                             fontSize: 18, fontWeight: FontWeight.w500)),
-  //                     Padding(
-  //                         padding: const EdgeInsets.only(left: 5),
-  //                         child: Text(
-  //                           widget.bingoStat["points"].toString(),
-  //                           style: TextStyle(
-  //                               fontSize: 24, fontWeight: FontWeight.w400),
-  //                         ))
-  //                   ],
-  //                 ))),
-  //         SizedBox(
-  //             height: 410,
-  //             child: GridView.builder(
-  //                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //                   crossAxisCount: 4,
-  //                 ),
-  //                 padding: EdgeInsets.all(10.0),
-  //                 itemCount: bingoCard.length,
-  //                 itemBuilder: (BuildContext context, int index) {
-  //                   return Card(
-  //                     shape: getCardShape(index),
-  //                     margin: const EdgeInsets.all(0.5),
-  //                     color: getCardColor(index),
-  //                     child: Center(
-  //                         child: Container(
-  //                             margin: const EdgeInsets.all(0.5),
-  //                             child: Text(bingoCard.elementAt(index)["name"],
-  //                                 textAlign: TextAlign.center,
-  //                                 style: TextStyle(
-  //                                     fontWeight: FontWeight.w600,
-  //                                     color: Colors.black)))),
-  //                   );
-  //                 }))
-  //       ]));
-  // }
-
   @override
   Widget build(BuildContext context) {
     final String type = widget.bingoStat["gameType"];
@@ -169,8 +104,10 @@ class _GameStats extends State<GameStats> {
                             )))
                   ])),
           Container(
-              margin: EdgeInsets.only(top: 20),
-              height: 410,
+              //margin: EdgeInsets.only(top: 20),
+              //height: 410,
+              height: MediaQuery.of(context).size.height / 1.77,
+              constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
@@ -178,18 +115,23 @@ class _GameStats extends State<GameStats> {
                   padding: EdgeInsets.all(10.0),
                   itemCount: bingoCard.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                        shape: getCardShape(index),
-                        margin: const EdgeInsets.all(0.5),
-                        color: getCardColor(index),
-                        child: Center(
-                            child: Container(
+                    return Align(
+                        child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Card(
+                                shape: getCardShape(index),
                                 margin: const EdgeInsets.all(0.5),
-                                child: Text(bingoCard.elementAt(index)["name"],
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black)))));
+                                color: getCardColor(index),
+                                child: Center(
+                                    child: Container(
+                                        margin: const EdgeInsets.all(0.5),
+                                        child: Text(
+                                            bingoCard.elementAt(index)["name"],
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black)))))));
                   }))
         ]));
   }

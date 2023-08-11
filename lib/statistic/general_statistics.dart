@@ -5,8 +5,8 @@ import 'graph.dart';
 import 'graph2.dart';
 
 class GeneralStatistic extends StatefulWidget {
-  final Function getGeneralStatistics;
-  const GeneralStatistic({Key? key, required this.getGeneralStatistics})
+  final Function statistics;
+  const GeneralStatistic({Key? key, required this.statistics})
       : super(key: key);
 
   @override
@@ -15,6 +15,7 @@ class GeneralStatistic extends StatefulWidget {
 
 class _GeneralStatistic extends State<GeneralStatistic> {
   Map<String, dynamic> data = {};
+  double textFontSize = 22;
   List<Widget> values = [
     Container(),
     Container(),
@@ -24,46 +25,62 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     Container(),
   ];
   final List<String> titles = [
-    "Partie total",
-    "Bingo Plaque",
-    "Bingo Rat",
-    "Bingo gagnés",
-    "Carte la + jouée",
-    "Carte la - jouée"
+    "Total",
+    "Plaque",
+    "Rat",
+    "Gagnés",
+    "Plus jouée",
+    "Moins jouée"
   ];
   List<CardList> cardList = [];
 
   @override
   void initState() {
-    super.initState();
     getStatistics();
+    super.initState();
   }
 
   void getStatistics() async {
-    data = await widget.getGeneralStatistics();
+    data = await widget.statistics();
     setState(() {
       values[0] = Text(data["nbGames"].toString(),
           style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+              fontSize: textFontSize));
       values[1] = Text(data["bingoPlaque"].toString(),
           style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+              fontSize: textFontSize));
       values[2] = Text(data["bingoRat"].toString(),
           style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+              fontSize: textFontSize));
       values[3] = Text(data["bingoWin"].toString(),
           style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 26));
-      final List tmp = data["cardList"];
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+              fontSize: textFontSize));
+      final List<Map<String, dynamic>> tmp = data["cardList"];
       for (int it = 0; it < tmp.length; it++) {
-        cardList.add(CardList.fromJson(tmp.elementAt(it)));
+        cardList.add(CardList.fromMap(tmp.elementAt(it)));
       }
-      values[4] = Text(cardList[0].cardName.toString(),
-          style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 18));
-      values[5] = Text(cardList[cardList.length - 1].cardName.toString(),
-          style: TextStyle(
-              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 18));
+      values[4] = Container(
+          margin: EdgeInsets.only(top: 4),
+          child: Text(cardList[0].cardName.toString(),
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: 18)));
+      values[5] = Container(
+          margin: EdgeInsets.only(top: 4),
+          child: Text(cardList[cardList.length - 1].cardName.toString(),
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: 18)));
     });
   }
 
@@ -71,30 +88,37 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   Widget build(BuildContext context) {
     return Column(children: [
       SizedBox(
-          height: 190,
+          height: 200,
+          width: 400,
           child: GridView.builder(
+              controller: ScrollController(keepScrollOffset: false),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, childAspectRatio: 1.4),
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               itemCount: 6,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                    margin: const EdgeInsets.all(5),
-                    color: Colors.indigo[100],
-                    child: Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                          Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text(titles[index],
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black))),
-                          values[index]
-                        ])));
+                return Align(
+                    child: SizedBox(
+                        height: 80,
+                        width: 120,
+                        child: Card(
+                            margin: const EdgeInsets.all(5),
+                            color: Colors.indigo[100],
+                            child: Center(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                  Container(
+                                      margin: const EdgeInsets.only(top: 4),
+                                      child: Text(titles[index],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black))),
+                                  values[index]
+                                ])))));
               })),
       if (cardList.length == cardNameListPlaque.length)
         PieChartSample2(

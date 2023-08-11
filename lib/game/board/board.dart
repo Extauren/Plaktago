@@ -95,47 +95,48 @@ class _Board extends State<Board> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      SizedBox(
-          height: 410,
+      Container(
+          height: MediaQuery.of(context).size.height / 1.77,
+          constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
           child: GridView.builder(
+              controller: ScrollController(keepScrollOffset: false),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: widget.nbLines,
               ),
               padding: EdgeInsets.all(10.0),
               itemCount: widget.nbLines * widget.nbLines,
               itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () => _onCardTapped(index),
-                  // child: SizedBox(
-                  //   height: 10,
-                  //   width: 10,
-                  child: Card(
-                    shape: getCardShape(index),
-                    margin: const EdgeInsets.all(0.5),
-                    color: getCardColor(index),
-                    child: Center(
-                        child: Container(
+                return Align(
+                    child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: GestureDetector(
+                          onTap: () => _onCardTapped(index),
+                          child: Card(
+                            shape: getCardShape(index),
                             margin: const EdgeInsets.all(0.5),
-                            child: Text(widget.bingoCard.elementAt(index).name,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)))),
-                  ),
-                );
+                            color: getCardColor(index),
+                            child: Center(
+                                child: Container(
+                                    margin: const EdgeInsets.all(0.5),
+                                    child: Text(
+                                        widget.bingoCard.elementAt(index).name,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black)))),
+                          ),
+                        )));
               })),
       Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: EdgeInsets.only(bottom: 10),
           child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                //fixedSize: Size.fromWidth(MediaQuery.of(context).size.width / 2),
-                ),
             onPressed: widget.saveGame,
             child: TextButton.icon(
               onPressed: widget.saveGame,
               icon: Icon(
                 Icons.save,
-                color: Colors.black, //Theme.of(context).secondaryHeaderColor,
+                color: Colors.black,
               ),
               label: Text(
                 'Sauvegarder la partie',

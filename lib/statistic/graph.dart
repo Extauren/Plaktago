@@ -21,70 +21,68 @@ class PieChart2State extends State<PieChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(
-            height: 0,
-          ),
-          Expanded(
+    return Align(
+        child: SizedBox(
+            width: 400,
             child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
+              aspectRatio: 2.0,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: PieChart(
+                      PieChartData(
+                        pieTouchData: PieTouchData(
+                          touchCallback:
+                              (FlTouchEvent event, pieTouchResponse) {
+                            setState(() {
+                              if (!event.isInterestedForInteractions ||
+                                  pieTouchResponse == null ||
+                                  pieTouchResponse.touchedSection == null) {
+                                touchedIndex = -1;
+                                return;
+                              }
+                              touchedIndex = pieTouchResponse
+                                  .touchedSection!.touchedSectionIndex;
+                            });
+                          },
+                        ),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 35,
+                        sections: showingSections(),
+                      ),
+                    ),
                   ),
-                  borderData: FlBorderData(
-                    show: false,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Indicator(
+                        color: Colors.indigo[300]!,
+                        text: 'Plaque',
+                        isSquare: false,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color.fromRGBO(208, 118, 89, 1),
+                        text: 'Sous terrain',
+                        isSquare: false,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                    ],
                   ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
-                ),
+                  const SizedBox(
+                    width: 28,
+                  ),
+                ],
               ),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Indicator(
-                color: Colors.indigo[300]!,
-                text: 'Plaque',
-                isSquare: false,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: Color.fromRGBO(208, 118, 89, 1),
-                text: 'Sous terrain',
-                isSquare: false,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 28,
-          ),
-        ],
-      ),
-    );
+            )));
   }
 
   List<PieChartSectionData> showingSections() {
@@ -106,9 +104,9 @@ class PieChart2State extends State<PieChartSample2> {
             title: "${plaquePourcentage.round().toString()} %",
             radius: radius,
             titleStyle: TextStyle(
+              color: Colors.white,
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              //color: AppColors.mainTextColor1,
               shadows: shadows,
             ),
           );
@@ -119,9 +117,9 @@ class PieChart2State extends State<PieChartSample2> {
             title: "${ratPourcentage.round().toString()} %",
             radius: radius,
             titleStyle: TextStyle(
+              color: Colors.white,
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              //color: AppColors.mainTextColor1,
               shadows: shadows,
             ),
           );

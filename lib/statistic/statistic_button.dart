@@ -25,7 +25,10 @@ class _StatTypeButton extends State<StatTypeButton> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: SegmentedButton<StatType>(
+        child: Align(
+            child: SizedBox(
+                //height: 45,
+                child: SegmentedButton<StatType>(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
@@ -53,6 +56,6 @@ class _StatTypeButton extends State<StatTypeButton> {
           widget.updateStatType();
         });
       },
-    ));
+    ))));
   }
 }

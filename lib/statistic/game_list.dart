@@ -29,6 +29,7 @@ class GameList extends StatefulWidget {
 
 class _GameList extends State<GameList> {
   bool isExpanded = false;
+  int sizeRatio = 1;
 
   void goToGameStats() {
     Navigator.push(
@@ -63,53 +64,64 @@ class _GameList extends State<GameList> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTileCard(
-      onExpansionChanged: (status) => {
-        setState(() {
-          isExpanded = status;
-        })
-      },
-      title: DefaultTextStyle(
-          style: TextStyle(
-              color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(widget.gameNumber),
-            Text(widget.gameType),
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text(widget.date)])
-          ])),
-      trailing: getTraillingIcon(),
-      baseColor: getCardColor(widget.points, widget.gameType),
-      expandedColor: getCardColor(widget.points, widget.gameType),
-      expandedTextColor: Colors.black,
-      initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
-      finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
-      initialElevation: 2.0,
-      elevation: 4.0,
-      children: [
-        DefaultTextStyle(
-            style: TextStyle(fontSize: 16, color: Colors.black),
-            child: Column(children: [
-              Text("Points : ${widget.points}"),
-              SizedBox(height: 5),
-              Text("Heure : ${widget.hour}"),
-              SizedBox(height: 5),
-              Text("Durée : ${widget.time}"),
-            ])),
-        Container(
-            height: 30.0,
-            margin: EdgeInsets.symmetric(vertical: 10),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.grey[50]!),
-                ),
-                onPressed: goToGameStats,
-                child: Text(
-                    style: TextStyle(fontSize: 12, color: Colors.black),
-                    "Revoir la partie")))
-      ],
-    );
+    if (MediaQuery.of(context).size.width > 700) {
+      sizeRatio = 2;
+    }
+    return Align(
+        child: SizedBox(
+            width: MediaQuery.of(context).size.width / sizeRatio,
+            child: ExpansionTileCard(
+              onExpansionChanged: (status) => {
+                setState(() {
+                  isExpanded = status;
+                })
+              },
+              title: DefaultTextStyle(
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.gameNumber),
+                        Text(widget.gameType),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [Text(widget.date)])
+                      ])),
+              trailing: getTraillingIcon(),
+              baseColor: Colors
+                  .grey[400], //getCardColor(widget.points, widget.gameType),
+              //expandedColor: getCardColor(widget.points, widget.gameType),
+              expandedTextColor: Colors.black,
+              initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+              finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+              initialElevation: 2.0,
+              elevation: 4.0,
+              children: [
+                DefaultTextStyle(
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    child: Column(children: [
+                      Text("Points : ${widget.points}"),
+                      SizedBox(height: 5),
+                      Text("Heure : ${widget.hour}"),
+                      SizedBox(height: 5),
+                      Text("Durée : ${widget.time}"),
+                    ])),
+                Container(
+                    height: 30.0,
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.grey[50]!),
+                        ),
+                        onPressed: goToGameStats,
+                        child: Text(
+                            style: TextStyle(fontSize: 12, color: Colors.black),
+                            "Revoir la partie")))
+              ],
+            )));
   }
 }

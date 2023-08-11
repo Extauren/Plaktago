@@ -32,12 +32,13 @@ class _Game extends State<Game> {
   static int points = 0;
   static const int nbLines = 4;
   static List<BingoCard> bingoCard = <BingoCard>[];
+  int screenSizeRatio = 2;
 
   @override
   void initState() {
+    super.initState();
     if (widget.newGame) {
       widget.changeIsPlaying(true);
-      super.initState();
       points = 0;
       if (widget.bingoParams.mode == Mode.personalize) {
         PersonalizeCard card;
@@ -143,6 +144,9 @@ class _Game extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 700) {
+      screenSizeRatio = 4;
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -150,56 +154,52 @@ class _Game extends State<Game> {
           ),
         ),
         body: ListView(children: [
-          Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 2,
-                          //maxHeight: 130,
-                        ),
-                        child: widget.timer),
-                    ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 2,
-                          //maxHeight: 130,
-                        ),
-                        child: Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Points : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500)),
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      points.toString(),
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w400),
-                                    ))
-                              ],
-                            )))
-                  ])),
+          Align(
+              child: Container(
+                  margin: EdgeInsets.only(top: 40),
+                  width: MediaQuery.of(context).size.width,
+                  constraints: BoxConstraints(maxWidth: 450),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width /
+                                screenSizeRatio,
+                            child: widget.timer),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width /
+                                screenSizeRatio,
+                            child: Container(
+                                margin: EdgeInsets.only(top: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Points : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          points.toString(),
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400),
+                                        ))
+                                  ],
+                                )))
+                      ]))),
           Center(
-              child: ConstrainedBox(
-                  constraints:
-                      const BoxConstraints(maxHeight: 500, maxWidth: 800),
-                  child: Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Board(
-                        gameType: widget.bingoParams.bingoType.name,
-                        changePoints: changePoints,
-                        bingoCard: bingoCard,
-                        nbLines: nbLines,
-                        saveGame: askSaveGame,
-                      )))),
+              child: Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Board(
+                    gameType: widget.bingoParams.bingoType.name,
+                    changePoints: changePoints,
+                    bingoCard: bingoCard,
+                    nbLines: nbLines,
+                    saveGame: askSaveGame,
+                  ))),
         ]));
   }
 }
