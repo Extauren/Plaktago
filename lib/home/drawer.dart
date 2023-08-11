@@ -22,6 +22,38 @@ class _Drawer extends State<DrawerApp> {
     _darkMode = widget.appSettings.darkMode;
   }
 
+  void resetData() {
+    BuildContext dialogContext;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return AlertDialog(
+              title: Text(
+                  "Etes vous sur de vouloir supprimer toutes les donnée ?",
+                  style: TextStyle(color: Colors.black, fontSize: 18)),
+              content:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: ElevatedButton(
+                        onPressed: () => {
+                              Navigator.pop(dialogContext),
+                              saveGame.resetFile()
+                            },
+                        child: Text("Oui",
+                            style: TextStyle(color: Colors.black)))),
+                Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: ElevatedButton(
+                        onPressed: () => {Navigator.pop(dialogContext)},
+                        child:
+                            Text("Non", style: TextStyle(color: Colors.black))))
+              ]),
+              backgroundColor: Colors.grey[300]);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -61,7 +93,7 @@ class _Drawer extends State<DrawerApp> {
                   height: 30,
                   width: MediaQuery.of(context).size.width / 2 - 27,
                   child: ElevatedButton(
-                      onPressed: saveGame.resetFile,
+                      onPressed: resetData,
                       child: Text(
                         "Supprimer les données",
                         style: TextStyle(
