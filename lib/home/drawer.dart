@@ -25,34 +25,49 @@ class _Drawer extends State<DrawerApp> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: MediaQuery.of(context).size.width / 2,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            child: Text('Paramètres',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        width: MediaQuery.of(context).size.width / 2,
+        child: Stack(alignment: Alignment.center, children: [
+          ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                child: Text('Paramètres',
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: Text("mode sombre")),
+                Switch(
+                    value: _darkMode,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _darkMode = value;
+                        widget.changeTheme();
+                      });
+                    }),
+              ]),
+            ],
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(
-                margin: EdgeInsets.only(right: 10), child: Text("mode sombre")),
-            Switch(
-                value: _darkMode,
-                onChanged: (bool value) {
-                  setState(() {
-                    _darkMode = value;
-                    widget.changeTheme();
-                  });
-                }),
-          ]),
-          TextButton(
-              onPressed: saveGame.resetFile,
-              child: Text("Supprimer les données"))
-        ],
-      ),
-    );
+          Positioned(
+              bottom: 0,
+              child: Container(
+                  constraints: BoxConstraints(maxWidth: 180),
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  height: 30,
+                  width: MediaQuery.of(context).size.width / 2 - 27,
+                  child: ElevatedButton(
+                      onPressed: saveGame.resetFile,
+                      child: Text(
+                        "Supprimer les données",
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ))))
+        ]));
   }
 }
