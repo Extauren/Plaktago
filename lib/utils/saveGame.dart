@@ -5,6 +5,7 @@ import 'package:plaktago/game/board/bingoCard.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:plaktago/game/gameData.dart';
 import 'package:plaktago/home/bingoTypeButton.dart';
 import 'package:plaktago/utils/bingoParams.dart';
 import '../game/board/cardName.dart';
@@ -64,59 +65,21 @@ class SaveGame {
       final int points,
       final BingoParams bingoParams,
       final String time) async {
+    Map<String, dynamic> data = await getLocalData();
+    Map<String, dynamic> newGame = {};
+    Map<String, dynamic> general = data["general"];
+    List gamesList = data["games"];
     List<Map<String, dynamic>> jsonList = [];
-    Map<String, dynamic> oldJson = {};
-    Map<String, dynamic> newJson = {};
-    try {
-      final data = await readGames();
-      oldJson = jsonDecode(data);
-    } catch (e) {
-      oldJson = {
-        "general": {
-          "nbGames": 0,
-          "bingoPlaque": 0,
-          "bingoRat": 0,
-          "bingoWin": 0,
-          "cardList": initilizeCardList()
-        },
-        "games": []
-      };
-    }
+
     for (int it = 0; it < bingoCardList.length; it++) {
       jsonList.add(bingoCardList.elementAt(it).toMap());
     }
-    initializeDateFormatting();
-    //print(DateFormat("dd MMMM yyyy", 'fr').format((DateTime.now())));
-    Map<String, dynamic> general = oldJson["general"];
-    general["nbGames"] += 1;
-    if (bingoParams.bingoType == BingoType.plaque) {
-      general["bingoPlaque"] += 1;
-    }
-    if (bingoParams.bingoType == BingoType.sousterrain) {
-      general["bingoRat"] += 1;
-    }
-    if (points == 16) {
-      general["bingoWin"] += 1;
-    }
-    List<CardList> cardList = [];
-    List tmp = general["cardList"];
-    for (int it = 0; it < tmp.length; it++) {
-      cardList.add(CardList.fromJson(tmp.elementAt(it)));
-    }
-    general["cardList"] = getCardList(bingoCardList, cardList);
-    newJson = {
-      "gameNumber": general["nbGames"],
-      "points": points,
-      "gameType": bingoParams.bingoType.name,
-      "date": DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
-      "hour": DateFormat("HH:mm").format(DateTime.now()),
-      "time": time,
-      "bingoCardList": jsonList
-    };
-
-    var test = oldJson["games"];
-    test.add(newJson);
-    return {"general": general, "games": test};
+    general = changeGeneralStats(
+        general, bingoParams.bingoType, points, true, bingoCardList);
+    newGame = saveNewGame(
+        general["nbGames"], points, bingoParams.bingoType.name, time, jsonList);
+    gamesList.add(newGame);
+    return {"general": general, "games": gamesList};
   }
 
   Future<String> get _localPath async {
@@ -154,12 +117,85 @@ class SaveGame {
     }));
   }
 
+  Map<String, dynamic> saveNewGame(
+      int nbGames,
+      final int points,
+      final String bingoType,
+      final String time,
+      List<Map<String, dynamic>> bingoCards) {
+    initializeDateFormatting();
+    return {
+      "gameNumber": nbGames,
+      "points": points,
+      "gameType": bingoType,
+      "date": DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
+      "hour": DateFormat("HH:mm").format(DateTime.now()),
+      "time": time,
+      "bingoCardList": bingoCards,
+    };
+  }
+
+  Map<String, dynamic> changeGeneralStats(
+      Map<String, dynamic> generalStat,
+      final BingoType bingoType,
+      final int points,
+      final bool newGame,
+      List<BingoCard> bingoCardList) {
+    List<CardList> cardList = [];
+
+    if (newGame) {
+      generalStat["nbGames"] += 1;
+
+      if (bingoType == BingoType.plaque) {
+        generalStat["bingoPlaque"] += 1;
+      }
+      if (bingoType == BingoType.sousterrain) {
+        generalStat["bingoRat"] += 1;
+      }
+    }
+    if (points == 56) {
+      generalStat["bingoWin"] += 1;
+    }
+    List tmp = generalStat["cardList"];
+    for (int it = 0; it < tmp.length; it++) {
+      cardList.add(CardList.fromJson(tmp.elementAt(it)));
+    }
+    generalStat["cardList"] = getCardList(bingoCardList, cardList);
+    return generalStat;
+  }
+
+  Future<Map<String, dynamic>> getLocalData() async {
+    Map<String, dynamic> data = {};
+    final String localData = await readGames();
+
+    data = jsonDecode(localData);
+    if (data == {}) {
+      data = {
+        "general": {
+          "nbGames": 0,
+          "bingoPlaque": 0,
+          "bingoRat": 0,
+          "bingoWin": 0,
+          "cardList": initilizeCardList()
+        },
+        "games": []
+      };
+    }
+    return data;
+  }
+
+  void writeGame1(final GameData gameData) async {
+    final file = await _localFile;
+    final Map<String, dynamic> data = {};
+
+    file.writeAsString(json.encode(data));
+  }
+
   Future<File> writeGame(final List<BingoCard> bingoCardList, final int points,
       final BingoParams bingoParams, final String time) async {
-    final file = await _localFile;
+    final File file = await _localFile;
     final Map<String, dynamic> newJson =
         await getJson(bingoCardList, points, bingoParams, time);
-    //print(newJson["general"]['cardList']);
     return file.writeAsString(json.encode(newJson));
   }
 }

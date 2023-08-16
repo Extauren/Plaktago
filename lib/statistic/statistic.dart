@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:plaktago/game/gameData.dart';
 import 'package:plaktago/statistic/statistic_button.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
@@ -47,10 +49,9 @@ class _Statistic extends State<Statistic> {
   }
 
   Future<void> test() async {
-    //final data = jsonDecode(await readGames());
-    _general = {}; //await getGeneralStatistics();
-    print(_general);
-    final Map<String, dynamic> data = {
+    final data = jsonDecode(await readGames());
+    //_general = {}; //await getGeneralStatistics();
+    final Map<String, dynamic> data1 = {
       "general": {
         "nbGames": 3,
         "bingoPlaque": 2,
@@ -169,14 +170,14 @@ class _Statistic extends State<Statistic> {
       ]
     };
     setState(() {
-      //_general = //await getGeneralStatistics(); //data["general"];
+      _general = data["general"];
       _bingoGames = data["games"];
       _bingoGames = _bingoGames.reversed.toList();
     });
   }
 
   Future<Map<String, dynamic>> getGeneralStatistics() async {
-    final Map<String, dynamic> data = {
+    final Map<String, dynamic> data1 = {
       "general": {
         "nbGames": 3,
         "bingoPlaque": 2,
@@ -242,6 +243,7 @@ class _Statistic extends State<Statistic> {
         ]
       }
     }; //jsonDecode(await readGames());
+    final data = jsonDecode(await readGames());
     return data["general"];
   }
 
@@ -286,31 +288,44 @@ class _Statistic extends State<Statistic> {
                 ),
               if (statType == StatType.list)
                 _bingoGames.isNotEmpty
-                    ? Container(
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        height: MediaQuery.of(context).size.height,
-                        child: ListView.builder(
-                            itemCount: _bingoGames.length,
-                            itemBuilder: (context, index) {
-                              final String points =
-                                  _bingoGames[index]["points"].toString();
-                              final String gameType =
-                                  _bingoGames[index]["gameType"];
-                              final String date = _bingoGames[index]["date"];
-                              final String hour = _bingoGames[index]["hour"];
-                              final String time = _bingoGames[index]["time"];
-                              final String gameNumber =
-                                  _bingoGames[index]["gameNumber"].toString();
-                              return GameList(
-                                  points: points,
-                                  gameType: gameType,
-                                  date: date,
-                                  hour: hour,
-                                  time: time,
-                                  gameNumber: gameNumber,
-                                  index: index,
-                                  board: _bingoGames[index]);
-                            }))
+                    ? SingleChildScrollView(
+                        child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 20),
+                            height: MediaQuery.of(context).size.height,
+                            child: ListView.builder(
+                                controller:
+                                    ScrollController(keepScrollOffset: false),
+                                itemCount: _bingoGames.length,
+                                itemBuilder: (context, index) {
+                                  final String points =
+                                      _bingoGames[index]["points"].toString();
+                                  final String gameType =
+                                      _bingoGames[index]["gameType"];
+                                  final String date =
+                                      _bingoGames[index]["date"];
+                                  final String hour =
+                                      _bingoGames[index]["hour"];
+                                  final String time =
+                                      _bingoGames[index]["time"];
+                                  final String gameNumber = _bingoGames[index]
+                                          ["gameNumber"]
+                                      .toString();
+                                  return Consumer<GameData>(
+                                      builder: (context, provider, child) {
+                                    GameData gameData =
+                                        context.watch<GameData>();
+                                    return GameList(
+                                        points: points,
+                                        gameType: gameType,
+                                        date: date,
+                                        hour: hour,
+                                        time: time,
+                                        gameNumber: gameNumber,
+                                        index: index,
+                                        board: _bingoGames[index],
+                                        gameData: gameData);
+                                  });
+                                })))
                     : Container()
             ])));
   }

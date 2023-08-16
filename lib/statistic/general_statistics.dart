@@ -63,9 +63,9 @@ class _GeneralStatistic extends State<GeneralStatistic> {
               fontWeight: FontWeight.w600,
               color: Colors.black,
               fontSize: textFontSize));
-      final List<Map<String, dynamic>> tmp = data["cardList"];
+      final List tmp = data["cardList"];
       for (int it = 0; it < tmp.length; it++) {
-        cardList.add(CardList.fromMap(tmp.elementAt(it)));
+        cardList.add(CardList.fromJson(tmp.elementAt(it)));
       }
       values[4] = Container(
           margin: EdgeInsets.only(top: 4),

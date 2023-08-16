@@ -30,7 +30,7 @@ class _Drawer extends State<DrawerApp> {
           dialogContext = context;
           return AlertDialog(
               title: Text(
-                  "Etes vous sur de vouloir supprimer toutes les donnée ?",
+                  "Etes vous sur de vouloir supprimer toutes les données ?",
                   style: TextStyle(color: Colors.black, fontSize: 18)),
               content:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -89,7 +89,7 @@ class _Drawer extends State<DrawerApp> {
               bottom: 0,
               child: Container(
                   constraints: BoxConstraints(maxWidth: 180),
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  margin: EdgeInsets.symmetric(vertical: 15),
                   height: 30,
                   width: MediaQuery.of(context).size.width / 2 - 27,
                   child: ElevatedButton(
@@ -97,7 +97,7 @@ class _Drawer extends State<DrawerApp> {
                       child: Text(
                         "Supprimer les données",
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             color: Theme.of(context).colorScheme.onSecondary),
                       ))))
         ]));

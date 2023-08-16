@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/utils/appSettings.dart';
 import 'navigation_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Plaktago extends StatefulWidget {
   final AppSettings appSettings;
@@ -20,7 +21,7 @@ class _Plaktago extends State<Plaktago> {
       onSecondary: Colors.black,
       error: Colors.red,
       onError: Colors.red,
-      background: Colors.grey[100]!,
+      background: Colors.grey[50]!,
       onBackground: Colors.black,
       surface: Colors.white,
       onSurface: Colors.black);
@@ -64,6 +65,7 @@ class _Plaktago extends State<Plaktago> {
     return MaterialApp(
         title: 'Plaktago',
         theme: ThemeData(
+            fontFamily: 'RobotCondensed',
             colorScheme: lightColor,
             drawerTheme: DrawerThemeData(backgroundColor: Colors.grey[100]),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(

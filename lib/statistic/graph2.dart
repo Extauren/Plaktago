@@ -173,7 +173,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                            height: 32,
+                            height: 35,
                             width: 100,
                             child: TextButton(
                                 onPressed: () => {changeSort(0)},
@@ -185,7 +185,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                                       Theme.of(context).colorScheme.onSurface,
                                 ))),
                         SizedBox(
-                            height: 32,
+                            height: 35,
                             width: 140,
                             child: TextButton(
                                 onPressed: () => {changeSort(1)},

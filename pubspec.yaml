@@ -31,15 +31,16 @@ dependencies:
   intl: ^0.18.1
   flutter:
     sdk: flutter
-  
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.15
   fl_chart: ^0.63.0
   expansion_tile_card: ^3.0.0
+  google_fonts: ^5.1.0
+  font_awesome_flutter: ^10.5.0
+  provider: ^6.0.5
+  go_router: ^10.0.0
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +58,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  fonts:
+    - family: RobotCondensed
+      fonts:
+        - asset: fonts/RobotoCondensed-Regular.ttf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

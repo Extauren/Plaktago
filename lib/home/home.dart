@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/utils/appSettings.dart';
+import 'package:provider/provider.dart';
 import '../game/bingo.dart';
+import '../game/gameData.dart';
 import 'drawer.dart';
 import 'bingoTypeButton.dart';
 import 'modeButton.dart';
@@ -10,19 +12,15 @@ import 'personalize.dart';
 import 'package:plaktago/game/timer/timer.dart';
 
 class Home extends StatefulWidget {
-  BingoParams bingoParams;
+  GameData bingoParams;
   final Function changeTheme;
   final AppSettings appSettings;
-  bool isPlaying;
-  Timer timer;
   BingoParams playingGame;
   Home(
       {Key? key,
       required this.changeTheme,
       required this.appSettings,
       required this.bingoParams,
-      required this.isPlaying,
-      required this.timer,
       required this.playingGame})
       : super(key: key);
 
@@ -33,7 +31,6 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   final Key bingoTypeKey = PageStorageKey('bingoType');
   final Key personalizeKey = PageStorageKey('personalizeKey');
-  List<PersonalizeCard> personalizeCard = <PersonalizeCard>[];
   int nbCards = 0;
 
   void updateState() {
@@ -42,16 +39,10 @@ class _Home extends State<Home> {
 
   void resetHome() {
     setState(() {
-      widget.bingoParams = BingoParams();
-      personalizeCard = [];
+      //widget.bingoParams = BingoParams();
+      widget.bingoParams.setPersonalizeCards([]);
       nbCards = 0;
     });
-  }
-
-  void changeIsPlaying(bool newValue) {
-    if (widget.isPlaying != newValue) {
-      widget.isPlaying = newValue;
-    }
   }
 
   void changeNbCardValue(int value) {
@@ -61,17 +52,14 @@ class _Home extends State<Home> {
   }
 
   void startGame() {
-    widget.timer = Timer(timer: 0);
-    widget.playingGame = widget.bingoParams.clone();
+    widget.bingoParams.setTimer(Timer(timer: 0));
+    widget.playingGame = widget.bingoParams.bingoParams.clone();
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Game(
-                bingoParams: widget.playingGame,
-                personalizeCards: personalizeCard,
-                changeIsPlaying: changeIsPlaying,
-                timer: widget.timer,
-                newGame: true))).then((value) {
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Game(bingoParams: widget.bingoParams, newGame: true)))
+        .then((value) {
       updateState();
     });
   }
@@ -80,7 +68,8 @@ class _Home extends State<Home> {
     final int nbCardNeed = 16 - nbCards;
     BuildContext dialogContext;
 
-    if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
+    if (nbCards < 16 &&
+        widget.bingoParams.bingoParams.mode == Mode.personalize) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -93,7 +82,7 @@ class _Home extends State<Home> {
           });
       return;
     }
-    if (widget.isPlaying) {
+    if (widget.bingoParams.isPlaying) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -127,14 +116,11 @@ class _Home extends State<Home> {
 
   void comeBacktoGame() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Game(
-                bingoParams: widget.playingGame,
-                personalizeCards: personalizeCard,
-                changeIsPlaying: changeIsPlaying,
-                timer: widget.timer,
-                newGame: false))).then((value) {
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Game(bingoParams: widget.bingoParams, newGame: false)))
+        .then((value) {
       updateState();
     });
   }
@@ -160,13 +146,16 @@ class _Home extends State<Home> {
         body: ListView(children: [
           Container(
               margin: const EdgeInsets.only(
-                  top: 60.0, left: 10, right: 10, bottom: 40),
+                  top: 60.0, left: 10, right: 10, bottom: 20),
               child: Text("Le bingo des catacombes",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
-          if (widget.isPlaying == true)
+          if (context.watch<GameData>().isPlaying == true)
+            // Consumer<GameData>(builder: (context, provider, child) {
+            //   var gameData = context.watch<GameData>();
             Align(
                 child: Container(
+                    margin: EdgeInsets.only(top: 10),
                     constraints: BoxConstraints(maxWidth: 180),
                     width: MediaQuery.of(context).size.width / 1.5,
                     child: ElevatedButton(
@@ -181,20 +170,21 @@ class _Home extends State<Home> {
                       ),
                     ))),
           Container(
-              margin: EdgeInsets.only(top: 50),
+              margin: EdgeInsets.only(top: 40),
               child: BingoTypeButton(
                   key: bingoTypeKey,
-                  bingoType: widget.bingoParams.bingoType,
-                  updateBingoType: widget.bingoParams.updateBingoType,
+                  bingoType: widget.bingoParams.bingoParams.bingoType,
+                  updateBingoType:
+                      widget.bingoParams.bingoParams.updateBingoType,
                   updateParentState: updateState)),
           Container(
               margin: EdgeInsets.only(top: 40, bottom: 50),
               child: ModeButton(
-                  mode: widget.bingoParams.mode,
-                  updateBingoMode: widget.bingoParams.updateMode,
+                  mode: widget.bingoParams.bingoParams.mode,
+                  updateBingoMode: widget.bingoParams.bingoParams.updateMode,
                   updateParentState: updateState)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (widget.bingoParams.mode == Mode.personalize)
+            if (widget.bingoParams.bingoParams.mode == Mode.personalize)
               ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width,
@@ -202,13 +192,13 @@ class _Home extends State<Home> {
                   ),
                   child: Personalize(
                       key: personalizeKey,
-                      cards: personalizeCard,
-                      type: widget.bingoParams.bingoType,
+                      cards: widget.bingoParams.personalizeCard,
+                      type: widget.bingoParams.bingoParams.bingoType,
                       nbCardSelect: nbCards,
                       changeNbCardValue: changeNbCardValue))
           ]),
-          if ((widget.bingoParams.mode == Mode.personalize) ||
-              widget.bingoParams.mode == Mode.random)
+          if ((widget.bingoParams.bingoParams.mode == Mode.personalize) ||
+              widget.bingoParams.bingoParams.mode == Mode.random)
             Align(
               child: Container(
                   constraints: BoxConstraints(maxWidth: 100),
@@ -217,7 +207,7 @@ class _Home extends State<Home> {
                       launchGame: launchGame,
                       btek: btek,
                       nbCards: nbCards,
-                      mode: widget.bingoParams.mode)),
+                      mode: widget.bingoParams.bingoParams.mode)),
             )
         ]));
   }

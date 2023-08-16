@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum BingoType {
   plaque("Plaque"),
@@ -41,11 +42,13 @@ class _BingoTypeButton extends State<BingoTypeButton> {
         ButtonSegment<BingoType>(
             value: BingoType.plaque,
             label: Text(BingoType.plaque.name),
-            icon: Icon(Icons.adjust_rounded)),
+            // style: TextStyle(fontFamily: 'RobotCondensed')),
+            icon: Icon(Icons.aspect_ratio)),
         ButtonSegment<BingoType>(
             value: BingoType.sousterrain,
             label: Text(BingoType.sousterrain.name),
-            icon: Icon(Icons.adjust_rounded))
+            icon: Icon(
+                FontAwesomeIcons.personWalking)), //Icon(Icons.adjust_rounded))
       ],
       selected: <BingoType>{widget.bingoType},
       onSelectionChanged: (Set<BingoType> newSelection) {

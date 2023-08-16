@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../home/modeButton.dart';
 import 'board/board.dart';
-import 'timer/timer.dart';
+import 'gameData.dart';
 import '../utils/saveGame.dart';
 import 'package:plaktago/game/board/cardName.dart';
 import 'board/bingoCard.dart';
 import 'dart:math';
-import 'package:plaktago/utils/bingoParams.dart';
 import '../home/personalize.dart';
 
 class Game extends StatefulWidget {
-  final BingoParams bingoParams;
+  final GameData bingoParams;
   List<PersonalizeCard> personalizeCards;
-  Function changeIsPlaying;
   final bool newGame;
-  Timer timer;
   Game(
       {Key? key,
       required this.bingoParams,
-      required this.changeIsPlaying,
       required this.newGame,
-      required this.timer,
       this.personalizeCards = const []})
       : super(key: key);
 
@@ -29,63 +25,43 @@ class Game extends StatefulWidget {
 }
 
 class _Game extends State<Game> {
-  static int points = 0;
-  static const int nbLines = 4;
-  static List<BingoCard> bingoCard = <BingoCard>[];
   int screenSizeRatio = 2;
 
   @override
   void initState() {
     super.initState();
     if (widget.newGame) {
-      widget.changeIsPlaying(true);
-      points = 0;
-      if (widget.bingoParams.mode == Mode.personalize) {
+      widget.bingoParams.setIsPlaying(true);
+      widget.bingoParams.setPoints(0);
+      if (widget.bingoParams.bingoParams.mode == Mode.personalize) {
         PersonalizeCard card;
         List<PersonalizeCard> cards = widget.personalizeCards
             .where((element) => element.isSelect == true)
             .toList();
-        for (int it = 0; it < nbLines * nbLines; it++) {
+        for (int it = 0;
+            it < widget.bingoParams.nbLines * widget.bingoParams.nbLines;
+            it++) {
           card = cards.elementAt(Random().nextInt(cards.length));
           cards.remove(card);
-          bingoCard.add(BingoCard(name: card.name));
+          widget.bingoParams.bingoCard.add(BingoCard(name: card.name));
         }
       } else {
         CardName card;
         List<CardName> cardList = <CardName>[];
-        bingoCard.clear();
+        widget.bingoParams.bingoCard.clear();
         cardList = cardNameListPlaque
             .where((element) =>
-                element.type.contains(widget.bingoParams.bingoType))
+                element.type.contains(widget.bingoParams.bingoParams.bingoType))
             .toList();
-        for (int it = 0; it < nbLines * nbLines; it++) {
+        for (int it = 0;
+            it < widget.bingoParams.nbLines * widget.bingoParams.nbLines;
+            it++) {
           card = cardList.elementAt(Random().nextInt(cardList.length));
           cardList.remove(card);
-          bingoCard.add(BingoCard(name: card.name));
+          widget.bingoParams.bingoCard.add(BingoCard(name: card.name));
         }
       }
     }
-  }
-
-  void refreshBoard() {
-    CardName card;
-    List<CardName> cardList = [];
-    cardList = cardNameListPlaque
-        .where((element) =>
-            element.difficulty <= widget.bingoParams.difficulty.value &&
-            element.type.contains(widget.bingoParams.bingoType))
-        .toList();
-    bingoCard.clear();
-    setState(() {
-      points = 0;
-      for (int it = 0; it < nbLines * nbLines; it++) {
-        card = cardList.elementAt(Random().nextInt(cardList.length));
-        cardList.remove(card);
-        bingoCard.add(BingoCard(name: card.name));
-        bingoCard.elementAt(it).isSelect = false;
-        bingoCard.elementAt(it).nbLineComplete = 0;
-      }
-    });
   }
 
   void askSaveGame() {
@@ -118,17 +94,17 @@ class _Game extends State<Game> {
 
   void _saveGame(final BuildContext dialogContext) {
     SaveGame saveGame = SaveGame();
-    saveGame.writeGame(
-        bingoCard, points, widget.bingoParams, widget.timer.getTime());
-    widget.changeIsPlaying(false);
+    saveGame.writeGame(widget.bingoParams.bingoCard, widget.bingoParams.points,
+        widget.bingoParams.bingoParams, widget.bingoParams.timer.getTime());
+    widget.bingoParams.setIsPlaying(false);
     Navigator.pop(dialogContext);
     Navigator.pop(context);
   }
 
   void changePoints(int newPoint) {
     setState(() {
-      points += newPoint;
-      if (points == 56) {
+      widget.bingoParams.changePoints(newPoint);
+      if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -150,10 +126,12 @@ class _Game extends State<Game> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Bingo ${widget.bingoParams.bingoType.name}',
+            'Bingo ${widget.bingoParams.bingoParams.bingoType.name}',
           ),
         ),
         body: ListView(children: [
+          // Consumer<GameData>(
+          //   builder: (context, provider, child) {
           Align(
               child: Container(
                   margin: EdgeInsets.only(top: 40),
@@ -166,7 +144,7 @@ class _Game extends State<Game> {
                         SizedBox(
                             width: MediaQuery.of(context).size.width /
                                 screenSizeRatio,
-                            child: widget.timer),
+                            child: widget.bingoParams.timer),
                         SizedBox(
                             width: MediaQuery.of(context).size.width /
                                 screenSizeRatio,
@@ -182,7 +160,7 @@ class _Game extends State<Game> {
                                     Padding(
                                         padding: const EdgeInsets.only(left: 5),
                                         child: Text(
-                                          points.toString(),
+                                          widget.bingoParams.points.toString(),
                                           style: TextStyle(
                                               fontSize: 24,
                                               fontWeight: FontWeight.w400),
@@ -194,10 +172,10 @@ class _Game extends State<Game> {
               child: Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Board(
-                    gameType: widget.bingoParams.bingoType.name,
+                    gameType: widget.bingoParams.bingoParams.bingoType.name,
                     changePoints: changePoints,
-                    bingoCard: bingoCard,
-                    nbLines: nbLines,
+                    bingoCard: widget.bingoParams.bingoCard,
+                    nbLines: widget.bingoParams.nbLines,
                     saveGame: askSaveGame,
                   ))),
         ]));

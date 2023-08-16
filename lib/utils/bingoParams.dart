@@ -17,6 +17,7 @@ class BingoParams {
       this.plaque = PlaqueType.triangle,
       this.ratType = RatType.salle,
       this.difficulty = Difficulty.easy});
+
   clone() => BingoParams(
       bingoType: bingoType,
       mode: mode,
@@ -51,8 +52,4 @@ class BingoParams {
     mode = Mode.random;
     difficulty = Difficulty.easy;
   }
-
-  // static BingoParams newBingoParams() {
-  //   return BingoParams();
-  // }
 }
