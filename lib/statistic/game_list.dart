@@ -73,6 +73,7 @@ class _GameList extends State<GameList> {
     widget.gameData.setBingoCards(cards);
     widget.gameData.setIsPlaying(true);
     widget.gameData.setPoints(int.parse(widget.points));
+    widget.gameData.setGameNumber(int.parse(widget.gameNumber));
   }
 
   void comeBackToGame() {
@@ -105,6 +106,8 @@ class _GameList extends State<GameList> {
                 ]),
                 backgroundColor: Colors.grey[300]);
           });
+    } else {
+      setGame();
     }
   }
 

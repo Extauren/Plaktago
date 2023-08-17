@@ -64,7 +64,8 @@ class SaveGame {
       final List<BingoCard> bingoCardList,
       final int points,
       final BingoParams bingoParams,
-      final String time) async {
+      final String time,
+      final int gameNumber) async {
     Map<String, dynamic> data = await getLocalData();
     Map<String, dynamic> newGame = {};
     Map<String, dynamic> general = data["general"];
@@ -74,11 +75,19 @@ class SaveGame {
     for (int it = 0; it < bingoCardList.length; it++) {
       jsonList.add(bingoCardList.elementAt(it).toMap());
     }
-    general = changeGeneralStats(
-        general, bingoParams.bingoType, points, true, bingoCardList);
-    newGame = saveNewGame(
-        general["nbGames"], points, bingoParams.bingoType.name, time, jsonList);
-    gamesList.add(newGame);
+    if (gameNumber == -1) {
+      general = changeGeneralStats(
+          general, bingoParams.bingoType, points, true, bingoCardList);
+      newGame = saveNewGame(general["nbGames"], points,
+          bingoParams.bingoType.name, time, jsonList);
+      gamesList.add(newGame);
+    } else {
+      general = changeGeneralStats(
+          general, bingoParams.bingoType, points, false, bingoCardList);
+      newGame = saveNewGame(
+          gameNumber, points, bingoParams.bingoType.name, time, jsonList);
+      gamesList[gameNumber - 1] = newGame;
+    }
     return {"general": general, "games": gamesList};
   }
 
@@ -191,11 +200,15 @@ class SaveGame {
     file.writeAsString(json.encode(data));
   }
 
-  Future<File> writeGame(final List<BingoCard> bingoCardList, final int points,
-      final BingoParams bingoParams, final String time) async {
+  Future<File> writeGame(
+      final List<BingoCard> bingoCardList,
+      final int points,
+      final BingoParams bingoParams,
+      final String time,
+      final int gameNumber) async {
     final File file = await _localFile;
     final Map<String, dynamic> newJson =
-        await getJson(bingoCardList, points, bingoParams, time);
+        await getJson(bingoCardList, points, bingoParams, time, gameNumber);
     return file.writeAsString(json.encode(newJson));
   }
 }

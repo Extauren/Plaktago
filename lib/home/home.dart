@@ -150,7 +150,8 @@ class _Home extends State<Home> {
               child: Text("Le bingo des catacombes",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
-          if (context.watch<GameData>().isPlaying == true)
+          if (widget.bingoParams
+              .isPlaying) //context.watch<GameData>().isPlaying == true)
             // Consumer<GameData>(builder: (context, provider, child) {
             //   var gameData = context.watch<GameData>();
             Align(

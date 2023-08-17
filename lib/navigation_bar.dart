@@ -31,28 +31,29 @@ class _NavigationBar extends State<NavigationBarApp> {
     pages = getPages();
   }
 
-  // GoRouter router() {
-  //   return GoRouter(
-  //     initialLocation: '/home',
-  //     routes: [
-  //       GoRoute(
-  //         path: '/home',
-  //         builder: (context, state) => Home(
-  //             key: homeKey,
-  //             changeTheme: widget.changeTheme,
-  //             appSettings: widget.appSettings,
-  //             bingoParams: bingoParams,
-  //             isPlaying: isPlaying,
-  //             timer: timer,
-  //             playingGame: playingGame),
-  //       ),
-  //       GoRoute(
-  //         path: '/statistic',
-  //         builder: (context, state) => const Statistic(),
-  //       ),
-  //     ],
-  //   );
-  // }
+  GoRouter router() {
+    return GoRouter(
+      initialLocation: '/home',
+      routes: [
+        GoRoute(
+            path: '/home',
+            builder: (context, state) =>
+                Consumer<GameData>(builder: (context, provider, child) {
+                  GameData gameData = context.watch<GameData>();
+                  return Home(
+                      key: homeKey,
+                      changeTheme: widget.changeTheme,
+                      appSettings: widget.appSettings,
+                      bingoParams: gameData,
+                      playingGame: playingGame);
+                })),
+        GoRoute(
+          path: '/statistic',
+          builder: (context, state) => const Statistic(),
+        ),
+      ],
+    );
+  }
 
   List<Widget> getPages() {
     return [
@@ -77,6 +78,8 @@ class _NavigationBar extends State<NavigationBarApp> {
       _selectedIndex = index;
     });
   }
+
+  List<String> test = ["/home", "/statistic"];
 
   @override
   Widget build(BuildContext context) {

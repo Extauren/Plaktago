@@ -61,4 +61,14 @@ class GameData extends ChangeNotifier {
   void changePoints(int newPoint) {
     _points += newPoint;
   }
+
+  void resetGameData() {
+    _bingoParams = BingoParams();
+    _bingoCards = <BingoCard>[];
+    _personalizeCards = <PersonalizeCard>[];
+    _points = 0;
+    _isPlaying = false;
+    _timer = Timer();
+    _gameNumber = -1;
+  }
 }

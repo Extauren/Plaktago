@@ -94,9 +94,14 @@ class _Game extends State<Game> {
 
   void _saveGame(final BuildContext dialogContext) {
     SaveGame saveGame = SaveGame();
-    saveGame.writeGame(widget.bingoParams.bingoCard, widget.bingoParams.points,
-        widget.bingoParams.bingoParams, widget.bingoParams.timer.getTime());
+    saveGame.writeGame(
+        widget.bingoParams.bingoCard,
+        widget.bingoParams.points,
+        widget.bingoParams.bingoParams,
+        widget.bingoParams.timer.getTime(),
+        widget.bingoParams.gameNumber);
     widget.bingoParams.setIsPlaying(false);
+    widget.bingoParams.resetGameData();
     Navigator.pop(dialogContext);
     Navigator.pop(context);
   }
