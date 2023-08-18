@@ -31,6 +31,7 @@ class _Game extends State<Game> {
   @override
   void initState() {
     super.initState();
+    saveGame.saveOnGoingGame(widget.bingoParams);
     if (widget.newGame) {
       widget.bingoParams.setIsPlaying(true);
       widget.bingoParams.setPoints(0);
