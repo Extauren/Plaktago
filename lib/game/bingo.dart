@@ -25,6 +25,7 @@ class Game extends StatefulWidget {
 }
 
 class _Game extends State<Game> {
+  SaveGame saveGame = SaveGame();
   int screenSizeRatio = 2;
 
   @override
@@ -93,7 +94,6 @@ class _Game extends State<Game> {
   }
 
   void _saveGame(final BuildContext dialogContext) {
-    SaveGame saveGame = SaveGame();
     saveGame.writeGame(
         widget.bingoParams.bingoCard,
         widget.bingoParams.points,
@@ -109,6 +109,7 @@ class _Game extends State<Game> {
   void changePoints(int newPoint) {
     setState(() {
       widget.bingoParams.changePoints(newPoint);
+      saveGame.saveOnGoingGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,

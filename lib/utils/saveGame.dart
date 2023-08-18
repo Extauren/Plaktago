@@ -88,7 +88,28 @@ class SaveGame {
           gameNumber, points, bingoParams.bingoType.name, time, jsonList);
       gamesList[gameNumber - 1] = newGame;
     }
-    return {"general": general, "games": gamesList};
+    return {"general": general, "onGoingGame": {}, "games": gamesList};
+  }
+
+  void saveOnGoingGame(final GameData gameData) async {
+    final File file = await _localFile;
+    Map<String, dynamic> data = await getLocalData();
+    Map<String, dynamic> game = {};
+    List<Map<String, dynamic>> cards = [];
+
+    for (int it = 0; it < gameData.bingoCard.length; it++) {
+      cards.add(gameData.bingoCard.elementAt(it).toMap());
+    }
+    game = saveNewGame(-1, gameData.points, gameData.bingoParams.bingoType.name,
+        gameData.timer.getTime(), cards);
+    data["onGoingGame"] = game;
+    file.writeAsString(json.encode(data));
+  }
+
+  Future<Map<String, dynamic>> getOnGoingGame() async {
+    final Map<String, dynamic> data = await getLocalData();
+
+    return data["onGoingGame"];
   }
 
   Future<String> get _localPath async {
@@ -122,6 +143,7 @@ class SaveGame {
         "bingoWin": 0,
         "cardList": initilizeCardList()
       },
+      "onGoingGame": {},
       "games": []
     }));
   }
@@ -187,6 +209,7 @@ class SaveGame {
           "bingoWin": 0,
           "cardList": initilizeCardList()
         },
+        "onGoingGame": {},
         "games": []
       };
     }

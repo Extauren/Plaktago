@@ -104,7 +104,7 @@ class _GameStats extends State<GameStats> {
                             )))
                   ])),
           Container(
-              //margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 20),
               //height: 410,
               height: MediaQuery.of(context).size.height / 1.77,
               constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),

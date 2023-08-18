@@ -6,6 +6,7 @@ import 'home/home.dart';
 import 'statistic/statistic.dart';
 import '../utils/bingoParams.dart';
 import 'game/gameData.dart';
+import 'help.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
@@ -66,10 +67,8 @@ class _NavigationBar extends State<NavigationBarApp> {
             bingoParams: gameData,
             playingGame: playingGame);
       }),
-      Statistic(
-          //key: PageStorageKey('stats'),
-          ),
-      Container()
+      Statistic(),
+      Help()
     ];
   }
 

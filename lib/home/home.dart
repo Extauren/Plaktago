@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:plaktago/game/board/bingoCard.dart';
 import 'package:plaktago/utils/appSettings.dart';
+import 'package:plaktago/utils/saveGame.dart';
 import 'package:provider/provider.dart';
 import '../game/bingo.dart';
 import '../game/gameData.dart';
@@ -32,6 +36,31 @@ class _Home extends State<Home> {
   final Key bingoTypeKey = PageStorageKey('bingoType');
   final Key personalizeKey = PageStorageKey('personalizeKey');
   int nbCards = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getOnGoingGame();
+  }
+
+  void getOnGoingGame() async {
+    Map<String, dynamic> game = await SaveGame().getOnGoingGame();
+    BingoType bingoType = BingoType.sousterrain;
+
+    if (game.toString() != "{}") {
+      if (game["gameType"] == "Plaque") {
+        bingoType = BingoType.plaque;
+      }
+      widget.bingoParams.setBingoCards(List<BingoCard>.from(
+          game["bingoCardList"].map((model) => BingoCard.fromMap(model))));
+      setState(() {
+        widget.bingoParams.setIsPlaying(true);
+      });
+      widget.bingoParams.setPoints(game["points"]);
+      widget.bingoParams
+          .setBingoParams(BingoParams(bingoType: bingoType, mode: Mode.random));
+    }
+  }
 
   void updateState() {
     setState(() {});

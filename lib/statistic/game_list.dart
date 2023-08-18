@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:plaktago/game/board/bingoCard.dart';
 import 'package:plaktago/game/gameData.dart';
+import '../game/bingo.dart';
 import 'gameStats.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -74,6 +75,12 @@ class _GameList extends State<GameList> {
     widget.gameData.setIsPlaying(true);
     widget.gameData.setPoints(int.parse(widget.points));
     widget.gameData.setGameNumber(int.parse(widget.gameNumber));
+    Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Game(bingoParams: widget.gameData, newGame: false)))
+        .then((value) {});
   }
 
   void comeBackToGame() {
