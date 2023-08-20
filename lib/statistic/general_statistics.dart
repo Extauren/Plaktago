@@ -15,6 +15,7 @@ class GeneralStatistic extends StatefulWidget {
 
 class _GeneralStatistic extends State<GeneralStatistic> {
   Map<String, dynamic> data = {};
+  bool nbGame = false;
   double textFontSize = 22;
   List<Widget> values = [
     Container(),
@@ -43,6 +44,9 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   void getStatistics() async {
     data = await widget.statistics();
     setState(() {
+      if (data["nbGames"] > 0) {
+        nbGame = true;
+      }
       values[0] = Text(data["nbGames"].toString(),
           style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -120,7 +124,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                   values[index]
                                 ])))));
               })),
-      if (cardList.length == cardNameListPlaque.length)
+      if (nbGame)
         PieChartSample2(
           nbGames: data["nbGames"].toString(),
           bingoPlaque: data["bingoPlaque"].toString(),
