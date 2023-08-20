@@ -14,12 +14,14 @@ class Personalize extends StatefulWidget {
   final BingoType type;
   int nbCardSelect;
   Function changeNbCardValue;
+  ScrollController controller;
   Personalize(
       {Key? key,
       required this.cards,
       required this.type,
       required this.nbCardSelect,
-      required this.changeNbCardValue})
+      required this.changeNbCardValue,
+      required this.controller})
       : super(key: key);
 
   @override
@@ -61,19 +63,19 @@ class _Personalize extends State<Personalize> {
     });
   }
 
-  // Display difficulty in card
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         height: 550,
         child: ListView.builder(
+            controller: widget.controller,
             itemCount: widget.cards.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () => _selectCard(index),
                   child: Container(
                       height: 60,
-                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      margin: EdgeInsets.symmetric(horizontal: 50),
                       child: Card(
                           color: getCardColor(index),
                           child: Center(

@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:plaktago/game/board/bingoCard.dart';
 import 'package:plaktago/utils/appSettings.dart';
 import 'package:plaktago/utils/saveGame.dart';
-import 'package:provider/provider.dart';
 import '../game/bingo.dart';
 import '../game/gameData.dart';
 import 'drawer.dart';
@@ -36,6 +33,8 @@ class _Home extends State<Home> {
   final Key bingoTypeKey = PageStorageKey('bingoType');
   final Key personalizeKey = PageStorageKey('personalizeKey');
   int nbCards = 0;
+  ScrollController _childScrollController = ScrollController();
+  ScrollController _parentScrollController = ScrollController();
 
   @override
   void initState() {
@@ -68,7 +67,7 @@ class _Home extends State<Home> {
 
   void resetHome() {
     setState(() {
-      //widget.bingoParams = BingoParams();
+      widget.bingoParams.setBingoParams(BingoParams());
       widget.bingoParams.setPersonalizeCards([]);
       nbCards = 0;
     });
@@ -172,7 +171,7 @@ class _Home extends State<Home> {
         ),
         drawer: DrawerApp(
             changeTheme: widget.changeTheme, appSettings: widget.appSettings),
-        body: ListView(children: [
+        body: ListView(controller: _parentScrollController, children: [
           Container(
               margin: const EdgeInsets.only(
                   top: 60.0, left: 10, right: 10, bottom: 20),
@@ -213,20 +212,38 @@ class _Home extends State<Home> {
                   mode: widget.bingoParams.bingoParams.mode,
                   updateBingoMode: widget.bingoParams.bingoParams.updateMode,
                   updateParentState: updateState)),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (widget.bingoParams.bingoParams.mode == Mode.personalize)
-              ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width,
-                    maxHeight: MediaQuery.of(context).size.height,
-                  ),
-                  child: Personalize(
-                      key: personalizeKey,
-                      cards: widget.bingoParams.personalizeCard,
-                      type: widget.bingoParams.bingoParams.bingoType,
-                      nbCardSelect: nbCards,
-                      changeNbCardValue: changeNbCardValue))
-          ]),
+          if (widget.bingoParams.bingoParams.mode == Mode.personalize)
+            NotificationListener(
+                onNotification: (ScrollNotification notification) {
+                  if (notification is ScrollUpdateNotification) {
+                    if (notification.metrics.pixels ==
+                        notification.metrics.maxScrollExtent) {
+                      _parentScrollController.animateTo(
+                          _parentScrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn);
+                    } else if (notification.metrics.pixels ==
+                        notification.metrics.minScrollExtent) {
+                      _parentScrollController.animateTo(
+                          _parentScrollController.position.minScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn);
+                    }
+                  }
+                  return true;
+                },
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width,
+                      maxHeight: MediaQuery.of(context).size.height,
+                    ),
+                    child: Personalize(
+                        key: personalizeKey,
+                        cards: widget.bingoParams.personalizeCard,
+                        type: widget.bingoParams.bingoParams.bingoType,
+                        nbCardSelect: nbCards,
+                        changeNbCardValue: changeNbCardValue,
+                        controller: _childScrollController))),
           if ((widget.bingoParams.bingoParams.mode == Mode.personalize) ||
               widget.bingoParams.bingoParams.mode == Mode.random)
             Align(

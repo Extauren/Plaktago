@@ -7,6 +7,7 @@ import 'statistic/statistic.dart';
 import '../utils/bingoParams.dart';
 import 'game/gameData.dart';
 import 'help.dart';
+import 'test.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
