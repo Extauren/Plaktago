@@ -9,11 +9,26 @@ class GameStats extends StatefulWidget {
 }
 
 class _GameStats extends State<GameStats> {
-  static List bingoCard = [];
+  static List<dynamic> bingoCard = [];
+  late double _sliderValue;
+  double _sliderMaxValue = 0.0;
+
   @override
   void initState() {
     super.initState();
     bingoCard = widget.bingoStat["bingoCardList"];
+    for (int it = 0; it < bingoCard.length; it++) {
+      if (_sliderMaxValue < bingoCard.elementAt(it)["order"]) {
+        _sliderMaxValue =
+            double.parse(bingoCard.elementAt(it)["order"].toString());
+      }
+    }
+    print(_sliderMaxValue);
+    //_sliderMaxValue = bingoCard.sort((a, b) => a["oder"] > b["order"]);
+    // _sliderMaxValue = bingoCard.reduce((value, element) =>
+    //     value["order"] > element["order"] ? value["order"] : element["order"]);
+    // print(_sliderMaxValue);
+    _sliderValue = _sliderMaxValue;
   }
 
   ShapeBorder getCardShape(final int index) {
@@ -38,11 +53,13 @@ class _GameStats extends State<GameStats> {
   }
 
   Color getCardColor(int index) {
-    if (bingoCard.elementAt(index)["isSelect"] == true) {
-      if (bingoCard.elementAt(index)["nbLineComplete"] > 0) {
-        return Color.fromRGBO(153, 219, 129, 1);
+    if (bingoCard.elementAt(index)["order"] <= _sliderValue) {
+      if (bingoCard.elementAt(index)["isSelect"] == true) {
+        if (bingoCard.elementAt(index)["nbLineComplete"] > 0) {
+          return Color.fromRGBO(153, 219, 129, 1);
+        }
+        return Theme.of(context).colorScheme.secondary;
       }
-      return Theme.of(context).colorScheme.secondary;
     }
     return Theme.of(context).cardColor;
   }
@@ -132,7 +149,19 @@ class _GameStats extends State<GameStats> {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 color: Colors.black)))))));
-                  }))
+                  })),
+          Slider(
+            min: 0.0,
+            max: _sliderMaxValue,
+            value: _sliderValue,
+            divisions: _sliderMaxValue.toInt(),
+            inactiveColor: Theme.of(context).colorScheme.onBackground,
+            onChanged: (value) {
+              setState(() {
+                _sliderValue = value;
+              });
+            },
+          )
         ]));
   }
 }

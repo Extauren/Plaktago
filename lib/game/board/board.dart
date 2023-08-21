@@ -25,7 +25,8 @@ class Board extends StatefulWidget {
 class _Board extends State<Board> {
   static List<int> firstDiagonalValues = [];
   static List<int> secondDiagonalValues = [];
-  static CheckBoard checkBoard = CheckBoard(nbLines: 0);
+  static CheckBoard checkBoard = CheckBoard(nbLines: 0); //nbLines weird
+  int order = 0;
 
   @override
   void initState() {
@@ -55,6 +56,14 @@ class _Board extends State<Board> {
     int points = 0;
 
     (newState) ? points += 1 : points -= 1;
+    if (newState) {
+      widget.bingoCard.elementAt(index).order = order;
+      order += 1;
+    }
+    if (!newState) {
+      widget.bingoCard.elementAt(index).order = -1;
+      order -= 1;
+    }
     setState(() {
       widget.bingoCard.elementAt(index).isSelect =
           !widget.bingoCard.elementAt(index).isSelect;

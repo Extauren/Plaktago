@@ -12,7 +12,7 @@ class CardName {
       {required this.name,
       this.plaqueType = plaqueTypeList.none,
       required this.type,
-      required this.difficulty});
+      this.difficulty = 0});
 }
 
 List<CardName> cardNameListPlaque = [
