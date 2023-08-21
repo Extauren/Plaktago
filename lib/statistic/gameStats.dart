@@ -11,23 +11,22 @@ class GameStats extends StatefulWidget {
 class _GameStats extends State<GameStats> {
   static List<dynamic> bingoCard = [];
   late double _sliderValue;
-  double _sliderMaxValue = 0.0;
+  late double _sliderMaxValue;
 
   @override
   void initState() {
     super.initState();
     bingoCard = widget.bingoStat["bingoCardList"];
-    for (int it = 0; it < bingoCard.length; it++) {
-      if (_sliderMaxValue < bingoCard.elementAt(it)["order"]) {
-        _sliderMaxValue =
-            double.parse(bingoCard.elementAt(it)["order"].toString());
-      }
+    List cardSelect =
+        bingoCard.where((element) => element["isSelect"] == true).toList();
+    if (cardSelect.length < 2) {
+      _sliderMaxValue = 1.0;
+    } else {
+      Map<String, dynamic> maxOrder = bingoCard.reduce((value, element) =>
+          value["order"] > element["order"] ? value : element);
+      _sliderMaxValue = double.parse(maxOrder["order"].toString());
+      print(maxOrder);
     }
-    print(_sliderMaxValue);
-    //_sliderMaxValue = bingoCard.sort((a, b) => a["oder"] > b["order"]);
-    // _sliderMaxValue = bingoCard.reduce((value, element) =>
-    //     value["order"] > element["order"] ? value["order"] : element["order"]);
-    // print(_sliderMaxValue);
     _sliderValue = _sliderMaxValue;
   }
 
@@ -122,7 +121,6 @@ class _GameStats extends State<GameStats> {
                   ])),
           Container(
               margin: EdgeInsets.only(top: 20),
-              //height: 410,
               height: MediaQuery.of(context).size.height / 1.77,
               constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
               child: GridView.builder(

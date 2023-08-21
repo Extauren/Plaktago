@@ -26,7 +26,7 @@ class _Board extends State<Board> {
   static List<int> firstDiagonalValues = [];
   static List<int> secondDiagonalValues = [];
   static CheckBoard checkBoard = CheckBoard(nbLines: 0); //nbLines weird
-  int order = 0;
+  late int order;
 
   @override
   void initState() {
@@ -36,6 +36,23 @@ class _Board extends State<Board> {
     secondDiagonalValues = List<int>.generate(
         widget.nbLines, (index) => (widget.nbLines - 1) * (index + 1));
     checkBoard = CheckBoard(nbLines: widget.nbLines);
+    order = getMaxOrder();
+    print(order);
+  }
+
+  int getMaxOrder() {
+    int buffer = 0;
+    for (int it = 0; it < widget.bingoCard.length; it++) {
+      print(widget.bingoCard.elementAt(it).order);
+      if (buffer < widget.bingoCard.elementAt(it).order) {
+        buffer = widget.bingoCard.elementAt(it).order;
+      }
+    }
+    return buffer + 1;
+    // BingoCard maxOrder = widget.bingoCard.reduce(
+    //     (value, element) => value.order > element.order ? value : element);
+    // if (maxOrder.order == -1) return 0;
+    // return maxOrder.order;
   }
 
   Color getCardColor(int index) {
