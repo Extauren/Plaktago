@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:plaktago/utils/bingoParams.dart';
+import 'package:plaktago/utils/saveGame.dart';
 
 class GameStats extends StatefulWidget {
   final Map<String, dynamic> bingoStat;
@@ -25,7 +28,6 @@ class _GameStats extends State<GameStats> {
       Map<String, dynamic> maxOrder = bingoCard.reduce((value, element) =>
           value["order"] > element["order"] ? value : element);
       _sliderMaxValue = double.parse(maxOrder["order"].toString());
-      print(maxOrder);
     }
     _sliderValue = _sliderMaxValue;
   }
@@ -63,6 +65,43 @@ class _GameStats extends State<GameStats> {
     return Theme.of(context).cardColor;
   }
 
+  void test(BuildContext dialogContext) async {
+    final int gameNumber = widget.bingoStat["gameNumber"];
+    SaveGame saveGame = SaveGame();
+
+    saveGame.deleteGame(gameNumber);
+    Navigator.pop(dialogContext);
+    Navigator.pop(context);
+  }
+
+  void deleteGame() {
+    BuildContext dialogContext;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return AlertDialog(
+              title: Text("Voulez vous vraiment supprimer cette partie ?",
+                  style: TextStyle(color: Colors.black, fontSize: 18)),
+              content:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: ElevatedButton(
+                        onPressed: () => {test(dialogContext)},
+                        child: Text("Oui",
+                            style: TextStyle(color: Colors.black)))),
+                Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: ElevatedButton(
+                        onPressed: () => {Navigator.pop(dialogContext)},
+                        child:
+                            Text("Non", style: TextStyle(color: Colors.black))))
+              ]),
+              backgroundColor: Colors.grey[300]);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final String type = widget.bingoStat["gameType"];
@@ -71,6 +110,16 @@ class _GameStats extends State<GameStats> {
           title: Text(
             'Bingo $type',
           ),
+          actions: [
+            IconButton(
+              onPressed: deleteGame,
+              icon: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.primary, //Colors.black,
+                size: 28,
+              ),
+            ),
+          ],
         ),
         body: ListView(children: [
           Center(
@@ -159,7 +208,26 @@ class _GameStats extends State<GameStats> {
                 _sliderValue = value;
               });
             },
-          )
+          ),
+          // Align(
+          //     child: Container(
+          //         width: 230,
+          //         height: 40,
+          //         margin: EdgeInsets.only(top: 20, bottom: 10),
+          //         child: ElevatedButton(
+          //           onPressed: () => {},
+          //           child: TextButton.icon(
+          //             onPressed: deleteGame,
+          //             icon: Icon(
+          //               Icons.delete,
+          //               color: Colors.black,
+          //             ),
+          //             label: Text(
+          //               'Supprimer la partie',
+          //               style: TextStyle(color: Colors.black),
+          //             ),
+          //           ),
+          //         )))
         ]));
   }
 }

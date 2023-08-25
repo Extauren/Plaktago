@@ -16,18 +16,20 @@ class GameList extends StatefulWidget {
   final int index;
   final Map<String, dynamic> board;
   GameData gameData;
-  GameList({
-    Key? key,
-    required this.points,
-    required this.gameType,
-    required this.date,
-    required this.hour,
-    required this.time,
-    required this.gameNumber,
-    required this.index,
-    required this.board,
-    required this.gameData,
-  }) : super(key: key);
+  Function getStat;
+  GameList(
+      {Key? key,
+      required this.points,
+      required this.gameType,
+      required this.date,
+      required this.hour,
+      required this.time,
+      required this.gameNumber,
+      required this.index,
+      required this.board,
+      required this.gameData,
+      required this.getStat})
+      : super(key: key);
 
   @override
   State<GameList> createState() => _GameList();
@@ -37,13 +39,19 @@ class _GameList extends State<GameList> {
   bool isExpanded = false;
   int sizeRatio = 1;
 
+  void updateState() {
+    setState(() {});
+  }
+
   void goToGameStats() {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => GameStats(
                   bingoStat: widget.board,
-                )));
+                ))).then((value) {
+      updateState();
+    });
   }
 
   Icon getTraillingIcon() {
@@ -59,14 +67,14 @@ class _GameList extends State<GameList> {
     );
   }
 
-  Color getCardColor(final String points, final String gameType) {
-    if (points == "56") {
-      return Colors.amber[300]!;
-    } else if (gameType == "Plaque") {
-      return Colors.indigo[200]!;
-    }
-    return Theme.of(context).colorScheme.secondary;
-  }
+  // Color getCardColor(final String points, final String gameType) {
+  //   if (points == "56") {
+  //     return Colors.amber[300]!;
+  //   } else if (gameType == "Plaque") {
+  //     return Colors.indigo[200]!;
+  //   }
+  //   return Theme.of(context).colorScheme.secondary;
+  // }
 
   void setGame() {
     List<BingoCard> cards = List<BingoCard>.from(
@@ -80,7 +88,11 @@ class _GameList extends State<GameList> {
             MaterialPageRoute(
                 builder: (context) =>
                     Game(bingoParams: widget.gameData, newGame: false)))
-        .then((value) {});
+        .then((value) {
+      setState(() {
+        widget.getStat();
+      });
+    });
   }
 
   void comeBackToGame() {
@@ -116,6 +128,13 @@ class _GameList extends State<GameList> {
     } else {
       setGame();
     }
+  }
+
+  Color getBackgroundColor() {
+    if (Theme.of(context).colorScheme.background == Colors.grey[50]) {
+      return Colors.grey[400]!;
+    }
+    return Colors.grey[100]!;
   }
 
   @override
@@ -158,14 +177,15 @@ class _GameList extends State<GameList> {
                             children: [Text(widget.date)])
                       ])),
               trailing: getTraillingIcon(),
-              baseColor: Colors.grey[400],
+              expandedColor: Colors.grey[300],
+              baseColor:
+                  getBackgroundColor(), //Theme.of(context).colorScheme.onBackground, //Colors.grey[50],
               expandedTextColor: Colors.black,
               initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               initialElevation: 2.0,
               elevation: 4.0,
               children: [
-                SizedBox(height: 10),
                 DefaultTextStyle(
                     style: TextStyle(fontSize: 16, color: Colors.black),
                     child: Column(children: [
@@ -174,6 +194,7 @@ class _GameList extends State<GameList> {
                       Text("Heure : ${widget.hour}"),
                       SizedBox(height: 5),
                       Text("Durée : ${widget.time}"),
+                      SizedBox(height: 10)
                     ])),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Container(
@@ -182,8 +203,10 @@ class _GameList extends State<GameList> {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.grey[50]!),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Theme.of(context)
+                                    .colorScheme
+                                    .primary), //(Colors.grey[50]!),
                           ),
                           onPressed: goToGameStats,
                           child: Text(
@@ -196,8 +219,8 @@ class _GameList extends State<GameList> {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.grey[50]!),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Theme.of(context).colorScheme.primary),
                           ),
                           onPressed: comeBackToGame,
                           child: Text(

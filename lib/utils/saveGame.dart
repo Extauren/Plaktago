@@ -216,6 +216,45 @@ class SaveGame {
     return data;
   }
 
+  void deleteGame(final int gameNumber) async {
+    final file = await _localFile;
+    Map<String, dynamic> data = await getLocalData();
+    List gameList = data["games"];
+    final int index =
+        gameList.indexWhere((element) => element["gameNumber"] == gameNumber);
+    final List bingoCardJson = gameList.elementAt(index)["bingoCardList"];
+    final List<BingoCard> bingoCard =
+        bingoCardJson.map((e) => BingoCard.fromMap(e)).toList();
+    final List cardListJson = data["general"]["cardList"];
+    List<CardList> cardList =
+        cardListJson.map((e) => CardList.fromJson(e)).toList();
+
+    if (gameList.elementAt(index)["gameType"] == "Plaque") {
+      data["general"]["bingoPlaque"] -= 1;
+    } else {
+      data["general"]["bingoRat"] -= 1;
+    }
+    if (gameList.elementAt(index)["points"] == 56) {
+      data["general"]["bingoWin"] -= 1;
+    }
+    for (int it = 0; it < bingoCard.length; it++) {
+      final int inde = cardList
+          .indexWhere((element) => element.cardName == bingoCard[it].name);
+      cardList[inde].nbPlayed -= 1;
+      if (bingoCard.elementAt(it).isSelect == true) {
+        cardList[inde].nbCheck -= 1;
+      }
+    }
+    data["general"]["cardList"] = cardList.map((e) => e.toJson()).toList();
+    gameList.removeAt(index);
+    for (int it = index; it < gameList.length; it++) {
+      gameList.elementAt(it)["gameNumber"] -= 1;
+    }
+    data["games"] = gameList;
+    data["general"]["nbGames"] -= 1;
+    file.writeAsString(json.encode(data));
+  }
+
   void writeGame1(final GameData gameData) async {
     final file = await _localFile;
     final Map<String, dynamic> data = {};

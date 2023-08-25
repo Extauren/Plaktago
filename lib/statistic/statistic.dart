@@ -323,7 +323,8 @@ class _Statistic extends State<Statistic> {
                                         gameNumber: gameNumber,
                                         index: index,
                                         board: _bingoGames[index],
-                                        gameData: gameData);
+                                        gameData: gameData,
+                                        getStat: test);
                                   });
                                 })))
                     : Container()
