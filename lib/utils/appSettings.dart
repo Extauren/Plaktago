@@ -36,7 +36,6 @@ class AppSettings {
       data = jsonDecode(contents);
       darkMode = data["darkMode"];
     } catch (e) {
-      data = {"darkMode": true};
       darkMode = true;
     }
     return true;
