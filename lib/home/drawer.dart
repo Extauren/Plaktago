@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/bugReport.dart';
 import 'package:plaktago/utils/appSettings.dart';
 import 'package:plaktago/utils/saveGame.dart';
 
@@ -54,6 +55,11 @@ class _Drawer extends State<DrawerApp> {
         });
   }
 
+  void reportBug() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => BugReport()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -67,22 +73,40 @@ class _Drawer extends State<DrawerApp> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 child: Text('Paramètres',
-                    style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Column(children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Text("mode sombre",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16))),
+                  Switch(
+                      value: _darkMode,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _darkMode = value;
+                          widget.changeTheme();
+                        });
+                      }),
+                ]),
                 Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Text("mode sombre")),
-                Switch(
-                    value: _darkMode,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _darkMode = value;
-                        widget.changeTheme();
-                      });
-                    }),
-              ]),
+                    constraints: BoxConstraints(maxWidth: 180),
+                    margin: EdgeInsets.only(top: 15),
+                    height: 30,
+                    child: ElevatedButton(
+                        onPressed: reportBug,
+                        child: Text(
+                          "Signaler un bug",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).colorScheme.onSecondary),
+                        )))
+              ])
             ],
           ),
           Positioned(
