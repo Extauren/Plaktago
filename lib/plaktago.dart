@@ -40,12 +40,12 @@ class _Plaktago extends State<Plaktago> {
 
   @override
   void initState() {
-    super.initState();
     if (widget.appSettings.darkMode) {
       _themeMode = ThemeMode.dark;
     } else {
       _themeMode = ThemeMode.light;
     }
+    super.initState();
   }
 
   void changeTheme() {
