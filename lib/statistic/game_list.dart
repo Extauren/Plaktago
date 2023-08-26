@@ -17,23 +17,23 @@ class GameList extends StatefulWidget {
   final Map<String, dynamic> board;
   GameData gameData;
   Function getStat;
-  List<GlobalKey<ExpansionTileCardState>> cardList = [];
   Function updateState;
-  GameList({
-    Key? key,
-    required this.points,
-    required this.gameType,
-    required this.date,
-    required this.hour,
-    required this.time,
-    required this.gameNumber,
-    required this.index,
-    required this.board,
-    required this.gameData,
-    required this.getStat,
-    required this.cardList,
-    required this.updateState,
-  }) : super(key: key);
+  final GlobalKey<ExpansionTileCardState> cardKey;
+  GameList(
+      {Key? key,
+      required this.points,
+      required this.gameType,
+      required this.date,
+      required this.hour,
+      required this.time,
+      required this.gameNumber,
+      required this.index,
+      required this.board,
+      required this.gameData,
+      required this.getStat,
+      required this.updateState,
+      required this.cardKey})
+      : super(key: key);
 
   @override
   State<GameList> createState() => _GameList();
@@ -141,10 +141,11 @@ class _GameList extends State<GameList> {
         child: SizedBox(
             width: MediaQuery.of(context).size.width / sizeRatio,
             child: ExpansionTileCard(
-              key: widget.cardList[widget.index],
+              key: widget.cardKey,
               onExpansionChanged: (status) => {
                 setState(() {
                   widget.updateState(widget.index, status);
+                  isExpanded = status;
                 })
               },
               title: DefaultTextStyle(

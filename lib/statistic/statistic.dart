@@ -24,10 +24,6 @@ class _Statistic extends State<Statistic> {
   StatType statType = StatType.general;
   int expandedIndex = -1;
   List<GlobalKey<ExpansionTileCardState>> cardList = [];
-  //   GlobalKey(),
-  //   GlobalKey(),
-  //   GlobalKey()
-  // ];
 
   @override
   void initState() {
@@ -283,10 +279,10 @@ class _Statistic extends State<Statistic> {
 
   void updateState(final int index, final bool status) {
     setState(() {
-      if (expandedIndex != -1) {
-        cardList[expandedIndex].currentState?.collapse();
-      }
       if (status) {
+        if (expandedIndex != -1) {
+          cardList[expandedIndex].currentState?.collapse();
+        }
         cardList[index].currentState?.expand();
         expandedIndex = index;
       } else {
@@ -350,8 +346,8 @@ class _Statistic extends State<Statistic> {
                                         board: _bingoGames[index],
                                         gameData: gameData,
                                         getStat: test,
-                                        cardList: cardList,
-                                        updateState: updateState);
+                                        updateState: updateState,
+                                        cardKey: cardList[index]);
                                   });
                                 })))
                     : Container()
