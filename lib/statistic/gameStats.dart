@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:plaktago/utils/bingoParams.dart';
 import 'package:plaktago/utils/saveGame.dart';
 
 class GameStats extends StatefulWidget {
@@ -65,7 +63,7 @@ class _GameStats extends State<GameStats> {
     return Theme.of(context).cardColor;
   }
 
-  void test(BuildContext dialogContext) async {
+  void deleteGame(BuildContext dialogContext) async {
     final int gameNumber = widget.bingoStat["gameNumber"];
     SaveGame saveGame = SaveGame();
 
@@ -74,7 +72,7 @@ class _GameStats extends State<GameStats> {
     Navigator.pop(context);
   }
 
-  void deleteGame() {
+  void checkDeleteGame() {
     BuildContext dialogContext;
     showDialog(
         context: context,
@@ -88,7 +86,7 @@ class _GameStats extends State<GameStats> {
                 Container(
                     margin: EdgeInsets.only(right: 20),
                     child: ElevatedButton(
-                        onPressed: () => {test(dialogContext)},
+                        onPressed: () => {deleteGame(dialogContext)},
                         child: Text("Oui",
                             style: TextStyle(color: Colors.black)))),
                 Container(
@@ -112,10 +110,10 @@ class _GameStats extends State<GameStats> {
           ),
           actions: [
             IconButton(
-              onPressed: deleteGame,
+              onPressed: checkDeleteGame,
               icon: Icon(
                 Icons.delete,
-                color: Theme.of(context).colorScheme.primary, //Colors.black,
+                color: Theme.of(context).colorScheme.primary,
                 size: 28,
               ),
             ),

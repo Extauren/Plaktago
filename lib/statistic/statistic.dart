@@ -1,3 +1,4 @@
+import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plaktago/game/gameData.dart';
@@ -21,6 +22,12 @@ class _Statistic extends State<Statistic> {
   var _bingoGames = [];
   Map<String, dynamic> _general = {};
   StatType statType = StatType.general;
+  int expandedIndex = -1;
+  List<GlobalKey<ExpansionTileCardState>> cardList = [];
+  //   GlobalKey(),
+  //   GlobalKey(),
+  //   GlobalKey()
+  // ];
 
   @override
   void initState() {
@@ -173,6 +180,9 @@ class _Statistic extends State<Statistic> {
       _general = data["general"];
       _bingoGames = data["games"];
       _bingoGames = _bingoGames.reversed.toList();
+      for (int it = 0; it < _bingoGames.length; it++) {
+        cardList.add(GlobalKey());
+      }
     });
   }
 
@@ -271,6 +281,21 @@ class _Statistic extends State<Statistic> {
                 )));
   }
 
+  void updateState(final int index, final bool status) {
+    setState(() {
+      if (expandedIndex != -1) {
+        cardList[expandedIndex].currentState?.collapse();
+      }
+      if (status) {
+        cardList[index].currentState?.expand();
+        expandedIndex = index;
+      } else {
+        cardList[index].currentState?.collapse();
+        expandedIndex = -1;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -324,7 +349,9 @@ class _Statistic extends State<Statistic> {
                                         index: index,
                                         board: _bingoGames[index],
                                         gameData: gameData,
-                                        getStat: test);
+                                        getStat: test,
+                                        cardList: cardList,
+                                        updateState: updateState);
                                   });
                                 })))
                     : Container()

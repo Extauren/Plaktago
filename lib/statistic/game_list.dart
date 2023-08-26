@@ -17,19 +17,23 @@ class GameList extends StatefulWidget {
   final Map<String, dynamic> board;
   GameData gameData;
   Function getStat;
-  GameList(
-      {Key? key,
-      required this.points,
-      required this.gameType,
-      required this.date,
-      required this.hour,
-      required this.time,
-      required this.gameNumber,
-      required this.index,
-      required this.board,
-      required this.gameData,
-      required this.getStat})
-      : super(key: key);
+  List<GlobalKey<ExpansionTileCardState>> cardList = [];
+  Function updateState;
+  GameList({
+    Key? key,
+    required this.points,
+    required this.gameType,
+    required this.date,
+    required this.hour,
+    required this.time,
+    required this.gameNumber,
+    required this.index,
+    required this.board,
+    required this.gameData,
+    required this.getStat,
+    required this.cardList,
+    required this.updateState,
+  }) : super(key: key);
 
   @override
   State<GameList> createState() => _GameList();
@@ -55,7 +59,7 @@ class _GameList extends State<GameList> {
   }
 
   Icon getTraillingIcon() {
-    if (isExpanded) {
+    if (!isExpanded) {
       return Icon(
         Icons.keyboard_arrow_up,
         color: Colors.black,
@@ -66,15 +70,6 @@ class _GameList extends State<GameList> {
       color: Colors.black,
     );
   }
-
-  // Color getCardColor(final String points, final String gameType) {
-  //   if (points == "56") {
-  //     return Colors.amber[300]!;
-  //   } else if (gameType == "Plaque") {
-  //     return Colors.indigo[200]!;
-  //   }
-  //   return Theme.of(context).colorScheme.secondary;
-  // }
 
   void setGame() {
     List<BingoCard> cards = List<BingoCard>.from(
@@ -146,9 +141,10 @@ class _GameList extends State<GameList> {
         child: SizedBox(
             width: MediaQuery.of(context).size.width / sizeRatio,
             child: ExpansionTileCard(
+              key: widget.cardList[widget.index],
               onExpansionChanged: (status) => {
                 setState(() {
-                  isExpanded = status;
+                  widget.updateState(widget.index, status);
                 })
               },
               title: DefaultTextStyle(
