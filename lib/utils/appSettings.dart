@@ -37,6 +37,7 @@ class AppSettings {
       darkMode = data["darkMode"];
     } catch (e) {
       data = {"darkMode": true};
+      darkMode = true;
     }
     return true;
   }

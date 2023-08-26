@@ -20,8 +20,8 @@ class _App extends State<App> {
 
   @override
   void initState() {
-    super.initState();
     getSettings();
+    super.initState();
   }
 
   void getSettings() async {
