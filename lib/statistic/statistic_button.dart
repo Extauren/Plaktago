@@ -43,11 +43,11 @@ class _StatTypeButton extends State<StatTypeButton> {
         ButtonSegment<StatType>(
             value: StatType.general,
             label: Text(StatType.general.name),
-            icon: Icon(Icons.adjust_rounded)),
+            icon: Icon(Icons.equalizer)),
         ButtonSegment<StatType>(
             value: StatType.list,
             label: Text(StatType.list.name),
-            icon: Icon(Icons.adjust_rounded))
+            icon: Icon(Icons.list))
       ],
       selected: <StatType>{widget.statType},
       onSelectionChanged: (Set<StatType> newSelection) {
