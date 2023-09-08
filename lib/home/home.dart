@@ -249,7 +249,7 @@ class _Home extends State<Home> {
             Align(
               child: Container(
                   constraints: BoxConstraints(maxWidth: 100),
-                  margin: EdgeInsets.symmetric(vertical: 20),
+                  margin: EdgeInsets.symmetric(vertical: 00),
                   child: LaunchGame(
                       launchGame: launchGame,
                       btek: btek,

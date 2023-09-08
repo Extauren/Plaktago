@@ -96,7 +96,7 @@ class _Drawer extends State<DrawerApp> {
                 ]),
                 Container(
                     constraints: BoxConstraints(maxWidth: 180),
-                    margin: EdgeInsets.only(top: 15),
+                    margin: EdgeInsets.only(top: 10),
                     height: 30,
                     child: ElevatedButton(
                         onPressed: reportBug,

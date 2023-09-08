@@ -1,15 +1,14 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:plaktago/game/gameData.dart';
 import 'package:plaktago/statistic/statistic_button.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'general_statistics.dart';
 import "gameStats.dart";
 import 'game_list.dart';
+import 'package:plaktago/utils/readFile.dart';
 
 class Statistic extends StatefulWidget {
   const Statistic({Key? key}) : super(key: key);
@@ -24,6 +23,7 @@ class _Statistic extends State<Statistic> {
   StatType statType = StatType.general;
   int expandedIndex = -1;
   List<GlobalKey<ExpansionTileCardState>> cardList = [];
+  ReadFile readFile = ReadFile();
 
   @override
   void initState() {
@@ -31,28 +31,8 @@ class _Statistic extends State<Statistic> {
     super.initState();
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/gamesSave.json');
-  }
-
-  Future<String> readGames() async {
-    try {
-      final file = await _localFile;
-      final contents = await file.readAsString();
-      return contents;
-    } catch (e) {
-      return "";
-    }
-  }
-
   Future<void> test() async {
-    final data = jsonDecode(await readGames());
+    final data = jsonDecode(await readFile.readStats());
     //_general = {}; //await getGeneralStatistics();
     final Map<String, dynamic> data1 = {
       "general": {
@@ -249,7 +229,7 @@ class _Statistic extends State<Statistic> {
         ]
       }
     }; //jsonDecode(await readGames());
-    final data = jsonDecode(await readGames());
+    final data = jsonDecode(await readFile.readStats());
     return data["general"];
   }
 

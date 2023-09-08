@@ -125,12 +125,12 @@ class _GameList extends State<GameList> {
     }
   }
 
-  Color getBackgroundColor() {
-    if (Theme.of(context).colorScheme.background == Colors.grey[50]) {
-      return Colors.grey[400]!;
-    }
-    return Colors.grey[100]!;
-  }
+  // Color getBackgroundColor() {
+  //   if (Theme.of(context).colorScheme.background == Colors.grey[50]) {
+  //     return Colors.grey[400]!;
+  //   }
+  //   return Colors.grey[100]!;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +174,8 @@ class _GameList extends State<GameList> {
                             children: [Text(widget.date)])
                       ])),
               trailing: getTraillingIcon(),
-              expandedColor: Colors.grey[300],
-              baseColor:
-                  getBackgroundColor(), //Theme.of(context).colorScheme.onBackground, //Colors.grey[50],
+              expandedColor: Colors.indigo[50], //Colors.grey[300],
+              baseColor: Colors.indigo[100], //getBackgroundColor(),
               expandedTextColor: Colors.black,
               initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -201,9 +200,7 @@ class _GameList extends State<GameList> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(
-                                Theme.of(context)
-                                    .colorScheme
-                                    .primary), //(Colors.grey[50]!),
+                                Theme.of(context).colorScheme.primary),
                           ),
                           onPressed: goToGameStats,
                           child: Text(
