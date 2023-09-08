@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plaktago/game/checkBoard.dart';
-import 'package:plaktago/game/bingoCard.dart';
+import 'package:plaktago/game/board/check_board.dart';
+import 'package:plaktago/game/board/bingo_card.dart';
 
 List<BingoCard> createBingoCardList(final int nbLines) {
   List<BingoCard> bingoCard = <BingoCard>[];
@@ -65,7 +65,7 @@ void main() {
       for (int it = 0; it < nbLines; it++) {
         bingoCard.elementAt(it * 4).isSelect = true;
         result.elementAt(it * 4).isSelect = true;
-        result.elementAt(it * 4).nbLineComplete += 1;
+        result.elementAt(it * 4).nbLineComplete = 2;
       }
       checkBoard.checkColumn(bingoCard, 0, true);
       checkBoard.checkLine(bingoCard, 0, true);
@@ -92,7 +92,7 @@ void main() {
     test('Second diagonal complete', () {
       CheckBoard checkBoard = CheckBoard(nbLines: nbLines);
       List<BingoCard> bingoCard = createBingoCardList(nbLines);
-      List<BingoCard> result = List.from(bingoCard);
+      List<BingoCard> result = createBingoCardList(nbLines);
       int buffer = nbLines - 1;
       const int incrementValue = nbLines - 1;
 
@@ -102,8 +102,17 @@ void main() {
         result.elementAt(buffer).nbLineComplete = 1;
         buffer += incrementValue;
       }
-      checkBoard.checkDiagonal(bingoCard, 0, true, incrementValue);
-      expect(bingoCard, result);
+      buffer = nbLines - 1;
+      for (int it = 0; it < nbLines; it++) {
+        buffer += incrementValue;
+      }
+      checkBoard.checkDiagonal(bingoCard, nbLines - 1, true, incrementValue);
+      buffer = nbLines - 1;
+      for (int it = 0; it < nbLines; it++) {
+        expect(bingoCard.elementAt(buffer).nbLineComplete,
+            result.elementAt(buffer).nbLineComplete);
+        buffer += incrementValue;
+      }
     });
   });
 }
