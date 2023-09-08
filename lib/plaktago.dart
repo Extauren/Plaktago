@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/appSettings.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import 'navigation_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 
 class Plaktago extends StatefulWidget {
   final AppSettings appSettings;

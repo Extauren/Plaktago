@@ -1,4 +1,4 @@
-import '../../home/bingoTypeButton.dart';
+import '../../home/bingo_type_button.dart';
 
 enum plaqueTypeList { triangle, ronde, carrer, all, none }
 

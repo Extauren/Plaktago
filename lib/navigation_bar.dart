@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plaktago/utils/appSettings.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import 'package:provider/provider.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
-import '../utils/bingoParams.dart';
-import 'game/gameData.dart';
+import 'utils/bingo_params.dart';
+import 'game/game_data.dart';
 import 'help.dart';
 
 class NavigationBarApp extends StatefulWidget {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/game/board/bingoCard.dart';
-import 'package:plaktago/utils/appSettings.dart';
-import 'package:plaktago/utils/saveGame.dart';
+import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/utils/app_settings.dart';
+import 'package:plaktago/utils/save_game.dart';
 import '../game/bingo.dart';
-import '../game/gameData.dart';
+import '../game/game_data.dart';
 import 'drawer.dart';
-import 'bingoTypeButton.dart';
-import 'modeButton.dart';
-import 'launchGame.dart';
-import '../utils/bingoParams.dart';
+import 'bingo_type_button.dart';
+import 'mode_button.dart';
+import 'launch_game.dart';
+import '../utils/bingo_params.dart';
 import 'personalize.dart';
 import 'package:plaktago/game/timer/timer.dart';
 

@@ -1,5 +1,5 @@
-import 'package:plaktago/home/bingoTypeButton.dart';
-import 'package:plaktago/home/modeButton.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/home/mode_button.dart';
 
 class BingoParams {
   BingoType bingoType;

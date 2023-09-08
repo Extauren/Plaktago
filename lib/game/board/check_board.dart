@@ -1,4 +1,4 @@
-import 'bingoCard.dart';
+import 'bingo_card.dart';
 
 class CheckBoard {
   final int nbLines;

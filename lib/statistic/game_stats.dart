@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/saveGame.dart';
+import 'package:plaktago/utils/save_game.dart';
 
 class GameStats extends StatefulWidget {
   final Map<String, dynamic> bingoStat;

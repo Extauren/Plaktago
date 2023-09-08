@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:plaktago/home/modeButton.dart';
+import 'package:plaktago/home/mode_button.dart';
 
 class LaunchGame extends StatefulWidget {
   final VoidCallback launchGame;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'bingoCard.dart';
-import 'checkBoard.dart';
+import 'bingo_card.dart';
+import 'check_board.dart';
 
 class Board extends StatefulWidget {
   final String gameType;

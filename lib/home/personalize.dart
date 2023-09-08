@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../game/board/cardName.dart';
-import 'bingoTypeButton.dart';
+import '../game/board/card_name.dart';
+import 'bingo_type_button.dart';
 
 class PersonalizeCard {
   String name;

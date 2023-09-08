@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:plaktago/game/board/bingoCard.dart';
-import 'package:plaktago/game/gameData.dart';
+import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/game/game_data.dart';
 import '../game/bingo.dart';
-import 'gameStats.dart';
+import 'game_stats.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameList extends StatefulWidget {

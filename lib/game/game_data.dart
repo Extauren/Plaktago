@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/game/board/bingoCard.dart';
+import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/game/timer/timer.dart';
-import 'package:plaktago/utils/bingoParams.dart';
+import 'package:plaktago/utils/bingo_params.dart';
 import '../home/personalize.dart';
 
 class GameData extends ChangeNotifier {

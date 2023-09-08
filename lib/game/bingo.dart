@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../home/modeButton.dart';
+import '../home/mode_button.dart';
 import 'board/board.dart';
-import 'gameData.dart';
-import '../utils/saveGame.dart';
-import 'package:plaktago/game/board/cardName.dart';
-import 'board/bingoCard.dart';
+import 'game_data.dart';
+import '../utils/save_game.dart';
+import 'package:plaktago/game/board/card_name.dart';
+import 'board/bingo_card.dart';
 import 'dart:math';
 import '../home/personalize.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'timerButton.dart';
+import 'timer_button.dart';
 
 class Timer extends StatefulWidget {
   String time;

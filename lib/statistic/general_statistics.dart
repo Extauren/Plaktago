@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/game/board/cardName.dart';
-import '../utils/saveGame.dart';
+import 'package:plaktago/game/board/card_name.dart';
+import '../utils/save_game.dart';
 import 'graph.dart';
 import 'graph2.dart';
 

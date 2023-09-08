@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/appSettings.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import 'plaktago.dart';
 
 void main() {

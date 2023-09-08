@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../utils/saveGame.dart';
+import '../utils/save_game.dart';
 import './indicator.dart';
 
 class BarChartSample2 extends StatefulWidget {
