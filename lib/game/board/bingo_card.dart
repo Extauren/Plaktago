@@ -1,18 +1,20 @@
 import 'dart:convert';
 
 class BingoCard {
-  String name;
+  final String name;
   bool isSelect;
   int nbLineComplete;
   int order;
-  String alcoolRule;
+  final String alcoolRule;
+  final int nbShot;
 
   BingoCard(
       {required this.name,
       this.isSelect = false,
       this.nbLineComplete = 0,
       this.order = -1,
-      required this.alcoolRule});
+      required this.alcoolRule,
+      required this.nbShot});
 
   Map<String, dynamic> toMap() => {
         'name': name,
@@ -26,7 +28,8 @@ class BingoCard {
       isSelect: map['isSelect'] as bool,
       nbLineComplete: map['nbLineComplete'] as int,
       order: map['order'] as int,
-      alcoolRule: map["alcoolRule"] as String);
+      alcoolRule: map["alcoolRule"] as String,
+      nbShot: map["nbShot"] as int);
 
   String toJson() => json.encode(toMap());
 

@@ -45,7 +45,7 @@ class _Game extends State<Game> {
           card = cards.elementAt(Random().nextInt(cards.length));
           cards.remove(card);
           widget.bingoParams.bingoCard
-              .add(BingoCard(name: card.name, alcoolRule: ''));
+              .add(BingoCard(name: card.name, alcoolRule: '', nbShot: 1));
         }
       } else {
         CardName card;
@@ -60,8 +60,10 @@ class _Game extends State<Game> {
             it++) {
           card = cardList.elementAt(Random().nextInt(cardList.length));
           cardList.remove(card);
-          widget.bingoParams.bingoCard
-              .add(BingoCard(name: card.name, alcoolRule: card.alcoolRule));
+          widget.bingoParams.bingoCard.add(BingoCard(
+              name: card.name,
+              alcoolRule: card.alcoolRule,
+              nbShot: card.nbShot));
         }
       }
     }
@@ -124,6 +126,7 @@ class _Game extends State<Game> {
             });
       }
       widget.bingoParams.changePoints(newPoint);
+      widget.bingoParams.addShot(1);
       saveGame.saveOnGoingGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
@@ -174,7 +177,8 @@ class _Game extends State<Game> {
                             width: MediaQuery.of(context).size.width /
                                 screenSizeRatio,
                             child: Container(
-                                margin: EdgeInsets.only(top: 20),
+                                margin: EdgeInsets.only(
+                                    top: widget.bingoParams.isAlcool ? 0 : 20),
                                 child: Column(children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -196,26 +200,30 @@ class _Game extends State<Game> {
                                     ],
                                   ),
                                   if (widget.bingoParams.isAlcool)
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Shot : ",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500)),
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 5),
-                                            child: Text(
-                                              widget.bingoParams.nbShot
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w400),
-                                            ))
-                                      ],
-                                    )
+                                    Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text("Shot : ",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Text(
+                                                  widget.bingoParams.nbShot
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ))
+                                          ],
+                                        ))
                                 ])))
                       ]))),
           Center(

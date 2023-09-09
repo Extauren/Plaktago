@@ -6,7 +6,7 @@ List<BingoCard> createBingoCardList(final int nbLines) {
   List<BingoCard> bingoCard = <BingoCard>[];
 
   for (int it = 0; it < nbLines * nbLines; it++) {
-    bingoCard.add(BingoCard(name: "cardName", alcoolRule: ''));
+    bingoCard.add(BingoCard(name: "cardName", alcoolRule: '', nbShot: 0));
   }
   return bingoCard;
 }
