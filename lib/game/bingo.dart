@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 import '../home/mode_button.dart';
 import 'board/board.dart';
 import 'game_data.dart';
@@ -58,6 +59,13 @@ class _Game extends State<Game> {
         for (int it = 0;
             it < widget.bingoParams.nbLines * widget.bingoParams.nbLines;
             it++) {
+          if (cardList.isEmpty &&
+              widget.bingoParams.bingoParams.bingoType ==
+                  BingoType.exploration) {
+            cardList = cardNameListPlaque
+                .where((element) => element.type.contains(BingoType.kta))
+                .toList();
+          }
           card = cardList.elementAt(Random().nextInt(cardList.length));
           cardList.remove(card);
           widget.bingoParams.bingoCard.add(BingoCard(
@@ -65,6 +73,7 @@ class _Game extends State<Game> {
               alcoolRule: card.alcoolRule,
               nbShot: card.nbShot));
         }
+        widget.bingoParams.bingoCard.shuffle();
       }
     }
   }
