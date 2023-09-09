@@ -215,14 +215,14 @@ class _Game extends State<Game> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text("Shot : ",
+                                            Text("Shots : ",
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.w500)),
                                             Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 5),
+                                                    left: 10),
                                                 child: Text(
                                                   widget.bingoParams.nbShot
                                                       .toString(),
