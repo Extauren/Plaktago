@@ -175,23 +175,48 @@ class _Game extends State<Game> {
                                 screenSizeRatio,
                             child: Container(
                                 margin: EdgeInsets.only(top: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("Points : ",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500)),
-                                    Padding(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: Text(
-                                          widget.bingoParams.points.toString(),
+                                child: Column(children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Points : ",
                                           style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w400),
-                                        ))
-                                  ],
-                                )))
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500)),
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            widget.bingoParams.points
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w400),
+                                          ))
+                                    ],
+                                  ),
+                                  if (widget.bingoParams.isAlcool)
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("Shot : ",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500)),
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              widget.bingoParams.nbShot
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w400),
+                                            ))
+                                      ],
+                                    )
+                                ])))
                       ]))),
           Center(
               child: Container(

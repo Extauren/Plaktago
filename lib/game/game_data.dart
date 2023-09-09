@@ -14,6 +14,7 @@ class GameData extends ChangeNotifier {
   int _gameNumber = -1;
   final int _nbLines = 4;
   bool _isAlcool = false;
+  int _nbShot = -1;
 
   BingoParams get bingoParams => _bingoParams;
 
@@ -33,8 +34,15 @@ class GameData extends ChangeNotifier {
 
   bool get isAlcool => _isAlcool;
 
+  int get nbShot => _nbShot;
+
   void setIsAlcool() {
     _isAlcool = !_isAlcool;
+    if (_isAlcool) {
+      _nbShot = 0;
+    } else {
+      _nbShot = -1;
+    }
   }
 
   void setBingoCards(List<BingoCard> newCards) {
@@ -67,6 +75,10 @@ class GameData extends ChangeNotifier {
 
   void changePoints(int newPoint) {
     _points += newPoint;
+  }
+
+  void addShot(final int nbShot) {
+    _nbShot += nbShot;
   }
 
   void resetGameData() {

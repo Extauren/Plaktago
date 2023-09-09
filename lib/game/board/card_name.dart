@@ -7,12 +7,14 @@ class CardName {
   final plaqueTypeList plaqueType;
   final List<BingoType> type;
   final String alcoolRule;
+  final int nbShot;
 
   const CardName(
       {required this.name,
       this.plaqueType = plaqueTypeList.none,
       required this.type,
-      this.alcoolRule = "Boire 1 shoot"});
+      this.alcoolRule = "Boire 1 shot",
+      this.nbShot = 1});
 }
 
 List<CardName> cardNameListPlaque = [
@@ -110,12 +112,13 @@ List<CardName> cardNameListPlaque = [
       name: "Couple / Duo",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque, BingoType.kta],
-      alcoolRule: "Boire 2 shoot"),
+      alcoolRule: "Boire 2 shot",
+      nbShot: 1),
   CardName(
       name: "Attend un pote",
       plaqueType: plaqueTypeList.all,
       type: [BingoType.plaque, BingoType.kta],
-      alcoolRule: "Seul le pote bois un shoot"),
+      alcoolRule: "Seul le pote bois un shot"),
   CardName(
     name: "Laisse la plaque ouverte",
     plaqueType: plaqueTypeList.all,
@@ -158,15 +161,18 @@ List<CardName> cardNameListPlaque = [
   CardName(
       name: "Prendre 10 chatière",
       type: [BingoType.exploration],
-      alcoolRule: "Boire un shoot allongé"),
+      alcoolRule: "Boire un shot allongé"),
   CardName(
       name: "Repas / Apéro",
       type: [BingoType.kta],
-      alcoolRule: "Boire un shoot avec les gens de l'apéro"),
+      alcoolRule: "Boire un shot avec les gens de l'apéro"),
   CardName(
       name: "Fumi", type: [BingoType.kta], alcoolRule: "Boire sans lumière"),
   CardName(
-      name: "Perdu", type: [BingoType.kta], alcoolRule: "Boire un shoot d'eau"),
+      name: "Perdu",
+      type: [BingoType.kta],
+      alcoolRule: "Boire un shot d'eau",
+      nbShot: 0),
   CardName(name: "Chantier", type: [BingoType.kta]),
   CardName(name: "Traquenard", type: [BingoType.kta]),
   CardName(name: "Hamac", type: [BingoType.kta]),

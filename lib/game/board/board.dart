@@ -160,16 +160,11 @@ class _Board extends State<Board> {
           child: ConfettiWidget(
             confettiController: _controllerCenter,
             blastDirectionality: BlastDirectionality.explosive,
-            numberOfParticles: 35, // don't specify a direction, blast randomly
+            numberOfParticles: 35,
             colors: const [
               Colors.yellow,
-              //Colors.green,
-              // Colors.blue,
-              // Colors.pink,
-              // Colors.orange,
-              // Colors.purple
-            ], // manually specify the colors to be used
-            createParticlePath: drawStar, // define a custom shape/path.
+            ],
+            createParticlePath: drawStar,
           ),
         ),
         Container(
