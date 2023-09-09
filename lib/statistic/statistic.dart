@@ -235,6 +235,7 @@ class _Statistic extends State<Statistic> {
 
   Color getCardColor(final String gameType) {
     if (gameType == "Plaque") return Theme.of(context).colorScheme.primary;
+    if (gameType == "Exploration") return Colors.green;
     return Theme.of(context).colorScheme.secondary;
   }
 

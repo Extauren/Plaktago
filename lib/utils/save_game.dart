@@ -141,6 +141,7 @@ class SaveGame {
         "bingoPlaque": 0,
         "bingoKta": 0,
         "bingoWin": 0,
+        "bingoExplo": 0,
         "cardList": initilizeCardList()
       },
       "onGoingGame": {},
@@ -182,6 +183,9 @@ class SaveGame {
       }
       if (bingoType == BingoType.kta) {
         generalStat["bingoKta"] += 1;
+      }
+      if (bingoType == BingoType.exploration) {
+        generalStat["bingoExplo"] += 1;
       }
     }
     if (points == 56) {
@@ -231,8 +235,12 @@ class SaveGame {
 
     if (gameList.elementAt(index)["gameType"] == "Plaque") {
       data["general"]["bingoPlaque"] -= 1;
-    } else {
+    }
+    if (gameList.elementAt(index)["gameType"] == "KTA") {
       data["general"]["bingoKta"] -= 1;
+    }
+    if (gameList.elementAt(index)["gameType"] == "Exploration") {
+      data["general"]["bingoExplo"] -= 1;
     }
     if (gameList.elementAt(index)["points"] == 56) {
       data["general"]["bingoWin"] -= 1;
