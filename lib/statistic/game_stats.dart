@@ -169,12 +169,12 @@ class _GameStats extends State<GameStats> {
           Container(
               margin: EdgeInsets.only(top: 20),
               height: MediaQuery.of(context).size.height / 1.77,
-              constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
+              constraints: BoxConstraints(maxWidth: 450, maxHeight: 430),
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                   ),
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                   itemCount: bingoCard.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Align(
@@ -195,18 +195,20 @@ class _GameStats extends State<GameStats> {
                                                 fontWeight: FontWeight.w600,
                                                 color: Colors.black)))))));
                   })),
-          Slider(
-            min: 0.0,
-            max: _sliderMaxValue,
-            value: _sliderValue,
-            divisions: _sliderMaxValue.toInt(),
-            inactiveColor: Theme.of(context).colorScheme.onBackground,
-            onChanged: (value) {
-              setState(() {
-                _sliderValue = value;
-              });
-            },
-          ),
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Slider(
+                min: 0.0,
+                max: _sliderMaxValue,
+                value: _sliderValue,
+                divisions: _sliderMaxValue.toInt(),
+                inactiveColor: Theme.of(context).colorScheme.onBackground,
+                onChanged: (value) {
+                  setState(() {
+                    _sliderValue = value;
+                  });
+                },
+              )),
           // Align(
           //     child: Container(
           //         width: 230,
