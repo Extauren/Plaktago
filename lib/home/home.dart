@@ -44,7 +44,7 @@ class _Home extends State<Home> {
 
   void getOnGoingGame() async {
     Map<String, dynamic> game = await SaveGame().getOnGoingGame();
-    BingoType bingoType = BingoType.sousterrain;
+    BingoType bingoType = BingoType.kta;
 
     if (game.toString() != "{}") {
       if (game["gameType"] == "Plaque") {
@@ -153,6 +153,12 @@ class _Home extends State<Home> {
     });
   }
 
+  void setIsAcool() {
+    setState(() {
+      widget.bingoParams.setIsAlcool();
+    });
+  }
+
   void btek() {
     print("BTek");
   }
@@ -199,7 +205,7 @@ class _Home extends State<Home> {
                       ),
                     ))),
           Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 40, left: 5, right: 5),
               child: BingoTypeButton(
                   key: bingoTypeKey,
                   bingoType: widget.bingoParams.bingoParams.bingoType,
@@ -207,49 +213,82 @@ class _Home extends State<Home> {
                       widget.bingoParams.bingoParams.updateBingoType,
                   updateParentState: updateState)),
           Container(
-              margin: EdgeInsets.only(top: 40, bottom: 50),
+              margin: EdgeInsets.only(top: 40, bottom: 0),
               child: ModeButton(
                   mode: widget.bingoParams.bingoParams.mode,
                   updateBingoMode: widget.bingoParams.bingoParams.updateMode,
                   updateParentState: updateState)),
           if (widget.bingoParams.bingoParams.mode == Mode.personalize)
-            NotificationListener(
-                onNotification: (ScrollNotification notification) {
-                  if (notification is ScrollUpdateNotification) {
-                    if (notification.metrics.pixels ==
-                        notification.metrics.maxScrollExtent) {
-                      _parentScrollController.animateTo(
-                          _parentScrollController.position.maxScrollExtent,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeIn);
-                    } else if (notification.metrics.pixels ==
-                        notification.metrics.minScrollExtent) {
-                      _parentScrollController.animateTo(
-                          _parentScrollController.position.minScrollExtent,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeIn);
-                    }
-                  }
-                  return true;
-                },
-                child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width,
-                      maxHeight: MediaQuery.of(context).size.height,
+            Container(
+                margin: EdgeInsets.only(top: 40),
+                child: NotificationListener(
+                    onNotification: (ScrollNotification notification) {
+                      if (notification is ScrollUpdateNotification) {
+                        if (notification.metrics.pixels ==
+                            notification.metrics.maxScrollExtent) {
+                          _parentScrollController.animateTo(
+                              _parentScrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeIn);
+                        } else if (notification.metrics.pixels ==
+                            notification.metrics.minScrollExtent) {
+                          _parentScrollController.animateTo(
+                              _parentScrollController.position.minScrollExtent,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeIn);
+                        }
+                      }
+                      return true;
+                    },
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width,
+                          maxHeight: MediaQuery.of(context).size.height,
+                        ),
+                        child: Personalize(
+                            key: personalizeKey,
+                            cards: widget.bingoParams.personalizeCard,
+                            type: widget.bingoParams.bingoParams.bingoType,
+                            nbCardSelect: nbCards,
+                            changeNbCardValue: changeNbCardValue,
+                            controller: _childScrollController)))),
+          if (!widget.bingoParams.isAlcool)
+            Container(
+                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 110),
+                child: OutlinedButton(
+                  onPressed: setIsAcool,
+                  child: TextButton.icon(
+                    onPressed: setIsAcool,
+                    icon: Icon(
+                      Icons.wine_bar,
                     ),
-                    child: Personalize(
-                        key: personalizeKey,
-                        cards: widget.bingoParams.personalizeCard,
-                        type: widget.bingoParams.bingoParams.bingoType,
-                        nbCardSelect: nbCards,
-                        changeNbCardValue: changeNbCardValue,
-                        controller: _childScrollController))),
+                    label: Text(
+                      "Jeux d'alcool",
+                    ),
+                  ),
+                )),
+          if (widget.bingoParams.isAlcool)
+            Container(
+                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 110),
+                child: FilledButton(
+                    onPressed: setIsAcool,
+                    child: TextButton.icon(
+                      onPressed: setIsAcool,
+                      icon: Icon(
+                        Icons.wine_bar,
+                        color: Colors.black,
+                      ),
+                      label: Text(
+                        "Jeux d'alcool",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ))),
           if ((widget.bingoParams.bingoParams.mode == Mode.personalize) ||
               widget.bingoParams.bingoParams.mode == Mode.random)
             Align(
               child: Container(
                   constraints: BoxConstraints(maxWidth: 100),
-                  margin: EdgeInsets.symmetric(vertical: 00),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: LaunchGame(
                       launchGame: launchGame,
                       btek: btek,

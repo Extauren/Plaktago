@@ -4,10 +4,12 @@ import 'package:plaktago/home/mode_button.dart';
 class BingoParams {
   BingoType bingoType;
   Mode mode;
+  bool isAlcool;
 
   BingoParams({
     this.bingoType = BingoType.plaque,
     this.mode = Mode.random,
+    this.isAlcool = false,
   });
 
   clone() => BingoParams(bingoType: bingoType, mode: mode);
@@ -23,5 +25,9 @@ class BingoParams {
   void resetParams() {
     bingoType = BingoType.plaque;
     mode = Mode.random;
+  }
+
+  void setIsAlcool() {
+    isAlcool = !isAlcool;
   }
 }

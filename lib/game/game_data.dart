@@ -13,6 +13,7 @@ class GameData extends ChangeNotifier {
   Timer _timer = Timer();
   int _gameNumber = -1;
   final int _nbLines = 4;
+  bool _isAlcool = false;
 
   BingoParams get bingoParams => _bingoParams;
 
@@ -29,6 +30,12 @@ class GameData extends ChangeNotifier {
   int get gameNumber => _gameNumber;
 
   int get nbLines => _nbLines;
+
+  bool get isAlcool => _isAlcool;
+
+  void setIsAlcool() {
+    _isAlcool = !_isAlcool;
+  }
 
   void setBingoCards(List<BingoCard> newCards) {
     _bingoCards = newCards;
@@ -70,5 +77,6 @@ class GameData extends ChangeNotifier {
     _isPlaying = false;
     _timer = Timer();
     _gameNumber = -1;
+    _isAlcool = false;
   }
 }

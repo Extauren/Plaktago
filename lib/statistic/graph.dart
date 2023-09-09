@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 class PieChartSample2 extends StatefulWidget {
   final String nbGames;
   final String bingoPlaque;
-  final String bingoRat;
+  final String bingoKta;
   const PieChartSample2(
       {super.key,
       required this.nbGames,
       required this.bingoPlaque,
-      required this.bingoRat});
+      required this.bingoKta});
 
   @override
   State<StatefulWidget> createState() => PieChart2State();
@@ -89,7 +89,7 @@ class PieChart2State extends State<PieChartSample2> {
     final double plaquePourcentage =
         int.parse(widget.bingoPlaque) / int.parse(widget.nbGames) * 100;
     final double ratPourcentage =
-        int.parse(widget.bingoRat) / int.parse(widget.nbGames) * 100;
+        int.parse(widget.bingoKta) / int.parse(widget.nbGames) * 100;
 
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;

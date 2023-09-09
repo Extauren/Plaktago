@@ -38,7 +38,7 @@ class _Statistic extends State<Statistic> {
     //   "general": {
     //     "nbGames": 3,
     //     "bingoPlaque": 2,
-    //     "bingoRat": 1,
+    //     "bingoKta": 1,
     //     "bingoWin": 0,
     //     "cardList": [
     //       {"cardName": "Bus", "nbPlayed": 2, "nbCheck": 0},
@@ -167,7 +167,7 @@ class _Statistic extends State<Statistic> {
     //   "general": {
     //     "nbGames": 3,
     //     "bingoPlaque": 2,
-    //     "bingoRat": 1,
+    //     "bingoKta": 1,
     //     "bingoWin": 0,
     //     "cardList": [
     //       {"cardName": "Bus", "nbPlayed": 2, "nbCheck": 0},

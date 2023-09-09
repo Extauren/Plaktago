@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum BingoType {
   plaque("Plaque"),
-  sousterrain("Sous terrain");
+  kta("KTA"),
+  exploration("Exploration");
 
   const BingoType(this.name);
   final String name;
@@ -45,10 +46,14 @@ class _BingoTypeButton extends State<BingoTypeButton> {
             // style: TextStyle(fontFamily: 'RobotCondensed')),
             icon: Icon(Icons.aspect_ratio)),
         ButtonSegment<BingoType>(
-            value: BingoType.sousterrain,
-            label: Text(BingoType.sousterrain.name),
+            value: BingoType.kta,
+            label: Text(BingoType.kta.name),
             icon: Icon(
                 FontAwesomeIcons.personWalking)), //Icon(Icons.adjust_rounded))
+        ButtonSegment<BingoType>(
+            value: BingoType.exploration,
+            label: Text(BingoType.exploration.name),
+            icon: Icon(Icons.aspect_ratio)),
       ],
       selected: <BingoType>{widget.bingoType},
       onSelectionChanged: (Set<BingoType> newSelection) {

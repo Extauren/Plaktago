@@ -5,12 +5,14 @@ class BingoCard {
   bool isSelect;
   int nbLineComplete;
   int order;
+  String alcoolRule;
 
   BingoCard(
       {required this.name,
       this.isSelect = false,
       this.nbLineComplete = 0,
-      this.order = -1});
+      this.order = -1,
+      required this.alcoolRule});
 
   Map<String, dynamic> toMap() => {
         'name': name,
@@ -23,7 +25,8 @@ class BingoCard {
       name: map['name'] as String,
       isSelect: map['isSelect'] as bool,
       nbLineComplete: map['nbLineComplete'] as int,
-      order: map['order'] as int);
+      order: map['order'] as int,
+      alcoolRule: map["alcoolRule"] as String);
 
   String toJson() => json.encode(toMap());
 

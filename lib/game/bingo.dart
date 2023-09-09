@@ -44,7 +44,8 @@ class _Game extends State<Game> {
             it++) {
           card = cards.elementAt(Random().nextInt(cards.length));
           cards.remove(card);
-          widget.bingoParams.bingoCard.add(BingoCard(name: card.name));
+          widget.bingoParams.bingoCard
+              .add(BingoCard(name: card.name, alcoolRule: ''));
         }
       } else {
         CardName card;
@@ -59,7 +60,8 @@ class _Game extends State<Game> {
             it++) {
           card = cardList.elementAt(Random().nextInt(cardList.length));
           cardList.remove(card);
-          widget.bingoParams.bingoCard.add(BingoCard(name: card.name));
+          widget.bingoParams.bingoCard
+              .add(BingoCard(name: card.name, alcoolRule: card.alcoolRule));
         }
       }
     }
@@ -106,8 +108,22 @@ class _Game extends State<Game> {
     Navigator.pop(context);
   }
 
-  void changePoints(int newPoint) {
+  void changePoints(final int newPoint, final int index) {
     setState(() {
+      final int oldPoint = widget.bingoParams.points;
+      if (widget.bingoParams.isAlcool && newPoint > 0) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: Text(
+                      style: TextStyle(color: Colors.black), "Jeux d'alcool"),
+                  content: Text(
+                      style: TextStyle(color: Colors.black),
+                      widget.bingoParams.bingoCard.elementAt(index).alcoolRule),
+                  backgroundColor: Colors.cyan[300]);
+            });
+      }
       widget.bingoParams.changePoints(newPoint);
       saveGame.saveOnGoingGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
@@ -131,10 +147,14 @@ class _Game extends State<Game> {
     }
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+            title: Row(children: [
+          Text(
             'Bingo ${widget.bingoParams.bingoParams.bingoType.name}',
           ),
-        ),
+          if (widget.bingoParams.isAlcool)
+            Container(
+                margin: EdgeInsets.only(left: 10), child: Icon(Icons.wine_bar))
+        ])),
         body: ListView(children: [
           // Consumer<GameData>(
           //   builder: (context, provider, child) {

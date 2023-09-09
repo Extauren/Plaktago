@@ -66,7 +66,7 @@ class _Personalize extends State<Personalize> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 550,
+        height: 500,
         child: ListView.builder(
             controller: widget.controller,
             itemCount: widget.cards.length,

@@ -88,7 +88,19 @@ class _Board extends State<Board> {
         points += checkBoard.checkDiagonal(
             widget.bingoCard, widget.nbLines - 1, newState, widget.nbLines - 1);
       }
-      widget.changePoints(points);
+      if (points == 5) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: Text(style: TextStyle(color: Colors.black), "Bingo"),
+                  // content: Text(
+                  //     style: TextStyle(color: Colors.black),
+                  //     "Une nouvelle lignes de complétée"),
+                  backgroundColor: Colors.yellow[300]);
+            });
+      }
+      widget.changePoints(points, index);
     });
   }
 

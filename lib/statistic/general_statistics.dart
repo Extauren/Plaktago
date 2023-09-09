@@ -57,7 +57,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
               fontWeight: FontWeight.w600,
               color: Colors.black,
               fontSize: textFontSize));
-      values[2] = Text(data["bingoRat"].toString(),
+      values[2] = Text(data["bingoKta"].toString(),
           style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Colors.black,
@@ -128,7 +128,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
         PieChartSample2(
           nbGames: data["nbGames"].toString(),
           bingoPlaque: data["bingoPlaque"].toString(),
-          bingoRat: data["bingoRat"].toString(),
+          bingoKta: data["bingoKta"].toString(),
         ),
       if (cardList.length == cardNameListPlaque.length)
         BarChartSample2(
