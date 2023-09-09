@@ -110,7 +110,6 @@ class _Game extends State<Game> {
 
   void changePoints(final int newPoint, final int index) {
     setState(() {
-      final int oldPoint = widget.bingoParams.points;
       if (widget.bingoParams.isAlcool && newPoint > 0) {
         showDialog(
             context: context,

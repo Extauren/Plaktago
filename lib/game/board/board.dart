@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:confetti/confetti.dart';
 import 'bingo_card.dart';
 import 'check_board.dart';
+import 'dart:math';
 
 class Board extends StatefulWidget {
   final String gameType;
@@ -27,6 +29,7 @@ class _Board extends State<Board> {
   static List<int> secondDiagonalValues = [];
   static CheckBoard checkBoard = CheckBoard(nbLines: 0); //nbLines weird
   late int order;
+  late ConfettiController _controllerCenter;
 
   @override
   void initState() {
@@ -37,6 +40,14 @@ class _Board extends State<Board> {
         widget.nbLines, (index) => (widget.nbLines - 1) * (index + 1));
     checkBoard = CheckBoard(nbLines: widget.nbLines);
     order = getMaxOrder();
+    _controllerCenter =
+        ConfettiController(duration: const Duration(seconds: 2));
+  }
+
+  @override
+  void dispose() {
+    _controllerCenter.dispose();
+    super.dispose();
   }
 
   int getMaxOrder() {
@@ -89,16 +100,7 @@ class _Board extends State<Board> {
             widget.bingoCard, widget.nbLines - 1, newState, widget.nbLines - 1);
       }
       if (points == 5) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                  title: Text(style: TextStyle(color: Colors.black), "Bingo"),
-                  // content: Text(
-                  //     style: TextStyle(color: Colors.black),
-                  //     "Une nouvelle lignes de complétée"),
-                  backgroundColor: Colors.yellow[300]);
-            });
+        _controllerCenter.play();
       }
       widget.changePoints(points, index);
     });
@@ -125,58 +127,103 @@ class _Board extends State<Board> {
     return RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero));
   }
 
+  Path drawStar(Size size) {
+    // Method to convert degree to radians
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path.lineTo(halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step));
+      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    }
+    path.close();
+    return path;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-          height: MediaQuery.of(context).size.height / 1.77,
-          constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
-          child: GridView.builder(
-              controller: ScrollController(keepScrollOffset: false),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: widget.nbLines,
-              ),
-              padding: EdgeInsets.all(10.0),
-              itemCount: widget.nbLines * widget.nbLines,
-              itemBuilder: (BuildContext context, int index) {
-                return Align(
-                    child: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: GestureDetector(
-                          onTap: () => _onCardTapped(index),
-                          child: Card(
-                            shape: getCardShape(index),
-                            margin: const EdgeInsets.all(0.5),
-                            color: getCardColor(index),
-                            child: Center(
-                                child: Container(
-                                    margin: const EdgeInsets.all(0.5),
-                                    child: Text(
-                                        widget.bingoCard.elementAt(index).name,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black)))),
-                          ),
-                        )));
-              })),
-      Container(
-          margin: EdgeInsets.only(bottom: 10),
-          child: ElevatedButton(
-            onPressed: widget.saveGame,
-            child: TextButton.icon(
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: ConfettiWidget(
+            confettiController: _controllerCenter,
+            blastDirectionality: BlastDirectionality.explosive,
+            numberOfParticles: 35, // don't specify a direction, blast randomly
+            colors: const [
+              Colors.yellow,
+              //Colors.green,
+              // Colors.blue,
+              // Colors.pink,
+              // Colors.orange,
+              // Colors.purple
+            ], // manually specify the colors to be used
+            createParticlePath: drawStar, // define a custom shape/path.
+          ),
+        ),
+        Container(
+            height: MediaQuery.of(context).size.height / 1.77,
+            constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
+            child: GridView.builder(
+                controller: ScrollController(keepScrollOffset: false),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: widget.nbLines,
+                ),
+                padding: EdgeInsets.all(10.0),
+                itemCount: widget.nbLines * widget.nbLines,
+                itemBuilder: (BuildContext context, int index) {
+                  return Align(
+                      child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: GestureDetector(
+                            onTap: () => _onCardTapped(index),
+                            child: Card(
+                              shape: getCardShape(index),
+                              margin: const EdgeInsets.all(0.5),
+                              color: getCardColor(index),
+                              child: Center(
+                                  child: Container(
+                                      margin: const EdgeInsets.all(0.5),
+                                      child: Text(
+                                          widget.bingoCard
+                                              .elementAt(index)
+                                              .name,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black)))),
+                            ),
+                          )));
+                })),
+        Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: ElevatedButton(
               onPressed: widget.saveGame,
-              icon: Icon(
-                Icons.save,
-                color: Colors.black,
+              child: TextButton.icon(
+                onPressed: widget.saveGame,
+                icon: Icon(
+                  Icons.save,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  'Sauvegarder la partie',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-              label: Text(
-                'Sauvegarder la partie',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ))
-    ]);
+            )),
+      ],
+    );
   }
 }

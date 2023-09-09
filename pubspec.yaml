@@ -41,6 +41,7 @@ dependencies:
   font_awesome_flutter: ^10.5.0
   provider: ^6.0.5
   go_router: ^10.0.0
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:
