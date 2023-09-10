@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
@@ -91,46 +92,27 @@ class _GameList extends State<GameList> {
   }
 
   void comeBackToGame() {
-    BuildContext dialogContext;
-
     if (widget.gameData.isPlaying) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            dialogContext = context;
-            return AlertDialog(
-                title: Text(
-                    "Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?",
-                    style: TextStyle(color: Colors.black, fontSize: 18)),
-                content:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      margin: EdgeInsets.only(right: 20),
-                      child: ElevatedButton(
-                          onPressed: () =>
-                              {Navigator.pop(dialogContext), setGame()},
-                          child: Text("Oui",
-                              style: TextStyle(color: Colors.black)))),
-                  Container(
-                      margin: EdgeInsets.only(left: 20),
-                      child: ElevatedButton(
-                          onPressed: () => {Navigator.pop(dialogContext)},
-                          child: Text("Non",
-                              style: TextStyle(color: Colors.black))))
-                ]),
-                backgroundColor: Colors.grey[300]);
-          });
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.warning,
+        headerAnimationLoop: false,
+        dialogBackgroundColor: Colors.grey[300],
+        title: 'Partie en cours',
+        titleTextStyle:
+            TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        desc:
+            'Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?',
+        descTextStyle: TextStyle(color: Colors.black),
+        btnOkOnPress: setGame,
+        btnCancelText: "Annuler",
+        btnCancelOnPress: () => {},
+      ).show();
     } else {
       setGame();
     }
   }
-
-  // Color getBackgroundColor() {
-  //   if (Theme.of(context).colorScheme.background == Colors.grey[50]) {
-  //     return Colors.grey[400]!;
-  //   }
-  //   return Colors.grey[100]!;
-  // }
 
   @override
   Widget build(BuildContext context) {

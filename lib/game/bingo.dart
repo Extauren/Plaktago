@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import '../home/mode_button.dart';
@@ -79,34 +80,23 @@ class _Game extends State<Game> {
   }
 
   void askSaveGame() {
-    BuildContext dialogContext;
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          dialogContext = context;
-          return AlertDialog(
-              title: Text("Voulez vous vraiment sauvegarder cette partie ?",
-                  style: TextStyle(color: Colors.black, fontSize: 18)),
-              content:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: ElevatedButton(
-                        onPressed: () => {_saveGame(dialogContext)},
-                        child: Text("Oui",
-                            style: TextStyle(color: Colors.black)))),
-                Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: ElevatedButton(
-                        onPressed: () => {Navigator.pop(dialogContext)},
-                        child:
-                            Text("Non", style: TextStyle(color: Colors.black))))
-              ]),
-              backgroundColor: Colors.grey[300]);
-        });
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.question,
+      animType: AnimType.scale,
+      dialogBackgroundColor: Colors.grey[300],
+      title: 'Sauvegarder la partie',
+      titleTextStyle:
+          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      desc: 'Voulez vous vraiment sauvegarder cette partie ?',
+      descTextStyle: TextStyle(color: Colors.black),
+      btnCancelText: "Annuler",
+      btnCancelOnPress: () {},
+      btnOkOnPress: _saveGame,
+    ).show();
   }
 
-  void _saveGame(final BuildContext dialogContext) {
+  void _saveGame() {
     saveGame.writeGame(
         widget.bingoParams.bingoCard,
         widget.bingoParams.points,
@@ -115,7 +105,6 @@ class _Game extends State<Game> {
         widget.bingoParams.gameNumber);
     widget.bingoParams.setIsPlaying(false);
     widget.bingoParams.resetGameData();
-    Navigator.pop(dialogContext);
     Navigator.pop(context);
   }
 

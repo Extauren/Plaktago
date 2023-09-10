@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:plaktago/bug_report.dart';
 import 'package:plaktago/utils/app_settings.dart';
@@ -24,35 +25,20 @@ class _Drawer extends State<DrawerApp> {
   }
 
   void resetData() {
-    BuildContext dialogContext;
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          dialogContext = context;
-          return AlertDialog(
-              title: Text(
-                  "Etes vous sur de vouloir supprimer toutes les données ?",
-                  style: TextStyle(color: Colors.black, fontSize: 18)),
-              content:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: ElevatedButton(
-                        onPressed: () => {
-                              Navigator.pop(dialogContext),
-                              saveGame.resetFile()
-                            },
-                        child: Text("Oui",
-                            style: TextStyle(color: Colors.black)))),
-                Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: ElevatedButton(
-                        onPressed: () => {Navigator.pop(dialogContext)},
-                        child:
-                            Text("Non", style: TextStyle(color: Colors.black))))
-              ]),
-              backgroundColor: Colors.grey[300]);
-        });
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.scale,
+      dialogBackgroundColor: Colors.grey[300],
+      title: 'Supprimer les données',
+      titleTextStyle:
+          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      desc: 'Etes vous sur de vouloir supprimer toutes les données ?',
+      descTextStyle: TextStyle(color: Colors.black),
+      btnOkOnPress: saveGame.resetFile,
+      btnCancelText: "Annuler",
+      btnCancelOnPress: () => {},
+    ).show();
   }
 
   void reportBug() {

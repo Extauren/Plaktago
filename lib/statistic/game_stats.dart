@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:plaktago/utils/save_game.dart';
 
@@ -63,41 +64,29 @@ class _GameStats extends State<GameStats> {
     return Theme.of(context).cardColor;
   }
 
-  void deleteGame(BuildContext dialogContext) async {
+  void deleteGame() async {
     final int gameNumber = widget.bingoStat["gameNumber"];
     SaveGame saveGame = SaveGame();
 
     saveGame.deleteGame(gameNumber);
-    Navigator.pop(dialogContext);
     Navigator.pop(context);
   }
 
   void checkDeleteGame() {
-    BuildContext dialogContext;
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          dialogContext = context;
-          return AlertDialog(
-              title: Text("Voulez vous vraiment supprimer cette partie ?",
-                  style: TextStyle(color: Colors.black, fontSize: 18)),
-              content:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: ElevatedButton(
-                        onPressed: () => {deleteGame(dialogContext)},
-                        child: Text("Oui",
-                            style: TextStyle(color: Colors.black)))),
-                Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: ElevatedButton(
-                        onPressed: () => {Navigator.pop(dialogContext)},
-                        child:
-                            Text("Non", style: TextStyle(color: Colors.black))))
-              ]),
-              backgroundColor: Colors.grey[300]);
-        });
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.scale,
+      dialogBackgroundColor: Colors.grey[300],
+      title: 'Supprimer la partie',
+      titleTextStyle:
+          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      desc: 'Voulez vous vraiment supprimer cette partie ?',
+      descTextStyle: TextStyle(color: Colors.black),
+      btnOkOnPress: deleteGame,
+      btnCancelText: "Annuler",
+      btnCancelOnPress: () => {},
+    ).show();
   }
 
   @override

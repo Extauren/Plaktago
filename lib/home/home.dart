@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import 'package:plaktago/utils/save_game.dart';
@@ -94,49 +95,44 @@ class _Home extends State<Home> {
 
   void launchGame() {
     final int nbCardNeed = 16 - nbCards;
-    BuildContext dialogContext;
-
     if (nbCards < 16 &&
         widget.bingoParams.bingoParams.mode == Mode.personalize) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                title: Text("Erreur", style: TextStyle(color: Colors.black)),
-                content: Text(
-                    style: TextStyle(color: Colors.black),
-                    "Vous devez sélectionner $nbCardNeed cases supplémentaires"),
-                backgroundColor: Colors.red[300]);
-          });
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.error,
+        headerAnimationLoop: false,
+        dialogBackgroundColor: Colors.grey[300],
+        body: Center(
+          child: Text(
+            'Vous devez sélectionner $nbCardNeed cases supplémentaires',
+            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
+          ),
+        ),
+        title: 'Erreur',
+        titleTextStyle: TextStyle(color: Colors.black),
+        desc: 'This is also Ignored',
+        btnOkOnPress: () {},
+      ).show();
       return;
     }
     if (widget.bingoParams.isPlaying) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            dialogContext = context;
-            return AlertDialog(
-                title: Text(
-                    "Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?",
-                    style: TextStyle(color: Colors.black, fontSize: 18)),
-                content:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      margin: EdgeInsets.only(right: 20),
-                      child: ElevatedButton(
-                          onPressed: () =>
-                              {Navigator.pop(dialogContext), startGame()},
-                          child: Text("Oui",
-                              style: TextStyle(color: Colors.black)))),
-                  Container(
-                      margin: EdgeInsets.only(left: 20),
-                      child: ElevatedButton(
-                          onPressed: () => {Navigator.pop(dialogContext)},
-                          child: Text("Non",
-                              style: TextStyle(color: Colors.black))))
-                ]),
-                backgroundColor: Colors.grey[300]);
-          });
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.warning,
+        headerAnimationLoop: false,
+        dialogBackgroundColor: Colors.grey[300],
+        title: 'Partie en cours',
+        titleTextStyle:
+            TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        desc:
+            'Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?',
+        descTextStyle: TextStyle(color: Colors.black),
+        btnOkOnPress: startGame,
+        btnCancelText: "Annuler",
+        btnCancelOnPress: () => {},
+      ).show();
       return;
     }
     startGame();
