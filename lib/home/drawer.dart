@@ -1,14 +1,19 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:plaktago/bug_report.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import 'package:plaktago/utils/save_game.dart';
 
 class DrawerApp extends StatefulWidget {
   final Function changeTheme;
   final AppSettings appSettings;
+  final IsarService isarService;
   const DrawerApp(
-      {Key? key, required this.changeTheme, required this.appSettings});
+      {Key? key,
+      required this.changeTheme,
+      required this.appSettings,
+      required this.isarService});
 
   @override
   State<DrawerApp> createState() => _Drawer();
@@ -16,7 +21,6 @@ class DrawerApp extends StatefulWidget {
 
 class _Drawer extends State<DrawerApp> {
   bool _darkMode = false;
-  final saveGame = SaveGame();
 
   @override
   void initState() {
@@ -35,7 +39,7 @@ class _Drawer extends State<DrawerApp> {
           TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       desc: 'Etes vous sur de vouloir supprimer toutes les données ?',
       descTextStyle: TextStyle(color: Colors.black),
-      btnOkOnPress: saveGame.resetFile,
+      btnOkOnPress: widget.isarService.deleteAllData, //saveGame.resetFile,
       btnCancelText: "Annuler",
       btnCancelOnPress: () => {},
     ).show();

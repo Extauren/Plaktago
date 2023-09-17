@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
+import 'package:provider/provider.dart';
 import 'plaktago.dart';
 
 void main() {
@@ -31,18 +33,29 @@ class _App extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      settings
-          ? ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width,
-                maxHeight: MediaQuery.of(context).size.height,
-              ),
-              child: Plaktago(appSettings: appSettings))
-          : CircularProgressIndicator(
-              color: primaryColor,
-            )
-    ]));
+    return ChangeNotifierProvider<IsarService>(
+        create: (_) => IsarService(),
+        builder: (context, child) {
+          return Consumer<IsarService>(builder: (context, provider, child) {
+            IsarService isarService = context.watch<IsarService>();
+            return MaterialApp(
+                home: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  settings
+                      ? ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width,
+                            maxHeight: MediaQuery.of(context).size.height,
+                          ),
+                          child: Plaktago(
+                              appSettings: appSettings,
+                              isarService: isarService))
+                      : CircularProgressIndicator(
+                          color: primaryColor,
+                        )
+                ]));
+          });
+        });
   }
 }

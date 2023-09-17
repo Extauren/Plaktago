@@ -1,6 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/utils/isar_service.dart';
+import 'package:plaktago/utils/game/game.dart';
 import '../home/mode_button.dart';
 import 'board/board.dart';
 import 'game_data.dart';
@@ -10,29 +14,32 @@ import 'board/bingo_card.dart';
 import 'dart:math';
 import '../home/personalize.dart';
 
-class Game extends StatefulWidget {
+class Bingo extends StatefulWidget {
   final GameData bingoParams;
   List<PersonalizeCard> personalizeCards;
   final bool newGame;
-  Game(
+  IsarService isarService;
+  Bingo(
       {Key? key,
       required this.bingoParams,
       required this.newGame,
+      required this.isarService,
       this.personalizeCards = const []})
       : super(key: key);
 
   @override
-  State<Game> createState() => _Game();
+  State<Bingo> createState() => _Bingo();
 }
 
-class _Game extends State<Game> {
-  SaveGame saveGame = SaveGame();
+class _Bingo extends State<Bingo> {
+  //SaveGame saveGame = SaveGame();
   int screenSizeRatio = 2;
 
   @override
   void initState() {
     super.initState();
-    saveGame.saveOnGoingGame(widget.bingoParams);
+    _saveOnGoingGame();
+    //saveGame.saveOnGoingGame(widget.bingoParams);
     if (widget.newGame) {
       widget.bingoParams.setIsPlaying(true);
       widget.bingoParams.setPoints(0);
@@ -97,15 +104,35 @@ class _Game extends State<Game> {
   }
 
   void _saveGame() {
-    saveGame.writeGame(
-        widget.bingoParams.bingoCard,
-        widget.bingoParams.points,
-        widget.bingoParams.bingoParams,
-        widget.bingoParams.timer.getTime(),
-        widget.bingoParams.gameNumber);
+    initializeDateFormatting();
+    Game game = Game(
+        gameNumber: widget.bingoParams.gameNumber,
+        points: widget.bingoParams.points,
+        bingoType: widget.bingoParams.bingoParams.bingoType,
+        time: widget.bingoParams.timer.getTime(),
+        hour: DateFormat("HH:mm").format(DateTime.now()),
+        date: DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
+        isAlcool: widget.bingoParams.isAlcool,
+        bingoCardList: widget.bingoParams.bingoCard);
+    widget.isarService.saveGame(game);
     widget.bingoParams.setIsPlaying(false);
     widget.bingoParams.resetGameData();
     Navigator.pop(context);
+  }
+
+  void _saveOnGoingGame() {
+    initializeDateFormatting();
+    Game game = Game(
+        id: -1,
+        gameNumber: -1,
+        points: widget.bingoParams.points,
+        bingoType: widget.bingoParams.bingoParams.bingoType,
+        time: widget.bingoParams.timer.getTime(),
+        hour: "", //DateFormat("HH:mm").format(DateTime.now()),
+        date: "", //DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
+        isAlcool: widget.bingoParams.isAlcool,
+        bingoCardList: widget.bingoParams.bingoCard);
+    widget.isarService.saveGame(game);
   }
 
   void changePoints(final int newPoint, final int index) {
@@ -125,7 +152,8 @@ class _Game extends State<Game> {
       }
       widget.bingoParams.changePoints(newPoint);
       widget.bingoParams.addShot(1);
-      saveGame.saveOnGoingGame(widget.bingoParams);
+      _saveOnGoingGame();
+      //saveGame.saveOnGoingGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import 'package:provider/provider.dart';
 import 'home/home.dart';
@@ -11,8 +12,12 @@ import 'help.dart';
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
   final AppSettings appSettings;
+  final IsarService isarService;
   const NavigationBarApp(
-      {Key? key, required this.changeTheme, required this.appSettings})
+      {Key? key,
+      required this.changeTheme,
+      required this.appSettings,
+      required this.isarService})
       : super(key: key);
 
   @override
@@ -32,29 +37,30 @@ class _NavigationBar extends State<NavigationBarApp> {
     pages = getPages();
   }
 
-  GoRouter router() {
-    return GoRouter(
-      initialLocation: '/home',
-      routes: [
-        GoRoute(
-            path: '/home',
-            builder: (context, state) =>
-                Consumer<GameData>(builder: (context, provider, child) {
-                  GameData gameData = context.watch<GameData>();
-                  return Home(
-                      key: homeKey,
-                      changeTheme: widget.changeTheme,
-                      appSettings: widget.appSettings,
-                      bingoParams: gameData,
-                      playingGame: playingGame);
-                })),
-        GoRoute(
-          path: '/statistic',
-          builder: (context, state) => const Statistic(),
-        ),
-      ],
-    );
-  }
+  // GoRouter router() {
+  //   return GoRouter(
+  //     initialLocation: '/home',
+  //     routes: [
+  //       GoRoute(
+  //           path: '/home',
+  //           builder: (context, state) =>
+  //               Consumer<GameData>(builder: (context, provider, child) {
+  //                 GameData gameData = context.watch<GameData>();
+  //                 return Home(
+  //                     key: homeKey,
+  //                     changeTheme: widget.changeTheme,
+  //                     appSettings: widget.appSettings,
+  //                     bingoParams: gameData,
+  //                     playingGame: playingGame,
+  //                     isarService: isarService);
+  //               })),
+  //       GoRoute(
+  //         path: '/statistic',
+  //         builder: (context, state) => const Statistic(),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   List<Widget> getPages() {
     return [
@@ -65,7 +71,8 @@ class _NavigationBar extends State<NavigationBarApp> {
             changeTheme: widget.changeTheme,
             appSettings: widget.appSettings,
             bingoParams: gameData,
-            playingGame: playingGame);
+            playingGame: playingGame,
+            isarService: widget.isarService);
       }),
       Statistic(),
       Help()

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
-import 'package:plaktago/utils/save_game.dart';
 import '../game/bingo.dart';
 import '../game/game_data.dart';
 import 'drawer.dart';
@@ -18,12 +19,14 @@ class Home extends StatefulWidget {
   final Function changeTheme;
   final AppSettings appSettings;
   BingoParams playingGame;
+  IsarService isarService;
   Home(
       {Key? key,
       required this.changeTheme,
       required this.appSettings,
       required this.bingoParams,
-      required this.playingGame})
+      required this.playingGame,
+      required this.isarService})
       : super(key: key);
 
   @override
@@ -44,21 +47,15 @@ class _Home extends State<Home> {
   }
 
   void getOnGoingGame() async {
-    Map<String, dynamic> game = await SaveGame().getOnGoingGame();
-    BingoType bingoType = BingoType.kta;
-
-    if (game.toString() != "{}") {
-      if (game["gameType"] == "Plaque") {
-        bingoType = BingoType.plaque;
-      }
-      widget.bingoParams.setBingoCards(List<BingoCard>.from(
-          game["bingoCardList"].map((model) => BingoCard.fromMap(model))));
+    Game? game = await widget.isarService.getOnGoingGame();
+    if (game != null) {
       setState(() {
         widget.bingoParams.setIsPlaying(true);
       });
-      widget.bingoParams.setPoints(game["points"]);
-      widget.bingoParams
-          .setBingoParams(BingoParams(bingoType: bingoType, mode: Mode.random));
+      widget.bingoParams.setPoints(game.points);
+      widget.bingoParams.setBingoCards(game.bingoCardList);
+      widget.bingoParams.setBingoParams(
+          BingoParams(bingoType: game.bingoType, mode: Mode.random));
     }
   }
 
@@ -84,11 +81,12 @@ class _Home extends State<Home> {
     widget.bingoParams.setTimer(Timer(timer: 0));
     widget.playingGame = widget.bingoParams.bingoParams.clone();
     Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Game(bingoParams: widget.bingoParams, newGame: true)))
-        .then((value) {
+        context,
+        MaterialPageRoute(
+            builder: (context) => Bingo(
+                bingoParams: widget.bingoParams,
+                newGame: true,
+                isarService: widget.isarService))).then((value) {
       updateState();
     });
   }
@@ -140,11 +138,13 @@ class _Home extends State<Home> {
 
   void comeBacktoGame() {
     Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Game(bingoParams: widget.bingoParams, newGame: false)))
-        .then((value) {
+        context,
+        MaterialPageRoute(
+            builder: (context) => Bingo(
+                  bingoParams: widget.bingoParams,
+                  newGame: false,
+                  isarService: widget.isarService,
+                ))).then((value) {
       updateState();
     });
   }
@@ -172,7 +172,9 @@ class _Home extends State<Home> {
           ),
         ),
         drawer: DrawerApp(
-            changeTheme: widget.changeTheme, appSettings: widget.appSettings),
+            changeTheme: widget.changeTheme,
+            appSettings: widget.appSettings,
+            isarService: widget.isarService),
         body: ListView(controller: _parentScrollController, children: [
           Container(
               margin: const EdgeInsets.only(

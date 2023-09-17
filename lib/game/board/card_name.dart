@@ -1,8 +1,10 @@
+import 'package:isar/isar.dart';
 import '../../home/bingo_type_button.dart';
 
 enum plaqueTypeList { triangle, ronde, carrer, all, none }
 
 class CardName {
+  //final Id id;
   final String name;
   final plaqueTypeList plaqueType;
   final List<BingoType> type;
@@ -10,7 +12,9 @@ class CardName {
   final int nbShot;
 
   const CardName(
-      {required this.name,
+      {
+      //this.id = Isar.autoIncrement,
+      required this.name,
       this.plaqueType = plaqueTypeList.none,
       required this.type,
       this.alcoolRule = "Boire 1 shot",

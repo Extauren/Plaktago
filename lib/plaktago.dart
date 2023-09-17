@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import 'navigation_bar.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class Plaktago extends StatefulWidget {
   final AppSettings appSettings;
-  const Plaktago({Key? key, required this.appSettings});
+  final IsarService isarService;
+  const Plaktago(
+      {Key? key, required this.appSettings, required this.isarService});
 
   @override
   State<Plaktago> createState() => _Plaktago();
@@ -143,6 +146,6 @@ class _Plaktago extends State<Plaktago> {
             }))),
             useMaterial3: true),
         themeMode: _themeMode,
-        home: NavigationBarApp(changeTheme: changeTheme, appSettings: widget.appSettings));
+        home: NavigationBarApp(changeTheme: changeTheme, appSettings: widget.appSettings, isarService: widget.isarService));
   }
 }
