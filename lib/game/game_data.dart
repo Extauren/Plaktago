@@ -81,6 +81,10 @@ class GameData extends ChangeNotifier {
     _nbShot += nbShot;
   }
 
+  void removeShot(final int nbShot) {
+    _nbShot -= 1;
+  }
+
   void resetGameData() {
     _bingoParams = BingoParams();
     _bingoCards = <BingoCard>[];
@@ -90,5 +94,6 @@ class GameData extends ChangeNotifier {
     _timer = Timer();
     _gameNumber = -1;
     _isAlcool = false;
+    _nbShot = 0;
   }
 }

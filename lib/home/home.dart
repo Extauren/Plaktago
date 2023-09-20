@@ -79,7 +79,7 @@ class _Home extends State<Home> {
 
   void startGame() {
     widget.bingoParams.setTimer(Timer(timer: 0));
-    widget.playingGame = widget.bingoParams.bingoParams.clone();
+    //widget.playingGame = widget.bingoParams.bingoParams.clone();
     Navigator.push(
         context,
         MaterialPageRoute(

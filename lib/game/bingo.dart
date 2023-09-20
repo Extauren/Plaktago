@@ -8,11 +8,11 @@ import 'package:plaktago/utils/game/game.dart';
 import '../home/mode_button.dart';
 import 'board/board.dart';
 import 'game_data.dart';
-import '../utils/save_game.dart';
 import 'package:plaktago/game/board/card_name.dart';
 import 'board/bingo_card.dart';
 import 'dart:math';
 import '../home/personalize.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class Bingo extends StatefulWidget {
   final GameData bingoParams;
@@ -32,14 +32,14 @@ class Bingo extends StatefulWidget {
 }
 
 class _Bingo extends State<Bingo> {
-  //SaveGame saveGame = SaveGame();
   int screenSizeRatio = 2;
 
   @override
   void initState() {
     super.initState();
+    List<BingoCard> newBingoCards = [];
+
     _saveOnGoingGame();
-    //saveGame.saveOnGoingGame(widget.bingoParams);
     if (widget.newGame) {
       widget.bingoParams.setIsPlaying(true);
       widget.bingoParams.setPoints(0);
@@ -59,7 +59,6 @@ class _Bingo extends State<Bingo> {
       } else {
         CardName card;
         List<CardName> cardList = <CardName>[];
-        widget.bingoParams.bingoCard.clear();
         cardList = cardNameListPlaque
             .where((element) =>
                 element.type.contains(widget.bingoParams.bingoParams.bingoType))
@@ -76,12 +75,14 @@ class _Bingo extends State<Bingo> {
           }
           card = cardList.elementAt(Random().nextInt(cardList.length));
           cardList.remove(card);
-          widget.bingoParams.bingoCard.add(BingoCard(
+
+          newBingoCards.add(BingoCard(
               name: card.name,
               alcoolRule: card.alcoolRule,
               nbShot: card.nbShot));
         }
-        widget.bingoParams.bingoCard.shuffle();
+        newBingoCards.shuffle();
+        widget.bingoParams.setBingoCards(newBingoCards);
       }
     }
   }
@@ -138,22 +139,34 @@ class _Bingo extends State<Bingo> {
   void changePoints(final int newPoint, final int index) {
     setState(() {
       if (widget.bingoParams.isAlcool && newPoint > 0) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                  title: Text(
-                      style: TextStyle(color: Colors.black), "Jeux d'alcool"),
-                  content: Text(
-                      style: TextStyle(color: Colors.black),
-                      widget.bingoParams.bingoCard.elementAt(index).alcoolRule),
-                  backgroundColor: Colors.cyan[300]);
-            });
+        Flushbar(
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 70),
+          borderRadius: BorderRadius.circular(8),
+          flushbarPosition: FlushbarPosition.TOP,
+          flushbarStyle: FlushbarStyle.FLOATING,
+          titleText: Center(
+              child: Text("Jeux d'alcool",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black))),
+          messageText: Center(
+              child: Text(
+            widget.bingoParams.bingoCard.elementAt(index).alcoolRule,
+            style: TextStyle(fontSize: 16, color: Colors.black),
+          )),
+          duration: Duration(seconds: 30),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        ).show(context);
+        widget.bingoParams
+            .addShot(widget.bingoParams.bingoCard.elementAt(index).nbShot);
+      }
+      if (widget.bingoParams.isAlcool && newPoint < 0) {
+        widget.bingoParams
+            .removeShot(widget.bingoParams.bingoCard.elementAt(index).nbShot);
       }
       widget.bingoParams.changePoints(newPoint);
-      widget.bingoParams.addShot(1);
       _saveOnGoingGame();
-      //saveGame.saveOnGoingGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,
