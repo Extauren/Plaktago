@@ -49,12 +49,11 @@ class _BingoTypeButton extends State<BingoTypeButton> {
         ButtonSegment<BingoType>(
             value: BingoType.kta,
             label: Text(BingoType.kta.name),
-            icon: Icon(
-                FontAwesomeIcons.personWalking)), //Icon(Icons.adjust_rounded))
+            icon: Icon(FontAwesomeIcons.dungeon)),
         ButtonSegment<BingoType>(
             value: BingoType.exploration,
             label: Text(BingoType.exploration.name),
-            icon: Icon(Icons.aspect_ratio)),
+            icon: Icon(FontAwesomeIcons.personWalking)),
       ],
       selected: <BingoType>{widget.bingoType},
       onSelectionChanged: (Set<BingoType> newSelection) {
