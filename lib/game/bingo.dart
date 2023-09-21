@@ -19,7 +19,7 @@ class Bingo extends StatefulWidget {
   final GameData bingoParams;
   List<PersonalizeCard> personalizeCards;
   final bool newGame;
-  IsarService isarService;
+  final IsarService isarService;
   final Id id;
   Bingo(
       {Key? key,
@@ -116,7 +116,8 @@ class _Bingo extends State<Bingo> {
         bingoType: widget.bingoParams.bingoParams.bingoType,
         time: widget.bingoParams.timer.getTime(),
         hour: DateFormat("HH:mm").format(DateTime.now()),
-        date: DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
+        date: DateFormat('d/M/y').format(DateTime
+            .now()), //DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
         isAlcool: widget.bingoParams.isAlcool,
         nbShot: widget.bingoParams.nbShot,
         bingoCardList: widget.bingoParams.bingoCard);
@@ -128,7 +129,7 @@ class _Bingo extends State<Bingo> {
           bingoType: widget.bingoParams.bingoParams.bingoType,
           time: widget.bingoParams.timer.getTime(),
           hour: DateFormat("HH:mm").format(DateTime.now()),
-          date: DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
+          date: DateFormat('d/M/y').format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
           bingoCardList: widget.bingoParams.bingoCard);
@@ -216,8 +217,6 @@ class _Bingo extends State<Bingo> {
                 margin: EdgeInsets.only(left: 10), child: Icon(Icons.wine_bar))
         ])),
         body: ListView(children: [
-          // Consumer<GameData>(
-          //   builder: (context, provider, child) {
           Align(
               child: Container(
                   margin: EdgeInsets.only(top: 40),
