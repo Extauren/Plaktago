@@ -1,3 +1,4 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 
 enum StatType {
@@ -22,40 +23,45 @@ class StatTypeButton extends StatefulWidget {
 }
 
 class _StatTypeButton extends State<StatTypeButton> {
+  bool positive = false;
+
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Align(
             child: SizedBox(
-                //height: 45,
-                child: SegmentedButton<StatType>(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.selected)) {
-              return Theme.of(context).colorScheme.primary;
-            }
-            return Theme.of(context).colorScheme.surface;
-          },
-        ),
-      ),
-      segments: <ButtonSegment<StatType>>[
-        ButtonSegment<StatType>(
-            value: StatType.general,
-            label: Text(StatType.general.name),
-            icon: Icon(Icons.equalizer)),
-        ButtonSegment<StatType>(
-            value: StatType.list,
-            label: Text(StatType.list.name),
-            icon: Icon(Icons.list))
-      ],
-      selected: <StatType>{widget.statType},
-      onSelectionChanged: (Set<StatType> newSelection) {
-        setState(() {
-          widget.statType = StatType.list;
-          widget.updateStatType();
-        });
-      },
-    ))));
+      child: AnimatedToggleSwitch<bool>.size(
+          current: positive,
+          values: const [false, true],
+          iconOpacity: 0.2,
+          indicatorSize: const Size.fromWidth(120),
+          customIconBuilder: (context, local, global) => Text(
+              local.value ? 'Liste' : 'Général',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.lerp(
+                      Colors.white, Colors.black, local.animationValue))),
+          borderWidth: 4.0,
+          iconAnimationType: AnimationType.onHover,
+          style: ToggleStyle(
+            indicatorColor: Theme.of(context).colorScheme.primary,
+            borderColor: Colors.transparent,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 1.5),
+              ),
+            ],
+          ),
+          selectedIconScale: 1.0,
+          onChanged: (b) => setState(() {
+                positive = b;
+                widget.statType = StatType.list;
+                widget.updateStatType();
+              })),
+    )));
   }
 }

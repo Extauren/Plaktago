@@ -47,6 +47,8 @@ dependencies:
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   another_flushbar: ^1.12.30
+  pedometer: ^4.0.1
+  animated_toggle_switch: ^0.8.0
 
 dev_dependencies:
   flutter_test:
