@@ -4,7 +4,6 @@ import '../../home/bingo_type_button.dart';
 enum plaqueTypeList { triangle, ronde, carrer, all, none }
 
 class CardName {
-  //final Id id;
   final String name;
   final plaqueTypeList plaqueType;
   final List<BingoType> type;
@@ -12,9 +11,7 @@ class CardName {
   final int nbShot;
 
   const CardName(
-      {
-      //this.id = Isar.autoIncrement,
-      required this.name,
+      {required this.name,
       this.plaqueType = plaqueTypeList.none,
       required this.type,
       this.alcoolRule = "Boire 1 shot",
@@ -80,7 +77,7 @@ List<CardName> cardNameListPlaque = [
   CardName(
     name: "Galère à cause du sac",
     plaqueType: plaqueTypeList.all,
-    type: [BingoType.plaque, BingoType.kta], //balade
+    type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
     name: "Reste à côté de la plaque",
@@ -180,4 +177,8 @@ List<CardName> cardNameListPlaque = [
   CardName(name: "Chantier", type: [BingoType.kta]),
   CardName(name: "Traquenard", type: [BingoType.kta]),
   CardName(name: "Hamac", type: [BingoType.kta]),
+  CardName(name: "Plan papier", type: [BingoType.kta]),
+  CardName(name: "Galerie atypique", type: [BingoType.exploration]),
+  CardName(name: 'Jamais vu', type: [BingoType.exploration]),
+  CardName(name: 'Belle épure', type: [BingoType.exploration])
 ];
