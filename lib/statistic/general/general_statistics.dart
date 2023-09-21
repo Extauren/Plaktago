@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/general.dart';
-import '../utils/save_game.dart';
+import '../../utils/save_game.dart';
 import 'graph.dart';
 import 'graph2.dart';
 
@@ -136,12 +136,13 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                             values[index]
                                           ])))));
                         })),
-                PieChartSample2(
-                  nbGames: snapshot.data!.nbGames.toString(),
-                  bingoPlaque: snapshot.data!.bingoPlaque.toString(),
-                  bingoKta: snapshot.data!.bingoKta.toString(),
-                  bingoExplo: snapshot.data!.bingoExplo.toString(),
-                ),
+                if (snapshot.data!.nbGames > 0)
+                  PieChartSample2(
+                    nbGames: snapshot.data!.nbGames.toString(),
+                    bingoPlaque: snapshot.data!.bingoPlaque.toString(),
+                    bingoKta: snapshot.data!.bingoKta.toString(),
+                    bingoExplo: snapshot.data!.bingoExplo.toString(),
+                  ),
                 BarChartSample2(
                   cardList: snapshot.data!.cardList,
                 ),

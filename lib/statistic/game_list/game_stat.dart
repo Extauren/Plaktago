@@ -1,41 +1,33 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:isar/isar.dart';
 import 'package:plaktago/game/bingo.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/game/game_data.dart';
 import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'game_stats.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameStat extends StatefulWidget {
-  final String points;
-  final String gameType;
-  final String date;
-  final String hour;
-  final String time;
-  final String gameNumber;
+  final Game game;
   final int index;
-  final List<BingoCard> board;
   GameData gameData;
   Function getStat;
   Function updateState;
   final GlobalKey<ExpansionTileCardState> cardKey;
-  GameStat(
-      {Key? key,
-      required this.points,
-      required this.gameType,
-      required this.date,
-      required this.hour,
-      required this.time,
-      required this.gameNumber,
-      required this.index,
-      required this.board,
-      required this.gameData,
-      required this.getStat,
-      required this.updateState,
-      required this.cardKey})
-      : super(key: key);
+  final IsarService isarService;
+  GameStat({
+    Key? key,
+    required this.game,
+    required this.index,
+    required this.gameData,
+    required this.getStat,
+    required this.updateState,
+    required this.cardKey,
+    required this.isarService,
+  }) : super(key: key);
 
   @override
   State<GameStat> createState() => _GameStat();
@@ -54,13 +46,8 @@ class _GameStat extends State<GameStat> {
         context,
         MaterialPageRoute(
             builder: (context) => GameStats(
-                  bingoCard: widget.board,
-                  points: widget.points,
-                  gameType: widget.gameType,
-                  date: widget.date,
-                  hour: widget.hour,
-                  time: widget.time,
-                  gameNumber: widget.gameNumber,
+                  game: widget.game,
+                  isarService: widget.isarService,
                 ))).then((value) {
       updateState();
     });
@@ -80,23 +67,19 @@ class _GameStat extends State<GameStat> {
   }
 
   void setGame() {
-    //List<BingoCard> cards = []; //widget.board;
-    // List<BingoCard>.from(
-    //     widget.board["bingoCardList"].map((model) => BingoCard.fromMap(model)));
-    widget.gameData.setBingoCards(widget.board);
-    widget.gameData.setIsPlaying(true);
-    widget.gameData.setPoints(int.parse(widget.points));
-    widget.gameData.setGameNumber(int.parse(widget.gameNumber));
-    // Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) =>
-    //                 Bingo(bingoParams: widget.gameData, newGame: false, isarService : )))
-    //     .then((value) {
-    //   setState(() {
-    //     widget.getStat();
-    //   });
-    // });
+    widget.gameData.setGameDataFromGame(widget.game);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Bingo(
+                bingoParams: widget.gameData,
+                newGame: false,
+                isarService: widget.isarService,
+                id: widget.game.id))).then((value) {
+      setState(() {
+        widget.getStat();
+      });
+    });
   }
 
   void comeBackToGame() {
@@ -147,8 +130,8 @@ class _GameStat extends State<GameStat> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(children: [
-                          Text(widget.gameNumber),
-                          widget.points == "56"
+                          Text(widget.game.gameNumber.toString()),
+                          widget.game.points.toString() == "56"
                               ? Container(
                                   margin: EdgeInsets.only(left: 20),
                                   child: Icon(
@@ -158,10 +141,10 @@ class _GameStat extends State<GameStat> {
                                   ))
                               : Container(margin: EdgeInsets.only(left: 20)),
                         ]),
-                        Text(widget.gameType),
+                        Text(widget.game.bingoType.name),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Text(widget.date)])
+                            children: [Text(widget.game.date)])
                       ])),
               trailing: getTraillingIcon(),
               expandedColor: Colors.indigo[50], //Colors.grey[300],
@@ -175,11 +158,11 @@ class _GameStat extends State<GameStat> {
                 DefaultTextStyle(
                     style: TextStyle(fontSize: 16, color: Colors.black),
                     child: Column(children: [
-                      Text("Points : ${widget.points}"),
+                      Text("Points : ${widget.game.points}"),
                       SizedBox(height: 5),
-                      Text("Heure : ${widget.hour}"),
+                      Text("Heure : ${widget.game.hour}"),
                       SizedBox(height: 5),
-                      Text("Durée : ${widget.time}"),
+                      Text("Durée : ${widget.game.time}"),
                       SizedBox(height: 10)
                     ])),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [

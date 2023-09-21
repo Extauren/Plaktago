@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import './indicator.dart';
+import 'indicator.dart';
 import 'package:flutter/material.dart';
 
 class PieChartSample2 extends StatefulWidget {

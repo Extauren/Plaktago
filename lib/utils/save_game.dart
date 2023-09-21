@@ -1,15 +1,4 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
-import 'dart:convert';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:plaktago/game/game_data.dart';
-import 'package:plaktago/utils/bingo_params.dart';
-import 'package:plaktago/utils/general.dart';
-import '../game/board/card_name.dart';
 
 part 'save_game.g.dart';
 

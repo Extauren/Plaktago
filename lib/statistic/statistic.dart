@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/statistic/game_list.dart';
+import 'package:plaktago/statistic/game_list/game_list.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/statistic/statistic_button.dart';
 import 'package:provider/provider.dart';
-import 'general_statistics.dart';
+import 'general/general_statistics.dart';
 
 class Statistic extends StatefulWidget {
   const Statistic({Key? key}) : super(key: key);

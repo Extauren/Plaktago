@@ -2,7 +2,7 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:plaktago/game/game_data.dart';
-import 'package:plaktago/statistic/game_stat.dart';
+import 'package:plaktago/statistic/game_list/game_stat.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:provider/provider.dart';
@@ -67,31 +67,19 @@ class _GameList extends State<GameList> {
                           controller: ScrollController(keepScrollOffset: false),
                           itemCount: snapshot.data?.length,
                           itemBuilder: (context, index) {
-                            final String points =
-                                snapshot.data![index]!.points.toString();
-                            final String gameType =
-                                snapshot.data![index]!.bingoType.name;
-                            final String date = snapshot.data![index]!.date;
-                            final String hour = snapshot.data![index]!.hour;
-                            final String time = snapshot.data![index]!.time;
-                            final String gameNumber =
-                                snapshot.data![index]!.gameNumber.toString();
+                            final Game game = snapshot.data![index]!;
                             return Consumer<GameData>(
                                 builder: (context, provider, child) {
                               GameData gameData = context.watch<GameData>();
                               return GameStat(
-                                  points: points,
-                                  gameType: gameType,
-                                  date: date,
-                                  hour: hour,
-                                  time: time,
-                                  gameNumber: gameNumber,
-                                  index: index,
-                                  board: snapshot.data![index]!.bingoCardList,
-                                  gameData: gameData,
-                                  getStat: () {},
-                                  updateState: updateState,
-                                  cardKey: cardList[index]);
+                                game: game,
+                                index: index,
+                                gameData: gameData,
+                                getStat: () {},
+                                updateState: updateState,
+                                cardKey: cardList[index],
+                                isarService: widget.isarService,
+                              );
                             });
                           })))
             ];

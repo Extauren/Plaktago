@@ -49,13 +49,18 @@ const GameSchema = CollectionSchema(
       name: r'isAlcool',
       type: IsarType.bool,
     ),
-    r'points': PropertySchema(
+    r'nbShot': PropertySchema(
       id: 6,
+      name: r'nbShot',
+      type: IsarType.long,
+    ),
+    r'points': PropertySchema(
+      id: 7,
       name: r'points',
       type: IsarType.long,
     ),
     r'time': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'time',
       type: IsarType.string,
     )
@@ -111,8 +116,9 @@ void _gameSerialize(
   writer.writeLong(offsets[3], object.gameNumber);
   writer.writeString(offsets[4], object.hour);
   writer.writeBool(offsets[5], object.isAlcool);
-  writer.writeLong(offsets[6], object.points);
-  writer.writeString(offsets[7], object.time);
+  writer.writeLong(offsets[6], object.nbShot);
+  writer.writeLong(offsets[7], object.points);
+  writer.writeString(offsets[8], object.time);
 }
 
 Game _gameDeserialize(
@@ -136,8 +142,9 @@ Game _gameDeserialize(
     hour: reader.readString(offsets[4]),
     id: id,
     isAlcool: reader.readBool(offsets[5]),
-    points: reader.readLong(offsets[6]),
-    time: reader.readString(offsets[7]),
+    nbShot: reader.readLong(offsets[6]),
+    points: reader.readLong(offsets[7]),
+    time: reader.readString(offsets[8]),
   );
   return object;
 }
@@ -171,6 +178,8 @@ P _gameDeserializeProp<P>(
     case 6:
       return (reader.readLong(offset)) as P;
     case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -783,6 +792,58 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'nbShot',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'nbShot',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'nbShot',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'nbShot',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Game, Game, QAfterFilterCondition> pointsEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1036,6 +1097,18 @@ extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
     });
   }
 
+  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShot() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbShot', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShotDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbShot', Sort.desc);
+    });
+  }
+
   QueryBuilder<Game, Game, QAfterSortBy> sortByPoints() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'points', Sort.asc);
@@ -1134,6 +1207,18 @@ extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShot() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbShot', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShotDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbShot', Sort.desc);
+    });
+  }
+
   QueryBuilder<Game, Game, QAfterSortBy> thenByPoints() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'points', Sort.asc);
@@ -1192,6 +1277,12 @@ extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
     });
   }
 
+  QueryBuilder<Game, Game, QDistinct> distinctByNbShot() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'nbShot');
+    });
+  }
+
   QueryBuilder<Game, Game, QDistinct> distinctByPoints() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'points');
@@ -1247,6 +1338,12 @@ extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
   QueryBuilder<Game, bool, QQueryOperations> isAlcoolProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isAlcool');
+    });
+  }
+
+  QueryBuilder<Game, int, QQueryOperations> nbShotProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'nbShot');
     });
   }
 

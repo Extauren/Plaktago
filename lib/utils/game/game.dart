@@ -15,6 +15,7 @@ class Game {
   String hour;
   String time;
   bool isAlcool;
+  int nbShot;
   List<BingoCard> bingoCardList;
 
   Game(
@@ -26,5 +27,6 @@ class Game {
       required this.hour,
       required this.time,
       required this.isAlcool,
+      required this.nbShot,
       required this.bingoCardList});
 }

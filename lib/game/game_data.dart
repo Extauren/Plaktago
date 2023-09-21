@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/utils/bingo_params.dart';
+import 'package:plaktago/utils/game/game.dart';
 import '../home/personalize.dart';
 
 class GameData extends ChangeNotifier {
@@ -83,6 +84,16 @@ class GameData extends ChangeNotifier {
 
   void removeShot(final int nbShot) {
     _nbShot -= 1;
+  }
+
+  void setGameDataFromGame(final Game game) {
+    _bingoCards = game.bingoCardList;
+    _points = game.points;
+    _isPlaying = true;
+    _gameNumber = game.gameNumber;
+    _isAlcool = game.isAlcool;
+    _nbShot = game.nbShot;
+    _bingoParams.bingoType = game.bingoType;
   }
 
   void resetGameData() {
