@@ -1,4 +1,3 @@
-import 'package:isar/isar.dart';
 import '../../home/bingo_type_button.dart';
 
 class CardName {
@@ -6,12 +5,14 @@ class CardName {
   final List<BingoType> type;
   final String alcoolRule;
   final int nbShot;
+  final String description;
 
   const CardName(
       {required this.name,
       required this.type,
-      this.alcoolRule = "Boire 1 shot",
-      this.nbShot = 1});
+      this.alcoolRule = "Boire un coup",
+      this.nbShot = 1,
+      this.description = "Test de desciption"});
 }
 
 List<CardName> cardNameListPlaque = [

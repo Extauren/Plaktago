@@ -16,6 +16,7 @@ class Game {
   String time;
   bool isAlcool;
   int nbShot;
+  bool favorite;
   List<BingoCard> bingoCardList;
 
   Game(
@@ -28,5 +29,6 @@ class Game {
       required this.time,
       required this.isAlcool,
       required this.nbShot,
+      this.favorite = false,
       required this.bingoCardList});
 }

@@ -34,33 +34,38 @@ const GameSchema = CollectionSchema(
       name: r'date',
       type: IsarType.string,
     ),
-    r'gameNumber': PropertySchema(
+    r'favorite': PropertySchema(
       id: 3,
+      name: r'favorite',
+      type: IsarType.bool,
+    ),
+    r'gameNumber': PropertySchema(
+      id: 4,
       name: r'gameNumber',
       type: IsarType.long,
     ),
     r'hour': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'hour',
       type: IsarType.string,
     ),
     r'isAlcool': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'isAlcool',
       type: IsarType.bool,
     ),
     r'nbShot': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'nbShot',
       type: IsarType.long,
     ),
     r'points': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'points',
       type: IsarType.long,
     ),
     r'time': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'time',
       type: IsarType.string,
     )
@@ -113,12 +118,13 @@ void _gameSerialize(
   );
   writer.writeByte(offsets[1], object.bingoType.index);
   writer.writeString(offsets[2], object.date);
-  writer.writeLong(offsets[3], object.gameNumber);
-  writer.writeString(offsets[4], object.hour);
-  writer.writeBool(offsets[5], object.isAlcool);
-  writer.writeLong(offsets[6], object.nbShot);
-  writer.writeLong(offsets[7], object.points);
-  writer.writeString(offsets[8], object.time);
+  writer.writeBool(offsets[3], object.favorite);
+  writer.writeLong(offsets[4], object.gameNumber);
+  writer.writeString(offsets[5], object.hour);
+  writer.writeBool(offsets[6], object.isAlcool);
+  writer.writeLong(offsets[7], object.nbShot);
+  writer.writeLong(offsets[8], object.points);
+  writer.writeString(offsets[9], object.time);
 }
 
 Game _gameDeserialize(
@@ -138,13 +144,14 @@ Game _gameDeserialize(
     bingoType: _GamebingoTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
         BingoType.plaque,
     date: reader.readString(offsets[2]),
-    gameNumber: reader.readLong(offsets[3]),
-    hour: reader.readString(offsets[4]),
+    favorite: reader.readBoolOrNull(offsets[3]) ?? false,
+    gameNumber: reader.readLong(offsets[4]),
+    hour: reader.readString(offsets[5]),
     id: id,
-    isAlcool: reader.readBool(offsets[5]),
-    nbShot: reader.readLong(offsets[6]),
-    points: reader.readLong(offsets[7]),
-    time: reader.readString(offsets[8]),
+    isAlcool: reader.readBool(offsets[6]),
+    nbShot: reader.readLong(offsets[7]),
+    points: reader.readLong(offsets[8]),
+    time: reader.readString(offsets[9]),
   );
   return object;
 }
@@ -170,16 +177,18 @@ P _gameDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 4:
-      return (reader.readString(offset)) as P;
-    case 5:
-      return (reader.readBool(offset)) as P;
-    case 6:
       return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readBool(offset)) as P;
     case 7:
       return (reader.readLong(offset)) as P;
     case 8:
+      return (reader.readLong(offset)) as P;
+    case 9:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -547,6 +556,15 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'date',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> favoriteEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'favorite',
+        value: value,
       ));
     });
   }
@@ -1061,6 +1079,18 @@ extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
     });
   }
 
+  QueryBuilder<Game, Game, QAfterSortBy> sortByFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'favorite', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByFavoriteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'favorite', Sort.desc);
+    });
+  }
+
   QueryBuilder<Game, Game, QAfterSortBy> sortByGameNumber() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'gameNumber', Sort.asc);
@@ -1156,6 +1186,18 @@ extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
   QueryBuilder<Game, Game, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'favorite', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByFavoriteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'favorite', Sort.desc);
     });
   }
 
@@ -1258,6 +1300,12 @@ extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
     });
   }
 
+  QueryBuilder<Game, Game, QDistinct> distinctByFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'favorite');
+    });
+  }
+
   QueryBuilder<Game, Game, QDistinct> distinctByGameNumber() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'gameNumber');
@@ -1320,6 +1368,12 @@ extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
   QueryBuilder<Game, String, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<Game, bool, QQueryOperations> favoriteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'favorite');
     });
   }
 
