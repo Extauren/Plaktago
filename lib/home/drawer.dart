@@ -101,19 +101,24 @@ class _Drawer extends State<DrawerApp> {
           ),
           Positioned(
               bottom: 0,
-              child: Container(
-                  constraints: BoxConstraints(maxWidth: 180),
-                  margin: EdgeInsets.symmetric(vertical: 15),
-                  height: 30,
-                  width: MediaQuery.of(context).size.width / 2 - 27,
-                  child: ElevatedButton(
-                      onPressed: resetData,
-                      child: Text(
-                        "Supprimer les données",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.onSecondary),
-                      ))))
+              child: Column(children: [
+                Container(
+                    constraints: BoxConstraints(maxWidth: 180),
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    height: 30,
+                    width: MediaQuery.of(context).size.width / 2 - 27,
+                    child: ElevatedButton(
+                        onPressed: resetData,
+                        child: Text(
+                          "Supprimer les données",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).colorScheme.onSecondary),
+                        ))),
+                Container(
+                    margin: EdgeInsets.only(bottom: 15),
+                    child: Text("Version 0.1 beta"))
+              ]))
         ]));
   }
 }

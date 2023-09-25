@@ -95,11 +95,11 @@ class BarChartSample2State extends State<BarChartSample2> {
         child: Container(
             //width: 450,
             height: 480,
-            margin: EdgeInsets.only(top: 40),
+            margin: EdgeInsets.only(top: 60),
             child: AspectRatio(
               aspectRatio: 0.9,
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(left: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -248,7 +248,7 @@ class BarChartSample2State extends State<BarChartSample2> {
       axisSide: meta.axisSide,
       child: Container(
           margin: EdgeInsets.only(top: width),
-          constraints: BoxConstraints(maxWidth: 65),
+          constraints: BoxConstraints(maxWidth: 75),
           child: text),
     );
   }

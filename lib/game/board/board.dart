@@ -3,6 +3,7 @@ import 'package:confetti/confetti.dart';
 import 'bingo_card.dart';
 import 'check_board.dart';
 import 'dart:math';
+import 'package:pedometer/pedometer.dart';
 
 class Board extends StatefulWidget {
   final String gameType;
@@ -30,6 +31,8 @@ class _Board extends State<Board> {
   static CheckBoard checkBoard = CheckBoard(nbLines: 0); //nbLines weird
   late int order;
   late ConfettiController _controllerCenter;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
+  late Stream<StepCount> _stepCountStream;
 
   @override
   void initState() {
@@ -42,12 +45,44 @@ class _Board extends State<Board> {
     order = getMaxOrder();
     _controllerCenter =
         ConfettiController(duration: const Duration(seconds: 2));
+    initPlatformState();
   }
 
   @override
   void dispose() {
     _controllerCenter.dispose();
     super.dispose();
+  }
+
+  void onStepCount(StepCount event) {
+    int steps = event.steps;
+    DateTime timeStamp = event.timeStamp;
+  }
+
+  /// Handle status changed
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    String status = event.status;
+    print("");
+    DateTime timeStamp = event.timeStamp;
+  }
+
+  /// Handle the error
+  void onPedestrianStatusError(error) {}
+
+  /// Handle the error
+  void onStepCountError(error) {}
+
+  Future<void> initPlatformState() async {
+    // Init streams
+    _pedestrianStatusStream = await Pedometer.pedestrianStatusStream;
+    _stepCountStream = await Pedometer.stepCountStream;
+
+    // Listen to streams and handle errors
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
   }
 
   int getMaxOrder() {

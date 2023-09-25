@@ -78,7 +78,7 @@ class _Home extends State<Home> {
   }
 
   void startGame() {
-    widget.bingoParams.setTimer(Timer(timer: 0));
+    widget.bingoParams.setTimer(Timer(time: widget.bingoParams.time));
     //widget.playingGame = widget.bingoParams.bingoParams.clone();
     Navigator.push(
         context,
@@ -252,7 +252,7 @@ class _Home extends State<Home> {
                             controller: _childScrollController)))),
           if (!widget.bingoParams.isAlcool)
             Container(
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 110),
+                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
                 child: OutlinedButton(
                   onPressed: setIsAcool,
                   child: TextButton.icon(
@@ -267,7 +267,7 @@ class _Home extends State<Home> {
                 )),
           if (widget.bingoParams.isAlcool)
             Container(
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 110),
+                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
                 child: FilledButton(
                     onPressed: setIsAcool,
                     child: TextButton.icon(

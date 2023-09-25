@@ -110,20 +110,19 @@ class _Bingo extends State<Bingo> {
   void _saveGame() {
     initializeDateFormatting();
     late Game game;
-    game = Game(
-        gameNumber: widget.bingoParams.gameNumber,
-        points: widget.bingoParams.points,
-        bingoType: widget.bingoParams.bingoParams.bingoType,
-        time: widget.bingoParams.timer.getTime(),
-        hour: DateFormat("HH:mm").format(DateTime.now()),
-        date: DateFormat('d/M/y').format(DateTime
-            .now()), //DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
-        isAlcool: widget.bingoParams.isAlcool,
-        nbShot: widget.bingoParams.nbShot,
-        bingoCardList: widget.bingoParams.bingoCard);
-    if (!widget.newGame) {
+    if (widget.newGame) {
       game = Game(
-          id: widget.id,
+          gameNumber: widget.bingoParams.gameNumber,
+          points: widget.bingoParams.points,
+          bingoType: widget.bingoParams.bingoParams.bingoType,
+          time: widget.bingoParams.timer.getTime(),
+          hour: DateFormat("HH:mm").format(DateTime.now()),
+          date: DateFormat('d/M/y').format(DateTime.now()),
+          isAlcool: widget.bingoParams.isAlcool,
+          nbShot: widget.bingoParams.nbShot,
+          bingoCardList: widget.bingoParams.bingoCard);
+    } else {
+      game = Game(
           gameNumber: widget.bingoParams.gameNumber,
           points: widget.bingoParams.points,
           bingoType: widget.bingoParams.bingoParams.bingoType,
@@ -134,7 +133,7 @@ class _Bingo extends State<Bingo> {
           nbShot: widget.bingoParams.nbShot,
           bingoCardList: widget.bingoParams.bingoCard);
     }
-    widget.isarService.saveGame(game, widget.newGame);
+    widget.isarService.saveGame(game, true);
     widget.bingoParams.setIsPlaying(false);
     widget.bingoParams.resetGameData();
     Navigator.pop(context);
@@ -186,6 +185,7 @@ class _Bingo extends State<Bingo> {
             .removeShot(widget.bingoParams.bingoCard.elementAt(index).nbShot);
       }
       widget.bingoParams.changePoints(newPoint);
+      widget.bingoParams.setTime(widget.bingoParams.timer.time);
       _saveOnGoingGame();
       if (widget.bingoParams.points == 56) {
         showDialog(

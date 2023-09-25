@@ -57,33 +57,35 @@ class PieChart2State extends State<PieChartSample2> {
                       ),
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Indicator(
-                        color: Colors.indigo[300]!,
-                        text: 'Plaque',
-                        isSquare: false,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Indicator(
-                        color: Color.fromRGBO(208, 118, 89, 1),
-                        text: 'KTA',
-                        isSquare: false,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Indicator(
-                        color: Colors.green,
-                        text: 'Exploration',
-                        isSquare: false,
-                      ),
-                    ],
-                  ),
+                  Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Indicator(
+                            color: Colors.indigo[300]!,
+                            text: 'Plaque',
+                            isSquare: false,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Indicator(
+                            color: Color.fromRGBO(208, 118, 89, 1),
+                            text: 'KTA',
+                            isSquare: false,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Indicator(
+                            color: Colors.green,
+                            text: 'Exploration',
+                            isSquare: false,
+                          ),
+                        ],
+                      )),
                   const SizedBox(
                     width: 28,
                   ),

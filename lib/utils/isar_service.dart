@@ -62,6 +62,7 @@ class IsarService extends ChangeNotifier {
   Future<void> saveGame(Game game, bool newGame) async {
     final isar = await db;
     final General? general = await isar.generals.get(0);
+    final int lastId = game.id;
     if (newGame) {
       if (general == null) {
         game.gameNumber = 1;
@@ -70,7 +71,7 @@ class IsarService extends ChangeNotifier {
       }
     }
     isar.writeTxnSync(() => isar.games.putSync(game));
-    if (game.id != -1 && newGame) {
+    if (lastId != -1 && newGame) {
       isar.writeTxnSync(() => isar.games.deleteSync(-1));
       updateGeneralStats(
           game.bingoType, game.points, true, game.bingoCardList, 1);

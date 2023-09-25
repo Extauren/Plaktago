@@ -101,21 +101,21 @@ class _GeneralStatistic extends State<GeneralStatistic> {
             children = <Widget>[
               Column(children: [
                 SizedBox(
-                    height: 200,
-                    width: 400,
+                    height: 190,
+                    width: 370,
                     child: GridView.builder(
                         controller: ScrollController(keepScrollOffset: false),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, childAspectRatio: 1.4),
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                            crossAxisCount: 3, childAspectRatio: 1.5),
+                        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
                         itemCount: 6,
                         itemBuilder: (BuildContext context, int index) {
                           return Align(
                               child: SizedBox(
-                                  height: 80,
-                                  width: 120,
+                                  height: 65,
+                                  width: 100,
                                   child: Card(
-                                      margin: const EdgeInsets.all(5),
+                                      margin: const EdgeInsets.all(0),
                                       color: Colors.indigo[100],
                                       child: Center(
                                           child: Column(

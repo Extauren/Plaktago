@@ -17,7 +17,6 @@ class Timer extends StatefulWidget {
 
 class _Timer extends State<Timer> {
   final _isHours = true;
-  int test = 0;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
@@ -27,8 +26,14 @@ class _Timer extends State<Timer> {
 
   @override
   void initState() {
+    if (widget.time != "") {
+      final List<String> time = widget.time.split(':');
+      _stopWatchTimer.setPresetHoursTime(int.parse(time[0]));
+      _stopWatchTimer.setPresetMinuteTime(int.parse(time[1]));
+      _stopWatchTimer.setPresetSecondTime(int.parse(time[2]));
+    }
     super.initState();
-    test = widget.timer;
+
     _stopWatchTimer.onStartTimer();
   }
 
@@ -46,7 +51,7 @@ class _Timer extends State<Timer> {
           stream: _stopWatchTimer.rawTime,
           initialData: _stopWatchTimer.rawTime.value,
           builder: (context, snap) {
-            final value = snap.data! + test;
+            final value = snap.data!;
             widget.timer = value;
             widget.time = StopWatchTimer.getDisplayTime(value,
                 hours: _isHours, milliSecond: false);

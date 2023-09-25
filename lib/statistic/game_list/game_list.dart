@@ -1,5 +1,6 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:isar/isar.dart';
 import 'package:plaktago/game/game_data.dart';
 import 'package:plaktago/statistic/game_list/game_stat.dart';
@@ -50,6 +51,8 @@ class _GameList extends State<GameList> {
     });
   }
 
+  void doNothing(BuildContext context) {}
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Game?>>(
@@ -71,15 +74,30 @@ class _GameList extends State<GameList> {
                             return Consumer<GameData>(
                                 builder: (context, provider, child) {
                               GameData gameData = context.watch<GameData>();
-                              return GameStat(
-                                game: game,
-                                index: index,
-                                gameData: gameData,
-                                getStat: () {},
-                                updateState: updateState,
-                                cardKey: cardList[index],
-                                isarService: widget.isarService,
-                              );
+                              return Slidable(
+                                  // Specify a key if the Slidable is dismissible.
+                                  key: const ValueKey(0),
+                                  endActionPane: ActionPane(
+                                    motion: ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: doNothing,
+                                        backgroundColor: Color(0xFFFE4A49),
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete,
+                                        label: 'Delete',
+                                      ),
+                                    ],
+                                  ),
+                                  child: GameStat(
+                                    game: game,
+                                    index: index,
+                                    gameData: gameData,
+                                    getStat: () {},
+                                    updateState: updateState,
+                                    cardKey: cardList[index],
+                                    isarService: widget.isarService,
+                                  ));
                             });
                           })))
             ];

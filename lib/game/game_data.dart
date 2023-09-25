@@ -16,6 +16,7 @@ class GameData extends ChangeNotifier {
   final int _nbLines = 4;
   bool _isAlcool = false;
   int _nbShot = -1;
+  String _time = "";
 
   BingoParams get bingoParams => _bingoParams;
 
@@ -36,6 +37,8 @@ class GameData extends ChangeNotifier {
   bool get isAlcool => _isAlcool;
 
   int get nbShot => _nbShot;
+
+  String get time => _time;
 
   void setIsAlcool() {
     _isAlcool = !_isAlcool;
@@ -74,6 +77,10 @@ class GameData extends ChangeNotifier {
     _timer = timer;
   }
 
+  void setTime(String time) {
+    _time = time;
+  }
+
   void changePoints(int newPoint) {
     _points += newPoint;
   }
@@ -106,5 +113,6 @@ class GameData extends ChangeNotifier {
     _gameNumber = -1;
     _isAlcool = false;
     _nbShot = 0;
+    _time = "";
   }
 }
