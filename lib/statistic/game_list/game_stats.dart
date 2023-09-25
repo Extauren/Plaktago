@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -90,6 +91,13 @@ class _GameStats extends State<GameStats> {
     ).show();
   }
 
+  void setGameToFavorite() {
+    widget.game.favorite = !widget.game.favorite;
+    setState(() {
+      widget.isarService.updateGame(widget.game);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,9 +107,11 @@ class _GameStats extends State<GameStats> {
           ),
           actions: [
             IconButton(
-              onPressed: checkDeleteGame,
+              onPressed: setGameToFavorite,
               icon: Icon(
-                Icons.delete,
+                widget.game.favorite
+                    ? FontAwesomeIcons.heartCircleCheck
+                    : FontAwesomeIcons.heart,
                 color: Theme.of(context).colorScheme.primary,
                 size: 28,
               ),
@@ -200,25 +210,25 @@ class _GameStats extends State<GameStats> {
                   });
                 },
               )),
-          // Align(
-          //     child: Container(
-          //         width: 230,
-          //         height: 40,
-          //         margin: EdgeInsets.only(top: 20, bottom: 10),
-          //         child: ElevatedButton(
-          //           onPressed: () => {},
-          //           child: TextButton.icon(
-          //             onPressed: deleteGame,
-          //             icon: Icon(
-          //               Icons.delete,
-          //               color: Colors.black,
-          //             ),
-          //             label: Text(
-          //               'Supprimer la partie',
-          //               style: TextStyle(color: Colors.black),
-          //             ),
-          //           ),
-          //         )))
+          Align(
+              child: Container(
+                  width: 230,
+                  height: 40,
+                  margin: EdgeInsets.only(top: 20, bottom: 10),
+                  child: ElevatedButton(
+                    onPressed: () => {},
+                    child: TextButton.icon(
+                      onPressed: deleteGame,
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.black,
+                      ),
+                      label: Text(
+                        'Supprimer la partie',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  )))
         ]));
   }
 }

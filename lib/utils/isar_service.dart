@@ -109,6 +109,11 @@ class IsarService extends ChangeNotifier {
     return isDelete;
   }
 
+  Future<void> updateGame(Game game) async {
+    final isar = await db;
+    isar.writeTxnSync(() => isar.games.putSync(game));
+  }
+
   Future<Isar> openDB() async {
     final dir = await getApplicationDocumentsDirectory();
 

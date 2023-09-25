@@ -144,7 +144,13 @@ class _GameStat extends State<GameStat> {
                         Text(widget.game.bingoType.name),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Text(widget.game.date)])
+                            children: [Text(widget.game.date)]),
+                        Icon(
+                          widget.game.favorite
+                              ? FontAwesomeIcons.heartCircleCheck
+                              : FontAwesomeIcons.heart,
+                          color: Colors.red,
+                        )
                       ])),
               trailing: getTraillingIcon(),
               expandedColor: Colors.indigo[50], //Colors.grey[300],

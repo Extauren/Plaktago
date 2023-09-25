@@ -49,6 +49,9 @@ dependencies:
   another_flushbar: ^1.12.30
   pedometer: ^4.0.1
   animated_toggle_switch: ^0.8.0
+  flutter_slidable: ^3.0.0
+  animations: ^2.0.8
+  data_table_2: ^2.5.8
 
 dev_dependencies:
   flutter_test:
