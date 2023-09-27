@@ -62,44 +62,48 @@ class _GameList extends State<GameList> {
           if (snapshot.hasData) {
             createGlobalKeys(snapshot.data);
             children = <Widget>[
-              SingleChildScrollView(
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView.builder(
-                          controller: ScrollController(keepScrollOffset: false),
-                          itemCount: snapshot.data?.length,
-                          itemBuilder: (context, index) {
-                            final Game game = snapshot.data![index]!;
-                            return Consumer<GameData>(
-                                builder: (context, provider, child) {
-                              GameData gameData = context.watch<GameData>();
-                              return Slidable(
-                                  // Specify a key if the Slidable is dismissible.
-                                  key: const ValueKey(0),
-                                  endActionPane: ActionPane(
-                                    motion: ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: doNothing,
-                                        backgroundColor: Color(0xFFFE4A49),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.delete,
-                                        label: 'Delete',
-                                      ),
-                                    ],
-                                  ),
-                                  child: GameStat(
-                                    game: game,
-                                    index: index,
-                                    gameData: gameData,
-                                    getStat: () {},
-                                    updateState: updateState,
-                                    cardKey: cardList[index],
-                                    isarService: widget.isarService,
-                                  ));
-                            });
-                          })))
+              SizedBox(
+                  height: MediaQuery.of(context).size.height - 280,
+                  child: ListView(children: [
+                    Container(
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        height: MediaQuery.of(context).size.height,
+                        child: ListView.builder(
+                            controller:
+                                ScrollController(keepScrollOffset: false),
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (context, index) {
+                              final Game game = snapshot.data![index]!;
+                              return Consumer<GameData>(
+                                  builder: (context, provider, child) {
+                                GameData gameData = context.watch<GameData>();
+                                return Slidable(
+                                    // Specify a key if the Slidable is dismissible.
+                                    key: const ValueKey(0),
+                                    endActionPane: ActionPane(
+                                      motion: ScrollMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: doNothing,
+                                          backgroundColor: Color(0xFFFE4A49),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: 'Delete',
+                                        ),
+                                      ],
+                                    ),
+                                    child: GameStat(
+                                      game: game,
+                                      index: index,
+                                      gameData: gameData,
+                                      getStat: () {},
+                                      updateState: updateState,
+                                      cardKey: cardList[index],
+                                      isarService: widget.isarService,
+                                    ));
+                              });
+                            }))
+                  ]))
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[

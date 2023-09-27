@@ -1,9 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:isar/isar.dart';
 import 'package:plaktago/game/bingo.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/game/game_data.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -37,10 +35,6 @@ class _GameStat extends State<GameStat> {
   bool isExpanded = false;
   int sizeRatio = 1;
 
-  void updateState() {
-    setState(() {});
-  }
-
   void goToGameStats() {
     Navigator.push(
         context,
@@ -49,7 +43,7 @@ class _GameStat extends State<GameStat> {
                   game: widget.game,
                   isarService: widget.isarService,
                 ))).then((value) {
-      updateState();
+      setState(() {});
     });
   }
 

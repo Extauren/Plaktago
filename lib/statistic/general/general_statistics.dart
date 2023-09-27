@@ -98,7 +98,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
           List<Widget> children;
           if (snapshot.hasData) {
             List<Widget> values = getStatistics(snapshot.data!);
-            children = <Widget>[
+            children = [
               Column(children: [
                 SizedBox(
                     height: 190,
