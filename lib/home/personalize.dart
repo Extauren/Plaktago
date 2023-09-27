@@ -33,8 +33,9 @@ class _Personalize extends State<Personalize> {
 
   @override
   void initState() {
-    List<CardName> cardList = [];
     super.initState();
+    widget.cards.clear();
+    List<CardName> cardList = [];
     cardList = cardNameListPlaque
         .where((element) => element.type.contains(widget.type))
         .toList();

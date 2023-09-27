@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
@@ -17,16 +18,16 @@ import 'package:another_flushbar/flushbar.dart';
 
 class Bingo extends StatefulWidget {
   final GameData bingoParams;
-  List<PersonalizeCard> personalizeCards;
+  final List<PersonalizeCard> personalizeCards;
   final bool newGame;
   final IsarService isarService;
   final Id id;
-  Bingo(
+  const Bingo(
       {Key? key,
       required this.bingoParams,
       required this.newGame,
       required this.isarService,
-      this.personalizeCards = const [],
+      required this.personalizeCards,
       this.id = -1})
       : super(key: key);
 
@@ -48,17 +49,17 @@ class _Bingo extends State<Bingo> {
       widget.bingoParams.setPoints(0);
       if (widget.bingoParams.bingoParams.mode == Mode.personalize) {
         PersonalizeCard card;
-        List<PersonalizeCard> cards = widget.personalizeCards
+        List<PersonalizeCard> cards = widget.bingoParams.personalizeCard
             .where((element) => element.isSelect == true)
             .toList();
-        for (int it = 0;
-            it < widget.bingoParams.nbLines * widget.bingoParams.nbLines;
-            it++) {
-          card = cards.elementAt(Random().nextInt(cards.length));
-          cards.remove(card);
-          widget.bingoParams.bingoCard
-              .add(BingoCard(name: card.name, alcoolRule: '', nbShot: 1));
+        widget.bingoParams.setBingoCards([]);
+        for (int it = 0; it < cards.length; it++) {
+          card = cards.elementAt(it);
+          newBingoCards
+              .add((BingoCard(name: card.name, alcoolRule: '', nbShot: 1)));
         }
+        newBingoCards.shuffle();
+        widget.bingoParams.setBingoCards(newBingoCards);
       } else {
         CardName card;
         List<CardName> cardList = <CardName>[];
@@ -209,12 +210,16 @@ class _Bingo extends State<Bingo> {
     return Scaffold(
         appBar: AppBar(
             title: Row(children: [
+          Container(
+              margin: EdgeInsets.only(right: 15),
+              child: Icon(FontAwesomeIcons.dungeon)),
           Text(
             'Bingo ${widget.bingoParams.bingoParams.bingoType.name}',
           ),
           if (widget.bingoParams.isAlcool)
             Container(
-                margin: EdgeInsets.only(left: 10), child: Icon(Icons.wine_bar))
+                margin: EdgeInsets.only(left: 10),
+                child: Icon(FontAwesomeIcons.wineGlass)), //Icons.wine_bar))
         ])),
         body: ListView(children: [
           Align(

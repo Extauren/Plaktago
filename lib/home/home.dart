@@ -86,8 +86,9 @@ class _Home extends State<Home> {
             builder: (context) => Bingo(
                 bingoParams: widget.bingoParams,
                 newGame: true,
+                personalizeCards: [],
                 isarService: widget.isarService))).then((value) {
-      updateState();
+      resetHome();
     });
   }
 
@@ -144,6 +145,7 @@ class _Home extends State<Home> {
                   bingoParams: widget.bingoParams,
                   newGame: false,
                   isarService: widget.isarService,
+                  personalizeCards: [],
                 ))).then((value) {
       updateState();
     });
@@ -281,18 +283,18 @@ class _Home extends State<Home> {
                         style: TextStyle(color: Colors.black),
                       ),
                     ))),
-          if ((widget.bingoParams.bingoParams.mode == Mode.personalize) ||
-              widget.bingoParams.bingoParams.mode == Mode.random)
-            Align(
-              child: Container(
-                  constraints: BoxConstraints(maxWidth: 100),
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: LaunchGame(
-                      launchGame: launchGame,
-                      btek: btek,
-                      nbCards: nbCards,
-                      mode: widget.bingoParams.bingoParams.mode)),
-            )
+          // if ((widget.bingoParams.bingoParams.mode == Mode.personalize) ||
+          //     widget.bingoParams.bingoParams.mode == Mode.random)
+          Align(
+            child: Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                margin: EdgeInsets.only(bottom: 20),
+                child: LaunchGame(
+                    launchGame: launchGame,
+                    btek: btek,
+                    nbCards: nbCards,
+                    mode: widget.bingoParams.bingoParams.mode)),
+          )
         ]));
   }
 }
