@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:plaktago/game/bingo.dart';
 import 'package:plaktago/game/game_data.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'game_stats.dart';
@@ -69,6 +70,7 @@ class _GameStat extends State<GameStat> {
                 bingoParams: widget.gameData,
                 newGame: false,
                 isarService: widget.isarService,
+                personalizeCards: [],
                 id: widget.game.id))).then((value) {
       setState(() {
         widget.getStat();
@@ -99,11 +101,53 @@ class _GameStat extends State<GameStat> {
     }
   }
 
+  Widget getIcon() {
+    if (widget.game.points.toString() == "56") {
+      return Container(
+          margin: EdgeInsets.only(right: 20),
+          child: Icon(
+            FontAwesomeIcons.crown,
+            color: Colors.yellow,
+            size: 20.0,
+          ));
+    } else {
+      if (widget.game.bingoType == BingoType.kta) {
+        return Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Icon(
+              FontAwesomeIcons.dungeon,
+              color: Colors.black,
+              size: 20.0,
+            ));
+      }
+      if (widget.game.bingoType == BingoType.exploration) {
+        return Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Icon(
+              FontAwesomeIcons.personWalking,
+              color: Colors.black,
+              size: 20.0,
+            ));
+      }
+      if (widget.game.bingoType == BingoType.plaque) {
+        return Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Icon(
+              Icons.aspect_ratio,
+              color: Colors.black,
+              size: 20.0,
+            ));
+      }
+    }
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width > 700) {
       sizeRatio = 2;
     }
+    Widget icon = getIcon();
     return Align(
         child: SizedBox(
             width: MediaQuery.of(context).size.width / sizeRatio,
@@ -121,30 +165,26 @@ class _GameStat extends State<GameStat> {
                       fontSize: 16,
                       fontWeight: FontWeight.w600),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(children: [
                           Text(widget.game.gameNumber.toString()),
-                          widget.game.points.toString() == "56"
-                              ? Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Icon(
-                                    FontAwesomeIcons.crown,
-                                    color: Colors.yellow,
-                                    size: 20.0,
-                                  ))
-                              : Container(margin: EdgeInsets.only(left: 20)),
+                          Container(margin: EdgeInsets.only(left: 20)),
                         ]),
+                        icon,
                         Text(widget.game.bingoType.name),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Text(widget.game.date)]),
-                        Icon(
-                          widget.game.favorite
-                              ? FontAwesomeIcons.heartCircleCheck
-                              : FontAwesomeIcons.heart,
-                          color: Colors.red,
-                        )
+                        Spacer(),
+                        Row(children: [
+                          Text(widget.game.date),
+                          Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Icon(
+                                widget.game.favorite
+                                    ? FontAwesomeIcons.heartCircleCheck
+                                    : FontAwesomeIcons.heart,
+                                color: Colors.red,
+                              ))
+                        ]),
                       ])),
               trailing: getTraillingIcon(),
               expandedColor: Colors.indigo[50], //Colors.grey[300],
