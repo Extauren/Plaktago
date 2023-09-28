@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/general.dart';
 
@@ -11,6 +12,16 @@ class IsarService extends ChangeNotifier {
 
   IsarService() {
     db = openDB();
+  }
+
+  Future<Isar> openDB() async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    if (Isar.instanceNames.isEmpty) {
+      return await Isar.open([GeneralSchema, GameSchema, AppSettingsSchema],
+          directory: dir.path, inspector: true);
+    }
+    return Future.value(Isar.getInstance());
   }
 
   Future<void> saveGeneral(General general) async {
@@ -114,13 +125,19 @@ class IsarService extends ChangeNotifier {
     isar.writeTxnSync(() => isar.games.putSync(game));
   }
 
-  Future<Isar> openDB() async {
-    final dir = await getApplicationDocumentsDirectory();
+  Future<AppSettings> getAppSettings() async {
+    final isar = await db;
+    AppSettings? appSettings = await isar.appSettings.get(0);
 
-    if (Isar.instanceNames.isEmpty) {
-      return await Isar.open([GeneralSchema, GameSchema],
-          directory: dir.path, inspector: true);
+    if (appSettings == null) {
+      isar.writeTxnSync(() => isar.appSettings.putSync(AppSettings()));
+      return Future.value(AppSettings());
     }
-    return Future.value(Isar.getInstance());
+    return appSettings;
+  }
+
+  Future<void> saveAppSettings(final AppSettings appSettings) async {
+    final isar = await db;
+    isar.writeTxnSync(() => isar.appSettings.putSync(appSettings));
   }
 }

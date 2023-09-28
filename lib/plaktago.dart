@@ -5,17 +5,17 @@ import 'navigation_bar.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class Plaktago extends StatefulWidget {
-  final AppSettings appSettings;
   final IsarService isarService;
-  const Plaktago(
-      {Key? key, required this.appSettings, required this.isarService});
+  const Plaktago({Key? key, required this.isarService});
 
   @override
   State<Plaktago> createState() => _Plaktago();
 }
 
 class _Plaktago extends State<Plaktago> {
-  late ThemeMode _themeMode;
+  AppSettings appSettings = AppSettings();
+  ThemeMode _themeMode = ThemeMode.dark;
+  bool display = false;
   final ColorScheme lightColor = ColorScheme(
       brightness: Brightness.light,
       primary: Color.fromRGBO(149, 169, 225, 1),
@@ -43,24 +43,32 @@ class _Plaktago extends State<Plaktago> {
 
   @override
   void initState() {
-    if (widget.appSettings.darkMode) {
-      _themeMode = ThemeMode.dark;
-    } else {
-      _themeMode = ThemeMode.light;
-    }
+    getAppSettings();
     super.initState();
+  }
+
+  void getAppSettings() async {
+    appSettings = await widget.isarService.getAppSettings();
+    setState(() {
+      if (appSettings.darkMode) {
+        _themeMode = ThemeMode.dark;
+      } else {
+        _themeMode = ThemeMode.light;
+      }
+      display = true;
+    });
   }
 
   void changeTheme() {
     setState(() {
-      widget.appSettings.darkMode = !widget.appSettings.darkMode;
+      appSettings.darkMode = !appSettings.darkMode;
       if (_themeMode == ThemeMode.light) {
         _themeMode = ThemeMode.dark;
       } else {
         _themeMode = ThemeMode.light;
       }
     });
-    widget.appSettings.saveAppSettings();
+    widget.isarService.saveAppSettings(appSettings);
   }
 
   @override
@@ -82,10 +90,6 @@ class _Plaktago extends State<Plaktago> {
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                     color: Colors.black)),
-            // menuButtonTheme: MenuButtonThemeData(
-            //     style: ButtonStyle(
-            //   surfaceTintColor: MaterialStateProperty.all(Colors.red),
-            // )),
             textTheme: TextTheme(
                 titleLarge: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -146,6 +150,6 @@ class _Plaktago extends State<Plaktago> {
             }))),
             useMaterial3: true),
         themeMode: _themeMode,
-        home: NavigationBarApp(changeTheme: changeTheme, appSettings: widget.appSettings, isarService: widget.isarService));
+        home: display ? NavigationBarApp(changeTheme: changeTheme, appSettings: appSettings, isarService: widget.isarService) : CircularProgressIndicator());
   }
 }
