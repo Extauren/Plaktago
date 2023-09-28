@@ -7,9 +7,7 @@ import 'package:isar/isar.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/game/game.dart';
-import '../home/mode_button.dart';
 import 'board/board.dart';
-import 'game_data.dart';
 import 'package:plaktago/game/board/card_name.dart';
 import 'board/bingo_card.dart';
 import 'dart:math';
@@ -17,7 +15,7 @@ import '../home/personalize.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class Bingo extends StatefulWidget {
-  final GameData bingoParams;
+  final Game bingoParams;
   final List<PersonalizeCard> personalizeCards;
   final bool newGame;
   final IsarService isarService;
@@ -45,49 +43,44 @@ class _Bingo extends State<Bingo> {
 
     _saveOnGoingGame();
     if (widget.newGame) {
-      widget.bingoParams.setIsPlaying(true);
-      widget.bingoParams.setPoints(0);
-      if (widget.bingoParams.bingoParams.mode == Mode.personalize) {
-        PersonalizeCard card;
-        List<PersonalizeCard> cards = widget.bingoParams.personalizeCard
-            .where((element) => element.isSelect == true)
-            .toList();
-        widget.bingoParams.setBingoCards([]);
-        for (int it = 0; it < cards.length; it++) {
-          card = cards.elementAt(it);
-          newBingoCards
-              .add((BingoCard(name: card.name, alcoolRule: '', nbShot: 1)));
+      widget.bingoParams.isPlaying = true;
+      widget.bingoParams.points = 0;
+      // if (widget.bingoParams.mode == Mode.personalize) {
+      //   PersonalizeCard card;
+      //   List<PersonalizeCard> cards = widget.bingoParams.personalizeCard
+      //       .where((element) => element.isSelect == true)
+      //       .toList();
+      //   widget.bingoParams.setBingoCards([]);
+      //   for (int it = 0; it < cards.length; it++) {
+      //     card = cards.elementAt(it);
+      //     newBingoCards
+      //         .add((BingoCard(name: card.name, alcoolRule: '', nbShot: 1)));
+      //   }
+      //   newBingoCards.shuffle();
+      //   widget.bingoParams.setBingoCards(newBingoCards);
+      // } else {
+      CardName card;
+      List<CardName> cardList = <CardName>[];
+      cardList = cardNameListPlaque
+          .where(
+              (element) => element.type.contains(widget.bingoParams.bingoType))
+          .toList();
+      for (int it = 0; it < 4 * 4; it++) {
+        if (cardList.isEmpty &&
+            widget.bingoParams.bingoType == BingoType.exploration) {
+          cardList = cardNameListPlaque
+              .where((element) => element.type.contains(BingoType.kta))
+              .toList();
         }
-        newBingoCards.shuffle();
-        widget.bingoParams.setBingoCards(newBingoCards);
-      } else {
-        CardName card;
-        List<CardName> cardList = <CardName>[];
-        cardList = cardNameListPlaque
-            .where((element) =>
-                element.type.contains(widget.bingoParams.bingoParams.bingoType))
-            .toList();
-        for (int it = 0;
-            it < widget.bingoParams.nbLines * widget.bingoParams.nbLines;
-            it++) {
-          if (cardList.isEmpty &&
-              widget.bingoParams.bingoParams.bingoType ==
-                  BingoType.exploration) {
-            cardList = cardNameListPlaque
-                .where((element) => element.type.contains(BingoType.kta))
-                .toList();
-          }
-          card = cardList.elementAt(Random().nextInt(cardList.length));
-          cardList.remove(card);
+        card = cardList.elementAt(Random().nextInt(cardList.length));
+        cardList.remove(card);
 
-          newBingoCards.add(BingoCard(
-              name: card.name,
-              alcoolRule: card.alcoolRule,
-              nbShot: card.nbShot));
-        }
-        newBingoCards.shuffle();
-        widget.bingoParams.setBingoCards(newBingoCards);
+        newBingoCards.add(BingoCard(
+            name: card.name, alcoolRule: card.alcoolRule, nbShot: card.nbShot));
       }
+      newBingoCards.shuffle();
+      widget.bingoParams.bingoCards = newBingoCards;
+      // }
     }
   }
 
@@ -115,27 +108,27 @@ class _Bingo extends State<Bingo> {
       game = Game(
           gameNumber: widget.bingoParams.gameNumber,
           points: widget.bingoParams.points,
-          bingoType: widget.bingoParams.bingoParams.bingoType,
+          bingoType: widget.bingoParams.bingoType,
           time: widget.bingoParams.timer.getTime(),
           hour: DateFormat("HH:mm").format(DateTime.now()),
           date: DateFormat('d/M/y').format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
-          bingoCardList: widget.bingoParams.bingoCard);
+          bingoCards: widget.bingoParams.bingoCards);
     } else {
       game = Game(
           gameNumber: widget.bingoParams.gameNumber,
           points: widget.bingoParams.points,
-          bingoType: widget.bingoParams.bingoParams.bingoType,
+          bingoType: widget.bingoParams.bingoType,
           time: widget.bingoParams.timer.getTime(),
           hour: DateFormat("HH:mm").format(DateTime.now()),
           date: DateFormat('d/M/y').format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
-          bingoCardList: widget.bingoParams.bingoCard);
+          bingoCards: widget.bingoParams.bingoCards);
     }
     widget.isarService.saveGame(game, true);
-    widget.bingoParams.setIsPlaying(false);
+    widget.bingoParams.isPlaying = false;
     widget.bingoParams.resetGameData();
     Navigator.pop(context);
   }
@@ -146,13 +139,13 @@ class _Bingo extends State<Bingo> {
         id: widget.id,
         gameNumber: widget.id,
         points: widget.bingoParams.points,
-        bingoType: widget.bingoParams.bingoParams.bingoType,
+        bingoType: widget.bingoParams.bingoType,
         time: widget.bingoParams.timer.getTime(),
         hour: DateFormat("HH:mm").format(DateTime.now()),
-        date: DateFormat("dd MMMM yyyy", 'fr').format(DateTime.now()),
+        date: DateFormat('d/M/y').format(DateTime.now()),
         isAlcool: widget.bingoParams.isAlcool,
         nbShot: widget.bingoParams.nbShot,
-        bingoCardList: widget.bingoParams.bingoCard);
+        bingoCards: widget.bingoParams.bingoCards);
     widget.isarService.saveGame(game, false);
   }
 
@@ -172,21 +165,21 @@ class _Bingo extends State<Bingo> {
                       color: Colors.black))),
           messageText: Center(
               child: Text(
-            widget.bingoParams.bingoCard.elementAt(index).alcoolRule,
+            widget.bingoParams.bingoCards.elementAt(index).alcoolRule,
             style: TextStyle(fontSize: 16, color: Colors.black),
           )),
           duration: Duration(seconds: 15),
           backgroundColor: Theme.of(context).colorScheme.primary,
         ).show(context);
-        widget.bingoParams
-            .addShot(widget.bingoParams.bingoCard.elementAt(index).nbShot);
+        widget.bingoParams.nbShot +=
+            widget.bingoParams.bingoCards.elementAt(index).nbShot;
       }
       if (widget.bingoParams.isAlcool && newPoint < 0) {
-        widget.bingoParams
-            .removeShot(widget.bingoParams.bingoCard.elementAt(index).nbShot);
+        widget.bingoParams.nbShot -=
+            widget.bingoParams.bingoCards.elementAt(index).nbShot;
       }
-      widget.bingoParams.changePoints(newPoint);
-      widget.bingoParams.setTime(widget.bingoParams.timer.time);
+      widget.bingoParams.points += newPoint;
+      widget.bingoParams.time = widget.bingoParams.timer.time;
       _saveOnGoingGame();
       if (widget.bingoParams.points == 56) {
         showDialog(
@@ -202,6 +195,26 @@ class _Bingo extends State<Bingo> {
     });
   }
 
+  Widget getIcon() {
+    late Widget icon;
+    if (widget.bingoParams.bingoType == BingoType.kta) {
+      icon = Icon(
+        FontAwesomeIcons.dungeon,
+      );
+    }
+    if (widget.bingoParams.bingoType == BingoType.exploration) {
+      icon = Icon(
+        FontAwesomeIcons.personWalking,
+      );
+    }
+    if (widget.bingoParams.bingoType == BingoType.plaque) {
+      icon = Icon(
+        Icons.aspect_ratio,
+      );
+    }
+    return Container(margin: EdgeInsets.only(right: 15), child: icon);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width > 700) {
@@ -210,11 +223,9 @@ class _Bingo extends State<Bingo> {
     return Scaffold(
         appBar: AppBar(
             title: Row(children: [
-          Container(
-              margin: EdgeInsets.only(right: 15),
-              child: Icon(FontAwesomeIcons.dungeon)),
+          getIcon(),
           Text(
-            'Bingo ${widget.bingoParams.bingoParams.bingoType.name}',
+            'Bingo ${widget.bingoParams.bingoType.name}',
           ),
           if (widget.bingoParams.isAlcool)
             Container(
@@ -292,10 +303,10 @@ class _Bingo extends State<Bingo> {
               child: Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Board(
-                    gameType: widget.bingoParams.bingoParams.bingoType.name,
+                    gameType: widget.bingoParams.bingoType.name,
                     changePoints: changePoints,
-                    bingoCard: widget.bingoParams.bingoCard,
-                    nbLines: widget.bingoParams.nbLines,
+                    bingoCard: widget.bingoParams.bingoCards,
+                    nbLines: 4,
                     saveGame: askSaveGame,
                   ))),
         ]));

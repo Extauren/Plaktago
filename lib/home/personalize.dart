@@ -39,6 +39,12 @@ class _Personalize extends State<Personalize> {
     cardList = cardNameListPlaque
         .where((element) => element.type.contains(widget.type))
         .toList();
+    if (widget.type == BingoType.exploration) {
+      cardList.addAll(cardNameListPlaque
+          .where((element) => element.type.contains(BingoType.kta))
+          .toList());
+    }
+
     for (int it = 0; it < cardList.length; it++) {
       widget.cards.add(PersonalizeCard(name: cardList.elementAt(it).name));
     }

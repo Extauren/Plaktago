@@ -29,7 +29,14 @@ class BarChartSample2State extends State<BarChartSample2> {
 
   void sortByPlayed() {
     int index = 0;
-    widget.cardList.sort((a, b) => b.nbPlayed.compareTo(a.nbPlayed));
+    widget.cardList.sort((a, b) {
+      int value = b.nbPlayed.compareTo(a.nbPlayed);
+      if (value == 0) {
+        return -a.nbCheck.compareTo(b.nbCheck);
+      }
+      return value;
+    });
+
     maxY = widget.cardList[0].nbPlayed;
     for (int it = 0; it < widget.cardList.length; it++) {
       if (it % width == 0) {
@@ -47,7 +54,13 @@ class BarChartSample2State extends State<BarChartSample2> {
 
   void sortByCheck() {
     int index = 0;
-    widget.cardList.sort((a, b) => b.nbCheck.compareTo(a.nbCheck));
+    widget.cardList.sort((a, b) {
+      int value = b.nbCheck.compareTo(a.nbCheck);
+      if (value == 0) {
+        return -a.nbPlayed.compareTo(b.nbPlayed);
+      }
+      return value;
+    });
     for (int it = 0; it < widget.cardList.length; it++) {
       if (it % width == 0) {
         index = 0;
@@ -93,7 +106,6 @@ class BarChartSample2State extends State<BarChartSample2> {
   Widget build(BuildContext context) {
     return Align(
         child: Container(
-            //width: 450,
             height: 480,
             margin: EdgeInsets.only(top: 60),
             child: AspectRatio(
@@ -174,24 +186,24 @@ class BarChartSample2State extends State<BarChartSample2> {
                       children: <Widget>[
                         SizedBox(
                             height: 35,
-                            width: 100,
+                            width: 170,
                             child: TextButton(
                                 onPressed: () => {changeSort(0)},
                                 child: Indicator(
                                   color: Colors.indigo[300]!,
-                                  text: 'Partie',
+                                  text: 'Carte proposées',
                                   isSquare: false,
                                   textColor:
                                       Theme.of(context).colorScheme.onSurface,
                                 ))),
                         SizedBox(
                             height: 35,
-                            width: 140,
+                            width: 160,
                             child: TextButton(
                                 onPressed: () => {changeSort(1)},
                                 child: Indicator(
                                   color: Color.fromRGBO(208, 118, 89, 1),
-                                  text: 'Sélectionné',
+                                  text: 'Cartes validées',
                                   isSquare: false,
                                   textColor:
                                       Theme.of(context).colorScheme.onSurface,

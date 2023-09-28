@@ -17,9 +17,9 @@ const GameSchema = CollectionSchema(
   name: r'Game',
   id: -6261407721091271860,
   properties: {
-    r'bingoCardList': PropertySchema(
+    r'bingoCards': PropertySchema(
       id: 0,
-      name: r'bingoCardList',
+      name: r'bingoCards',
       type: IsarType.objectList,
       target: r'BingoCard',
     ),
@@ -54,18 +54,29 @@ const GameSchema = CollectionSchema(
       name: r'isAlcool',
       type: IsarType.bool,
     ),
-    r'nbShot': PropertySchema(
+    r'isPlaying': PropertySchema(
       id: 7,
+      name: r'isPlaying',
+      type: IsarType.bool,
+    ),
+    r'mode': PropertySchema(
+      id: 8,
+      name: r'mode',
+      type: IsarType.byte,
+      enumMap: _GamemodeEnumValueMap,
+    ),
+    r'nbShot': PropertySchema(
+      id: 9,
       name: r'nbShot',
       type: IsarType.long,
     ),
     r'points': PropertySchema(
-      id: 8,
+      id: 10,
       name: r'points',
       type: IsarType.long,
     ),
     r'time': PropertySchema(
-      id: 9,
+      id: 11,
       name: r'time',
       type: IsarType.string,
     )
@@ -90,11 +101,11 @@ int _gameEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.bingoCardList.length * 3;
+  bytesCount += 3 + object.bingoCards.length * 3;
   {
     final offsets = allOffsets[BingoCard]!;
-    for (var i = 0; i < object.bingoCardList.length; i++) {
-      final value = object.bingoCardList[i];
+    for (var i = 0; i < object.bingoCards.length; i++) {
+      final value = object.bingoCards[i];
       bytesCount += BingoCardSchema.estimateSize(value, offsets, allOffsets);
     }
   }
@@ -114,7 +125,7 @@ void _gameSerialize(
     offsets[0],
     allOffsets,
     BingoCardSchema.serialize,
-    object.bingoCardList,
+    object.bingoCards,
   );
   writer.writeByte(offsets[1], object.bingoType.index);
   writer.writeString(offsets[2], object.date);
@@ -122,9 +133,11 @@ void _gameSerialize(
   writer.writeLong(offsets[4], object.gameNumber);
   writer.writeString(offsets[5], object.hour);
   writer.writeBool(offsets[6], object.isAlcool);
-  writer.writeLong(offsets[7], object.nbShot);
-  writer.writeLong(offsets[8], object.points);
-  writer.writeString(offsets[9], object.time);
+  writer.writeBool(offsets[7], object.isPlaying);
+  writer.writeByte(offsets[8], object.mode.index);
+  writer.writeLong(offsets[9], object.nbShot);
+  writer.writeLong(offsets[10], object.points);
+  writer.writeString(offsets[11], object.time);
 }
 
 Game _gameDeserialize(
@@ -134,24 +147,27 @@ Game _gameDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Game(
-    bingoCardList: reader.readObjectList<BingoCard>(
+    bingoCards: reader.readObjectList<BingoCard>(
           offsets[0],
           BingoCardSchema.deserialize,
           allOffsets,
           BingoCard(),
         ) ??
-        [],
+        const [],
     bingoType: _GamebingoTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
         BingoType.plaque,
-    date: reader.readString(offsets[2]),
+    date: reader.readStringOrNull(offsets[2]) ?? "",
     favorite: reader.readBoolOrNull(offsets[3]) ?? false,
-    gameNumber: reader.readLong(offsets[4]),
-    hour: reader.readString(offsets[5]),
+    gameNumber: reader.readLongOrNull(offsets[4]) ?? -1,
+    hour: reader.readStringOrNull(offsets[5]) ?? "",
     id: id,
-    isAlcool: reader.readBool(offsets[6]),
-    nbShot: reader.readLong(offsets[7]),
-    points: reader.readLong(offsets[8]),
-    time: reader.readString(offsets[9]),
+    isAlcool: reader.readBoolOrNull(offsets[6]) ?? false,
+    isPlaying: reader.readBoolOrNull(offsets[7]) ?? false,
+    mode:
+        _GamemodeValueEnumMap[reader.readByteOrNull(offsets[8])] ?? Mode.random,
+    nbShot: reader.readLongOrNull(offsets[9]) ?? -1,
+    points: reader.readLongOrNull(offsets[10]) ?? 0,
+    time: reader.readStringOrNull(offsets[11]) ?? "",
   );
   return object;
 }
@@ -170,26 +186,31 @@ P _gameDeserializeProp<P>(
             allOffsets,
             BingoCard(),
           ) ??
-          []) as P;
+          const []) as P;
     case 1:
       return (_GamebingoTypeValueEnumMap[reader.readByteOrNull(offset)] ??
           BingoType.plaque) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 3:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 4:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset) ?? -1) as P;
     case 5:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 6:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 8:
-      return (reader.readLong(offset)) as P;
+      return (_GamemodeValueEnumMap[reader.readByteOrNull(offset)] ??
+          Mode.random) as P;
     case 9:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset) ?? -1) as P;
+    case 10:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
+    case 11:
+      return (reader.readStringOrNull(offset) ?? "") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -204,6 +225,14 @@ const _GamebingoTypeValueEnumMap = {
   0: BingoType.plaque,
   1: BingoType.kta,
   2: BingoType.exploration,
+};
+const _GamemodeEnumValueMap = {
+  'random': 0,
+  'personalize': 1,
+};
+const _GamemodeValueEnumMap = {
+  0: Mode.random,
+  1: Mode.personalize,
 };
 
 Id _gameGetId(Game object) {
@@ -294,11 +323,11 @@ extension GameQueryWhere on QueryBuilder<Game, Game, QWhereClause> {
 }
 
 extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardListLengthEqualTo(
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'bingoCardList',
+        r'bingoCards',
         length,
         true,
         length,
@@ -307,10 +336,10 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardListIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'bingoCardList',
+        r'bingoCards',
         0,
         true,
         0,
@@ -319,10 +348,10 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardListIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'bingoCardList',
+        r'bingoCards',
         0,
         false,
         999999,
@@ -331,13 +360,13 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardListLengthLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthLessThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'bingoCardList',
+        r'bingoCards',
         0,
         true,
         length,
@@ -346,14 +375,13 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition>
-      bingoCardListLengthGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'bingoCardList',
+        r'bingoCards',
         length,
         include,
         999999,
@@ -362,7 +390,7 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardListLengthBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -370,7 +398,7 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'bingoCardList',
+        r'bingoCards',
         lower,
         includeLower,
         upper,
@@ -810,6 +838,67 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Game, Game, QAfterFilterCondition> isPlayingEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isPlaying',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeEqualTo(Mode value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeGreaterThan(
+    Mode value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'mode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeLessThan(
+    Mode value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'mode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeBetween(
+    Mode lower,
+    Mode upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'mode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Game, Game, QAfterFilterCondition> nbShotEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1044,10 +1133,10 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
 }
 
 extension GameQueryObject on QueryBuilder<Game, Game, QFilterCondition> {
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardListElement(
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsElement(
       FilterQuery<BingoCard> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'bingoCardList');
+      return query.object(q, r'bingoCards');
     });
   }
 }
@@ -1124,6 +1213,30 @@ extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
   QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcoolDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAlcool', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlaying() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPlaying', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlayingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPlaying', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByModeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mode', Sort.desc);
     });
   }
 
@@ -1249,6 +1362,30 @@ extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlaying() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPlaying', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlayingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPlaying', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByModeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mode', Sort.desc);
+    });
+  }
+
   QueryBuilder<Game, Game, QAfterSortBy> thenByNbShot() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nbShot', Sort.asc);
@@ -1325,6 +1462,18 @@ extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
     });
   }
 
+  QueryBuilder<Game, Game, QDistinct> distinctByIsPlaying() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isPlaying');
+    });
+  }
+
+  QueryBuilder<Game, Game, QDistinct> distinctByMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'mode');
+    });
+  }
+
   QueryBuilder<Game, Game, QDistinct> distinctByNbShot() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nbShot');
@@ -1352,10 +1501,9 @@ extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Game, List<BingoCard>, QQueryOperations>
-      bingoCardListProperty() {
+  QueryBuilder<Game, List<BingoCard>, QQueryOperations> bingoCardsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'bingoCardList');
+      return query.addPropertyName(r'bingoCards');
     });
   }
 
@@ -1392,6 +1540,18 @@ extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
   QueryBuilder<Game, bool, QQueryOperations> isAlcoolProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isAlcool');
+    });
+  }
+
+  QueryBuilder<Game, bool, QQueryOperations> isPlayingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isPlaying');
+    });
+  }
+
+  QueryBuilder<Game, Mode, QQueryOperations> modeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'mode');
     });
   }
 

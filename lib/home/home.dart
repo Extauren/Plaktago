@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import '../game/bingo.dart';
-import '../game/game_data.dart';
 import 'drawer.dart';
 import 'bingo_type_button.dart';
 import 'mode_button.dart';
 import 'launch_game.dart';
-import '../utils/bingo_params.dart';
 import 'personalize.dart';
 import 'package:plaktago/game/timer/timer.dart';
 
 class Home extends StatefulWidget {
-  GameData bingoParams;
+  Game bingoParams;
   final Function changeTheme;
   final AppSettings appSettings;
-  BingoParams playingGame;
   IsarService isarService;
   Home(
       {Key? key,
       required this.changeTheme,
       required this.appSettings,
       required this.bingoParams,
-      required this.playingGame,
       required this.isarService})
       : super(key: key);
 
@@ -50,12 +45,12 @@ class _Home extends State<Home> {
     Game? game = await widget.isarService.getOnGoingGame();
     if (game != null) {
       setState(() {
-        widget.bingoParams.setIsPlaying(true);
+        widget.bingoParams.isPlaying = true;
       });
-      widget.bingoParams.setPoints(game.points);
-      widget.bingoParams.setBingoCards(game.bingoCardList);
-      widget.bingoParams.setBingoParams(
-          BingoParams(bingoType: game.bingoType, mode: Mode.random));
+      // widget.bingoParams.points = game.points;
+      // widget.bingoParams.bingoCards = game.bingoCards);
+      // widget.bingoParams.setBingoType(game.bingoType);
+      // widget.bingoParams.setMode(Mode.random);
     }
   }
 
@@ -65,8 +60,8 @@ class _Home extends State<Home> {
 
   void resetHome() {
     setState(() {
-      widget.bingoParams.setBingoParams(BingoParams());
-      widget.bingoParams.setPersonalizeCards([]);
+      widget.bingoParams.resetGameData();
+      //widget.bingoParams.setPersonalizeCards([]);
       nbCards = 0;
     });
   }
@@ -78,7 +73,7 @@ class _Home extends State<Home> {
   }
 
   void startGame() {
-    widget.bingoParams.setTimer(Timer(time: widget.bingoParams.time));
+    widget.bingoParams.timer = Timer(time: widget.bingoParams.time);
     //widget.playingGame = widget.bingoParams.bingoParams.clone();
     Navigator.push(
         context,
@@ -88,14 +83,14 @@ class _Home extends State<Home> {
                 newGame: true,
                 personalizeCards: [],
                 isarService: widget.isarService))).then((value) {
-      resetHome();
+      nbCards = 0;
+      updateState();
     });
   }
 
   void launchGame() {
     final int nbCardNeed = 16 - nbCards;
-    if (nbCards < 16 &&
-        widget.bingoParams.bingoParams.mode == Mode.personalize) {
+    if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
       AwesomeDialog(
         context: context,
         animType: AnimType.scale,
@@ -137,12 +132,14 @@ class _Home extends State<Home> {
     startGame();
   }
 
-  void comeBacktoGame() {
+  void comeBacktoGame() async {
+    //getOnGoingGame();
+    Game? game = await widget.isarService.getOnGoingGame();
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Bingo(
-                  bingoParams: widget.bingoParams,
+                  bingoParams: game!,
                   newGame: false,
                   isarService: widget.isarService,
                   personalizeCards: [],
@@ -153,12 +150,28 @@ class _Home extends State<Home> {
 
   void setIsAcool() {
     setState(() {
-      widget.bingoParams.setIsAlcool();
+      if (widget.bingoParams.isAlcool) {
+        widget.bingoParams.isAlcool = false;
+      } else {
+        widget.bingoParams.isAlcool = true;
+      }
     });
   }
 
   void btek() {
     print("BTek");
+  }
+
+  void updateBingoType(final BingoType bingoType) {
+    setState(() {
+      widget.bingoParams.bingoType = bingoType;
+    });
+  }
+
+  void setMode(final Mode mode) {
+    setState(() {
+      widget.bingoParams.mode = mode;
+    });
   }
 
   @override
@@ -207,18 +220,17 @@ class _Home extends State<Home> {
           Container(
               margin: EdgeInsets.only(top: 40, left: 5, right: 5),
               child: BingoTypeButton(
-                  key: bingoTypeKey,
-                  bingoType: widget.bingoParams.bingoParams.bingoType,
-                  updateBingoType:
-                      widget.bingoParams.bingoParams.updateBingoType,
-                  updateParentState: updateState)),
+                key: bingoTypeKey,
+                bingoType: widget.bingoParams.bingoType,
+                updateBingoType: updateBingoType,
+              )),
           Container(
               margin: EdgeInsets.only(top: 40, bottom: 0),
               child: ModeButton(
-                  mode: widget.bingoParams.bingoParams.mode,
-                  updateBingoMode: widget.bingoParams.bingoParams.updateMode,
-                  updateParentState: updateState)),
-          if (widget.bingoParams.bingoParams.mode == Mode.personalize)
+                mode: widget.bingoParams.mode,
+                updateBingoMode: setMode,
+              )),
+          if (widget.bingoParams.mode == Mode.personalize)
             Container(
                 margin: EdgeInsets.only(top: 40),
                 child: NotificationListener(
@@ -247,8 +259,8 @@ class _Home extends State<Home> {
                         ),
                         child: Personalize(
                             key: personalizeKey,
-                            cards: widget.bingoParams.personalizeCard,
-                            type: widget.bingoParams.bingoParams.bingoType,
+                            cards: [], //widget.bingoParams.personalizeCard,
+                            type: widget.bingoParams.bingoType,
                             nbCardSelect: nbCards,
                             changeNbCardValue: changeNbCardValue,
                             controller: _childScrollController)))),
@@ -271,29 +283,29 @@ class _Home extends State<Home> {
             Container(
                 margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
                 child: FilledButton(
+                  onPressed: setIsAcool,
+                  child: TextButton.icon(
                     onPressed: setIsAcool,
-                    child: TextButton.icon(
-                      onPressed: setIsAcool,
-                      icon: Icon(
-                        Icons.wine_bar,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        "Jeux d'alcool",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ))),
-          // if ((widget.bingoParams.bingoParams.mode == Mode.personalize) ||
-          //     widget.bingoParams.bingoParams.mode == Mode.random)
+                    icon: Icon(
+                      Icons.wine_bar,
+                      color: Colors.black,
+                    ),
+                    label: Text(
+                      "Jeux d'alcool",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )),
           Align(
             child: Container(
-                constraints: BoxConstraints(maxWidth: 100),
+                //constraints: BoxConstraints(maxWidth: 200),
+                width: 130,
                 margin: EdgeInsets.only(bottom: 20),
                 child: LaunchGame(
                     launchGame: launchGame,
                     btek: btek,
                     nbCards: nbCards,
-                    mode: widget.bingoParams.bingoParams.mode)),
+                    mode: widget.bingoParams.mode)),
           )
         ]));
   }

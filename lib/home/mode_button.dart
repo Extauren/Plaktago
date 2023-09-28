@@ -5,12 +5,12 @@ enum Mode { random, personalize }
 class ModeButton extends StatefulWidget {
   Mode mode;
   final Function updateBingoMode;
-  final Function updateParentState;
-  ModeButton(
-      {super.key,
-      required this.mode,
-      required this.updateBingoMode,
-      required this.updateParentState});
+
+  ModeButton({
+    super.key,
+    required this.mode,
+    required this.updateBingoMode,
+  });
 
   @override
   State<ModeButton> createState() => _ModeButton();
@@ -34,9 +34,7 @@ class _ModeButton extends State<ModeButton> {
       selected: <Mode>{widget.mode},
       onSelectionChanged: (Set<Mode> newSelection) {
         setState(() {
-          widget.mode = newSelection.first;
-          widget.updateBingoMode(widget.mode);
-          widget.updateParentState();
+          widget.updateBingoMode(newSelection.first);
         });
       },
     ));

@@ -77,7 +77,7 @@ class _Plaktago extends State<Plaktago> {
         title: 'Plaktago',
         theme: ThemeData(
             fontFamily: 'RobotCondensed',
-            colorScheme: lightColor,
+            colorScheme: darkColor,
             drawerTheme: DrawerThemeData(backgroundColor: Colors.grey[100]),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
                 backgroundColor: Colors.white,

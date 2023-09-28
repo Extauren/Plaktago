@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
-import 'package:provider/provider.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
-import 'utils/bingo_params.dart';
-import 'game/game_data.dart';
 import 'help.dart';
 
 class NavigationBarApp extends StatefulWidget {
@@ -29,7 +27,6 @@ class _NavigationBar extends State<NavigationBarApp> {
   final PageStorageBucket bucket = PageStorageBucket();
   List<Widget> pages = [];
   final Key homeKey = PageStorageKey('home');
-  BingoParams playingGame = BingoParams();
 
   @override
   void initState() {
@@ -64,16 +61,12 @@ class _NavigationBar extends State<NavigationBarApp> {
 
   List<Widget> getPages() {
     return [
-      Consumer<GameData>(builder: (context, provider, child) {
-        GameData gameData = context.watch<GameData>();
-        return Home(
-            key: homeKey,
-            changeTheme: widget.changeTheme,
-            appSettings: widget.appSettings,
-            bingoParams: gameData,
-            playingGame: playingGame,
-            isarService: widget.isarService);
-      }),
+      Home(
+          key: homeKey,
+          changeTheme: widget.changeTheme,
+          appSettings: widget.appSettings,
+          bingoParams: Game(),
+          isarService: widget.isarService),
       Statistic(),
       Help()
     ];
@@ -85,37 +78,30 @@ class _NavigationBar extends State<NavigationBarApp> {
     });
   }
 
-  List<String> test = ["/home", "/statistic"];
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<GameData>(
-        create: (_) => GameData(),
-        builder: (context, child) {
-          return Scaffold(
-            body: pages[
-                _selectedIndex], //PageStorage(bucket: bucket, child: pages[_selectedIndex]),
-            bottomNavigationBar: BottomNavigationBar(
-              //unselectedItemColor: Colors.grey[200],
-              type: BottomNavigationBarType.fixed,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.graphic_eq),
-                  label: 'Statistiques',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.menu_book),
-                  label: 'Aide',
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-            ),
-          );
-        });
+    return Scaffold(
+      body: pages[
+          _selectedIndex], //PageStorage(bucket: bucket, child: pages[_selectedIndex]),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.graphic_eq),
+            label: 'Statistiques',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'Aide',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }

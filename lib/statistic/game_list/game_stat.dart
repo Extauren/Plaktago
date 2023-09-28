@@ -2,7 +2,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:plaktago/game/bingo.dart';
-import 'package:plaktago/game/game_data.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -12,7 +11,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class GameStat extends StatefulWidget {
   final Game game;
   final int index;
-  GameData gameData;
   Function getStat;
   Function updateState;
   final GlobalKey<ExpansionTileCardState> cardKey;
@@ -21,7 +19,6 @@ class GameStat extends StatefulWidget {
     Key? key,
     required this.game,
     required this.index,
-    required this.gameData,
     required this.getStat,
     required this.updateState,
     required this.cardKey,
@@ -62,12 +59,11 @@ class _GameStat extends State<GameStat> {
   }
 
   void setGame() {
-    widget.gameData.setGameDataFromGame(widget.game);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Bingo(
-                bingoParams: widget.gameData,
+                bingoParams: widget.game,
                 newGame: false,
                 isarService: widget.isarService,
                 personalizeCards: [],
@@ -79,7 +75,7 @@ class _GameStat extends State<GameStat> {
   }
 
   void comeBackToGame() {
-    if (widget.gameData.isPlaying) {
+    if (widget.game.isPlaying) {
       AwesomeDialog(
         context: context,
         animType: AnimType.scale,

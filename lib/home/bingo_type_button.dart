@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:isar/isar.dart';
 
 enum BingoType {
   plaque("Plaque"),
@@ -14,12 +13,11 @@ enum BingoType {
 class BingoTypeButton extends StatefulWidget {
   BingoType bingoType;
   final Function updateBingoType;
-  final Function updateParentState;
-  BingoTypeButton(
-      {super.key,
-      required this.bingoType,
-      required this.updateBingoType,
-      required this.updateParentState});
+  BingoTypeButton({
+    super.key,
+    required this.bingoType,
+    required this.updateBingoType,
+  });
 
   @override
   State<BingoTypeButton> createState() => _BingoTypeButton();
@@ -58,9 +56,7 @@ class _BingoTypeButton extends State<BingoTypeButton> {
       selected: <BingoType>{widget.bingoType},
       onSelectionChanged: (Set<BingoType> newSelection) {
         setState(() {
-          widget.bingoType = newSelection.first;
-          widget.updateBingoType(widget.bingoType);
-          widget.updateParentState();
+          widget.updateBingoType(newSelection.first);
         });
       },
     ));

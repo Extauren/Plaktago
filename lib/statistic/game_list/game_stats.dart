@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 
@@ -22,13 +23,13 @@ class _GameStats extends State<GameStats> {
   @override
   void initState() {
     super.initState();
-    List cardSelect = widget.game.bingoCardList
+    List cardSelect = widget.game.bingoCards
         .where((element) => element.isSelect == true)
         .toList();
     if (cardSelect.length < 2) {
       _sliderMaxValue = 1.0;
     } else {
-      BingoCard maxOrder = widget.game.bingoCardList.reduce(
+      BingoCard maxOrder = widget.game.bingoCards.reduce(
           (value, element) => value.order > element.order ? value : element);
       _sliderMaxValue = double.parse(maxOrder.order.toString());
     }
@@ -57,9 +58,9 @@ class _GameStats extends State<GameStats> {
   }
 
   Color getCardColor(int index) {
-    if (widget.game.bingoCardList.elementAt(index).order <= _sliderValue) {
-      if (widget.game.bingoCardList.elementAt(index).isSelect == true) {
-        if (widget.game.bingoCardList.elementAt(index).nbLineComplete > 0) {
+    if (widget.game.bingoCards.elementAt(index).order <= _sliderValue) {
+      if (widget.game.bingoCards.elementAt(index).isSelect == true) {
+        if (widget.game.bingoCards.elementAt(index).nbLineComplete > 0) {
           return Color.fromRGBO(153, 219, 129, 1);
         }
         return Theme.of(context).colorScheme.secondary;
@@ -98,13 +99,36 @@ class _GameStats extends State<GameStats> {
     });
   }
 
+  Widget getIcon() {
+    late Widget icon;
+    if (widget.game.bingoType == BingoType.kta) {
+      icon = Icon(
+        FontAwesomeIcons.dungeon,
+      );
+    }
+    if (widget.game.bingoType == BingoType.exploration) {
+      icon = Icon(
+        FontAwesomeIcons.personWalking,
+      );
+    }
+    if (widget.game.bingoType == BingoType.plaque) {
+      icon = Icon(
+        Icons.aspect_ratio,
+      );
+    }
+    return Container(margin: EdgeInsets.only(right: 15), child: icon);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Bingo ${widget.game.bingoType.name}',
-          ),
+          title: Row(children: [
+            getIcon(),
+            Text(
+              'Bingo ${widget.game.bingoType.name}',
+            )
+          ]),
           actions: [
             IconButton(
               onPressed: setGameToFavorite,
@@ -174,7 +198,7 @@ class _GameStats extends State<GameStats> {
                     crossAxisCount: 4,
                   ),
                   padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                  itemCount: widget.game.bingoCardList.length,
+                  itemCount: widget.game.bingoCards.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Align(
                         child: SizedBox(
@@ -188,7 +212,7 @@ class _GameStats extends State<GameStats> {
                                     child: Container(
                                         margin: const EdgeInsets.all(0.5),
                                         child: Text(
-                                            widget.game.bingoCardList
+                                            widget.game.bingoCards
                                                 .elementAt(index)
                                                 .name,
                                             textAlign: TextAlign.center,
