@@ -7,10 +7,10 @@ part 'game.g.dart';
 
 @collection
 class Game {
-  Id id = Isar.autoIncrement;
+  int id;
   int gameNumber;
   int points;
-  @enumerated
+  @enumValue
   BingoType bingoType;
   String date;
   String hour;
@@ -19,11 +19,11 @@ class Game {
   int nbShot;
   bool favorite;
   List<BingoCard> bingoCards;
-  @enumerated
+  @enumValue
   Mode mode;
   bool isPlaying;
   Game({
-    this.id = Isar.autoIncrement,
+    this.id = 0,
     this.gameNumber = -1,
     this.points = 0,
     this.bingoType = BingoType.plaque,

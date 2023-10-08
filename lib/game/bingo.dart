@@ -19,7 +19,7 @@ class Bingo extends StatefulWidget {
   final Game bingoParams;
   final bool newGame;
   final IsarService isarService;
-  final Id id;
+  final int id;
   Bingo({
     Key? key,
     required this.bingoParams,

@@ -48,7 +48,7 @@ class _Plaktago extends State<Plaktago> {
   }
 
   void getAppSettings() async {
-    appSettings = await widget.isarService.getAppSettings();
+    //appSettings = await widget.isarService.getAppSettings();
     setState(() {
       if (appSettings.darkMode) {
         _themeMode = ThemeMode.dark;

@@ -44,8 +44,10 @@ dependencies:
   confetti: ^0.7.0
   flutter_smart_dialog: ^4.9.4
   awesome_dialog: ^3.1.0
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
+  #isar: ^3.1.0+1
+  # isar_flutter_libs: ^3.1.0+1
+  isar: ^4.0.0-dev.14
+  isar_flutter_libs: ^4.0.0-dev.14
   another_flushbar: ^1.12.30
   animated_toggle_switch: ^0.8.0
   animations: ^2.0.8
@@ -62,8 +64,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  isar_generator: ^3.1.0+1
-  build_runner: ^2.4.6
+  #isar_generator: ^3.1.0+1
+  #build_runner: ^2.4.6
+  build_runner: any
   integration_test:
     sdk: flutter
   test: ^1.24.3

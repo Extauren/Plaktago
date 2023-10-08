@@ -17,16 +17,18 @@ class IsarService extends ChangeNotifier {
   Future<Isar> openDB() async {
     final dir = await getApplicationDocumentsDirectory();
 
-    if (Isar.instanceNames.isEmpty) {
-      return await Isar.open([GeneralSchema, GameSchema, AppSettingsSchema],
-          directory: dir.path, inspector: true);
-    }
-    return Future.value(Isar.getInstance());
+    // if (Isar.instanceNames.isEmpty) {
+    return await Isar.open(
+        schemas: [GeneralSchema, GameSchema, AppSettingsSchema],
+        directory: dir.path,
+        inspector: true);
+    //}
+    //return Future.value(Isar.getInstance());
   }
 
   Future<void> saveGeneral(General general) async {
     final isar = await db;
-    isar.writeTxnSync(() => isar.generals.putSync(general));
+    isar.write((isar) => isar.generals.put(general));
   }
 
   Future<General> getGeneral() async {
@@ -74,7 +76,7 @@ class IsarService extends ChangeNotifier {
   Future<void> saveGame(Game game, bool newGame) async {
     final isar = await db;
     final General? general = await isar.generals.get(0);
-    final Id lastId = game.id;
+    final int lastId = game.id;
     if (newGame) {
       if (general == null) {
         game.gameNumber = 1;
@@ -84,9 +86,9 @@ class IsarService extends ChangeNotifier {
         game.id = game.gameNumber;
       }
     }
-    isar.writeTxnSync(() => isar.games.putSync(game));
+    isar.write((isar) => isar.games.put(game));
     if (game.gameNumber != -1 && lastId == -1) {
-      isar.writeTxnSync(() => isar.games.deleteSync(-1));
+      isar.write((isar) => isar.games.delete(-1));
       updateGeneralStats(
           game.bingoType, game.points, newGame, game.bingoCards, 1);
     }
@@ -110,13 +112,13 @@ class IsarService extends ChangeNotifier {
 
   Future<void> deleteAllData() async {
     final isar = await db;
-    await isar.writeTxn(() => isar.clear());
+    await isar.writeAsync((isar) => isar.clear());
   }
 
   Future<bool> deleteGame(
       final int id, final BingoType bingoType, final int points) async {
     final isar = await db;
-    bool isDelete = isar.writeTxnSync(() => isar.games.deleteSync(id));
+    bool isDelete = isar.write((isar) => isar.games.delete(id));
     if (isDelete) {
       updateGeneralStats(bingoType, points, true, [], -1);
     }
@@ -125,7 +127,7 @@ class IsarService extends ChangeNotifier {
 
   Future<void> updateGame(Game game) async {
     final isar = await db;
-    isar.writeTxnSync(() => isar.games.putSync(game));
+    isar.write((isar) => isar.games.put(game));
   }
 
   Future<AppSettings> getAppSettings() async {
@@ -133,7 +135,7 @@ class IsarService extends ChangeNotifier {
     AppSettings? appSettings = await isar.appSettings.get(0);
 
     if (appSettings == null) {
-      isar.writeTxnSync(() => isar.appSettings.putSync(AppSettings()));
+      isar.write((isar) => isar.appSettings.put(AppSettings()));
       return Future.value(AppSettings());
     }
     return appSettings;
@@ -141,6 +143,6 @@ class IsarService extends ChangeNotifier {
 
   Future<void> saveAppSettings(final AppSettings appSettings) async {
     final isar = await db;
-    isar.writeTxnSync(() => isar.appSettings.putSync(appSettings));
+    isar.write((isar) => isar.appSettings.put(appSettings));
   }
 }

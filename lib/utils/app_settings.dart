@@ -4,7 +4,7 @@ part 'app_settings.g.dart';
 
 @collection
 class AppSettings {
-  final Id id = 0;
+  int id = 0;
   bool darkMode;
 
   AppSettings({this.darkMode = true});

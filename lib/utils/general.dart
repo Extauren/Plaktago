@@ -6,7 +6,7 @@ part 'general.g.dart';
 
 @collection
 class General {
-  Id id = 0;
+  int id = 0;
   int nbGames = 0;
   int bingoPlaque = 0;
   int bingoKta = 0;

@@ -3,460 +3,862 @@
 part of 'game.dart';
 
 // **************************************************************************
-// IsarCollectionGenerator
+// _IsarCollectionGenerator
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
 extension GetGameCollection on Isar {
-  IsarCollection<Game> get games => this.collection();
+  IsarCollection<int, Game> get games => this.collection();
 }
 
-const GameSchema = CollectionSchema(
-  name: r'Game',
-  id: -6261407721091271860,
-  properties: {
-    r'bingoCards': PropertySchema(
-      id: 0,
-      name: r'bingoCards',
-      type: IsarType.objectList,
-      target: r'BingoCard',
-    ),
-    r'bingoType': PropertySchema(
-      id: 1,
-      name: r'bingoType',
-      type: IsarType.byte,
-      enumMap: _GamebingoTypeEnumValueMap,
-    ),
-    r'date': PropertySchema(
-      id: 2,
-      name: r'date',
-      type: IsarType.string,
-    ),
-    r'favorite': PropertySchema(
-      id: 3,
-      name: r'favorite',
-      type: IsarType.bool,
-    ),
-    r'gameNumber': PropertySchema(
-      id: 4,
-      name: r'gameNumber',
-      type: IsarType.long,
-    ),
-    r'hour': PropertySchema(
-      id: 5,
-      name: r'hour',
-      type: IsarType.string,
-    ),
-    r'isAlcool': PropertySchema(
-      id: 6,
-      name: r'isAlcool',
-      type: IsarType.bool,
-    ),
-    r'isPlaying': PropertySchema(
-      id: 7,
-      name: r'isPlaying',
-      type: IsarType.bool,
-    ),
-    r'mode': PropertySchema(
-      id: 8,
-      name: r'mode',
-      type: IsarType.byte,
-      enumMap: _GamemodeEnumValueMap,
-    ),
-    r'nbShot': PropertySchema(
-      id: 9,
-      name: r'nbShot',
-      type: IsarType.long,
-    ),
-    r'points': PropertySchema(
-      id: 10,
-      name: r'points',
-      type: IsarType.long,
-    ),
-    r'time': PropertySchema(
-      id: 11,
-      name: r'time',
-      type: IsarType.string,
-    )
-  },
-  estimateSize: _gameEstimateSize,
-  serialize: _gameSerialize,
-  deserialize: _gameDeserialize,
-  deserializeProp: _gameDeserializeProp,
-  idName: r'id',
-  indexes: {},
-  links: {},
-  embeddedSchemas: {r'BingoCard': BingoCardSchema},
-  getId: _gameGetId,
-  getLinks: _gameGetLinks,
-  attach: _gameAttach,
-  version: '3.1.0+1',
+const GameSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'Game',
+    idName: 'id',
+    embedded: false,
+    properties: [
+      IsarPropertySchema(
+        name: 'gameNumber',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'points',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'bingoType',
+        type: IsarType.byte,
+        enumMap: {"plaque": 0, "kta": 1, "exploration": 2},
+      ),
+      IsarPropertySchema(
+        name: 'date',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'hour',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'time',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'isAlcool',
+        type: IsarType.bool,
+      ),
+      IsarPropertySchema(
+        name: 'nbShot',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'favorite',
+        type: IsarType.bool,
+      ),
+      IsarPropertySchema(
+        name: 'bingoCards',
+        type: IsarType.objectList,
+        target: 'BingoCard',
+      ),
+      IsarPropertySchema(
+        name: 'mode',
+        type: IsarType.byte,
+        enumMap: {"random": 0, "personalize": 1},
+      ),
+      IsarPropertySchema(
+        name: 'isPlaying',
+        type: IsarType.bool,
+      ),
+    ],
+    indexes: [],
+  ),
+  converter: IsarObjectConverter<int, Game>(
+    serialize: serializeGame,
+    deserialize: deserializeGame,
+    deserializeProperty: deserializeGameProp,
+  ),
+  embeddedSchemas: [BingoCardSchema],
 );
 
-int _gameEstimateSize(
-  Game object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
-  bytesCount += 3 + object.bingoCards.length * 3;
+@isarProtected
+int serializeGame(IsarWriter writer, Game object) {
+  IsarCore.writeLong(writer, 1, object.gameNumber);
+  IsarCore.writeLong(writer, 2, object.points);
+  IsarCore.writeByte(writer, 3, object.bingoType.index);
+  IsarCore.writeString(writer, 4, object.date);
+  IsarCore.writeString(writer, 5, object.hour);
+  IsarCore.writeString(writer, 6, object.time);
+  IsarCore.writeBool(writer, 7, object.isAlcool);
+  IsarCore.writeLong(writer, 8, object.nbShot);
+  IsarCore.writeBool(writer, 9, object.favorite);
   {
-    final offsets = allOffsets[BingoCard]!;
-    for (var i = 0; i < object.bingoCards.length; i++) {
-      final value = object.bingoCards[i];
-      bytesCount += BingoCardSchema.estimateSize(value, offsets, allOffsets);
+    final list = object.bingoCards;
+    final listWriter = IsarCore.beginList(writer, 10, list.length);
+    for (var i = 0; i < list.length; i++) {
+      {
+        final value = list[i];
+        final objectWriter = IsarCore.beginObject(listWriter, i);
+        serializeBingoCard(objectWriter, value);
+        IsarCore.endObject(listWriter, objectWriter);
+      }
+    }
+    IsarCore.endList(writer, listWriter);
+  }
+  IsarCore.writeByte(writer, 11, object.mode.index);
+  IsarCore.writeBool(writer, 12, object.isPlaying);
+  return object.id;
+}
+
+@isarProtected
+Game deserializeGame(IsarReader reader) {
+  final int _id;
+  _id = IsarCore.readId(reader);
+  final int _gameNumber;
+  {
+    final value = IsarCore.readLong(reader, 1);
+    if (value == -9223372036854775808) {
+      _gameNumber = -1;
+    } else {
+      _gameNumber = value;
     }
   }
-  bytesCount += 3 + object.date.length * 3;
-  bytesCount += 3 + object.hour.length * 3;
-  bytesCount += 3 + object.time.length * 3;
-  return bytesCount;
-}
-
-void _gameSerialize(
-  Game object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeObjectList<BingoCard>(
-    offsets[0],
-    allOffsets,
-    BingoCardSchema.serialize,
-    object.bingoCards,
-  );
-  writer.writeByte(offsets[1], object.bingoType.index);
-  writer.writeString(offsets[2], object.date);
-  writer.writeBool(offsets[3], object.favorite);
-  writer.writeLong(offsets[4], object.gameNumber);
-  writer.writeString(offsets[5], object.hour);
-  writer.writeBool(offsets[6], object.isAlcool);
-  writer.writeBool(offsets[7], object.isPlaying);
-  writer.writeByte(offsets[8], object.mode.index);
-  writer.writeLong(offsets[9], object.nbShot);
-  writer.writeLong(offsets[10], object.points);
-  writer.writeString(offsets[11], object.time);
-}
-
-Game _gameDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+  final int _points;
+  {
+    final value = IsarCore.readLong(reader, 2);
+    if (value == -9223372036854775808) {
+      _points = 0;
+    } else {
+      _points = value;
+    }
+  }
+  final BingoType _bingoType;
+  {
+    if (IsarCore.readNull(reader, 3)) {
+      _bingoType = BingoType.plaque;
+    } else {
+      _bingoType =
+          _gameBingoType[IsarCore.readByte(reader, 3)] ?? BingoType.plaque;
+    }
+  }
+  final String _date;
+  _date = IsarCore.readString(reader, 4) ?? "";
+  final String _hour;
+  _hour = IsarCore.readString(reader, 5) ?? "";
+  final String _time;
+  _time = IsarCore.readString(reader, 6) ?? "";
+  final bool _isAlcool;
+  _isAlcool = IsarCore.readBool(reader, 7);
+  final int _nbShot;
+  {
+    final value = IsarCore.readLong(reader, 8);
+    if (value == -9223372036854775808) {
+      _nbShot = -1;
+    } else {
+      _nbShot = value;
+    }
+  }
+  final bool _favorite;
+  _favorite = IsarCore.readBool(reader, 9);
+  final List<BingoCard> _bingoCards;
+  {
+    final length = IsarCore.readList(reader, 10, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        _bingoCards = const <BingoCard>[];
+      } else {
+        final list =
+            List<BingoCard>.filled(length, BingoCard(), growable: true);
+        for (var i = 0; i < length; i++) {
+          {
+            final objectReader = IsarCore.readObject(reader, i);
+            if (objectReader.isNull) {
+              list[i] = BingoCard();
+            } else {
+              final embedded = deserializeBingoCard(objectReader);
+              IsarCore.freeReader(objectReader);
+              list[i] = embedded;
+            }
+          }
+        }
+        IsarCore.freeReader(reader);
+        _bingoCards = list;
+      }
+    }
+  }
+  final Mode _mode;
+  {
+    if (IsarCore.readNull(reader, 11)) {
+      _mode = Mode.random;
+    } else {
+      _mode = _gameMode[IsarCore.readByte(reader, 11)] ?? Mode.random;
+    }
+  }
+  final bool _isPlaying;
+  _isPlaying = IsarCore.readBool(reader, 12);
   final object = Game(
-    bingoCards: reader.readObjectList<BingoCard>(
-          offsets[0],
-          BingoCardSchema.deserialize,
-          allOffsets,
-          BingoCard(),
-        ) ??
-        const [],
-    bingoType: _GamebingoTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
-        BingoType.plaque,
-    date: reader.readStringOrNull(offsets[2]) ?? "",
-    favorite: reader.readBoolOrNull(offsets[3]) ?? false,
-    gameNumber: reader.readLongOrNull(offsets[4]) ?? -1,
-    hour: reader.readStringOrNull(offsets[5]) ?? "",
-    id: id,
-    isAlcool: reader.readBoolOrNull(offsets[6]) ?? false,
-    isPlaying: reader.readBoolOrNull(offsets[7]) ?? false,
-    mode:
-        _GamemodeValueEnumMap[reader.readByteOrNull(offsets[8])] ?? Mode.random,
-    nbShot: reader.readLongOrNull(offsets[9]) ?? -1,
-    points: reader.readLongOrNull(offsets[10]) ?? 0,
-    time: reader.readStringOrNull(offsets[11]) ?? "",
+    id: _id,
+    gameNumber: _gameNumber,
+    points: _points,
+    bingoType: _bingoType,
+    date: _date,
+    hour: _hour,
+    time: _time,
+    isAlcool: _isAlcool,
+    nbShot: _nbShot,
+    favorite: _favorite,
+    bingoCards: _bingoCards,
+    mode: _mode,
+    isPlaying: _isPlaying,
   );
   return object;
 }
 
-P _gameDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
+@isarProtected
+dynamic deserializeGameProp(IsarReader reader, int property) {
+  switch (property) {
     case 0:
-      return (reader.readObjectList<BingoCard>(
-            offset,
-            BingoCardSchema.deserialize,
-            allOffsets,
-            BingoCard(),
-          ) ??
-          const []) as P;
+      return IsarCore.readId(reader);
     case 1:
-      return (_GamebingoTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-          BingoType.plaque) as P;
+      {
+        final value = IsarCore.readLong(reader, 1);
+        if (value == -9223372036854775808) {
+          return -1;
+        } else {
+          return value;
+        }
+      }
     case 2:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      {
+        final value = IsarCore.readLong(reader, 2);
+        if (value == -9223372036854775808) {
+          return 0;
+        } else {
+          return value;
+        }
+      }
     case 3:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      {
+        if (IsarCore.readNull(reader, 3)) {
+          return BingoType.plaque;
+        } else {
+          return _gameBingoType[IsarCore.readByte(reader, 3)] ??
+              BingoType.plaque;
+        }
+      }
     case 4:
-      return (reader.readLongOrNull(offset) ?? -1) as P;
+      return IsarCore.readString(reader, 4) ?? "";
     case 5:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      return IsarCore.readString(reader, 5) ?? "";
     case 6:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return IsarCore.readString(reader, 6) ?? "";
     case 7:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return IsarCore.readBool(reader, 7);
     case 8:
-      return (_GamemodeValueEnumMap[reader.readByteOrNull(offset)] ??
-          Mode.random) as P;
+      {
+        final value = IsarCore.readLong(reader, 8);
+        if (value == -9223372036854775808) {
+          return -1;
+        } else {
+          return value;
+        }
+      }
     case 9:
-      return (reader.readLongOrNull(offset) ?? -1) as P;
+      return IsarCore.readBool(reader, 9);
     case 10:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      {
+        final length = IsarCore.readList(reader, 10, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return const <BingoCard>[];
+          } else {
+            final list =
+                List<BingoCard>.filled(length, BingoCard(), growable: true);
+            for (var i = 0; i < length; i++) {
+              {
+                final objectReader = IsarCore.readObject(reader, i);
+                if (objectReader.isNull) {
+                  list[i] = BingoCard();
+                } else {
+                  final embedded = deserializeBingoCard(objectReader);
+                  IsarCore.freeReader(objectReader);
+                  list[i] = embedded;
+                }
+              }
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
     case 11:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      {
+        if (IsarCore.readNull(reader, 11)) {
+          return Mode.random;
+        } else {
+          return _gameMode[IsarCore.readByte(reader, 11)] ?? Mode.random;
+        }
+      }
+    case 12:
+      return IsarCore.readBool(reader, 12);
     default:
-      throw IsarError('Unknown property with id $propertyId');
+      throw ArgumentError('Unknown property: $property');
   }
 }
 
-const _GamebingoTypeEnumValueMap = {
-  'plaque': 0,
-  'kta': 1,
-  'exploration': 2,
-};
-const _GamebingoTypeValueEnumMap = {
+sealed class _GameUpdate {
+  bool call({
+    required int id,
+    int? gameNumber,
+    int? points,
+    BingoType? bingoType,
+    String? date,
+    String? hour,
+    String? time,
+    bool? isAlcool,
+    int? nbShot,
+    bool? favorite,
+    Mode? mode,
+    bool? isPlaying,
+  });
+}
+
+class _GameUpdateImpl implements _GameUpdate {
+  const _GameUpdateImpl(this.collection);
+
+  final IsarCollection<int, Game> collection;
+
+  @override
+  bool call({
+    required int id,
+    Object? gameNumber = ignore,
+    Object? points = ignore,
+    Object? bingoType = ignore,
+    Object? date = ignore,
+    Object? hour = ignore,
+    Object? time = ignore,
+    Object? isAlcool = ignore,
+    Object? nbShot = ignore,
+    Object? favorite = ignore,
+    Object? mode = ignore,
+    Object? isPlaying = ignore,
+  }) {
+    return collection.updateProperties([
+          id
+        ], {
+          if (gameNumber != ignore) 1: gameNumber as int?,
+          if (points != ignore) 2: points as int?,
+          if (bingoType != ignore) 3: bingoType as BingoType?,
+          if (date != ignore) 4: date as String?,
+          if (hour != ignore) 5: hour as String?,
+          if (time != ignore) 6: time as String?,
+          if (isAlcool != ignore) 7: isAlcool as bool?,
+          if (nbShot != ignore) 8: nbShot as int?,
+          if (favorite != ignore) 9: favorite as bool?,
+          if (mode != ignore) 11: mode as Mode?,
+          if (isPlaying != ignore) 12: isPlaying as bool?,
+        }) >
+        0;
+  }
+}
+
+sealed class _GameUpdateAll {
+  int call({
+    required List<int> id,
+    int? gameNumber,
+    int? points,
+    BingoType? bingoType,
+    String? date,
+    String? hour,
+    String? time,
+    bool? isAlcool,
+    int? nbShot,
+    bool? favorite,
+    Mode? mode,
+    bool? isPlaying,
+  });
+}
+
+class _GameUpdateAllImpl implements _GameUpdateAll {
+  const _GameUpdateAllImpl(this.collection);
+
+  final IsarCollection<int, Game> collection;
+
+  @override
+  int call({
+    required List<int> id,
+    Object? gameNumber = ignore,
+    Object? points = ignore,
+    Object? bingoType = ignore,
+    Object? date = ignore,
+    Object? hour = ignore,
+    Object? time = ignore,
+    Object? isAlcool = ignore,
+    Object? nbShot = ignore,
+    Object? favorite = ignore,
+    Object? mode = ignore,
+    Object? isPlaying = ignore,
+  }) {
+    return collection.updateProperties(id, {
+      if (gameNumber != ignore) 1: gameNumber as int?,
+      if (points != ignore) 2: points as int?,
+      if (bingoType != ignore) 3: bingoType as BingoType?,
+      if (date != ignore) 4: date as String?,
+      if (hour != ignore) 5: hour as String?,
+      if (time != ignore) 6: time as String?,
+      if (isAlcool != ignore) 7: isAlcool as bool?,
+      if (nbShot != ignore) 8: nbShot as int?,
+      if (favorite != ignore) 9: favorite as bool?,
+      if (mode != ignore) 11: mode as Mode?,
+      if (isPlaying != ignore) 12: isPlaying as bool?,
+    });
+  }
+}
+
+extension GameUpdate on IsarCollection<int, Game> {
+  _GameUpdate get update => _GameUpdateImpl(this);
+
+  _GameUpdateAll get updateAll => _GameUpdateAllImpl(this);
+}
+
+sealed class _GameQueryUpdate {
+  int call({
+    int? gameNumber,
+    int? points,
+    BingoType? bingoType,
+    String? date,
+    String? hour,
+    String? time,
+    bool? isAlcool,
+    int? nbShot,
+    bool? favorite,
+    Mode? mode,
+    bool? isPlaying,
+  });
+}
+
+class _GameQueryUpdateImpl implements _GameQueryUpdate {
+  const _GameQueryUpdateImpl(this.query, {this.limit});
+
+  final IsarQuery<Game> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? gameNumber = ignore,
+    Object? points = ignore,
+    Object? bingoType = ignore,
+    Object? date = ignore,
+    Object? hour = ignore,
+    Object? time = ignore,
+    Object? isAlcool = ignore,
+    Object? nbShot = ignore,
+    Object? favorite = ignore,
+    Object? mode = ignore,
+    Object? isPlaying = ignore,
+  }) {
+    return query.updateProperties(limit: limit, {
+      if (gameNumber != ignore) 1: gameNumber as int?,
+      if (points != ignore) 2: points as int?,
+      if (bingoType != ignore) 3: bingoType as BingoType?,
+      if (date != ignore) 4: date as String?,
+      if (hour != ignore) 5: hour as String?,
+      if (time != ignore) 6: time as String?,
+      if (isAlcool != ignore) 7: isAlcool as bool?,
+      if (nbShot != ignore) 8: nbShot as int?,
+      if (favorite != ignore) 9: favorite as bool?,
+      if (mode != ignore) 11: mode as Mode?,
+      if (isPlaying != ignore) 12: isPlaying as bool?,
+    });
+  }
+}
+
+extension GameQueryUpdate on IsarQuery<Game> {
+  _GameQueryUpdate get updateFirst => _GameQueryUpdateImpl(this, limit: 1);
+
+  _GameQueryUpdate get updateAll => _GameQueryUpdateImpl(this);
+}
+
+class _GameQueryBuilderUpdateImpl implements _GameQueryUpdate {
+  const _GameQueryBuilderUpdateImpl(this.query, {this.limit});
+
+  final QueryBuilder<Game, Game, QOperations> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? gameNumber = ignore,
+    Object? points = ignore,
+    Object? bingoType = ignore,
+    Object? date = ignore,
+    Object? hour = ignore,
+    Object? time = ignore,
+    Object? isAlcool = ignore,
+    Object? nbShot = ignore,
+    Object? favorite = ignore,
+    Object? mode = ignore,
+    Object? isPlaying = ignore,
+  }) {
+    final q = query.build();
+    try {
+      return q.updateProperties(limit: limit, {
+        if (gameNumber != ignore) 1: gameNumber as int?,
+        if (points != ignore) 2: points as int?,
+        if (bingoType != ignore) 3: bingoType as BingoType?,
+        if (date != ignore) 4: date as String?,
+        if (hour != ignore) 5: hour as String?,
+        if (time != ignore) 6: time as String?,
+        if (isAlcool != ignore) 7: isAlcool as bool?,
+        if (nbShot != ignore) 8: nbShot as int?,
+        if (favorite != ignore) 9: favorite as bool?,
+        if (mode != ignore) 11: mode as Mode?,
+        if (isPlaying != ignore) 12: isPlaying as bool?,
+      });
+    } finally {
+      q.close();
+    }
+  }
+}
+
+extension GameQueryBuilderUpdate on QueryBuilder<Game, Game, QOperations> {
+  _GameQueryUpdate get updateFirst =>
+      _GameQueryBuilderUpdateImpl(this, limit: 1);
+
+  _GameQueryUpdate get updateAll => _GameQueryBuilderUpdateImpl(this);
+}
+
+const _gameBingoType = {
   0: BingoType.plaque,
   1: BingoType.kta,
   2: BingoType.exploration,
 };
-const _GamemodeEnumValueMap = {
-  'random': 0,
-  'personalize': 1,
-};
-const _GamemodeValueEnumMap = {
+const _gameMode = {
   0: Mode.random,
   1: Mode.personalize,
 };
 
-Id _gameGetId(Game object) {
-  return object.id;
-}
-
-List<IsarLinkBase<dynamic>> _gameGetLinks(Game object) {
-  return [];
-}
-
-void _gameAttach(IsarCollection<dynamic> col, Id id, Game object) {
-  object.id = id;
-}
-
-extension GameQueryWhereSort on QueryBuilder<Game, Game, QWhere> {
-  QueryBuilder<Game, Game, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-}
-
-extension GameQueryWhere on QueryBuilder<Game, Game, QWhereClause> {
-  QueryBuilder<Game, Game, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-}
-
 extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthEqualTo(
-      int length) {
+  QueryBuilder<Game, Game, QAfterFilterCondition> idEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bingoCards',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> idGreaterThan(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bingoCards',
-        0,
-        true,
-        0,
-        true,
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> idGreaterThanOrEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bingoCards',
-        0,
-        false,
-        999999,
-        true,
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Game, Game, QAfterFilterCondition> idLessThan(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bingoCards',
-        0,
-        true,
-        length,
-        include,
+      return query.addFilterCondition(
+        LessCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Game, Game, QAfterFilterCondition> idLessThanOrEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bingoCards',
-        length,
-        include,
-        999999,
-        true,
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsLengthBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> idBetween(
     int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bingoCards',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 0,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition>
+      gameNumberGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> pointsEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> pointsGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> pointsGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> pointsLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> pointsLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> pointsBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+        ),
       );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> bingoTypeEqualTo(
-      BingoType value) {
+    BingoType value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'bingoType',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value.index,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> bingoTypeGreaterThan(
-    BingoType value, {
-    bool include = false,
-  }) {
+    BingoType value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'bingoType',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 3,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoTypeGreaterThanOrEqualTo(
+    BingoType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 3,
+          value: value.index,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> bingoTypeLessThan(
-    BingoType value, {
-    bool include = false,
-  }) {
+    BingoType value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'bingoType',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 3,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoTypeLessThanOrEqualTo(
+    BingoType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 3,
+          value: value.index,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> bingoTypeBetween(
     BingoType lower,
-    BingoType upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    BingoType upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'bingoType',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 3,
+          lower: lower.index,
+          upper: upper.index,
+        ),
+      );
     });
   }
 
@@ -465,60 +867,90 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'date',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'date',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> dateGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'date',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> dateLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'date',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 4,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -527,11 +959,13 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'date',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -540,112 +974,61 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'date',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'date',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 4,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'date',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 4,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'date',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 4,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> dateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'date',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> favoriteEqualTo(bool value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'favorite',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'gameNumber',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'gameNumber',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'gameNumber',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> gameNumberBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'gameNumber',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 4,
+          value: '',
+        ),
+      );
     });
   }
 
@@ -654,60 +1037,90 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'hour',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'hour',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> hourGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'hour',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> hourLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'hour',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 5,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -716,11 +1129,13 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'hour',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -729,277 +1144,61 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'hour',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'hour',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'hour',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 5,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'hour',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 5,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> hourIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'hour',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> idEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> isAlcoolEqualTo(bool value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isAlcool',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> isPlayingEqualTo(bool value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isPlaying',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> modeEqualTo(Mode value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'mode',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> modeGreaterThan(
-    Mode value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'mode',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> modeLessThan(
-    Mode value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'mode',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> modeBetween(
-    Mode lower,
-    Mode upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'mode',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'nbShot',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> pointsEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'points',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> pointsGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'points',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> pointsLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'points',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> pointsBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'points',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 5,
+          value: '',
+        ),
+      );
     });
   }
 
@@ -1008,60 +1207,90 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'time',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'time',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> timeGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'time',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> timeLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'time',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 6,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1070,11 +1299,13 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'time',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1083,493 +1314,913 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'time',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'time',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'time',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 6,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'time',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 6,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Game, Game, QAfterFilterCondition> timeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'time',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 6,
+          value: '',
+        ),
+      );
     });
   }
-}
 
-extension GameQueryObject on QueryBuilder<Game, Game, QFilterCondition> {
-  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsElement(
-      FilterQuery<BingoCard> q) {
+  QueryBuilder<Game, Game, QAfterFilterCondition> isAlcoolEqualTo(
+    bool value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'bingoCards');
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 7,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 8,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> favoriteEqualTo(
+    bool value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 9,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsIsEmpty() {
+    return not().bingoCardsIsNotEmpty();
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> bingoCardsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 10, value: null),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeEqualTo(
+    Mode value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 11,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeGreaterThan(
+    Mode value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 11,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeGreaterThanOrEqualTo(
+    Mode value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 11,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeLessThan(
+    Mode value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 11,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeLessThanOrEqualTo(
+    Mode value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 11,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> modeBetween(
+    Mode lower,
+    Mode upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 11,
+          lower: lower.index,
+          upper: upper.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterFilterCondition> isPlayingEqualTo(
+    bool value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 12,
+          value: value,
+        ),
+      );
     });
   }
 }
 
-extension GameQueryLinks on QueryBuilder<Game, Game, QFilterCondition> {}
+extension GameQueryObject on QueryBuilder<Game, Game, QFilterCondition> {}
 
 extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
-  QueryBuilder<Game, Game, QAfterSortBy> sortByBingoType() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoType', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> sortByBingoTypeDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByDate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByDateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByFavorite() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favorite', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByFavoriteDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favorite', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> sortByGameNumber() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'gameNumber', Sort.asc);
+      return query.addSortBy(1);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> sortByGameNumberDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'gameNumber', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByHour() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hour', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByHourDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hour', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcool() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcoolDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlaying() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isPlaying', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlayingDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isPlaying', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByMode() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mode', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByModeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mode', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShot() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShotDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.desc);
+      return query.addSortBy(1, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> sortByPoints() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'points', Sort.asc);
+      return query.addSortBy(2);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> sortByPointsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'points', Sort.desc);
+      return query.addSortBy(2, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> sortByTime() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByBingoType() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'time', Sort.asc);
+      return query.addSortBy(3);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> sortByTimeDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByBingoTypeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'time', Sort.desc);
+      return query.addSortBy(3, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByDate(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        4,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByDateDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        4,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByHour(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        5,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByHourDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        5,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByTime(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        6,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByTimeDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        6,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcool() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcoolDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShot() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShotDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(9);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByFavoriteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(9, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByModeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlaying() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlayingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12, sort: Sort.desc);
     });
   }
 }
 
 extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
-  QueryBuilder<Game, Game, QAfterSortBy> thenByBingoType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByBingoTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByDate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByDateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByFavorite() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favorite', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByFavoriteDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favorite', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByGameNumber() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'gameNumber', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByGameNumberDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'gameNumber', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByHour() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hour', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByHourDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'hour', Sort.desc);
-    });
-  }
-
   QueryBuilder<Game, Game, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> thenByIsAlcool() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByGameNumber() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.asc);
+      return query.addSortBy(1);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> thenByIsAlcoolDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByGameNumberDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlaying() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isPlaying', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlayingDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isPlaying', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByMode() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mode', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByModeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mode', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShot() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShotDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.desc);
+      return query.addSortBy(1, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> thenByPoints() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'points', Sort.asc);
+      return query.addSortBy(2);
     });
   }
 
   QueryBuilder<Game, Game, QAfterSortBy> thenByPointsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'points', Sort.desc);
+      return query.addSortBy(2, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> thenByTime() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByBingoType() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'time', Sort.asc);
+      return query.addSortBy(3);
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> thenByTimeDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByBingoTypeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'time', Sort.desc);
+      return query.addSortBy(3, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByDate(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByDateDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByHour(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByHourDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByTime(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByTimeDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIsAlcool() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIsAlcoolDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShot() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShotDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(9);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByFavoriteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(9, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByModeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlaying() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlayingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12, sort: Sort.desc);
     });
   }
 }
 
 extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
-  QueryBuilder<Game, Game, QDistinct> distinctByBingoType() {
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByGameNumber() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'bingoType');
+      return query.addDistinctBy(1);
     });
   }
 
-  QueryBuilder<Game, Game, QDistinct> distinctByDate(
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByPoints() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(2);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByBingoType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(3);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByDate(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'date', caseSensitive: caseSensitive);
+      return query.addDistinctBy(4, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Game, Game, QDistinct> distinctByFavorite() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'favorite');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByGameNumber() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'gameNumber');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByHour(
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByHour(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'hour', caseSensitive: caseSensitive);
+      return query.addDistinctBy(5, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Game, Game, QDistinct> distinctByIsAlcool() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isAlcool');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByIsPlaying() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isPlaying');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByMode() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'mode');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByNbShot() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'nbShot');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByPoints() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'points');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByTime(
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByTime(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'time', caseSensitive: caseSensitive);
+      return query.addDistinctBy(6, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByIsAlcool() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(7);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByNbShot() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(8);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByFavorite() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(9);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByMode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(11);
+    });
+  }
+
+  QueryBuilder<Game, Game, QAfterDistinct> distinctByIsPlaying() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(12);
     });
   }
 }
 
-extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
-  QueryBuilder<Game, int, QQueryOperations> idProperty() {
+extension GameQueryProperty1 on QueryBuilder<Game, Game, QProperty> {
+  QueryBuilder<Game, int, QAfterProperty> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addProperty(0);
     });
   }
 
-  QueryBuilder<Game, List<BingoCard>, QQueryOperations> bingoCardsProperty() {
+  QueryBuilder<Game, int, QAfterProperty> gameNumberProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'bingoCards');
+      return query.addProperty(1);
     });
   }
 
-  QueryBuilder<Game, BingoType, QQueryOperations> bingoTypeProperty() {
+  QueryBuilder<Game, int, QAfterProperty> pointsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'bingoType');
+      return query.addProperty(2);
     });
   }
 
-  QueryBuilder<Game, String, QQueryOperations> dateProperty() {
+  QueryBuilder<Game, BingoType, QAfterProperty> bingoTypeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'date');
+      return query.addProperty(3);
     });
   }
 
-  QueryBuilder<Game, bool, QQueryOperations> favoriteProperty() {
+  QueryBuilder<Game, String, QAfterProperty> dateProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'favorite');
+      return query.addProperty(4);
     });
   }
 
-  QueryBuilder<Game, int, QQueryOperations> gameNumberProperty() {
+  QueryBuilder<Game, String, QAfterProperty> hourProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'gameNumber');
+      return query.addProperty(5);
     });
   }
 
-  QueryBuilder<Game, String, QQueryOperations> hourProperty() {
+  QueryBuilder<Game, String, QAfterProperty> timeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'hour');
+      return query.addProperty(6);
     });
   }
 
-  QueryBuilder<Game, bool, QQueryOperations> isAlcoolProperty() {
+  QueryBuilder<Game, bool, QAfterProperty> isAlcoolProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isAlcool');
+      return query.addProperty(7);
     });
   }
 
-  QueryBuilder<Game, bool, QQueryOperations> isPlayingProperty() {
+  QueryBuilder<Game, int, QAfterProperty> nbShotProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isPlaying');
+      return query.addProperty(8);
     });
   }
 
-  QueryBuilder<Game, Mode, QQueryOperations> modeProperty() {
+  QueryBuilder<Game, bool, QAfterProperty> favoriteProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'mode');
+      return query.addProperty(9);
     });
   }
 
-  QueryBuilder<Game, int, QQueryOperations> nbShotProperty() {
+  QueryBuilder<Game, List<BingoCard>, QAfterProperty> bingoCardsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'nbShot');
+      return query.addProperty(10);
     });
   }
 
-  QueryBuilder<Game, int, QQueryOperations> pointsProperty() {
+  QueryBuilder<Game, Mode, QAfterProperty> modeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'points');
+      return query.addProperty(11);
     });
   }
 
-  QueryBuilder<Game, String, QQueryOperations> timeProperty() {
+  QueryBuilder<Game, bool, QAfterProperty> isPlayingProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'time');
+      return query.addProperty(12);
+    });
+  }
+}
+
+extension GameQueryProperty2<R> on QueryBuilder<Game, R, QAfterProperty> {
+  QueryBuilder<Game, (R, int), QAfterProperty> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
+    });
+  }
+
+  QueryBuilder<Game, (R, int), QAfterProperty> gameNumberProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<Game, (R, int), QAfterProperty> pointsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<Game, (R, BingoType), QAfterProperty> bingoTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<Game, (R, String), QAfterProperty> dateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<Game, (R, String), QAfterProperty> hourProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<Game, (R, String), QAfterProperty> timeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
+
+  QueryBuilder<Game, (R, bool), QAfterProperty> isAlcoolProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(7);
+    });
+  }
+
+  QueryBuilder<Game, (R, int), QAfterProperty> nbShotProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(8);
+    });
+  }
+
+  QueryBuilder<Game, (R, bool), QAfterProperty> favoriteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(9);
+    });
+  }
+
+  QueryBuilder<Game, (R, List<BingoCard>), QAfterProperty>
+      bingoCardsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(10);
+    });
+  }
+
+  QueryBuilder<Game, (R, Mode), QAfterProperty> modeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(11);
+    });
+  }
+
+  QueryBuilder<Game, (R, bool), QAfterProperty> isPlayingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(12);
+    });
+  }
+}
+
+extension GameQueryProperty3<R1, R2>
+    on QueryBuilder<Game, (R1, R2), QAfterProperty> {
+  QueryBuilder<Game, (R1, R2, int), QOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, int), QOperations> gameNumberProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, int), QOperations> pointsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, BingoType), QOperations> bingoTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, String), QOperations> dateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, String), QOperations> hourProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, String), QOperations> timeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, bool), QOperations> isAlcoolProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(7);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, int), QOperations> nbShotProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(8);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, bool), QOperations> favoriteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(9);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, List<BingoCard>), QOperations>
+      bingoCardsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(10);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, Mode), QOperations> modeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(11);
+    });
+  }
+
+  QueryBuilder<Game, (R1, R2, bool), QOperations> isPlayingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(12);
     });
   }
 }
