@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum Mode { random, personalize }
 
 class ModeButton extends StatefulWidget {
-  Mode mode;
+  final Mode mode;
   final Function updateBingoMode;
 
   ModeButton({

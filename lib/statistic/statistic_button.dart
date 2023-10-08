@@ -10,11 +10,9 @@ enum StatType {
 }
 
 class StatTypeButton extends StatefulWidget {
-  StatType statType;
-  Function updateStatType;
+  final Function updateStatType;
   StatTypeButton({
     super.key,
-    required this.statType,
     required this.updateStatType,
   });
 
@@ -59,7 +57,6 @@ class _StatTypeButton extends State<StatTypeButton> {
           selectedIconScale: 1.0,
           onChanged: (b) => setState(() {
                 positive = b;
-                widget.statType = StatType.list;
                 widget.updateStatType();
               })),
     )));

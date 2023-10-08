@@ -1,6 +1,5 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:isar/isar.dart';
 import 'package:plaktago/statistic/game_list/game_stat.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -22,8 +21,14 @@ class _GameList extends State<GameList> {
 
   @override
   void initState() {
-    gameList = widget.isarService.getAllGames();
     super.initState();
+    getGames();
+  }
+
+  void getGames() {
+    setState(() {
+      gameList = widget.isarService.getAllGames();
+    });
   }
 
   void createGlobalKeys(final List<Game?>? gameList) {
@@ -49,8 +54,6 @@ class _GameList extends State<GameList> {
     });
   }
 
-  void doNothing(BuildContext context) {}
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Game?>>(
@@ -59,43 +62,33 @@ class _GameList extends State<GameList> {
           List<Widget> children;
           if (snapshot.hasData) {
             createGlobalKeys(snapshot.data);
+            snapshot.data?.sort(
+              (a, b) => b!.gameNumber.compareTo(a!.gameNumber),
+            );
             children = <Widget>[
               SizedBox(
-                  height: MediaQuery.of(context).size.height - 280,
+                  height: MediaQuery.of(context).size.height,
                   child: ListView(children: [
                     Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
-                        height: MediaQuery.of(context).size.height,
+                        height: MediaQuery.of(context).size.height *
+                            snapshot.data!.length /
+                            9,
                         child: ListView.builder(
                             controller:
                                 ScrollController(keepScrollOffset: false),
                             itemCount: snapshot.data?.length,
                             itemBuilder: (context, index) {
                               final Game game = snapshot.data![index]!;
-                              return Slidable(
-                                  // Specify a key if the Slidable is dismissible.
-                                  key: const ValueKey(0),
-                                  endActionPane: ActionPane(
-                                    motion: ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: doNothing,
-                                        backgroundColor: Color(0xFFFE4A49),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.delete,
-                                        label: 'Delete',
-                                      ),
-                                    ],
-                                  ),
-                                  child: GameStat(
-                                    game: game,
-                                    index: index,
-                                    //gameData: gameData,
-                                    getStat: () {},
-                                    updateState: updateState,
-                                    cardKey: cardList[index],
-                                    isarService: widget.isarService,
-                                  ));
+                              return GameStat(
+                                game: game,
+                                index: index,
+                                getStat: getGames,
+                                updateState: updateState,
+                                cardKey: cardList[index],
+                                isarService: widget.isarService,
+                                getGames: getGames,
+                              );
                             }))
                   ]))
             ];

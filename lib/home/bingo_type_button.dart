@@ -11,7 +11,7 @@ enum BingoType {
 }
 
 class BingoTypeButton extends StatefulWidget {
-  BingoType bingoType;
+  final BingoType bingoType;
   final Function updateBingoType;
   BingoTypeButton({
     super.key,

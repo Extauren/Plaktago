@@ -12,26 +12,26 @@ class CardName {
       required this.type,
       this.alcoolRule = "Boire un coup",
       this.nbShot = 1,
-      this.description = "Test de desciption"});
+      this.description = ""});
 }
 
 List<CardName> cardNameListPlaque = [
   CardName(
-    name: "Bus",
-    type: [BingoType.plaque, BingoType.kta],
-  ),
+      name: "Bus",
+      type: [BingoType.plaque, BingoType.kta],
+      description: "Groupe supérieure à 5 personnes"),
   CardName(
-    name: "Kta star",
-    type: [BingoType.plaque, BingoType.kta],
-  ),
+      name: "Kta star",
+      type: [BingoType.plaque, BingoType.kta],
+      description: "Ktaphile connu"),
   CardName(
     name: "Copain",
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
-    name: "Lampe allumée",
-    type: [BingoType.plaque],
-  ),
+      name: "Lampe allumée",
+      type: [BingoType.plaque],
+      description: "Laisse sa lampe allumée en sortant de la plaque"),
   CardName(
     name: "Touristes",
     type: [BingoType.plaque, BingoType.kta],
@@ -45,9 +45,9 @@ List<CardName> cardNameListPlaque = [
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
-    name: "Fermeture de plaque hasardeuse",
-    type: [BingoType.plaque],
-  ),
+      name: "Fermeture de plaque hasardeuse",
+      type: [BingoType.plaque],
+      description: "Galère à fermer la plaque"),
   CardName(
     name: "Claque la plaque",
     type: [BingoType.plaque],
@@ -57,9 +57,9 @@ List<CardName> cardNameListPlaque = [
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
-    name: "Arrive pas à ouvrir",
-    type: [BingoType.plaque],
-  ),
+      name: "Arrive pas à ouvrir",
+      type: [BingoType.plaque],
+      description: "Arrive pas à ouvrir la plaque"),
   CardName(
     name: "Galère à cause du sac",
     type: [BingoType.plaque, BingoType.kta],
@@ -81,9 +81,9 @@ List<CardName> cardNameListPlaque = [
     type: [BingoType.plaque],
   ),
   CardName(
-    name: "Fifi tier",
-    type: [BingoType.plaque],
-  ),
+      name: "Autoroute / Fifi tier",
+      type: [BingoType.plaque],
+      description: "Grosse influence"),
   CardName(
     name: "Tir plaque original",
     type: [BingoType.plaque],
@@ -110,17 +110,17 @@ List<CardName> cardNameListPlaque = [
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
-    name: "Discute à coté",
-    type: [BingoType.plaque],
-  ),
+      name: "Discute à coté",
+      type: [BingoType.plaque],
+      description: "Discute à coter de la plaque"),
   CardName(
     name: "Discute plaque ouverte",
     type: [BingoType.plaque],
   ),
   CardName(
-    name: "Fusion de groupe",
-    type: [BingoType.plaque, BingoType.kta],
-  ),
+      name: "Fusion de groupe",
+      type: [BingoType.plaque, BingoType.kta],
+      description: "Fusion de gens qui ne se connaissent pas"),
   CardName(
       name: "Tous dans la même tenue",
       type: [BingoType.plaque, BingoType.kta],
@@ -145,10 +145,16 @@ List<CardName> cardNameListPlaque = [
       alcoolRule: "Boire un shot d'eau",
       nbShot: 0),
   CardName(name: "Chantier", type: [BingoType.kta]),
-  CardName(name: "Traquenard", type: [BingoType.kta]),
+  CardName(
+      name: "Traquenard",
+      type: [BingoType.kta],
+      description: "Changement de plan non voulu"),
   CardName(name: "Hamac", type: [BingoType.kta]),
   CardName(name: "Plan papier", type: [BingoType.kta]),
   CardName(name: "Galerie atypique", type: [BingoType.exploration]),
-  CardName(name: 'Jamais vu', type: [BingoType.exploration]),
+  CardName(
+      name: 'Jamais vu',
+      type: [BingoType.exploration],
+      description: "Découverte d'un nouvelle endroit dans le réseau"),
   CardName(name: 'Belle épure', type: [BingoType.exploration])
 ];

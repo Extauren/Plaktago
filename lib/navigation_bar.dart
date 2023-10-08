@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
@@ -81,8 +80,7 @@ class _NavigationBar extends State<NavigationBarApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[
-          _selectedIndex], //PageStorage(bucket: bucket, child: pages[_selectedIndex]),
+      body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[

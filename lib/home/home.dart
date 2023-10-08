@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
@@ -9,13 +10,12 @@ import 'bingo_type_button.dart';
 import 'mode_button.dart';
 import 'launch_game.dart';
 import 'personalize.dart';
-import 'package:plaktago/game/timer/timer.dart';
 
 class Home extends StatefulWidget {
-  Game bingoParams;
+  final Game bingoParams;
   final Function changeTheme;
   final AppSettings appSettings;
-  IsarService isarService;
+  final IsarService isarService;
   Home(
       {Key? key,
       required this.changeTheme,
@@ -32,36 +32,32 @@ class _Home extends State<Home> {
   final Key bingoTypeKey = PageStorageKey('bingoType');
   final Key personalizeKey = PageStorageKey('personalizeKey');
   int nbCards = 0;
+  List<PersonalizeCard> persCard = [];
   ScrollController _childScrollController = ScrollController();
   ScrollController _parentScrollController = ScrollController();
+  Game activeGame = Game();
+  late Future<Game?> test = Future.value(null);
 
   @override
   void initState() {
     super.initState();
     getOnGoingGame();
+    test = widget.isarService.getOnGoingGame();
   }
 
   void getOnGoingGame() async {
     Game? game = await widget.isarService.getOnGoingGame();
     if (game != null) {
       setState(() {
-        widget.bingoParams.isPlaying = true;
+        activeGame = game;
       });
-      // widget.bingoParams.points = game.points;
-      // widget.bingoParams.bingoCards = game.bingoCards);
-      // widget.bingoParams.setBingoType(game.bingoType);
-      // widget.bingoParams.setMode(Mode.random);
     }
-  }
-
-  void updateState() {
-    setState(() {});
+    test = widget.isarService.getOnGoingGame();
   }
 
   void resetHome() {
     setState(() {
       widget.bingoParams.resetGameData();
-      //widget.bingoParams.setPersonalizeCards([]);
       nbCards = 0;
     });
   }
@@ -73,18 +69,27 @@ class _Home extends State<Home> {
   }
 
   void startGame() {
-    widget.bingoParams.timer = Timer(time: widget.bingoParams.time);
-    //widget.playingGame = widget.bingoParams.bingoParams.clone();
+    if (widget.bingoParams.mode == Mode.personalize) {
+      List<BingoCard> buffer = [];
+      for (int it = 0; it < persCard.length; it++) {
+        buffer.add(BingoCard(name: persCard.elementAt(it).name));
+      }
+      buffer.shuffle();
+      widget.bingoParams.bingoCards = buffer;
+    }
+    activeGame = widget.bingoParams;
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Bingo(
-                bingoParams: widget.bingoParams,
+                bingoParams: activeGame,
                 newGame: true,
-                personalizeCards: [],
                 isarService: widget.isarService))).then((value) {
       nbCards = 0;
-      updateState();
+      setState(() {
+        test = Future.value(null);
+        getOnGoingGame();
+      });
     });
   }
 
@@ -110,7 +115,7 @@ class _Home extends State<Home> {
       ).show();
       return;
     }
-    if (widget.bingoParams.isPlaying) {
+    if (activeGame.isPlaying) {
       AwesomeDialog(
         context: context,
         animType: AnimType.scale,
@@ -125,26 +130,29 @@ class _Home extends State<Home> {
         descTextStyle: TextStyle(color: Colors.black),
         btnOkOnPress: startGame,
         btnCancelText: "Annuler",
-        btnCancelOnPress: () => {},
+        btnCancelOnPress: () {},
       ).show();
       return;
     }
     startGame();
   }
 
-  void comeBacktoGame() async {
-    //getOnGoingGame();
-    Game? game = await widget.isarService.getOnGoingGame();
+  void refresh() {
+    setState(() {});
+  }
+
+  void comeBacktoGame() {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Bingo(
-                  bingoParams: game!,
-                  newGame: false,
-                  isarService: widget.isarService,
-                  personalizeCards: [],
-                ))).then((value) {
-      updateState();
+                bingoParams: activeGame,
+                newGame: false,
+                isarService: widget.isarService))).then((value) {
+      setState(() {
+        test = Future.value(null);
+        getOnGoingGame();
+      });
     });
   }
 
@@ -197,26 +205,32 @@ class _Home extends State<Home> {
               child: Text("Le bingo des catacombes",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
-          if (widget.bingoParams
-              .isPlaying) //context.watch<GameData>().isPlaying == true)
-            // Consumer<GameData>(builder: (context, provider, child) {
-            //   var gameData = context.watch<GameData>();
-            Align(
-                child: Container(
-                    margin: EdgeInsets.only(top: 10),
-                    constraints: BoxConstraints(maxWidth: 180),
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    child: ElevatedButton(
-                      onPressed: comeBacktoGame,
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondary)),
-                      child: Text(
-                        'Reprendre la partie',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ))),
+          FutureBuilder<Game?>(
+              future: test,
+              builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
+                Widget child = Container();
+                if (snapshot.hasData) {
+                  if (snapshot.data != null && activeGame.isPlaying) {
+                    child = Align(
+                        child: Container(
+                            margin: EdgeInsets.only(top: 10),
+                            constraints: BoxConstraints(maxWidth: 180),
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            child: ElevatedButton(
+                              onPressed: comeBacktoGame,
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context).colorScheme.secondary)),
+                              child: Text(
+                                "Reprendre la partie",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            )));
+                  }
+                }
+                return child;
+              }),
           Container(
               margin: EdgeInsets.only(top: 40, left: 5, right: 5),
               child: BingoTypeButton(
@@ -259,7 +273,7 @@ class _Home extends State<Home> {
                         ),
                         child: Personalize(
                             key: personalizeKey,
-                            cards: [], //widget.bingoParams.personalizeCard,
+                            cards: persCard,
                             type: widget.bingoParams.bingoType,
                             nbCardSelect: nbCards,
                             changeNbCardValue: changeNbCardValue,

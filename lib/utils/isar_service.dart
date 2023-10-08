@@ -44,15 +44,16 @@ class IsarService extends ChangeNotifier {
     General general = await getGeneral();
     if (newGame) {
       general.nbGames += saveGame;
-    }
-    if (bingoType == BingoType.plaque) {
-      general.bingoPlaque += saveGame;
-    }
-    if (bingoType == BingoType.kta) {
-      general.bingoKta += saveGame;
-    }
-    if (bingoType == BingoType.exploration) {
-      general.bingoExplo += saveGame;
+
+      if (bingoType == BingoType.plaque) {
+        general.bingoPlaque += saveGame;
+      }
+      if (bingoType == BingoType.kta) {
+        general.bingoKta += saveGame;
+      }
+      if (bingoType == BingoType.exploration) {
+        general.bingoExplo += saveGame;
+      }
     }
     if (points == 56) {
       general.bingoWin += saveGame;
@@ -73,18 +74,21 @@ class IsarService extends ChangeNotifier {
   Future<void> saveGame(Game game, bool newGame) async {
     final isar = await db;
     final General? general = await isar.generals.get(0);
-    final int lastId = game.id;
+    final Id lastId = game.id;
     if (newGame) {
       if (general == null) {
         game.gameNumber = 1;
-      } else {
+        game.id = 1;
+      } else if (game.id == -1) {
         game.gameNumber = general.nbGames + 1;
+        game.id = game.gameNumber;
       }
     }
     isar.writeTxnSync(() => isar.games.putSync(game));
-    if (lastId != -1 && newGame) {
+    if (game.gameNumber != -1 && lastId == -1) {
       isar.writeTxnSync(() => isar.games.deleteSync(-1));
-      updateGeneralStats(game.bingoType, game.points, true, game.bingoCards, 1);
+      updateGeneralStats(
+          game.bingoType, game.points, newGame, game.bingoCards, 1);
     }
   }
 

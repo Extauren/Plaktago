@@ -186,12 +186,12 @@ class BarChartSample2State extends State<BarChartSample2> {
                       children: <Widget>[
                         SizedBox(
                             height: 35,
-                            width: 170,
+                            width: 175,
                             child: TextButton(
                                 onPressed: () => {changeSort(0)},
                                 child: Indicator(
                                   color: Colors.indigo[300]!,
-                                  text: 'Carte proposées',
+                                  text: 'Cartes proposées',
                                   isSquare: false,
                                   textColor:
                                       Theme.of(context).colorScheme.onSurface,

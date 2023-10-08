@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/bug_report.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
-import 'package:plaktago/utils/save_game.dart';
 
 class DrawerApp extends StatefulWidget {
   final Function changeTheme;
@@ -39,7 +38,7 @@ class _Drawer extends State<DrawerApp> {
           TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       desc: 'Etes vous sur de vouloir supprimer toutes les données ?',
       descTextStyle: TextStyle(color: Colors.black),
-      btnOkOnPress: widget.isarService.deleteAllData, //saveGame.resetFile,
+      btnOkOnPress: widget.isarService.deleteAllData,
       btnCancelText: "Annuler",
       btnCancelOnPress: () => {},
     ).show();

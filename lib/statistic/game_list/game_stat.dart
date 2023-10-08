@@ -11,19 +11,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class GameStat extends StatefulWidget {
   final Game game;
   final int index;
-  Function getStat;
-  Function updateState;
+  final Function getStat;
+  final Function updateState;
   final GlobalKey<ExpansionTileCardState> cardKey;
   final IsarService isarService;
-  GameStat({
-    Key? key,
-    required this.game,
-    required this.index,
-    required this.getStat,
-    required this.updateState,
-    required this.cardKey,
-    required this.isarService,
-  }) : super(key: key);
+  final Function getGames;
+  GameStat(
+      {Key? key,
+      required this.game,
+      required this.index,
+      required this.getStat,
+      required this.updateState,
+      required this.cardKey,
+      required this.isarService,
+      required this.getGames})
+      : super(key: key);
 
   @override
   State<GameStat> createState() => _GameStat();
@@ -41,7 +43,9 @@ class _GameStat extends State<GameStat> {
                   game: widget.game,
                   isarService: widget.isarService,
                 ))).then((value) {
-      setState(() {});
+      setState(() {
+        widget.getStat();
+      });
     });
   }
 
@@ -63,11 +67,11 @@ class _GameStat extends State<GameStat> {
         context,
         MaterialPageRoute(
             builder: (context) => Bingo(
-                bingoParams: widget.game,
-                newGame: false,
-                isarService: widget.isarService,
-                personalizeCards: [],
-                id: widget.game.id))).then((value) {
+                  bingoParams: widget.game,
+                  newGame: false,
+                  isarService: widget.isarService,
+                  id: widget.game.id,
+                ))).then((value) {
       setState(() {
         widget.getStat();
       });
@@ -160,31 +164,29 @@ class _GameStat extends State<GameStat> {
                       color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w600),
-                  child: Row(
-                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Text(widget.game.gameNumber.toString()),
-                          Container(margin: EdgeInsets.only(left: 20)),
-                        ]),
-                        icon,
-                        Text(widget.game.bingoType.name),
-                        Spacer(),
-                        Row(children: [
-                          Text(widget.game.date),
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Icon(
-                                widget.game.favorite
-                                    ? FontAwesomeIcons.heartCircleCheck
-                                    : FontAwesomeIcons.heart,
-                                color: Colors.red,
-                              ))
-                        ]),
-                      ])),
+                  child: Row(children: [
+                    Row(children: [
+                      Text(widget.game.gameNumber.toString()),
+                      Container(margin: EdgeInsets.only(left: 20)),
+                    ]),
+                    icon,
+                    Text(widget.game.bingoType.name),
+                    Spacer(),
+                    Row(children: [
+                      Text(widget.game.date),
+                      Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Icon(
+                            widget.game.favorite
+                                ? FontAwesomeIcons.heartCircleCheck
+                                : FontAwesomeIcons.heart,
+                            color: Colors.red,
+                          ))
+                    ]),
+                  ])),
               trailing: getTraillingIcon(),
-              expandedColor: Colors.indigo[50], //Colors.grey[300],
-              baseColor: Colors.indigo[100], //getBackgroundColor(),
+              expandedColor: Colors.indigo[50],
+              baseColor: Colors.indigo[100],
               expandedTextColor: Colors.black,
               initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),

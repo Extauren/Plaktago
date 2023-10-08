@@ -10,11 +10,11 @@ class PersonalizeCard {
 }
 
 class Personalize extends StatefulWidget {
-  List<PersonalizeCard> cards;
+  final List<PersonalizeCard> cards;
   final BingoType type;
-  int nbCardSelect;
-  Function changeNbCardValue;
-  ScrollController controller;
+  final int nbCardSelect;
+  final Function changeNbCardValue;
+  final ScrollController controller;
   Personalize(
       {Key? key,
       required this.cards,
@@ -34,7 +34,6 @@ class _Personalize extends State<Personalize> {
   @override
   void initState() {
     super.initState();
-    widget.cards.clear();
     List<CardName> cardList = [];
     cardList = cardNameListPlaque
         .where((element) => element.type.contains(widget.type))
@@ -48,6 +47,7 @@ class _Personalize extends State<Personalize> {
     for (int it = 0; it < cardList.length; it++) {
       widget.cards.add(PersonalizeCard(name: cardList.elementAt(it).name));
     }
+    widget.cards.shuffle();
   }
 
   Color getCardColor(final int index) {

@@ -32,20 +32,23 @@ class _Statistic extends State<Statistic> {
       IsarService isarService = context.watch<IsarService>();
       return Scaffold(
           appBar: AppBar(title: Text("Statistiques")),
-          body: ListView(children: [
-            Container(
-                margin: EdgeInsets.only(top: 20, bottom: 20),
-                child: StatTypeButton(
-                    statType: statType, updateStatType: updateStatType)),
-            if (statType == StatType.general)
-              GeneralStatistic(
-                isarService: isarService,
-              ),
-            if (statType == StatType.list)
-              GameList(
-                isarService: isarService,
-              )
-          ]));
+          body: ListView(
+              physics: statType == StatType.list
+                  ? const NeverScrollableScrollPhysics()
+                  : const AlwaysScrollableScrollPhysics(),
+              children: [
+                Container(
+                    margin: EdgeInsets.only(top: 20, bottom: 20),
+                    child: StatTypeButton(updateStatType: updateStatType)),
+                if (statType == StatType.general)
+                  GeneralStatistic(
+                    isarService: isarService,
+                  ),
+                if (statType == StatType.list)
+                  GameList(
+                    isarService: isarService,
+                  )
+              ]));
     });
   }
 }
