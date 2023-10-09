@@ -153,7 +153,7 @@ Game _gameDeserialize(
           allOffsets,
           BingoCard(),
         ) ??
-        const [],
+        const <BingoCard>[],
     bingoType: _GamebingoTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
         BingoType.plaque,
     date: reader.readStringOrNull(offsets[2]) ?? "",
@@ -186,7 +186,7 @@ P _gameDeserializeProp<P>(
             allOffsets,
             BingoCard(),
           ) ??
-          const []) as P;
+          const <BingoCard>[]) as P;
     case 1:
       return (_GamebingoTypeValueEnumMap[reader.readByteOrNull(offset)] ??
           BingoType.plaque) as P;

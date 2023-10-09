@@ -1,4 +1,4 @@
-import '../../home/bingo_type_button.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 
 class CardName {
   final String name;
@@ -37,9 +37,10 @@ List<CardName> cardNameListPlaque = [
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
-    name: "Regarde mais s'arrête pas",
-    type: [BingoType.plaque],
-  ),
+      name: "Regarde mais s'arrête pas",
+      type: [BingoType.plaque],
+      description:
+          "Cataphile en tenu qui regarde la plaque mais ne descend pas"),
   CardName(
     name: "Police",
     type: [BingoType.plaque, BingoType.kta],
@@ -65,11 +66,11 @@ List<CardName> cardNameListPlaque = [
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(
-    name: "Reste à côté de la plaque",
-    type: [BingoType.plaque],
-  ),
+      name: "Reste à côté de la plaque",
+      type: [BingoType.plaque],
+      description: "Cataphile qui reste juste à coter de la plaque"),
   CardName(
-    name: "Fil d'attente",
+    name: "File d'attente",
     type: [BingoType.plaque, BingoType.kta],
   ),
   CardName(

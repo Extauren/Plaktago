@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import 'navigation_bar.dart';
-//import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Plaktago extends StatefulWidget {
   final IsarService isarService;
@@ -118,6 +118,7 @@ class _Plaktago extends State<Plaktago> {
             }))),
             useMaterial3: true),
         darkTheme: ThemeData(
+            fontFamily: GoogleFonts.robotoCondensed().fontFamily,
             colorScheme: darkColor,
             appBarTheme: AppBarTheme(
                 backgroundColor: Colors.grey[800],
