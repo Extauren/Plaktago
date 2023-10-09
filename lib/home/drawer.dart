@@ -1,5 +1,7 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/bug_report.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
@@ -69,19 +71,50 @@ class _Drawer extends State<DrawerApp> {
               ),
               Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: Text("mode sombre",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16))),
-                  Switch(
-                      value: _darkMode,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _darkMode = value;
-                          widget.changeTheme();
-                        });
-                      }),
+                  DefaultTextStyle.merge(
+                      child: IconTheme.merge(
+                          data: IconThemeData(color: Colors.white),
+                          child: AnimatedToggleSwitch<bool>.dual(
+                            current: _darkMode,
+                            first: false,
+                            second: true,
+                            spacing: 0.0,
+                            animationCurve: Curves.easeInOut,
+                            animationDuration:
+                                const Duration(milliseconds: 600),
+                            style: ToggleStyle(
+                              borderColor: Colors.transparent,
+                              indicatorColor:
+                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor: Colors.black,
+                            ),
+                            styleBuilder: (value) => ToggleStyle(
+                                backgroundColor: value
+                                    ? Colors.grey[700]
+                                    : Colors.grey[350]),
+                            borderWidth: 6.0,
+                            height: 40.0,
+                            onChanged: (b) => setState(
+                                () => {_darkMode = b, widget.changeTheme()}),
+                            iconBuilder: (value) => value
+                                ? Icon(FontAwesomeIcons.solidMoon,
+                                    size: 18.0, color: Colors.grey[100])
+                                : Icon(FontAwesomeIcons.solidSun,
+                                    size: 18.0, color: Colors.black),
+                          ))),
+                  //   Container(
+                  //       margin: EdgeInsets.only(right: 10),
+                  //       child: Text("mode sombre",
+                  //           style: TextStyle(
+                  //               fontWeight: FontWeight.bold, fontSize: 16))),
+                  //   Switch(
+                  //       value: _darkMode,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           _darkMode = value;
+                  //           widget.changeTheme();
+                  //         });
+                  //       }),
                 ]),
                 Container(
                     constraints: BoxConstraints(maxWidth: 180),
