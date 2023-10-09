@@ -92,7 +92,7 @@ class _Drawer extends State<DrawerApp> {
                                 backgroundColor: value
                                     ? Colors.grey[700]
                                     : Colors.grey[350]),
-                            borderWidth: 6.0,
+                            borderWidth: 3.0,
                             height: 40.0,
                             onChanged: (b) => setState(
                                 () => {_darkMode = b, widget.changeTheme()}),
@@ -102,19 +102,6 @@ class _Drawer extends State<DrawerApp> {
                                 : Icon(FontAwesomeIcons.solidSun,
                                     size: 18.0, color: Colors.black),
                           ))),
-                  //   Container(
-                  //       margin: EdgeInsets.only(right: 10),
-                  //       child: Text("mode sombre",
-                  //           style: TextStyle(
-                  //               fontWeight: FontWeight.bold, fontSize: 16))),
-                  //   Switch(
-                  //       value: _darkMode,
-                  //       onChanged: (bool value) {
-                  //         setState(() {
-                  //           _darkMode = value;
-                  //           widget.changeTheme();
-                  //         });
-                  //       }),
                 ]),
                 Container(
                     constraints: BoxConstraints(maxWidth: 180),
