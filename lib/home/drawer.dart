@@ -98,7 +98,7 @@ class _Drawer extends State<DrawerApp> {
                                 () => {_darkMode = b, widget.changeTheme()}),
                             iconBuilder: (value) => value
                                 ? Icon(FontAwesomeIcons.solidMoon,
-                                    size: 18.0, color: Colors.grey[100])
+                                    size: 18.0, color: Colors.black)
                                 : Icon(FontAwesomeIcons.solidSun,
                                     size: 18.0, color: Colors.black),
                           ))),

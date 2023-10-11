@@ -1,10 +1,13 @@
+import 'dart:math';
+
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum BingoType {
   plaque("Plaque"),
   kta("KTA"),
-  exploration("Exploration");
+  exploration("Balade");
 
   const BingoType(this.name);
   final String name;
@@ -24,41 +27,74 @@ class BingoTypeButton extends StatefulWidget {
 }
 
 class _BingoTypeButton extends State<BingoTypeButton> {
+  final List<BingoType> bingoTypeList = [
+    BingoType.plaque,
+    BingoType.kta,
+    BingoType.exploration
+  ];
+  int value = 0;
+
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: SegmentedButton<BingoType>(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.selected)) {
-              return Theme.of(context).colorScheme.primary;
-            }
-            return Theme.of(context).colorScheme.surface;
+      child: AnimatedToggleSwitch<int>.size(
+          current: min(value, 2),
+          style: ToggleStyle(
+            backgroundColor: Colors.grey[350],
+            indicatorColor: Theme.of(context).colorScheme.primary,
+            borderColor: Colors.white,
+            borderRadius: BorderRadius.circular(14.0),
+            indicatorBorderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 1.5),
+              ),
+            ],
+          ),
+          values: const [0, 1, 2],
+          iconOpacity: 1.0,
+          selectedIconScale: 1.0,
+          indicatorSize: const Size.fromWidth(100),
+          spacing: 7.0,
+          customSeparatorBuilder: (context, local, global) {
+            final opacity = ((global.position - local.position).abs() - 0.5)
+                .clamp(0.0, 1.0);
+            return VerticalDivider(
+                indent: 10.0,
+                endIndent: 10.0,
+                color: Colors.black.withOpacity(opacity));
           },
-        ),
-      ),
-      segments: <ButtonSegment<BingoType>>[
-        ButtonSegment<BingoType>(
-            value: BingoType.plaque,
-            label: Text(BingoType.plaque.name),
-            // style: TextStyle(fontFamily: 'RobotCondensed')),
-            icon: Icon(Icons.aspect_ratio)),
-        ButtonSegment<BingoType>(
-            value: BingoType.kta,
-            label: Text(BingoType.kta.name),
-            icon: Icon(FontAwesomeIcons.dungeon)),
-        ButtonSegment<BingoType>(
-            value: BingoType.exploration,
-            label: Text(BingoType.exploration.name),
-            icon: Icon(FontAwesomeIcons.personWalking)),
-      ],
-      selected: <BingoType>{widget.bingoType},
-      onSelectionChanged: (Set<BingoType> newSelection) {
-        setState(() {
-          widget.updateBingoType(newSelection.first);
-        });
-      },
-    ));
+          customIconBuilder: (context, local, global) {
+            final text = bingoTypeList[local.index].name;
+            final icon = const [
+              FontAwesomeIcons.moneyBill,
+              FontAwesomeIcons.dungeon,
+              FontAwesomeIcons.personWalking
+            ][local.index];
+            return Center(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                  margin: EdgeInsets.only(right: 8),
+                  child: Icon(icon,
+                      color: Color.lerp(
+                          Colors.black87, Colors.black, local.animationValue))),
+              Text(text,
+                  style: TextStyle(
+                      color: Color.lerp(
+                          Colors.black87, Colors.black, local.animationValue)))
+            ]));
+          },
+          borderWidth: 0.0,
+          onChanged: (i) {
+            setState(() {
+              value = i;
+              widget.updateBingoType(bingoTypeList[i]);
+            });
+          }),
+    );
   }
 }

@@ -232,7 +232,7 @@ class _Home extends State<Home> {
                 return child;
               }),
           Container(
-              margin: EdgeInsets.only(top: 40, left: 5, right: 5),
+              margin: EdgeInsets.only(top: 40, left: 0, right: 0),
               child: BingoTypeButton(
                 key: bingoTypeKey,
                 bingoType: widget.bingoParams.bingoType,
@@ -279,37 +279,37 @@ class _Home extends State<Home> {
                             changeNbCardValue: changeNbCardValue,
                             controller: _childScrollController)))),
           if (!widget.bingoParams.isAlcool)
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-                child: OutlinedButton(
-                  onPressed: setIsAcool,
-                  child: TextButton.icon(
-                    onPressed: setIsAcool,
-                    icon: Icon(
-                      Icons.wine_bar,
-                    ),
-                    label: Text(
-                      "Jeux d'alcool",
-                    ),
-                  ),
-                )),
+            Align(
+                child: Container(
+                    height: 50,
+                    width: 160,
+                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
+                    child: FloatingActionButton.extended(
+                      onPressed: setIsAcool,
+                      backgroundColor: Colors.grey[300],
+                      icon: Icon(
+                        Icons.wine_bar,
+                      ),
+                      label: Text(
+                        "Jeux d'alcool",
+                      ),
+                    ))),
           if (widget.bingoParams.isAlcool)
-            Container(
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-                child: FilledButton(
-                  onPressed: setIsAcool,
-                  child: TextButton.icon(
-                    onPressed: setIsAcool,
-                    icon: Icon(
-                      Icons.wine_bar,
-                      color: Colors.black,
-                    ),
-                    label: Text(
-                      "Jeux d'alcool",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                )),
+            Align(
+                child: Container(
+                    height: 50,
+                    width: 160,
+                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
+                    child: FloatingActionButton.extended(
+                      onPressed: setIsAcool,
+                      backgroundColor: Colors.amberAccent, //Colors.grey[300],
+                      icon: Icon(
+                        Icons.wine_bar,
+                      ),
+                      label: Text(
+                        "Jeux d'alcool",
+                      ),
+                    ))),
           Align(
             child: Container(
                 //constraints: BoxConstraints(maxWidth: 200),

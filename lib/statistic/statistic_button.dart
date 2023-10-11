@@ -31,7 +31,7 @@ class _StatTypeButton extends State<StatTypeButton> {
       child: AnimatedToggleSwitch<bool>.size(
           current: positive,
           values: const [false, true],
-          iconOpacity: 0.2,
+          iconOpacity: 0.8,
           indicatorSize: const Size.fromWidth(120),
           customIconBuilder: (context, local, global) => Text(
               local.value ? 'Liste' : 'Général',
