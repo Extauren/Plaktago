@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'timer_button.dart';
 
+// ignore: must_be_immutable
 class Timer extends StatefulWidget {
   String time;
   int timer;
