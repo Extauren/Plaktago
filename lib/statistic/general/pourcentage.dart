@@ -1,13 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 import 'indicator.dart';
 import 'package:flutter/material.dart';
 
-class PieChartSample2 extends StatefulWidget {
+class Pourcentage extends StatefulWidget {
   final String nbGames;
   final String bingoPlaque;
   final String bingoKta;
   final String bingoExplo;
-  const PieChartSample2(
+  const Pourcentage(
       {super.key,
       required this.nbGames,
       required this.bingoPlaque,
@@ -15,10 +16,10 @@ class PieChartSample2 extends StatefulWidget {
       required this.bingoExplo});
 
   @override
-  State<StatefulWidget> createState() => PieChart2State();
+  State<StatefulWidget> createState() => _Pourcentage();
 }
 
-class PieChart2State extends State<PieChartSample2> {
+class _Pourcentage extends State<Pourcentage> {
   int touchedIndex = -1;
 
   @override
@@ -81,7 +82,7 @@ class PieChart2State extends State<PieChartSample2> {
                           ),
                           Indicator(
                             color: Colors.green,
-                            text: 'Exploration',
+                            text: BingoType.exploration.name,
                             isSquare: false,
                           ),
                         ],
@@ -136,7 +137,7 @@ class PieChart2State extends State<PieChartSample2> {
           );
         case 2:
           return PieChartSectionData(
-            color: Colors.green,
+            color: Colors.green[600],
             value: exploPourcentage,
             title: "${exploPourcentage.round().toString()} %",
             radius: radius,

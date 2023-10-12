@@ -50,7 +50,7 @@ class _GameStat extends State<GameStat> {
   }
 
   Icon getTraillingIcon() {
-    if (!isExpanded) {
+    if (isExpanded) {
       return Icon(
         Icons.keyboard_arrow_up,
         color: Colors.black,
@@ -178,7 +178,7 @@ class _GameStat extends State<GameStat> {
                           margin: EdgeInsets.only(left: 10),
                           child: Icon(
                             widget.game.favorite
-                                ? FontAwesomeIcons.heartCircleCheck
+                                ? FontAwesomeIcons.solidHeart
                                 : FontAwesomeIcons.heart,
                             color: Colors.red,
                           ))

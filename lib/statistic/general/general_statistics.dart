@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/general.dart';
 import '../../utils/save_game.dart';
-import 'graph.dart';
-import 'graph2.dart';
+import 'pourcentage.dart';
+import 'number_cards.dart';
 
 class GeneralStatistic extends StatefulWidget {
   final IsarService isarService;
@@ -137,13 +137,13 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                           ])))));
                         })),
                 if (snapshot.data!.nbGames > 0)
-                  PieChartSample2(
+                  Pourcentage(
                     nbGames: snapshot.data!.nbGames.toString(),
                     bingoPlaque: snapshot.data!.bingoPlaque.toString(),
                     bingoKta: snapshot.data!.bingoKta.toString(),
                     bingoExplo: snapshot.data!.bingoExplo.toString(),
                   ),
-                BarChartSample2(
+                NumberCards(
                   cardList: snapshot.data!.cardList,
                 ),
               ])

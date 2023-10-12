@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 import '../../utils/save_game.dart';
 import 'indicator.dart';
 
-class BarChartSample2 extends StatefulWidget {
+class NumberCards extends StatefulWidget {
   final List<CardList> cardList;
-  BarChartSample2({super.key, required this.cardList});
+  NumberCards({super.key, required this.cardList});
   @override
-  State<StatefulWidget> createState() => BarChartSample2State();
+  State<StatefulWidget> createState() => _NumberCards();
 }
 
-class BarChartSample2State extends State<BarChartSample2> {
+class _NumberCards extends State<NumberCards> {
   final double width = 4;
   List<List<BarChartGroupData>> rawBarGroups = [[], []];
   late List<BarChartGroupData> showingBarGroups;
   List<List<BarChartGroupData>> groupData = [[], []];
   int skip = 0;
   int touchedGroupIndex = -1;
-  int sortIndex = 0;
+  int sortIndex = 1;
   int maxY = 0;
 
   @override
   void initState() {
     super.initState();
-    sortByPlayed();
     sortByCheck();
+    sortByPlayed();
   }
 
   void sortByPlayed() {
@@ -49,7 +49,6 @@ class BarChartSample2State extends State<BarChartSample2> {
       index += 1;
     }
     rawBarGroups[0] = groupData[0].skip(skip).take(width.toInt()).toList();
-    showingBarGroups = rawBarGroups[0];
   }
 
   void sortByCheck() {
@@ -72,6 +71,7 @@ class BarChartSample2State extends State<BarChartSample2> {
       index += 1;
     }
     rawBarGroups[1] = groupData[1].skip(skip).take(width.toInt()).toList();
+    showingBarGroups = rawBarGroups[1];
   }
 
   void changePage(DragEndDetails detail) {
@@ -190,7 +190,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                             child: TextButton(
                                 onPressed: () => {changeSort(0)},
                                 child: Indicator(
-                                  color: Colors.indigo[300]!,
+                                  color: Colors.grey[300]!,
                                   text: 'Cartes proposées',
                                   isSquare: false,
                                   textColor:
@@ -202,7 +202,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                             child: TextButton(
                                 onPressed: () => {changeSort(1)},
                                 child: Indicator(
-                                  color: Color.fromRGBO(208, 118, 89, 1),
+                                  color: Colors.indigo[300]!,
                                   text: 'Cartes validées',
                                   isSquare: false,
                                   textColor:
@@ -272,12 +272,12 @@ class BarChartSample2State extends State<BarChartSample2> {
       barRods: [
         BarChartRodData(
           toY: y2,
-          color: Colors.indigo[300],
+          color: Colors.grey[300],
           width: width,
         ),
         BarChartRodData(
           toY: y1,
-          color: Color.fromRGBO(208, 118, 89, 1),
+          color: Colors.indigo[300],
           width: width,
         ),
       ],

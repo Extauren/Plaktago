@@ -130,16 +130,18 @@ class _GameStats extends State<GameStats> {
             )
           ]),
           actions: [
-            IconButton(
-              onPressed: setGameToFavorite,
-              icon: Icon(
-                widget.game.favorite
-                    ? FontAwesomeIcons.heartCircleCheck
-                    : FontAwesomeIcons.heart,
-                color: Theme.of(context).colorScheme.primary,
-                size: 28,
-              ),
-            ),
+            Container(
+                margin: EdgeInsets.only(right: 10),
+                child: IconButton(
+                  onPressed: setGameToFavorite,
+                  icon: Icon(
+                    widget.game.favorite
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    color: Colors.red,
+                    size: 28,
+                  ),
+                )),
           ],
         ),
         body: ListView(children: [
