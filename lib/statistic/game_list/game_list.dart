@@ -65,15 +65,17 @@ class _GameList extends State<GameList> {
             snapshot.data?.sort(
               (a, b) => b!.gameNumber.compareTo(a!.gameNumber),
             );
+            int screenHeight = 140 * snapshot.data!.length;
             children = <Widget>[
               SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: ListView(children: [
                     Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
-                        height: MediaQuery.of(context).size.height *
-                            snapshot.data!.length /
-                            9,
+                        height: screenHeight.toDouble(),
+                        // MediaQuery.of(context).size.height *
+                        //     snapshot.data!.length /
+                        //     6,
                         child: ListView.builder(
                             controller:
                                 ScrollController(keepScrollOffset: false),

@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 enum BingoType {
   plaque("Plaque"),
   kta("KTA"),
-  exploration("Balade");
+  exploration("Explo");
 
   const BingoType(this.name);
   final String name;

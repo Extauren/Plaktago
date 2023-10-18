@@ -104,7 +104,8 @@ class _Bingo extends State<Bingo> {
           date: DateFormat('d/M/y').format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
-          bingoCards: widget.bingoParams.bingoCards);
+          bingoCards: widget.bingoParams.bingoCards,
+          updateGame: widget.bingoParams.updateGame);
     } else {
       game = Game(
           id: widget.bingoParams.gameNumber,
@@ -116,7 +117,8 @@ class _Bingo extends State<Bingo> {
           date: DateFormat('d/M/y').format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
-          bingoCards: widget.bingoParams.bingoCards);
+          bingoCards: widget.bingoParams.bingoCards,
+          updateGame: widget.bingoParams.updateGame);
     }
     widget.isarService.saveGame(game, true);
     widget.bingoParams.resetGameData();
@@ -136,7 +138,8 @@ class _Bingo extends State<Bingo> {
         isAlcool: widget.bingoParams.isAlcool,
         nbShot: widget.bingoParams.nbShot,
         bingoCards: widget.bingoParams.bingoCards,
-        isPlaying: widget.bingoParams.isPlaying);
+        isPlaying: widget.bingoParams.isPlaying,
+        updateGame: widget.bingoParams.updateGame);
     widget.isarService.saveGame(game, false);
   }
 

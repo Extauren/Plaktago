@@ -87,8 +87,10 @@ class IsarService extends ChangeNotifier {
     isar.writeTxnSync(() => isar.games.putSync(game));
     if (game.gameNumber != -1 && lastId == -1) {
       isar.writeTxnSync(() => isar.games.deleteSync(-1));
-      updateGeneralStats(
-          game.bingoType, game.points, newGame, game.bingoCards, 1);
+      if (!game.updateGame) {
+        updateGeneralStats(
+            game.bingoType, game.points, newGame, game.bingoCards, 1);
+      }
     }
   }
 

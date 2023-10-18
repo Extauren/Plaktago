@@ -229,7 +229,11 @@ class _GameStats extends State<GameStats> {
                 max: _sliderMaxValue,
                 value: _sliderValue,
                 divisions: _sliderMaxValue.toInt(),
-                inactiveColor: Theme.of(context).colorScheme.onBackground,
+                inactiveColor: Colors.black,
+                thumbColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).cardColor,
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => Theme.of(context).colorScheme.background),
                 onChanged: (value) {
                   setState(() {
                     _sliderValue = value;

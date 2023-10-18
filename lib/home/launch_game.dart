@@ -37,7 +37,7 @@ class _LaunchGame extends State<LaunchGame> {
           style: ButtonStyle(backgroundColor: getButtonColor()),
           child: Text(
             'Jouer',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontSize: 18),
           ),
         ));
   }

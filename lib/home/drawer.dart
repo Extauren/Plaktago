@@ -103,36 +103,39 @@ class _Drawer extends State<DrawerApp> {
                                     size: 18.0, color: Colors.black),
                           ))),
                 ]),
-                Container(
-                    constraints: BoxConstraints(maxWidth: 180),
-                    margin: EdgeInsets.only(top: 10),
-                    height: 30,
-                    child: ElevatedButton(
-                        onPressed: reportBug,
-                        child: Text(
-                          "Signaler un bug",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context).colorScheme.onSecondary),
-                        )))
+                Align(
+                    child: Container(
+                        height: 40,
+                        width: 120,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        child: FloatingActionButton.extended(
+                          onPressed: reportBug,
+                          backgroundColor: Colors.grey[300],
+                          splashColor: Theme.of(context).colorScheme.primary,
+                          label: Text(
+                            "Signaler un bug",
+                          ),
+                        ))),
               ])
             ],
           ),
           Positioned(
               bottom: 0,
               child: Column(children: [
-                Container(
-                    constraints: BoxConstraints(maxWidth: 180),
-                    margin: EdgeInsets.symmetric(vertical: 15),
-                    height: 30,
-                    width: MediaQuery.of(context).size.width / 2 - 27,
-                    child: ElevatedButton(
-                        onPressed: resetData,
-                        child: Text(
-                          "Supprimer les données",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context).colorScheme.onSecondary),
+                Align(
+                    child: Container(
+                        height: 30,
+                        width: 160,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        child: FloatingActionButton.extended(
+                          onPressed: resetData,
+                          backgroundColor: Colors.grey[300],
+                          splashColor: Theme.of(context).colorScheme.primary,
+                          label: Text(
+                            "Supprimer les données",
+                          ),
                         ))),
                 Container(
                     margin: EdgeInsets.only(bottom: 15),

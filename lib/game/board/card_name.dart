@@ -31,7 +31,7 @@ List<CardName> cardNameListPlaque = [
   CardName(
       name: "Lampe allumée",
       type: [BingoType.plaque],
-      description: "Laisse sa lampe allumée en sortant de la plaque"),
+      description: "Laisse sa lampe allumée au dessus de la plaque"),
   CardName(
     name: "Touristes",
     type: [BingoType.plaque, BingoType.kta],
@@ -42,13 +42,9 @@ List<CardName> cardNameListPlaque = [
       description:
           "Cataphile en tenu qui regarde la plaque mais ne descend pas"),
   CardName(
-    name: "Police",
-    type: [BingoType.plaque, BingoType.kta],
-  ),
-  CardName(
       name: "Fermeture de plaque hasardeuse",
       type: [BingoType.plaque],
-      description: "Galère à fermer la plaque"),
+      description: "Galère à fermer la plaque / Fait du bruit"),
   CardName(
     name: "Claque la plaque",
     type: [BingoType.plaque],

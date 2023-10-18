@@ -37,6 +37,7 @@ class _Home extends State<Home> {
   ScrollController _parentScrollController = ScrollController();
   Game activeGame = Game();
   late Future<Game?> test = Future.value(null);
+  bool isPlaying = false;
 
   @override
   void initState() {
@@ -50,7 +51,10 @@ class _Home extends State<Home> {
     if (game != null) {
       setState(() {
         activeGame = game;
+        print(activeGame.isPlaying);
       });
+    } else {
+      activeGame = Game();
     }
     test = widget.isarService.getOnGoingGame();
   }
@@ -115,7 +119,7 @@ class _Home extends State<Home> {
       ).show();
       return;
     }
-    if (activeGame.isPlaying) {
+    if (isPlaying) {
       AwesomeDialog(
         context: context,
         animType: AnimType.scale,
@@ -210,6 +214,7 @@ class _Home extends State<Home> {
               builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
                 Widget child = Container();
                 if (snapshot.hasData) {
+                  isPlaying = snapshot.data!.isPlaying;
                   if (snapshot.data != null && activeGame.isPlaying) {
                     child = Align(
                         child: Container(
@@ -302,7 +307,7 @@ class _Home extends State<Home> {
                     margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
                     child: FloatingActionButton.extended(
                       onPressed: setIsAcool,
-                      backgroundColor: Colors.amberAccent, //Colors.grey[300],
+                      backgroundColor: Colors.lightGreen[400],
                       icon: Icon(
                         Icons.wine_bar,
                       ),

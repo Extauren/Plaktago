@@ -63,6 +63,7 @@ class _GameStat extends State<GameStat> {
   }
 
   void setGame() {
+    widget.game.updateGame = true;
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -142,6 +143,13 @@ class _GameStat extends State<GameStat> {
     return Container();
   }
 
+  void setGameToFavorite() {
+    widget.game.favorite = !widget.game.favorite;
+    setState(() {
+      widget.isarService.updateGame(widget.game);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width > 700) {
@@ -176,17 +184,19 @@ class _GameStat extends State<GameStat> {
                       Text(widget.game.date),
                       Container(
                           margin: EdgeInsets.only(left: 10),
-                          child: Icon(
-                            widget.game.favorite
-                                ? FontAwesomeIcons.solidHeart
-                                : FontAwesomeIcons.heart,
-                            color: Colors.red,
-                          ))
+                          child: IconButton(
+                              onPressed: setGameToFavorite,
+                              icon: Icon(
+                                widget.game.favorite
+                                    ? FontAwesomeIcons.solidHeart
+                                    : FontAwesomeIcons.heart,
+                                color: Colors.red,
+                              )))
                     ]),
                   ])),
               trailing: getTraillingIcon(),
               expandedColor: Colors.indigo[50],
-              baseColor: Colors.indigo[100],
+              baseColor: Colors.grey[200], //Colors.indigo[100],
               expandedTextColor: Colors.black,
               initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),

@@ -22,21 +22,23 @@ class Game {
   @enumerated
   Mode mode;
   bool isPlaying;
-  Game({
-    this.id = Isar.autoIncrement,
-    this.gameNumber = -1,
-    this.points = 0,
-    this.bingoType = BingoType.plaque,
-    this.date = "",
-    this.hour = "",
-    this.time = "",
-    this.isAlcool = false,
-    this.nbShot = -1,
-    this.favorite = false,
-    this.bingoCards = const <BingoCard>[],
-    this.mode = Mode.random,
-    this.isPlaying = false,
-  });
+  @ignore
+  bool updateGame;
+  Game(
+      {this.id = Isar.autoIncrement,
+      this.gameNumber = -1,
+      this.points = 0,
+      this.bingoType = BingoType.plaque,
+      this.date = "",
+      this.hour = "",
+      this.time = "",
+      this.isAlcool = false,
+      this.nbShot = -1,
+      this.favorite = false,
+      this.bingoCards = const <BingoCard>[],
+      this.mode = Mode.random,
+      this.isPlaying = false,
+      this.updateGame = false});
 
   void resetGameData() {
     gameNumber = -1;
@@ -53,5 +55,6 @@ class Game {
     date = "";
     hour = "";
     time = "";
+    updateGame = false;
   }
 }
