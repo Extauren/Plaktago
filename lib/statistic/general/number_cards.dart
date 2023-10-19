@@ -1,11 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import '../../utils/save_game.dart';
 import 'indicator.dart';
 
 class NumberCards extends StatefulWidget {
   final List<CardList> cardList;
-  NumberCards({super.key, required this.cardList});
+  final AppSettings appSettings;
+  NumberCards({super.key, required this.cardList, required this.appSettings});
   @override
   State<StatefulWidget> createState() => _NumberCards();
 }
@@ -190,7 +192,9 @@ class _NumberCards extends State<NumberCards> {
                             child: TextButton(
                                 onPressed: () => {changeSort(0)},
                                 child: Indicator(
-                                  color: Colors.grey[300]!,
+                                  color: widget.appSettings.darkMode
+                                      ? Colors.white
+                                      : Colors.black87,
                                   text: 'Cartes proposées',
                                   isSquare: false,
                                   textColor:
@@ -272,7 +276,7 @@ class _NumberCards extends State<NumberCards> {
       barRods: [
         BarChartRodData(
           toY: y2,
-          color: Colors.grey[300],
+          color: widget.appSettings.darkMode ? Colors.white : Colors.black87,
           width: width,
         ),
         BarChartRodData(

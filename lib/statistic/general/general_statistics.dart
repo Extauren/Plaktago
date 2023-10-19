@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/general.dart';
 import '../../utils/save_game.dart';
@@ -7,7 +8,9 @@ import 'number_cards.dart';
 
 class GeneralStatistic extends StatefulWidget {
   final IsarService isarService;
-  const GeneralStatistic({Key? key, required this.isarService})
+  final AppSettings appSettings;
+  const GeneralStatistic(
+      {Key? key, required this.isarService, required this.appSettings})
       : super(key: key);
 
   @override
@@ -144,8 +147,8 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                     bingoExplo: snapshot.data!.bingoExplo.toString(),
                   ),
                 NumberCards(
-                  cardList: snapshot.data!.cardList,
-                ),
+                    cardList: snapshot.data!.cardList,
+                    appSettings: widget.appSettings),
               ])
             ];
           } else if (snapshot.hasError) {

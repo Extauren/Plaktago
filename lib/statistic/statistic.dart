@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/statistic/game_list/game_list.dart';
+import 'package:plaktago/utils/app_settings.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/statistic/statistic_button.dart';
 import 'package:provider/provider.dart';
 import 'general/general_statistics.dart';
 
 class Statistic extends StatefulWidget {
-  const Statistic({Key? key}) : super(key: key);
+  final AppSettings appSettings;
+  const Statistic({Key? key, required this.appSettings}) : super(key: key);
 
   @override
   State<Statistic> createState() => _Statistic();
@@ -42,8 +44,8 @@ class _Statistic extends State<Statistic> {
                     child: StatTypeButton(updateStatType: updateStatType)),
                 if (statType == StatType.general)
                   GeneralStatistic(
-                    isarService: isarService,
-                  ),
+                      isarService: isarService,
+                      appSettings: widget.appSettings),
                 if (statType == StatType.list)
                   GameList(
                     isarService: isarService,

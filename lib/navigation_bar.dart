@@ -66,7 +66,7 @@ class _NavigationBar extends State<NavigationBarApp> {
           appSettings: widget.appSettings,
           bingoParams: Game(),
           isarService: widget.isarService),
-      Statistic(),
+      Statistic(appSettings: widget.appSettings),
       Help()
     ];
   }
