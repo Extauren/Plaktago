@@ -10,6 +10,7 @@ class Board extends StatefulWidget {
   final List<BingoCard> bingoCard;
   final int nbLines;
   final VoidCallback saveGame;
+  final Function addLine;
 
   Board(
       {Key? key,
@@ -17,7 +18,8 @@ class Board extends StatefulWidget {
       required this.changePoints,
       required this.bingoCard,
       required this.nbLines,
-      required this.saveGame})
+      required this.saveGame,
+      required this.addLine})
       : super(key: key);
 
   @override
@@ -99,8 +101,16 @@ class _Board extends State<Board> {
         points += checkBoard.checkDiagonal(
             widget.bingoCard, widget.nbLines - 1, newState, widget.nbLines - 1);
       }
-      if (points == 5) {
+      if (newState && points % 5 == 0 || points == 9 || points == 13) {
         _controllerCenter.play();
+        if (points % 5 == 0) {
+          double nbLines = points / 5;
+          widget.addLine(nbLines.toInt());
+        } else if (points == 9) {
+          widget.addLine(2);
+        } else if (points == 13) {
+          widget.addLine(3);
+        }
       }
       widget.changePoints(points, index);
     });

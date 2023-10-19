@@ -35,6 +35,7 @@ class Bingo extends StatefulWidget {
 class _Bingo extends State<Bingo> {
   int screenSizeRatio = 2;
   late Timer timer;
+  int nbLines = 0;
 
   @override
   void initState() {
@@ -209,6 +210,10 @@ class _Bingo extends State<Bingo> {
     return Container(margin: EdgeInsets.only(right: 15), child: icon);
   }
 
+  void addLines(final int newLines) {
+    widget.bingoParams.nbLines += newLines;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width > 700) {
@@ -302,6 +307,7 @@ class _Bingo extends State<Bingo> {
                     bingoCard: widget.bingoParams.bingoCards,
                     nbLines: 4,
                     saveGame: askSaveGame,
+                    addLine: addLines,
                   ))),
         ]));
   }

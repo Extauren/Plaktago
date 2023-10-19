@@ -32,7 +32,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   final List<String> titles = [
     "Total",
     "Gagnés",
-    "Plus jouée",
+    "Lignes",
     "Plaque",
     "Kta",
     "Explo",

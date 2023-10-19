@@ -24,6 +24,7 @@ class Game {
   bool isPlaying;
   @ignore
   bool updateGame;
+  int nbLines;
   Game(
       {this.id = Isar.autoIncrement,
       this.gameNumber = -1,
@@ -38,7 +39,8 @@ class Game {
       this.bingoCards = const <BingoCard>[],
       this.mode = Mode.random,
       this.isPlaying = false,
-      this.updateGame = false});
+      this.updateGame = false,
+      this.nbLines = 0});
 
   void resetGameData() {
     gameNumber = -1;
@@ -56,5 +58,6 @@ class Game {
     hour = "";
     time = "";
     updateGame = false;
+    nbLines = 0;
   }
 }
