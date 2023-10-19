@@ -5,7 +5,7 @@ import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
 import '../game/bingo.dart';
-import 'drawer.dart';
+import 'drawer/drawer.dart';
 import 'bingo_type_button.dart';
 import 'mode_button.dart';
 import 'launch_game.dart';

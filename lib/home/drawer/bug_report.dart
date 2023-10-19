@@ -22,7 +22,7 @@ class _BugReport extends State<BugReport> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            Text("Coucou");
+            Text("Loading");
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
