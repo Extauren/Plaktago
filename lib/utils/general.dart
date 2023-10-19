@@ -13,6 +13,7 @@ class General {
   int bingoExplo = 0;
   int bingoWin = 0;
   int bingoAlcool = 0;
+  int nbLines = 0;
   List<CardList> cardList =
       cardNameListPlaque.map((item) => CardList(cardName: item.name)).toList();
 }
