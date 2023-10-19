@@ -1,5 +1,6 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/app_settings.dart';
 
 enum StatType {
   general("Général"),
@@ -11,10 +12,9 @@ enum StatType {
 
 class StatTypeButton extends StatefulWidget {
   final Function updateStatType;
-  StatTypeButton({
-    super.key,
-    required this.updateStatType,
-  });
+  final AppSettings appSettings;
+  StatTypeButton(
+      {super.key, required this.updateStatType, required this.appSettings});
 
   @override
   State<StatTypeButton> createState() => _StatTypeButton();
@@ -31,7 +31,7 @@ class _StatTypeButton extends State<StatTypeButton> {
       child: AnimatedToggleSwitch<bool>.size(
           current: positive,
           values: const [false, true],
-          iconOpacity: 0.8,
+          iconOpacity: 0.9,
           indicatorSize: const Size.fromWidth(120),
           customIconBuilder: (context, local, global) => Text(
               local.value ? 'Liste' : 'Général',
@@ -39,11 +39,13 @@ class _StatTypeButton extends State<StatTypeButton> {
                   fontWeight: FontWeight.bold,
                   color: Color.lerp(Theme.of(context).colorScheme.onBackground,
                       Colors.black, local.animationValue))),
-          borderWidth: 4.0,
+          borderWidth: 0.0,
           iconAnimationType: AnimationType.onHover,
           style: ToggleStyle(
+            backgroundColor: widget.appSettings.darkMode
+                ? Colors.grey[850]
+                : Colors.grey[50],
             indicatorColor: Theme.of(context).colorScheme.primary,
-            borderColor: Colors.transparent,
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
               BoxShadow(

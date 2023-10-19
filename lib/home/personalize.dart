@@ -54,7 +54,7 @@ class _Personalize extends State<Personalize> {
     if (widget.cards.elementAt(index).isSelect) {
       return Color.fromRGBO(153, 219, 129, 1);
     }
-    return Colors.grey[300]!;
+    return Colors.grey[50]!;
   }
 
   void _selectCard(final int index) {

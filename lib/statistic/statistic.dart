@@ -41,7 +41,10 @@ class _Statistic extends State<Statistic> {
               children: [
                 Container(
                     margin: EdgeInsets.only(top: 20, bottom: 20),
-                    child: StatTypeButton(updateStatType: updateStatType)),
+                    child: StatTypeButton(
+                      updateStatType: updateStatType,
+                      appSettings: widget.appSettings,
+                    )),
                 if (statType == StatType.general)
                   GeneralStatistic(
                       isarService: isarService,

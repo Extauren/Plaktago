@@ -291,7 +291,7 @@ class _Home extends State<Home> {
                     margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
                     child: FloatingActionButton.extended(
                       onPressed: setIsAcool,
-                      backgroundColor: Colors.grey[300],
+                      backgroundColor: Colors.grey[100],
                       icon: Icon(
                         Icons.wine_bar,
                       ),

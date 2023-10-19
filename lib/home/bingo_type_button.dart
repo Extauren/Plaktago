@@ -40,7 +40,7 @@ class _BingoTypeButton extends State<BingoTypeButton> {
       child: AnimatedToggleSwitch<int>.size(
           current: min(value, 2),
           style: ToggleStyle(
-            backgroundColor: Colors.grey[350],
+            backgroundColor: Colors.grey[100],
             indicatorColor: Theme.of(context).colorScheme.primary,
             borderColor: Colors.white,
             borderRadius: BorderRadius.circular(14.0),

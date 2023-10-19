@@ -111,7 +111,7 @@ class _Drawer extends State<DrawerApp> {
                             EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                         child: FloatingActionButton.extended(
                           onPressed: reportBug,
-                          backgroundColor: Colors.grey[300],
+                          backgroundColor: Colors.grey[100],
                           splashColor: Theme.of(context).colorScheme.primary,
                           label: Text(
                             "Signaler un bug",
@@ -131,7 +131,7 @@ class _Drawer extends State<DrawerApp> {
                             EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                         child: FloatingActionButton.extended(
                           onPressed: resetData,
-                          backgroundColor: Colors.grey[300],
+                          backgroundColor: Colors.grey[100],
                           splashColor: Theme.of(context).colorScheme.primary,
                           label: Text(
                             "Supprimer les données",

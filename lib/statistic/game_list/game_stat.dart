@@ -86,7 +86,7 @@ class _GameStat extends State<GameStat> {
         animType: AnimType.scale,
         dialogType: DialogType.warning,
         headerAnimationLoop: false,
-        dialogBackgroundColor: Colors.grey[300],
+        dialogBackgroundColor: Colors.grey[50],
         title: 'Partie en cours',
         titleTextStyle:
             TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -196,7 +196,7 @@ class _GameStat extends State<GameStat> {
                   ])),
               trailing: getTraillingIcon(),
               expandedColor: Colors.indigo[50],
-              baseColor: Colors.grey[200], //Colors.indigo[100],
+              baseColor: Colors.grey[100], //Colors.indigo[100],
               expandedTextColor: Colors.black,
               initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
