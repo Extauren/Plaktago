@@ -8,7 +8,7 @@ import 'package:plaktago/utils/isar_service.dart';
 import 'game_stats.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class GameStat extends StatefulWidget {
+class GameTileCard extends StatefulWidget {
   final Game game;
   final int index;
   final Function getStat;
@@ -16,7 +16,7 @@ class GameStat extends StatefulWidget {
   final GlobalKey<ExpansionTileCardState> cardKey;
   final IsarService isarService;
   final Function getGames;
-  GameStat(
+  GameTileCard(
       {Key? key,
       required this.game,
       required this.index,
@@ -28,10 +28,10 @@ class GameStat extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<GameStat> createState() => _GameStat();
+  State<GameTileCard> createState() => _GameTileCard();
 }
 
-class _GameStat extends State<GameStat> {
+class _GameTileCard extends State<GameTileCard> {
   bool isExpanded = false;
   int sizeRatio = 1;
 

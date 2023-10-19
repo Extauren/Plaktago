@@ -1,7 +1,7 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:plaktago/statistic/game_list/game_stat.dart';
+import 'package:plaktago/statistic/game_list/game_tile_card.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/game/game.dart';
 
@@ -82,7 +82,7 @@ class _GameList extends State<GameList> {
                             itemCount: snapshot.data?.length,
                             itemBuilder: (context, index) {
                               final Game game = snapshot.data![index]!;
-                              return GameStat(
+                              return GameTileCard(
                                 game: game,
                                 index: index,
                                 getStat: getGames,
