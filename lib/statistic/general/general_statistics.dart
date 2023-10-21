@@ -31,8 +31,8 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   ];
   final List<String> titles = [
     "Total",
-    "Gagnés",
     "Lignes",
+    "Gagnés",
     "Plaque",
     "Kta",
     "Explo",
@@ -59,22 +59,16 @@ class _GeneralStatistic extends State<GeneralStatistic> {
             fontWeight: FontWeight.w600,
             color: Colors.black,
             fontSize: textFontSize));
-    values[1] = Text(data.bingoWin.toString(),
+    values[1] = Text(data.nbLines.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
             color: Colors.black,
             fontSize: textFontSize));
-    // final List tmp = data.cardList;
-    // for (int it = 0; it < tmp.length; it++) {
-    //   cardList.add(CardList.fromJson(tmp.elementAt(it)));
-    // }
-    // values[2] = Container(
-    //     margin: EdgeInsets.only(top: 4),
-    //     child: Text(cardList[0].cardName.toString(),
-    //         style: TextStyle(
-    //             fontWeight: FontWeight.w600,
-    //             color: Colors.black,
-    //             fontSize: 18)));
+    values[2] = Text(data.bingoWin.toString(),
+        style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+            fontSize: textFontSize));
     values[3] = Text(data.bingoPlaque.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,

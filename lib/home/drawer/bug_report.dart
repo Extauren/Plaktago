@@ -26,8 +26,11 @@ class _BugReport extends State<BugReport> {
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
+          onWebResourceError: (WebResourceError error) {
+            Text("Error");
+          },
           onNavigationRequest: (NavigationRequest request) {
+            print("REQUEST !!!!");
             return NavigationDecision.navigate;
           },
         ),

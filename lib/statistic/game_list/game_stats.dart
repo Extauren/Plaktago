@@ -70,8 +70,8 @@ class _GameStats extends State<GameStats> {
   }
 
   void deleteGame() async {
-    widget.isarService
-        .deleteGame(widget.game.id, widget.game.bingoType, widget.game.points);
+    widget.isarService.deleteGame(widget.game.id, widget.game.bingoType,
+        widget.game.points, widget.game.nbLines);
     Navigator.pop(context);
   }
 

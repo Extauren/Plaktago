@@ -52,6 +52,11 @@ const GeneralSchema = CollectionSchema(
       id: 6,
       name: r'nbGames',
       type: IsarType.long,
+    ),
+    r'nbLines': PropertySchema(
+      id: 7,
+      name: r'nbLines',
+      type: IsarType.long,
     )
   },
   estimateSize: _generalEstimateSize,
@@ -103,6 +108,7 @@ void _generalSerialize(
     object.cardList,
   );
   writer.writeLong(offsets[6], object.nbGames);
+  writer.writeLong(offsets[7], object.nbLines);
 }
 
 General _generalDeserialize(
@@ -126,6 +132,7 @@ General _generalDeserialize(
       [];
   object.id = id;
   object.nbGames = reader.readLong(offsets[6]);
+  object.nbLines = reader.readLong(offsets[7]);
   return object;
 }
 
@@ -155,6 +162,8 @@ P _generalDeserializeProp<P>(
           ) ??
           []) as P;
     case 6:
+      return (reader.readLong(offset)) as P;
+    case 7:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -704,6 +713,59 @@ extension GeneralQueryFilter
       ));
     });
   }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbLinesEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'nbLines',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbLinesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'nbLines',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbLinesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'nbLines',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbLinesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'nbLines',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension GeneralQueryObject
@@ -789,6 +851,18 @@ extension GeneralQuerySortBy on QueryBuilder<General, General, QSortBy> {
   QueryBuilder<General, General, QAfterSortBy> sortByNbGamesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nbGames', Sort.desc);
+    });
+  }
+
+  QueryBuilder<General, General, QAfterSortBy> sortByNbLines() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbLines', Sort.asc);
+    });
+  }
+
+  QueryBuilder<General, General, QAfterSortBy> sortByNbLinesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbLines', Sort.desc);
     });
   }
 }
@@ -878,6 +952,18 @@ extension GeneralQuerySortThenBy
       return query.addSortBy(r'nbGames', Sort.desc);
     });
   }
+
+  QueryBuilder<General, General, QAfterSortBy> thenByNbLines() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbLines', Sort.asc);
+    });
+  }
+
+  QueryBuilder<General, General, QAfterSortBy> thenByNbLinesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbLines', Sort.desc);
+    });
+  }
 }
 
 extension GeneralQueryWhereDistinct
@@ -915,6 +1001,12 @@ extension GeneralQueryWhereDistinct
   QueryBuilder<General, General, QDistinct> distinctByNbGames() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nbGames');
+    });
+  }
+
+  QueryBuilder<General, General, QDistinct> distinctByNbLines() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'nbLines');
     });
   }
 }
@@ -966,6 +1058,12 @@ extension GeneralQueryProperty
   QueryBuilder<General, int, QQueryOperations> nbGamesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'nbGames');
+    });
+  }
+
+  QueryBuilder<General, int, QQueryOperations> nbLinesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'nbLines');
     });
   }
 }

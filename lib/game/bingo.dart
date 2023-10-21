@@ -35,7 +35,6 @@ class Bingo extends StatefulWidget {
 class _Bingo extends State<Bingo> {
   int screenSizeRatio = 2;
   late Timer timer;
-  int nbLines = 0;
 
   @override
   void initState() {
@@ -106,7 +105,8 @@ class _Bingo extends State<Bingo> {
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
           bingoCards: widget.bingoParams.bingoCards,
-          updateGame: widget.bingoParams.updateGame);
+          updateGame: widget.bingoParams.updateGame,
+          nbLines: widget.bingoParams.nbLines);
     } else {
       game = Game(
           id: widget.bingoParams.gameNumber,
@@ -119,7 +119,8 @@ class _Bingo extends State<Bingo> {
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
           bingoCards: widget.bingoParams.bingoCards,
-          updateGame: widget.bingoParams.updateGame);
+          updateGame: widget.bingoParams.updateGame,
+          nbLines: widget.bingoParams.nbLines);
     }
     widget.isarService.saveGame(game, true);
     widget.bingoParams.resetGameData();
@@ -140,7 +141,8 @@ class _Bingo extends State<Bingo> {
         nbShot: widget.bingoParams.nbShot,
         bingoCards: widget.bingoParams.bingoCards,
         isPlaying: widget.bingoParams.isPlaying,
-        updateGame: widget.bingoParams.updateGame);
+        updateGame: widget.bingoParams.updateGame,
+        nbLines: widget.bingoParams.nbLines);
     widget.isarService.saveGame(game, false);
   }
 

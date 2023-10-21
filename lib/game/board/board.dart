@@ -60,10 +60,6 @@ class _Board extends State<Board> {
       }
     }
     return buffer + 1;
-    // BingoCard maxOrder = widget.bingoCard.reduce(
-    //     (value, element) => value.order > element.order ? value : element);
-    // if (maxOrder.order == -1) return 0;
-    // return maxOrder.order;
   }
 
   Color getCardColor(int index) {
@@ -79,6 +75,7 @@ class _Board extends State<Board> {
   void _onCardTapped(final int index) {
     bool newState = !widget.bingoCard.elementAt(index).isSelect;
     int points = 0;
+    double nbLines = 0.0;
 
     (newState) ? points += 1 : points -= 1;
     if (newState) {
@@ -101,16 +98,10 @@ class _Board extends State<Board> {
         points += checkBoard.checkDiagonal(
             widget.bingoCard, widget.nbLines - 1, newState, widget.nbLines - 1);
       }
+      nbLines = points / 5;
+      widget.addLine(nbLines.round());
       if (newState && points % 5 == 0 || points == 9 || points == 13) {
         _controllerCenter.play();
-        if (points % 5 == 0) {
-          double nbLines = points / 5;
-          widget.addLine(nbLines.toInt());
-        } else if (points == 9) {
-          widget.addLine(2);
-        } else if (points == 13) {
-          widget.addLine(3);
-        }
       }
       widget.changePoints(points, index);
     });

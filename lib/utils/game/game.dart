@@ -22,9 +22,9 @@ class Game {
   @enumerated
   Mode mode;
   bool isPlaying;
+  int nbLines;
   @ignore
   bool updateGame;
-  int nbLines;
   Game(
       {this.id = Isar.autoIncrement,
       this.gameNumber = -1,
