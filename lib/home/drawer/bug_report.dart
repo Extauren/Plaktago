@@ -12,6 +12,7 @@ class BugReport extends StatefulWidget {
 
 class _BugReport extends State<BugReport> {
   late final WebViewController _controller;
+  var loadingPercentage = 0;
 
   @override
   void initState() {
@@ -21,11 +22,21 @@ class _BugReport extends State<BugReport> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-            Text("Loading");
+          onPageStarted: (String url) {
+            setState(() {
+              loadingPercentage = 0;
+            });
           },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onProgress: (progress) {
+            setState(() {
+              loadingPercentage = progress;
+            });
+          },
+          onPageFinished: (url) {
+            setState(() {
+              loadingPercentage = 100;
+            });
+          },
           onWebResourceError: (WebResourceError error) {
             Text("Error");
           },
@@ -42,8 +53,19 @@ class _BugReport extends State<BugReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Signaler un bug")),
-      body: WebViewWidget(controller: _controller),
-    );
+        appBar: AppBar(title: Text("Signaler un bug")),
+        body: Stack(
+          children: [
+            WebViewWidget(
+              controller: _controller,
+            ),
+            if (loadingPercentage < 100)
+              LinearProgressIndicator(
+                value: loadingPercentage / 100.0,
+              ),
+          ],
+        ));
+    //WebViewWidget(controller: _controller),
+    //);
   }
 }
