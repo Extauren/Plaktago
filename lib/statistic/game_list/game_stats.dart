@@ -1,6 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
@@ -19,6 +21,7 @@ class GameStats extends StatefulWidget {
 class _GameStats extends State<GameStats> {
   late double _sliderValue;
   late double _sliderMaxValue;
+  String formatDate = "";
 
   @override
   void initState() {
@@ -34,6 +37,20 @@ class _GameStats extends State<GameStats> {
       _sliderMaxValue = double.parse(maxOrder.order.toString());
     }
     _sliderValue = _sliderMaxValue;
+    getDate();
+  }
+
+  void getDate() {
+    List<int> dateNumber = [];
+
+    initializeDateFormatting('fr');
+    final dateTimeFormat = DateFormat.yMMMMd("fr");
+    List<String> dateList = widget.game.date.split('/');
+    for (int i = 0; i < dateList.length; i++) {
+      dateNumber.add(int.parse(dateList[i]));
+    }
+    formatDate = dateTimeFormat
+        .format(DateTime(dateNumber[2], dateNumber[1], dateNumber[0]));
   }
 
   ShapeBorder getCardShape(final int index) {
@@ -149,7 +166,7 @@ class _GameStats extends State<GameStats> {
               child: Container(
                   margin: EdgeInsets.only(top: 30),
                   child: Text(
-                    widget.game.date,
+                    formatDate,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ))),
           Container(
