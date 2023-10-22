@@ -214,34 +214,40 @@ class _GameTileCard extends State<GameTileCard> {
                       SizedBox(height: 10)
                     ])),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      height: 30.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Theme.of(context).colorScheme.primary),
-                          ),
-                          onPressed: goToGameStats,
-                          child: Text(
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.black),
-                              "Revoir la partie"))),
-                  Container(
-                      height: 30.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Theme.of(context).colorScheme.primary),
-                          ),
-                          onPressed: comeBackToGame,
-                          child: Text(
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.black),
-                              "Reprendre la partie")))
+                  Align(
+                      child: Container(
+                          height: 35,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: FloatingActionButton.extended(
+                            onPressed: goToGameStats,
+                            elevation: 0.5,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            splashColor: Theme.of(context).colorScheme.primary,
+                            label: Text("Revoir la partie",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600)),
+                          ))),
+                  Align(
+                      child: Container(
+                          height: 35,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: FloatingActionButton.extended(
+                            onPressed: comeBackToGame,
+                            elevation: 0.5,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            splashColor: Theme.of(context).colorScheme.primary,
+                            label: Text("Reprendre la partie",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600)),
+                          ))),
                 ])
               ],
             )));
