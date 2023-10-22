@@ -80,7 +80,7 @@ class _GameStats extends State<GameStats> {
         if (widget.game.bingoCards.elementAt(index).nbLineComplete > 0) {
           return Color.fromRGBO(153, 219, 129, 1);
         }
-        return Theme.of(context).colorScheme.secondary;
+        return Theme.of(context).colorScheme.primary;
       }
     }
     return Theme.of(context).cardColor;
@@ -259,23 +259,19 @@ class _GameStats extends State<GameStats> {
               )),
           Align(
               child: Container(
-                  width: 230,
-                  height: 40,
+                  height: 45,
+                  width: 210,
                   margin: EdgeInsets.only(top: 20, bottom: 10),
-                  child: ElevatedButton(
-                    onPressed: () => {},
-                    child: TextButton.icon(
-                      onPressed: deleteGame,
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        'Supprimer la partie',
-                        style: TextStyle(color: Colors.black),
-                      ),
+                  child: FloatingActionButton.extended(
+                    onPressed: deleteGame,
+                    backgroundColor: Colors.grey[100],
+                    splashColor: Theme.of(context).colorScheme.primary,
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.black,
                     ),
-                  )))
+                    label: Text("Supprimer la partie"),
+                  ))),
         ]));
   }
 }
