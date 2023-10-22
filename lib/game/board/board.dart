@@ -67,7 +67,7 @@ class _Board extends State<Board> {
       if (widget.bingoCard.elementAt(index).nbLineComplete > 0) {
         return Color.fromRGBO(153, 219, 129, 1);
       }
-      return Theme.of(context).colorScheme.secondary;
+      return Theme.of(context).colorScheme.primary;
     }
     return Theme.of(context).cardColor;
   }
@@ -202,22 +202,37 @@ class _Board extends State<Board> {
                             ),
                           )));
                 })),
-        Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: ElevatedButton(
-              onPressed: widget.saveGame,
-              child: TextButton.icon(
-                onPressed: widget.saveGame,
-                icon: Icon(
-                  Icons.save,
-                  color: Colors.black,
-                ),
-                label: Text(
-                  'Sauvegarder la partie',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            )),
+        Align(
+            child: Container(
+                height: 50,
+                width: 230,
+                margin: EdgeInsets.only(bottom: 10),
+                child: FloatingActionButton.extended(
+                  onPressed: widget.saveGame,
+                  backgroundColor: Colors.grey[100],
+                  splashColor: Theme.of(context).colorScheme.primary,
+                  icon: Icon(
+                    Icons.save,
+                    color: Colors.black,
+                  ),
+                  label: Text("Sauvergarder la partie"),
+                ))),
+        // Container(
+        //     margin: EdgeInsets.only(bottom: 10),
+        //     child: ElevatedButton(
+        //       onPressed: widget.saveGame,
+        //       child: TextButton.icon(
+        //         onPressed: widget.saveGame,
+        //         icon: Icon(
+        //           Icons.save,
+        //           color: Colors.black,
+        //         ),
+        //         label: Text(
+        //           'Sauvegarder la partie',
+        //           style: TextStyle(color: Colors.black),
+        //         ),
+        //       ),
+        //     )),
       ],
     );
   }
