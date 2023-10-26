@@ -111,7 +111,7 @@ class _Plaktago extends State<Plaktago> {
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
               return Colors.white;
             }))),
-            cardColor: Colors.grey[400],
+            cardColor: Colors.grey[200],
             elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
               return lightColor.primary;
