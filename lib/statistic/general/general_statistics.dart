@@ -113,7 +113,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                   width: 100,
                                   child: Card(
                                       margin: const EdgeInsets.all(0),
-                                      color: Colors.grey[200],
+                                      color: Colors.grey[100],
                                       child: Center(
                                           child: Column(
                                               crossAxisAlignment:
