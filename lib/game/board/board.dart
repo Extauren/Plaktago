@@ -209,7 +209,8 @@ class _Board extends State<Board> {
                 margin: EdgeInsets.only(bottom: 10),
                 child: FloatingActionButton.extended(
                   onPressed: widget.saveGame,
-                  backgroundColor: Colors.grey[100],
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primary, //Colors.grey[100],
                   splashColor: Theme.of(context).colorScheme.primary,
                   icon: Icon(
                     Icons.save,
@@ -217,22 +218,6 @@ class _Board extends State<Board> {
                   ),
                   label: Text("Sauvergarder la partie"),
                 ))),
-        // Container(
-        //     margin: EdgeInsets.only(bottom: 10),
-        //     child: ElevatedButton(
-        //       onPressed: widget.saveGame,
-        //       child: TextButton.icon(
-        //         onPressed: widget.saveGame,
-        //         icon: Icon(
-        //           Icons.save,
-        //           color: Colors.black,
-        //         ),
-        //         label: Text(
-        //           'Sauvegarder la partie',
-        //           style: TextStyle(color: Colors.black),
-        //         ),
-        //       ),
-        //     )),
       ],
     );
   }
