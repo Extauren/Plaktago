@@ -32,7 +32,7 @@ class _StatTypeButton extends State<StatTypeButton> {
           current: positive,
           values: const [false, true],
           iconOpacity: 0.9,
-          indicatorSize: const Size.fromWidth(120),
+          indicatorSize: const Size.fromWidth(110),
           customIconBuilder: (context, local, global) => Text(
               local.value ? 'Liste' : 'Général',
               style: TextStyle(
@@ -46,7 +46,7 @@ class _StatTypeButton extends State<StatTypeButton> {
                 ? Colors.grey[850]
                 : Colors.grey[50],
             indicatorColor: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
