@@ -136,15 +136,25 @@ class _GameStats extends State<GameStats> {
     return Container(margin: EdgeInsets.only(right: 15), child: icon);
   }
 
+  Widget getAlcoolIcon() {
+    Widget icon = Container();
+
+    if (widget.game.isAlcool) {
+      icon = Container(
+          margin: EdgeInsets.only(left: 8, top: 3),
+          child: Icon(Icons.wine_bar, size: 30.0));
+    }
+    return icon;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Row(children: [
             getIcon(),
-            Text(
-              'Bingo ${widget.game.bingoType.name}',
-            )
+            Text('Bingo ${widget.game.bingoType.name}'),
+            getAlcoolIcon(),
           ]),
           actions: [
             Container(

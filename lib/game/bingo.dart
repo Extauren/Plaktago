@@ -230,8 +230,8 @@ class _Bingo extends State<Bingo> {
           ),
           if (widget.bingoParams.isAlcool)
             Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Icon(FontAwesomeIcons.wineGlass)),
+                margin: EdgeInsets.only(left: 8, top: 3),
+                child: Icon(Icons.wine_bar, size: 30.0)),
         ])),
         body: ListView(children: [
           Align(
