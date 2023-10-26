@@ -263,7 +263,7 @@ class _GameStats extends State<GameStats> {
                   width: 210,
                   margin: EdgeInsets.only(top: 20, bottom: 10),
                   child: FloatingActionButton.extended(
-                    onPressed: deleteGame,
+                    onPressed: checkDeleteGame,
                     backgroundColor: Colors.grey[100],
                     splashColor: Theme.of(context).colorScheme.primary,
                     icon: Icon(
