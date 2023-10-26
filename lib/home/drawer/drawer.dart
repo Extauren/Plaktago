@@ -113,9 +113,7 @@ class _Drawer extends State<DrawerApp> {
                           onPressed: reportBug,
                           backgroundColor: Colors.grey[100],
                           splashColor: Theme.of(context).colorScheme.primary,
-                          label: Text(
-                            "Signaler un bug",
-                          ),
+                          label: Text("Signaler un bug"),
                         ))),
               ])
             ],
@@ -125,7 +123,7 @@ class _Drawer extends State<DrawerApp> {
               child: Column(children: [
                 Align(
                     child: Container(
-                        height: 30,
+                        height: 38,
                         width: 160,
                         margin:
                             EdgeInsets.symmetric(vertical: 20, horizontal: 20),
