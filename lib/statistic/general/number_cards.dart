@@ -66,6 +66,10 @@ class _NumberCards extends State<NumberCards> {
       if (it % width == 0) {
         index = 0;
       }
+      // BarChartRodData()
+      // BarChartGroupData(x: index,
+
+      // ):
       groupData[1].add(makeGroupData(
           index,
           widget.cardList.elementAt(it).nbCheck.toDouble(),
@@ -104,6 +108,8 @@ class _NumberCards extends State<NumberCards> {
     });
   }
 
+  void displayValue() {}
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -139,6 +145,7 @@ class _NumberCards extends State<NumberCards> {
                     Expanded(
                       child: GestureDetector(
                           onHorizontalDragEnd: changePage,
+                          onTap: displayValue,
                           child: BarChart(
                             BarChartData(
                               maxY: maxY.toDouble(),
@@ -147,6 +154,53 @@ class _NumberCards extends State<NumberCards> {
                                   tooltipBgColor: Colors.grey,
                                   getTooltipItem: (a, b, c, d) => null,
                                 ),
+                                // touchCallback: (FlTouchEvent event, response) {
+                                //   if (response == null ||
+                                //       response.spot == null) {
+                                //     // setState(() {
+                                //     //   touchedGroupIndex = -1;
+                                //     //   showingBarGroups = List.of(rawBarGroups);
+                                //     // });
+                                //     return;
+                                //   }
+
+                                //   touchedGroupIndex =
+                                //       response.spot!.touchedBarGroupIndex;
+
+                                //   setState(() {
+                                //     // if (!event.isInterestedForInteractions) {
+                                //     //   touchedGroupIndex = -1;
+                                //     //   showingBarGroups = List.of(rawBarGroups);
+                                //     //   return;
+                                //     // }
+                                //     // showingBarGroups = List.of(rawBarGroups);
+                                //     if (touchedGroupIndex != -1) {
+                                //       var sum = 0.0;
+                                //       for (final rod
+                                //           in showingBarGroups[touchedGroupIndex]
+                                //               .barRods) {
+                                //         sum += rod.toY;
+                                //       }
+                                //       final avg = sum /
+                                //           showingBarGroups[touchedGroupIndex]
+                                //               .barRods
+                                //               .length;
+
+                                //       showingBarGroups[
+                                //           touchedGroupIndex] = showingBarGroups[
+                                //               touchedGroupIndex]
+                                //           .copyWith(
+                                //               // barRods:
+                                //               //     showingBarGroups[touchedGroupIndex]
+                                //               //         .barRods
+                                //               //         .map((rod) {
+                                //               //   return rod.copyWith(
+                                //               //       toY: avg, color: widget.avgColor);
+                                //               // }).toList(),
+                                //               );
+                                //     }
+                                //   });
+                                // },
                               ),
                               titlesData: FlTitlesData(
                                 show: true,
@@ -224,8 +278,10 @@ class _NumberCards extends State<NumberCards> {
   }
 
   Widget leftTitles(double value, TitleMeta meta) {
-    final half = maxY / 2;
-    final style = TextStyle(
+    final double half = maxY / 2;
+    final double quart = maxY / 4;
+    final double thirdQuart = half + quart;
+    final TextStyle style = TextStyle(
       color: Theme.of(context).colorScheme.onSurface,
       fontWeight: FontWeight.bold,
       fontSize: 14,
@@ -233,18 +289,24 @@ class _NumberCards extends State<NumberCards> {
     String text;
     if (value == 0) {
       text = '0';
-    } else if (value == half) {
+    } else if (value == half.toInt()) {
       text = half.toInt().toString();
+    } else if (value == quart.toInt()) {
+      text = quart.toInt().toString();
+    } else if (value == thirdQuart.toInt()) {
+      text = thirdQuart.toInt().toString();
     } else if (value == maxY) {
       text = maxY.toString();
     } else {
       return Container();
     }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 0,
-      child: Text(text, style: style),
-    );
+    return Container(
+        margin: EdgeInsets.only(bottom: value == 0 || value == maxY ? 0 : 20),
+        child: SideTitleWidget(
+          axisSide: meta.axisSide,
+          space: 0.0,
+          child: Text(text, style: style),
+        ));
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
