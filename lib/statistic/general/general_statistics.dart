@@ -32,7 +32,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   final List<String> titles = [
     "Total",
     "Lignes",
-    "Gagnés",
+    "Points",
     "Plaque",
     "Kta",
     "Explo",
@@ -59,16 +59,28 @@ class _GeneralStatistic extends State<GeneralStatistic> {
             fontWeight: FontWeight.w600,
             color: Colors.black,
             fontSize: textFontSize));
-    values[1] = Text(data.nbLines.toString(),
-        style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: textFontSize));
-    values[2] = Text(data.bingoWin.toString(),
-        style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: textFontSize));
+    values[1] = data.nbLines < 0
+        ? Text("Null",
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: textFontSize))
+        : Text(data.nbLines.toString(),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: textFontSize));
+    values[2] = data.nbPoints < 0
+        ? Text("Null",
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: textFontSize))
+        : Text(data.nbPoints.toString(),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: textFontSize));
     values[3] = Text(data.bingoPlaque.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,

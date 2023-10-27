@@ -57,6 +57,11 @@ const GeneralSchema = CollectionSchema(
       id: 7,
       name: r'nbLines',
       type: IsarType.long,
+    ),
+    r'nbPoints': PropertySchema(
+      id: 8,
+      name: r'nbPoints',
+      type: IsarType.long,
     )
   },
   estimateSize: _generalEstimateSize,
@@ -109,6 +114,7 @@ void _generalSerialize(
   );
   writer.writeLong(offsets[6], object.nbGames);
   writer.writeLong(offsets[7], object.nbLines);
+  writer.writeLong(offsets[8], object.nbPoints);
 }
 
 General _generalDeserialize(
@@ -133,6 +139,7 @@ General _generalDeserialize(
   object.id = id;
   object.nbGames = reader.readLong(offsets[6]);
   object.nbLines = reader.readLong(offsets[7]);
+  object.nbPoints = reader.readLong(offsets[8]);
   return object;
 }
 
@@ -164,6 +171,8 @@ P _generalDeserializeProp<P>(
     case 6:
       return (reader.readLong(offset)) as P;
     case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -766,6 +775,59 @@ extension GeneralQueryFilter
       ));
     });
   }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbPointsEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'nbPoints',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbPointsGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'nbPoints',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbPointsLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'nbPoints',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<General, General, QAfterFilterCondition> nbPointsBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'nbPoints',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension GeneralQueryObject
@@ -863,6 +925,18 @@ extension GeneralQuerySortBy on QueryBuilder<General, General, QSortBy> {
   QueryBuilder<General, General, QAfterSortBy> sortByNbLinesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nbLines', Sort.desc);
+    });
+  }
+
+  QueryBuilder<General, General, QAfterSortBy> sortByNbPoints() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbPoints', Sort.asc);
+    });
+  }
+
+  QueryBuilder<General, General, QAfterSortBy> sortByNbPointsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbPoints', Sort.desc);
     });
   }
 }
@@ -964,6 +1038,18 @@ extension GeneralQuerySortThenBy
       return query.addSortBy(r'nbLines', Sort.desc);
     });
   }
+
+  QueryBuilder<General, General, QAfterSortBy> thenByNbPoints() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbPoints', Sort.asc);
+    });
+  }
+
+  QueryBuilder<General, General, QAfterSortBy> thenByNbPointsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nbPoints', Sort.desc);
+    });
+  }
 }
 
 extension GeneralQueryWhereDistinct
@@ -1007,6 +1093,12 @@ extension GeneralQueryWhereDistinct
   QueryBuilder<General, General, QDistinct> distinctByNbLines() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nbLines');
+    });
+  }
+
+  QueryBuilder<General, General, QDistinct> distinctByNbPoints() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'nbPoints');
     });
   }
 }
@@ -1064,6 +1156,12 @@ extension GeneralQueryProperty
   QueryBuilder<General, int, QQueryOperations> nbLinesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'nbLines');
+    });
+  }
+
+  QueryBuilder<General, int, QQueryOperations> nbPointsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'nbPoints');
     });
   }
 }

@@ -36,6 +36,16 @@ class IsarService extends ChangeNotifier {
     if (general == null) {
       return General();
     }
+    return setGeneralNewValues(general);
+  }
+
+  General setGeneralNewValues(General general) {
+    if (general.nbLines < 0) {
+      general.nbLines = 0;
+    }
+    if (general.nbPoints < 0) {
+      general.nbPoints = 0;
+    }
     return general;
   }
 
@@ -60,6 +70,7 @@ class IsarService extends ChangeNotifier {
         general.bingoExplo += saveGame;
       }
       general.nbLines += nbLines;
+      general.nbPoints += points;
     }
     if (points == 56) {
       general.bingoWin += saveGame;
@@ -126,7 +137,7 @@ class IsarService extends ChangeNotifier {
     final isar = await db;
     bool isDelete = isar.writeTxnSync(() => isar.games.deleteSync(id));
     if (isDelete) {
-      updateGeneralStats(bingoType, points, true, [], -1, -nbLines);
+      updateGeneralStats(bingoType, -points, true, [], -1, -nbLines);
     }
     return isDelete;
   }
