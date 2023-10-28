@@ -35,6 +35,8 @@ class _Personalize extends State<Personalize> {
   void initState() {
     super.initState();
     List<CardName> cardList = [];
+
+    widget.cards.clear();
     cardList = cardNameListPlaque
         .where((element) => element.type.contains(widget.type))
         .toList();
@@ -43,11 +45,13 @@ class _Personalize extends State<Personalize> {
           .where((element) => element.type.contains(BingoType.kta))
           .toList());
     }
+    cardList.sort((a, b) {
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
 
     for (int it = 0; it < cardList.length; it++) {
       widget.cards.add(PersonalizeCard(name: cardList.elementAt(it).name));
     }
-    widget.cards.shuffle();
   }
 
   Color getCardColor(final int index) {
