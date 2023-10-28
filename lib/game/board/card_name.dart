@@ -153,5 +153,6 @@ List<CardName> cardNameListPlaque = [
       name: 'Jamais vu',
       type: [BingoType.exploration],
       description: "Découverte d'un nouvelle endroit dans le réseau"),
-  CardName(name: 'Belle épure', type: [BingoType.exploration])
+  CardName(name: 'Belle épure', type: [BingoType.exploration]),
+  CardName(name: "Hardtech de mauvais goût", type: [BingoType.kta])
 ];
