@@ -283,43 +283,43 @@ class _Home extends State<Home> {
                             nbCardSelect: nbCards,
                             changeNbCardValue: changeNbCardValue,
                             controller: _childScrollController)))),
-          if (!widget.bingoParams.isAlcool)
-            Align(
-                child: Container(
-                    height: 50,
-                    width: 160,
-                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-                    child: FloatingActionButton.extended(
-                      onPressed: setIsAcool,
-                      backgroundColor: Colors.grey[100],
-                      icon: Icon(
-                        Icons.wine_bar,
-                      ),
-                      label: Text(
-                        "Jeux d'alcool",
-                      ),
-                    ))),
-          if (widget.bingoParams.isAlcool)
-            Align(
-                child: Container(
-                    height: 50,
-                    width: 160,
-                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-                    child: FloatingActionButton.extended(
-                      onPressed: setIsAcool,
-                      backgroundColor: Colors.lightGreen[400],
-                      icon: Icon(
-                        Icons.wine_bar,
-                      ),
-                      label: Text(
-                        "Jeux d'alcool",
-                      ),
-                    ))),
+          // if (!widget.bingoParams.isAlcool)
+          //   Align(
+          //       child: Container(
+          //           height: 50,
+          //           width: 160,
+          //           margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
+          //           child: FloatingActionButton.extended(
+          //             onPressed: setIsAcool,
+          //             backgroundColor: Colors.grey[100],
+          //             icon: Icon(
+          //               Icons.wine_bar,
+          //             ),
+          //             label: Text(
+          //               "Jeux d'alcool",
+          //             ),
+          //           ))),
+          // if (widget.bingoParams.isAlcool)
+          //   Align(
+          //       child: Container(
+          //           height: 50,
+          //           width: 160,
+          //           margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
+          //           child: FloatingActionButton.extended(
+          //             onPressed: setIsAcool,
+          //             backgroundColor: Colors.lightGreen[400],
+          //             icon: Icon(
+          //               Icons.wine_bar,
+          //             ),
+          //             label: Text(
+          //               "Jeux d'alcool",
+          //             ),
+          //           ))),
           Align(
             child: Container(
                 //constraints: BoxConstraints(maxWidth: 200),
                 width: 130,
-                margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(top: 40, bottom: 20),
                 child: LaunchGame(
                     launchGame: launchGame,
                     btek: btek,
