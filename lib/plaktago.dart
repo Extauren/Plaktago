@@ -20,7 +20,7 @@ class _Plaktago extends State<Plaktago> {
       brightness: Brightness.light,
       primary: Color.fromRGBO(149, 169, 225, 1),
       onPrimary: Colors.black,
-      secondary: Color.fromRGBO(225, 167, 149, 1),
+      secondary: Color.fromRGBO(224, 194, 148, 1),
       onSecondary: Colors.black,
       error: Colors.red,
       onError: Colors.red,
@@ -30,15 +30,17 @@ class _Plaktago extends State<Plaktago> {
       onSurface: Colors.black);
   final ColorScheme darkColor = ColorScheme(
       brightness: Brightness.dark,
-      primary: Color.fromRGBO(149, 169, 225, 1),
+      primary: Color.fromRGBO(217, 187, 143, 1),
       onPrimary: Colors.black,
-      secondary: Color.fromRGBO(225, 167, 149, 1),
+      secondary:
+          Color.fromRGBO(149, 169, 225, 1), //Color.fromRGBO(224, 194, 148, 1),
       onSecondary: Colors.black,
       error: Colors.red,
       onError: Colors.red,
-      background: Colors.grey[900]!,
-      onBackground: Colors.white,
-      surface: Colors.grey[900]!,
+      background: Color.fromRGBO(25, 28, 37, 1), //Colors.grey[900]!,
+      onBackground:
+          Color.fromRGBO(25, 28, 37, 1), //Color.fromRGBO(217, 187, 143, 1),
+      surface: Color.fromRGBO(44, 50, 66, 1),
       onSurface: Colors.white);
 
   @override
@@ -76,7 +78,7 @@ class _Plaktago extends State<Plaktago> {
     return MaterialApp(
         title: 'Plaktago',
         theme: ThemeData(
-            fontFamily: 'RobotCondensed',
+            fontFamily: GoogleFonts.robotoCondensed().fontFamily,
             colorScheme: lightColor,
             drawerTheme: DrawerThemeData(backgroundColor: Colors.grey[100]),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -107,10 +109,6 @@ class _Plaktago extends State<Plaktago> {
             }), overlayColor: MaterialStateProperty.resolveWith((states) {
               return lightColor.primary;
             })),
-            dropdownMenuTheme: DropdownMenuThemeData(menuStyle: MenuStyle(
-                backgroundColor: MaterialStateProperty.resolveWith((states) {
-              return Colors.white;
-            }))),
             cardColor: Colors.grey[200],
             elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
@@ -121,15 +119,17 @@ class _Plaktago extends State<Plaktago> {
             fontFamily: GoogleFonts.robotoCondensed().fontFamily,
             colorScheme: darkColor,
             appBarTheme: AppBarTheme(
-                backgroundColor: Colors.grey[800],
+                backgroundColor: Color.fromRGBO(
+                    44, 50, 66, 1), //Color.fromRGBO(25, 28, 37, 1), //Color.fromRGBO(17, 26, 51, 1), //Colors.grey[800],
                 iconTheme: IconThemeData(color: Colors.white),
                 titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                     color: Colors.white)),
-            drawerTheme: DrawerThemeData(backgroundColor: Colors.grey[800]),
+            drawerTheme: DrawerThemeData(backgroundColor: darkColor.background),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: Colors.grey[800],
+                backgroundColor: Color.fromRGBO(44, 50, 66,
+                    1), //Color.fromRGBO(25, 28, 37, 1), //Color.fromRGBO(17, 26, 51, 1), //Color.fromRGBO(27, 41, 80, 1), //Colors.grey[800],
                 unselectedItemColor: Colors.white,
                 selectedItemColor: darkColor.primary),
             textTheme: TextTheme(
@@ -141,16 +141,15 @@ class _Plaktago extends State<Plaktago> {
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                 )),
-            dropdownMenuTheme: DropdownMenuThemeData(menuStyle:
-                MenuStyle(backgroundColor: MaterialStateProperty.resolveWith((states) {
-              return Colors.grey[800];
-            }))),
             cardColor: Colors.grey[100],
-            elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) {
+            elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
               return lightColor.primary;
             }))),
             useMaterial3: true),
         themeMode: _themeMode,
-        home: display ? NavigationBarApp(changeTheme: changeTheme, appSettings: appSettings, isarService: widget.isarService) : CircularProgressIndicator());
+        home: display
+            ? NavigationBarApp(changeTheme: changeTheme, appSettings: appSettings, isarService: widget.isarService)
+            : CircularProgressIndicator());
   }
 }

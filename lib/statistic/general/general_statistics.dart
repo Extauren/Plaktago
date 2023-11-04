@@ -57,44 +57,44 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     values[0] = Text(data.nbGames.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     values[1] = data.nbLines < 0
         ? Text("Null",
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: textFontSize))
         : Text(data.nbLines.toString(),
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: textFontSize));
     values[2] = data.nbPoints < 0
         ? Text("Null",
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: textFontSize))
         : Text(data.nbPoints.toString(),
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: textFontSize));
     values[3] = Text(data.bingoPlaque.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     values[4] = Text(data.bingoKta.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     values[5] = Text(data.bingoExplo.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     return values;
   }
@@ -125,7 +125,8 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                   width: 100,
                                   child: Card(
                                       margin: const EdgeInsets.all(0),
-                                      color: Colors.grey[100],
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
                                       child: Center(
                                           child: Column(
                                               crossAxisAlignment:
@@ -141,7 +142,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        color: Colors.black))),
+                                                        color: Colors.white))),
                                             values[index]
                                           ])))));
                         })),
@@ -170,17 +171,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
               ),
             ];
           } else {
-            children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
-            ];
+            children = const <Widget>[];
           }
           return Center(
             child: Column(

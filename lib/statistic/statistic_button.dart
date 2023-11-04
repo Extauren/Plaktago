@@ -37,13 +37,13 @@ class _StatTypeButton extends State<StatTypeButton> {
               local.value ? 'Liste' : 'Général',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color.lerp(Theme.of(context).colorScheme.onBackground,
-                      Colors.black, local.animationValue))),
+                  color: Color.lerp(
+                      Colors.white, Colors.black, local.animationValue))),
           borderWidth: 0.0,
           iconAnimationType: AnimationType.onHover,
           style: ToggleStyle(
             backgroundColor: widget.appSettings.darkMode
-                ? Colors.grey[850]
+                ? Theme.of(context).colorScheme.surface //Colors.grey[850]
                 : Colors.grey[50],
             indicatorColor: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(12.0),

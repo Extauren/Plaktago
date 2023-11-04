@@ -56,7 +56,9 @@ class _Personalize extends State<Personalize> {
 
   Color getCardColor(final int index) {
     if (widget.cards.elementAt(index).isSelect) {
-      return Color.fromRGBO(153, 219, 129, 1);
+      return Theme.of(context)
+          .colorScheme
+          .primary; //Color.fromRGBO(98, 111, 148, 1);
     }
     return Colors.grey[50]!;
   }
@@ -66,10 +68,10 @@ class _Personalize extends State<Personalize> {
       if (widget.cards.elementAt(index).isSelect == false &&
           widget.nbCardSelect < 16) {
         widget.cards.elementAt(index).isSelect = true;
-        widget.changeNbCardValue(1);
+        widget.changeNbCardValue(widget.nbCardSelect + 1);
       } else if (widget.cards.elementAt(index).isSelect == true) {
         widget.cards.elementAt(index).isSelect = false;
-        widget.changeNbCardValue(-1);
+        widget.changeNbCardValue(widget.nbCardSelect - 1);
       }
     });
   }

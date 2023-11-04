@@ -40,11 +40,12 @@ class _BingoTypeButton extends State<BingoTypeButton> {
       child: AnimatedToggleSwitch<int>.size(
           current: min(value, 2),
           style: ToggleStyle(
-            backgroundColor: Colors.grey[100],
-            indicatorColor: Theme.of(context).colorScheme.primary,
-            borderColor: Colors.white,
-            borderRadius: BorderRadius.circular(14.0),
-            indicatorBorderRadius: BorderRadius.all(Radius.circular(5)),
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            indicatorColor: Theme.of(context).colorScheme.surface,
+            indicatorBorder: Border.all(
+                width: 1.0, color: Theme.of(context).colorScheme.primary),
+            borderRadius: BorderRadius.circular(15),
+            indicatorBorderRadius: BorderRadius.all(Radius.circular(15)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
@@ -65,7 +66,8 @@ class _BingoTypeButton extends State<BingoTypeButton> {
             return VerticalDivider(
                 indent: 10.0,
                 endIndent: 10.0,
-                color: Colors.black.withOpacity(opacity));
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(
+                    opacity)); //Colors.white.withOpacity(opacity));
           },
           customIconBuilder: (context, local, global) {
             final text = bingoTypeList[local.index].name;
@@ -81,11 +83,15 @@ class _BingoTypeButton extends State<BingoTypeButton> {
                   margin: EdgeInsets.only(right: 8),
                   child: Icon(icon,
                       color: Color.lerp(
-                          Colors.black87, Colors.black, local.animationValue))),
+                          Colors.grey[100],
+                          Theme.of(context).colorScheme.primary,
+                          local.animationValue))),
               Text(text,
                   style: TextStyle(
                       color: Color.lerp(
-                          Colors.black87, Colors.black, local.animationValue)))
+                          Colors.grey[100],
+                          Theme.of(context).colorScheme.primary,
+                          local.animationValue)))
             ]));
           },
           borderWidth: 0.0,

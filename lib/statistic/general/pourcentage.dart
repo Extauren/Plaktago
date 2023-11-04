@@ -73,7 +73,7 @@ class _Pourcentage extends State<Pourcentage> {
                             height: 4,
                           ),
                           Indicator(
-                            color: Color.fromRGBO(208, 118, 89, 1),
+                            color: Color.fromRGBO(195, 176, 129, 1),
                             text: 'KTA',
                             isSquare: false,
                           ),
@@ -124,7 +124,7 @@ class _Pourcentage extends State<Pourcentage> {
           );
         case 1:
           return PieChartSectionData(
-            color: Color.fromRGBO(208, 118, 89, 1),
+            color: Color.fromRGBO(195, 176, 129, 1),
             value: ktaPourcentage,
             title: "${ktaPourcentage.round().toString()} %",
             radius: radius,

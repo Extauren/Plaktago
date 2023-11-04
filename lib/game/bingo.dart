@@ -1,9 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:plaktago/Components/dialog.dart';
 import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/home/mode_button.dart';
@@ -34,7 +36,8 @@ class Bingo extends StatefulWidget {
 
 class _Bingo extends State<Bingo> {
   int screenSizeRatio = 2;
-  late Timer timer;
+  late BingoTimer timer;
+  late Timer timer1;
 
   @override
   void initState() {
@@ -42,7 +45,7 @@ class _Bingo extends State<Bingo> {
     List<BingoCard> newBingoCards = [];
 
     widget.bingoParams.isPlaying = true;
-    timer = Timer(time: widget.bingoParams.time);
+    timer = BingoTimer(time: widget.bingoParams.time);
     if (widget.newGame) {
       widget.bingoParams.points = 0;
       if (widget.bingoParams.mode == Mode.random) {
@@ -71,23 +74,21 @@ class _Bingo extends State<Bingo> {
       }
     }
     _saveOnGoingGame();
+    timer1 = Timer.periodic(
+      const Duration(
+        seconds: 60,
+      ),
+      (t) => _saveOnGoingGame(),
+    );
   }
 
   void askSaveGame() {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.question,
-      animType: AnimType.scale,
-      dialogBackgroundColor: Colors.grey[300],
-      title: 'Sauvegarder la partie',
-      titleTextStyle:
-          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      desc: 'Voulez vous vraiment sauvegarder cette partie ?',
-      descTextStyle: TextStyle(color: Colors.black),
-      btnCancelText: "Annuler",
-      btnCancelOnPress: () {},
-      btnOkOnPress: _saveGame,
-    ).show();
+    PDialog(
+            context: context,
+            title: "Sauvegarder la partie",
+            desc: "Voulez vous vraiment sauvegarder cette partie ?",
+            bntOkOnPress: _saveGame)
+        .show();
   }
 
   void _saveGame() {
@@ -252,7 +253,7 @@ class _Bingo extends State<Bingo> {
                                 screenSizeRatio,
                             child: Container(
                                 margin: EdgeInsets.only(
-                                    top: widget.bingoParams.isAlcool ? 0 : 20),
+                                    top: widget.bingoParams.isAlcool ? 0 : 5),
                                 child: Column(children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -302,7 +303,7 @@ class _Bingo extends State<Bingo> {
                       ]))),
           Center(
               child: Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(top: 30),
                   child: Board(
                     gameType: widget.bingoParams.bingoType.name,
                     changePoints: changePoints,

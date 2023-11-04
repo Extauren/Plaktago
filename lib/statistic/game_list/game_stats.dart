@@ -78,7 +78,8 @@ class _GameStats extends State<GameStats> {
     if (widget.game.bingoCards.elementAt(index).order <= _sliderValue) {
       if (widget.game.bingoCards.elementAt(index).isSelect == true) {
         if (widget.game.bingoCards.elementAt(index).nbLineComplete > 0) {
-          return Color.fromRGBO(153, 219, 129, 1);
+          return Color.fromRGBO(
+              148, 224, 130, 1); //193, 224, 148, 1); //148, 224, 130, 1);
         }
         return Theme.of(context).colorScheme.primary;
       }
@@ -165,7 +166,7 @@ class _GameStats extends State<GameStats> {
                     widget.game.favorite
                         ? FontAwesomeIcons.solidHeart
                         : FontAwesomeIcons.heart,
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.primary,
                     size: 28,
                   ),
                 )),
@@ -256,11 +257,11 @@ class _GameStats extends State<GameStats> {
                 max: _sliderMaxValue,
                 value: _sliderValue,
                 divisions: _sliderMaxValue.toInt(),
-                inactiveColor: Colors.black,
+                inactiveColor: Theme.of(context).colorScheme.surface,
                 thumbColor: Theme.of(context).colorScheme.primary,
                 activeColor: Theme.of(context).cardColor,
                 overlayColor: MaterialStateColor.resolveWith(
-                    (states) => Theme.of(context).colorScheme.background),
+                    (states) => Theme.of(context).colorScheme.surface),
                 onChanged: (value) {
                   setState(() {
                     _sliderValue = value;
@@ -269,20 +270,25 @@ class _GameStats extends State<GameStats> {
               )),
           Align(
               child: Container(
-                  height: 45,
-                  width: 210,
+                  height: 50,
+                  width: 230,
                   margin: EdgeInsets.only(top: 20, bottom: 10),
                   child: FloatingActionButton.extended(
                     onPressed: checkDeleteGame,
-                    backgroundColor: Theme.of(context)
-                        .colorScheme
-                        .primary, //Colors.grey[100],
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     splashColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            width: 0,
+                            color: Theme.of(context).colorScheme.surface),
+                        borderRadius: BorderRadius.circular(15)),
                     icon: Icon(
                       Icons.delete,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                    label: Text("Supprimer la partie"),
+                    label: Text("Supprimer la partie",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary)),
                   ))),
         ]));
   }

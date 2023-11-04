@@ -1,7 +1,7 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:plaktago/Components/dialog.dart';
 import 'package:plaktago/home/drawer/bug_report.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
@@ -30,20 +30,12 @@ class _Drawer extends State<DrawerApp> {
   }
 
   void resetData() {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.warning,
-      animType: AnimType.scale,
-      dialogBackgroundColor: Colors.grey[300],
-      title: 'Supprimer les données',
-      titleTextStyle:
-          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      desc: 'Etes vous sur de vouloir supprimer toutes les données ?',
-      descTextStyle: TextStyle(color: Colors.black),
-      btnOkOnPress: widget.isarService.deleteAllData,
-      btnCancelText: "Annuler",
-      btnCancelOnPress: () => {},
-    ).show();
+    PDialog(
+            context: context,
+            title: "Supprimer les données",
+            desc: "Etes vous sur de vouloir supprimer toutes les données ?",
+            bntOkOnPress: widget.isarService.deleteAllData)
+        .show();
   }
 
   void reportBug() {
@@ -61,13 +53,13 @@ class _Drawer extends State<DrawerApp> {
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
                 child: Text('Paramètres',
                     style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    )),
               ),
               Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -84,21 +76,26 @@ class _Drawer extends State<DrawerApp> {
                                 const Duration(milliseconds: 600),
                             style: ToggleStyle(
                               borderColor: Colors.transparent,
-                              indicatorColor:
+                              indicatorColor: //Colors.grey[100],
                                   Theme.of(context).colorScheme.primary,
                               backgroundColor: Colors.black,
                             ),
                             styleBuilder: (value) => ToggleStyle(
                                 backgroundColor: value
-                                    ? Colors.grey[700]
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .surface //Colors.grey[700]
                                     : Colors.grey[350]),
                             borderWidth: 3.0,
                             height: 40.0,
-                            onChanged: (b) => setState(
-                                () => {_darkMode = b, widget.changeTheme()}),
+                            onChanged: (b) => setState(() => {
+                                  //_darkMode = b, widget.changeTheme()
+                                }),
                             iconBuilder: (value) => value
                                 ? Icon(FontAwesomeIcons.solidMoon,
-                                    size: 18.0, color: Colors.black)
+                                    size: 18.0,
+                                    color:
+                                        Theme.of(context).colorScheme.surface)
                                 : Icon(FontAwesomeIcons.solidSun,
                                     size: 18.0, color: Colors.black),
                           ))),
@@ -108,12 +105,21 @@ class _Drawer extends State<DrawerApp> {
                         height: 40,
                         width: 120,
                         margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 0),
                         child: FloatingActionButton.extended(
                           onPressed: reportBug,
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
                           splashColor: Theme.of(context).colorScheme.primary,
-                          label: Text("Signaler un bug"),
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1,
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(15)),
+                          label: Text("Signaler un bug",
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.primary)),
                         ))),
               ])
             ],
@@ -126,14 +132,21 @@ class _Drawer extends State<DrawerApp> {
                         height: 38,
                         width: 160,
                         margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 0),
                         child: FloatingActionButton.extended(
                           onPressed: resetData,
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
                           splashColor: Theme.of(context).colorScheme.primary,
-                          label: Text(
-                            "Supprimer les données",
-                          ),
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1,
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(15)),
+                          label: Text("Supprimer les données",
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.primary)),
                         ))),
                 Container(
                     margin: EdgeInsets.only(bottom: 15),

@@ -61,11 +61,12 @@ class _NavigationBar extends State<NavigationBarApp> {
   List<Widget> getPages() {
     return [
       Home(
-          key: homeKey,
-          changeTheme: widget.changeTheme,
-          appSettings: widget.appSettings,
-          bingoParams: Game(),
-          isarService: widget.isarService),
+        key: homeKey,
+        changeTheme: widget.changeTheme,
+        appSettings: widget.appSettings,
+        bingoParams: Game(),
+        isarService: widget.isarService,
+      ),
       Statistic(appSettings: widget.appSettings),
       Help()
     ];

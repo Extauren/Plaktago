@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -10,6 +11,7 @@ import 'bingo_type_button.dart';
 import 'mode_button.dart';
 import 'launch_game.dart';
 import 'personalize.dart';
+import 'package:plaktago/Components/dialog.dart';
 
 class Home extends StatefulWidget {
   final Game bingoParams;
@@ -68,7 +70,7 @@ class _Home extends State<Home> {
 
   void changeNbCardValue(int value) {
     setState(() {
-      nbCards += value;
+      nbCards = value;
     });
   }
 
@@ -102,10 +104,11 @@ class _Home extends State<Home> {
     if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
       AwesomeDialog(
         context: context,
-        animType: AnimType.scale,
+        animType: AnimType.topSlide,
         dialogType: DialogType.error,
         headerAnimationLoop: false,
-        dialogBackgroundColor: Colors.grey[300],
+        dialogBackgroundColor:
+            Theme.of(context).colorScheme.surface, //Colors.grey[300],
         body: Center(
           child: Text(
             'Vous devez sélectionner $nbCardNeed cases supplémentaires',
@@ -120,22 +123,13 @@ class _Home extends State<Home> {
       return;
     }
     if (isPlaying) {
-      AwesomeDialog(
-        context: context,
-        animType: AnimType.scale,
-        dialogType: DialogType.warning,
-        headerAnimationLoop: false,
-        dialogBackgroundColor: Colors.grey[300],
-        title: 'Partie en cours',
-        titleTextStyle:
-            TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        desc:
-            'Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?',
-        descTextStyle: TextStyle(color: Colors.black),
-        btnOkOnPress: startGame,
-        btnCancelText: "Annuler",
-        btnCancelOnPress: () {},
-      ).show();
+      PDialog(
+              context: context,
+              title: 'Partie en cours',
+              desc:
+                  'Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?',
+              bntOkOnPress: startGame)
+          .show();
       return;
     }
     startGame();
@@ -193,7 +187,7 @@ class _Home extends State<Home> {
           title: Row(
             children: [
               Text(
-                'Plaktago',
+                'PLAKTAGO',
               ),
             ],
           ),
@@ -217,21 +211,25 @@ class _Home extends State<Home> {
                   isPlaying = snapshot.data!.isPlaying;
                   if (snapshot.data != null && activeGame.isPlaying) {
                     child = Align(
-                        child: Container(
-                            margin: EdgeInsets.only(top: 10),
-                            constraints: BoxConstraints(maxWidth: 180),
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: ElevatedButton(
-                              onPressed: comeBacktoGame,
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).colorScheme.secondary)),
-                              child: Text(
-                                "Reprendre la partie",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            )));
+                      child: Align(
+                          child: Container(
+                              height: 42,
+                              width: 180,
+                              margin: EdgeInsets.only(top: 10),
+                              child: FloatingActionButton.extended(
+                                  onPressed: comeBacktoGame,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  splashColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(width: 0.0),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  label: Text("Reprendre la partie",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black))))),
+                    );
                   }
                 }
                 return child;
@@ -283,49 +281,20 @@ class _Home extends State<Home> {
                             nbCardSelect: nbCards,
                             changeNbCardValue: changeNbCardValue,
                             controller: _childScrollController)))),
-          // if (!widget.bingoParams.isAlcool)
-          //   Align(
-          //       child: Container(
-          //           height: 50,
-          //           width: 160,
-          //           margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-          //           child: FloatingActionButton.extended(
-          //             onPressed: setIsAcool,
-          //             backgroundColor: Colors.grey[100],
-          //             icon: Icon(
-          //               Icons.wine_bar,
-          //             ),
-          //             label: Text(
-          //               "Jeux d'alcool",
-          //             ),
-          //           ))),
-          // if (widget.bingoParams.isAlcool)
-          //   Align(
-          //       child: Container(
-          //           height: 50,
-          //           width: 160,
-          //           margin: EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-          //           child: FloatingActionButton.extended(
-          //             onPressed: setIsAcool,
-          //             backgroundColor: Colors.lightGreen[400],
-          //             icon: Icon(
-          //               Icons.wine_bar,
-          //             ),
-          //             label: Text(
-          //               "Jeux d'alcool",
-          //             ),
-          //           ))),
           Align(
-            child: Container(
-                //constraints: BoxConstraints(maxWidth: 200),
-                width: 130,
-                margin: EdgeInsets.only(top: 40, bottom: 20),
-                child: LaunchGame(
-                    launchGame: launchGame,
-                    btek: btek,
-                    nbCards: nbCards,
-                    mode: widget.bingoParams.mode)),
-          )
+              child: Container(
+                  height: 42,
+                  width: 120,
+                  margin: EdgeInsets.only(top: 40, bottom: 20),
+                  child: FloatingActionButton.extended(
+                      onPressed: launchGame,
+                      label: Text("Jouer",
+                          style: TextStyle(fontSize: 18, color: Colors.black)),
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(15))))),
         ]));
   }
 }

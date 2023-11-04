@@ -3,20 +3,20 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'timer_button.dart';
 
 // ignore: must_be_immutable
-class Timer extends StatefulWidget {
+class BingoTimer extends StatefulWidget {
   String time;
   int timer;
-  Timer({Key? key, this.time = "", this.timer = 0}) : super(key: key);
+  BingoTimer({Key? key, this.time = "", this.timer = 0}) : super(key: key);
 
   @override
-  State<Timer> createState() => _Timer();
+  State<BingoTimer> createState() => _BingoTimer();
 
   String getTime() {
     return time;
   }
 }
 
-class _Timer extends State<Timer> {
+class _BingoTimer extends State<BingoTimer> {
   final _isHours = true;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
@@ -34,7 +34,6 @@ class _Timer extends State<Timer> {
       _stopWatchTimer.setPresetSecondTime(int.parse(time[2]));
     }
     super.initState();
-
     _stopWatchTimer.onStartTimer();
   }
 
@@ -65,30 +64,22 @@ class _Timer extends State<Timer> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: RoundedButton(
-                icon: Icons.play_arrow,
-                color: Theme.of(context).colorScheme.primary,
-                onTap: _stopWatchTimer.onStartTimer,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: RoundedButton(
-                icon: Icons.stop,
-                color: Theme.of(context).colorScheme.primary,
-                onTap: _stopWatchTimer.onStopTimer,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: RoundedButton(
-                icon: Icons.restart_alt,
-                color: Theme.of(context).colorScheme.primary,
-                onTap: _stopWatchTimer.onResetTimer,
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 2),
+            //   child: RoundedButton(
+            //     icon: Icons.play_arrow,
+            //     color: Theme.of(context).colorScheme.primary,
+            //     onTap: _stopWatchTimer.onStartTimer,
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 2),
+            //   child: RoundedButton(
+            //     icon: Icons.stop,
+            //     color: Theme.of(context).colorScheme.primary,
+            //     onTap: _stopWatchTimer.onStopTimer,
+            //   ),
+            // ),
           ],
         ),
       ],

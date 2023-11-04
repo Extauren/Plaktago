@@ -53,12 +53,12 @@ class _GameTileCard extends State<GameTileCard> {
     if (isExpanded) {
       return Icon(
         Icons.keyboard_arrow_up,
-        color: Colors.black,
+        color: Theme.of(context).colorScheme.primary,
       );
     }
     return Icon(
       Icons.keyboard_arrow_down,
-      color: Colors.black,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 
@@ -117,7 +117,7 @@ class _GameTileCard extends State<GameTileCard> {
             margin: EdgeInsets.only(right: 20),
             child: Icon(
               FontAwesomeIcons.dungeon,
-              color: Colors.black,
+              color: Colors.white,
               size: 20.0,
             ));
       }
@@ -126,7 +126,7 @@ class _GameTileCard extends State<GameTileCard> {
             margin: EdgeInsets.only(right: 20),
             child: Icon(
               FontAwesomeIcons.personWalking,
-              color: Colors.black,
+              color: Colors.white,
               size: 20.0,
             ));
       }
@@ -135,7 +135,7 @@ class _GameTileCard extends State<GameTileCard> {
             margin: EdgeInsets.only(right: 20),
             child: Icon(
               Icons.aspect_ratio,
-              color: Colors.black,
+              color: Colors.white,
               size: 20.0,
             ));
       }
@@ -167,9 +167,10 @@ class _GameTileCard extends State<GameTileCard> {
                   isExpanded = status;
                 })
               },
+              shadowColor: Colors.black,
               title: DefaultTextStyle(
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w600),
                   child: Row(children: [
@@ -190,13 +191,13 @@ class _GameTileCard extends State<GameTileCard> {
                                 widget.game.favorite
                                     ? FontAwesomeIcons.solidHeart
                                     : FontAwesomeIcons.heart,
-                                color: Colors.red,
+                                color: Theme.of(context).colorScheme.primary,
                               )))
                     ]),
                   ])),
               trailing: getTraillingIcon(),
-              expandedColor: Colors.indigo[50],
-              baseColor: Colors.grey[100], //Colors.indigo[100],
+              expandedColor: Color.fromRGBO(57, 65, 89, 1),
+              baseColor: Theme.of(context).colorScheme.surface,
               expandedTextColor: Colors.black,
               initialPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               finalPadding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -204,50 +205,82 @@ class _GameTileCard extends State<GameTileCard> {
               elevation: 4.0,
               children: [
                 DefaultTextStyle(
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                    child: Column(children: [
-                      Text("Points : ${widget.game.points}"),
-                      SizedBox(height: 5),
-                      Text("Heure : ${widget.game.hour}"),
-                      SizedBox(height: 5),
-                      Text("Durée : ${widget.game.time}"),
-                      SizedBox(height: 10)
-                    ])),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              width:
+                                  (MediaQuery.of(context).size.width - 60) / 3,
+                              child: Column(children: [
+                                Text("Heure"),
+                                SizedBox(height: 10),
+                                Text(widget.game.hour.toString(),
+                                    style: TextStyle(fontSize: 20)),
+                              ])),
+                          SizedBox(
+                              width:
+                                  (MediaQuery.of(context).size.width - 60) / 3,
+                              child: Column(children: [
+                                Text("Points"),
+                                SizedBox(height: 10),
+                                Text(widget.game.points.toString(),
+                                    style: TextStyle(fontSize: 20)),
+                              ])),
+                          SizedBox(
+                              width:
+                                  (MediaQuery.of(context).size.width - 60) / 3,
+                              child: Column(children: [
+                                Text("Durée"),
+                                SizedBox(height: 10),
+                                Text(widget.game.time.toString(),
+                                    style: TextStyle(fontSize: 20)),
+                              ])),
+                        ])),
+                SizedBox(height: 10),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Align(
                       child: Container(
                           height: 35,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
+                          width: 120,
+                          margin:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                           child: FloatingActionButton.extended(
                             onPressed: goToGameStats,
                             elevation: 0.5,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 0,
+                                    color:
+                                        Theme.of(context).colorScheme.surface),
+                                borderRadius: BorderRadius.circular(10)),
                             backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                                Theme.of(context).colorScheme.surface,
                             splashColor: Theme.of(context).colorScheme.primary,
                             label: Text("Revoir la partie",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.w600)),
                           ))),
-                  Align(
-                      child: Container(
-                          height: 35,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
-                          child: FloatingActionButton.extended(
-                            onPressed: comeBackToGame,
-                            elevation: 0.5,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            splashColor: Theme.of(context).colorScheme.primary,
-                            label: Text("Reprendre la partie",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600)),
-                          ))),
+                  // Align(
+                  //     child: Container(
+                  //         height: 30,
+                  //         width: 140,
+                  //         margin: EdgeInsets.symmetric(
+                  //             vertical: 10, horizontal: 15),
+                  //         child: FloatingActionButton.extended(
+                  //           onPressed: comeBackToGame,
+                  //           elevation: 0.5,
+                  //           backgroundColor: Color.fromRGBO(152, 148, 224, 0.8),
+                  //           splashColor: Theme.of(context).colorScheme.primary,
+                  //           label: Text("Reprendre la partie",
+                  //               style: TextStyle(
+                  //                   fontSize: 14,
+                  //                   color: Colors.black,
+                  //                   fontWeight: FontWeight.w600)),
+                  //         ))),
                 ])
               ],
             )));

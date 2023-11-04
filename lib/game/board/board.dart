@@ -65,7 +65,8 @@ class _Board extends State<Board> {
   Color getCardColor(int index) {
     if (widget.bingoCard.elementAt(index).isSelect == true) {
       if (widget.bingoCard.elementAt(index).nbLineComplete > 0) {
-        return Color.fromRGBO(153, 219, 129, 1);
+        return Color.fromRGBO(
+            183, 215, 138, 1); //Color.fromRGBO(153, 219, 129, 1);
       }
       return Theme.of(context).colorScheme.primary;
     }
@@ -161,9 +162,7 @@ class _Board extends State<Board> {
             confettiController: _controllerCenter,
             blastDirectionality: BlastDirectionality.explosive,
             numberOfParticles: 35,
-            colors: const [
-              Colors.yellow,
-            ],
+            colors: [Theme.of(context).colorScheme.secondary],
             createParticlePath: drawStar,
           ),
         ),
@@ -209,14 +208,20 @@ class _Board extends State<Board> {
                 margin: EdgeInsets.only(bottom: 10),
                 child: FloatingActionButton.extended(
                   onPressed: widget.saveGame,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primary, //Colors.grey[100],
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   splashColor: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          width: 1,
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(15)),
                   icon: Icon(
                     Icons.save,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  label: Text("Sauvergarder la partie"),
+                  label: Text("Sauvergarder la partie",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary)),
                 ))),
       ],
     );

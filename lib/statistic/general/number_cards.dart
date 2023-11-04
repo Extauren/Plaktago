@@ -247,7 +247,7 @@ class _NumberCards extends State<NumberCards> {
                                 onPressed: () => {changeSort(0)},
                                 child: Indicator(
                                   color: widget.appSettings.darkMode
-                                      ? Colors.white
+                                      ? Colors.grey[100]!
                                       : Colors.black87,
                                   text: 'Cartes proposées',
                                   isSquare: false,
@@ -260,7 +260,8 @@ class _NumberCards extends State<NumberCards> {
                             child: TextButton(
                                 onPressed: () => {changeSort(1)},
                                 child: Indicator(
-                                  color: Colors.indigo[300]!,
+                                  color: Color.fromRGBO(
+                                      217, 187, 143, 1), //Colors.indigo[300]!,
                                   text: 'Cartes validées',
                                   isSquare: false,
                                   textColor:
@@ -301,7 +302,9 @@ class _NumberCards extends State<NumberCards> {
       return Container();
     }
     return Container(
-        margin: EdgeInsets.only(bottom: value == 0 || value == maxY ? 0 : 20),
+        margin: EdgeInsets.only(
+            bottom:
+                value == 0 || value == maxY || value == half.toInt() ? 0 : 17),
         child: SideTitleWidget(
           axisSide: meta.axisSide,
           space: 0.0,
@@ -343,7 +346,7 @@ class _NumberCards extends State<NumberCards> {
         ),
         BarChartRodData(
           toY: y1,
-          color: Colors.indigo[300],
+          color: Color.fromRGBO(217, 187, 143, 1), //Colors.indigo[300],
           width: width,
         ),
       ],
