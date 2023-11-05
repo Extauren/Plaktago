@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/utils/game/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -9,7 +8,6 @@ import '../game/bingo.dart';
 import 'drawer/drawer.dart';
 import 'bingo_type_button.dart';
 import 'mode_button.dart';
-import 'launch_game.dart';
 import 'personalize.dart';
 import 'package:plaktago/Components/dialog.dart';
 
