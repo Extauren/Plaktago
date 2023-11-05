@@ -73,7 +73,7 @@ class _Pourcentage extends State<Pourcentage> {
                             height: 4,
                           ),
                           Indicator(
-                            color: Color.fromRGBO(195, 176, 129, 1),
+                            color: Colors.deepPurple[300]!,
                             text: 'KTA',
                             isSquare: false,
                           ),
@@ -81,7 +81,7 @@ class _Pourcentage extends State<Pourcentage> {
                             height: 4,
                           ),
                           Indicator(
-                            color: Colors.green,
+                            color: Colors.green[500]!,
                             text: BingoType.exploration.name,
                             isSquare: false,
                           ),
@@ -124,7 +124,7 @@ class _Pourcentage extends State<Pourcentage> {
           );
         case 1:
           return PieChartSectionData(
-            color: Color.fromRGBO(195, 176, 129, 1),
+            color: Colors.deepPurple[300],
             value: ktaPourcentage,
             title: "${ktaPourcentage.round().toString()} %",
             radius: radius,
@@ -137,7 +137,7 @@ class _Pourcentage extends State<Pourcentage> {
           );
         case 2:
           return PieChartSectionData(
-            color: Colors.green[600],
+            color: Colors.green[500],
             value: exploPourcentage,
             title: "${exploPourcentage.round().toString()} %",
             radius: radius,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:plaktago/Components/dialog.dart';
+import 'package:plaktago/Components/outlined_button.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
@@ -81,7 +83,7 @@ class _GameStats extends State<GameStats> {
           return Color.fromRGBO(
               148, 224, 130, 1); //193, 224, 148, 1); //148, 224, 130, 1);
         }
-        return Theme.of(context).colorScheme.primary;
+        return Theme.of(context).colorScheme.secondary;
       }
     }
     return Theme.of(context).cardColor;
@@ -94,20 +96,12 @@ class _GameStats extends State<GameStats> {
   }
 
   void checkDeleteGame() {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.warning,
-      animType: AnimType.scale,
-      dialogBackgroundColor: Colors.grey[300],
-      title: 'Supprimer la partie',
-      titleTextStyle:
-          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      desc: 'Voulez vous vraiment supprimer cette partie ?',
-      descTextStyle: TextStyle(color: Colors.black),
-      btnOkOnPress: deleteGame,
-      btnCancelText: "Annuler",
-      btnCancelOnPress: () => {},
-    ).show();
+    PDialog(
+            context: context,
+            title: "Supprimer la partie",
+            desc: "Voulez vous vraiment supprimer cette partie ?",
+            bntOkOnPress: deleteGame)
+        .show();
   }
 
   void setGameToFavorite() {
@@ -166,7 +160,7 @@ class _GameStats extends State<GameStats> {
                     widget.game.favorite
                         ? FontAwesomeIcons.solidHeart
                         : FontAwesomeIcons.heart,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Color.fromRGBO(242, 48, 48, 1),
                     size: 28,
                   ),
                 )),
@@ -268,28 +262,11 @@ class _GameStats extends State<GameStats> {
                   });
                 },
               )),
-          Align(
-              child: Container(
-                  height: 50,
-                  width: 230,
-                  margin: EdgeInsets.only(top: 20, bottom: 10),
-                  child: FloatingActionButton.extended(
-                    onPressed: checkDeleteGame,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    splashColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            width: 0,
-                            color: Theme.of(context).colorScheme.surface),
-                        borderRadius: BorderRadius.circular(15)),
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    label: Text("Supprimer la partie",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary)),
-                  ))),
+          POutlinedButton(
+              label: "Supprimer la partie",
+              onPressed: checkDeleteGame,
+              iconData: Icons.delete,
+              margin: EdgeInsets.only(top: 20, bottom: 10)),
         ]));
   }
 }

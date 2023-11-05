@@ -56,11 +56,9 @@ class _Personalize extends State<Personalize> {
 
   Color getCardColor(final int index) {
     if (widget.cards.elementAt(index).isSelect) {
-      return Theme.of(context)
-          .colorScheme
-          .primary; //Color.fromRGBO(98, 111, 148, 1);
+      return Theme.of(context).colorScheme.secondary;
     }
-    return Colors.grey[50]!;
+    return Theme.of(context).cardColor;
   }
 
   void _selectCard(final int index) {

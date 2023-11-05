@@ -2,6 +2,7 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/Components/dialog.dart';
+import 'package:plaktago/Components/outlined_button.dart';
 import 'package:plaktago/home/drawer/bug_report.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/utils/app_settings.dart';
@@ -100,54 +101,28 @@ class _Drawer extends State<DrawerApp> {
                                     size: 18.0, color: Colors.black),
                           ))),
                 ]),
-                Align(
-                    child: Container(
-                        height: 40,
-                        width: 120,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                        child: FloatingActionButton.extended(
-                          onPressed: reportBug,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface,
-                          splashColor: Theme.of(context).colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context).colorScheme.primary),
-                              borderRadius: BorderRadius.circular(15)),
-                          label: Text("Signaler un bug",
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.primary)),
-                        ))),
+                POutlinedButton(
+                  label: "Signaler un bug",
+                  onPressed: reportBug,
+                  height: 40,
+                  width: 120,
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  labelFontSize: 15,
+                ),
               ])
             ],
           ),
           Positioned(
               bottom: 0,
               child: Column(children: [
-                Align(
-                    child: Container(
-                        height: 38,
-                        width: 160,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                        child: FloatingActionButton.extended(
-                          onPressed: resetData,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface,
-                          splashColor: Theme.of(context).colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context).colorScheme.primary),
-                              borderRadius: BorderRadius.circular(15)),
-                          label: Text("Supprimer les données",
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.primary)),
-                        ))),
+                POutlinedButton(
+                  label: "Supprimer les données",
+                  onPressed: resetData,
+                  height: 38,
+                  width: 160,
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  labelFontSize: 15,
+                ),
                 Container(
                     margin: EdgeInsets.only(bottom: 15),
                     child: Text("Version 0.1 beta"))

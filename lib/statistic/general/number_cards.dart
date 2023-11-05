@@ -260,8 +260,7 @@ class _NumberCards extends State<NumberCards> {
                             child: TextButton(
                                 onPressed: () => {changeSort(1)},
                                 child: Indicator(
-                                  color: Color.fromRGBO(
-                                      217, 187, 143, 1), //Colors.indigo[300]!,
+                                  color: Color.fromRGBO(242, 217, 141, 1),
                                   text: 'Cartes validées',
                                   isSquare: false,
                                   textColor:
@@ -346,7 +345,7 @@ class _NumberCards extends State<NumberCards> {
         ),
         BarChartRodData(
           toY: y1,
-          color: Color.fromRGBO(217, 187, 143, 1), //Colors.indigo[300],
+          color: Color.fromRGBO(242, 217, 141, 1),
           width: width,
         ),
       ],

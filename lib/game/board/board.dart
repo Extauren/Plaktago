@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
+import 'package:plaktago/Components/outlined_button.dart';
 import 'bingo_card.dart';
 import 'check_board.dart';
 import 'dart:math';
@@ -65,10 +66,9 @@ class _Board extends State<Board> {
   Color getCardColor(int index) {
     if (widget.bingoCard.elementAt(index).isSelect == true) {
       if (widget.bingoCard.elementAt(index).nbLineComplete > 0) {
-        return Color.fromRGBO(
-            183, 215, 138, 1); //Color.fromRGBO(153, 219, 129, 1);
+        return Colors.green[300]!;
       }
-      return Theme.of(context).colorScheme.primary;
+      return Theme.of(context).colorScheme.secondary;
     }
     return Theme.of(context).cardColor;
   }
@@ -201,28 +201,11 @@ class _Board extends State<Board> {
                             ),
                           )));
                 })),
-        Align(
-            child: Container(
-                height: 50,
-                width: 230,
-                margin: EdgeInsets.only(bottom: 10),
-                child: FloatingActionButton.extended(
-                  onPressed: widget.saveGame,
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  splashColor: Theme.of(context).colorScheme.primary,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.primary),
-                      borderRadius: BorderRadius.circular(15)),
-                  icon: Icon(
-                    Icons.save,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  label: Text("Sauvergarder la partie",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary)),
-                ))),
+        POutlinedButton(
+            label: "Sauvegarder la partie",
+            onPressed: widget.saveGame,
+            iconData: Icons.save,
+            margin: EdgeInsets.only(bottom: 10)),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:plaktago/Components/outlined_button.dart';
 import 'package:plaktago/game/bingo.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
@@ -191,7 +192,8 @@ class _GameTileCard extends State<GameTileCard> {
                                 widget.game.favorite
                                     ? FontAwesomeIcons.solidHeart
                                     : FontAwesomeIcons.heart,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: Color.fromRGBO(242, 48, 48,
+                                    1), //Theme.of(context).colorScheme.primary,
                               )))
                     ]),
                   ])),
@@ -259,10 +261,9 @@ class _GameTileCard extends State<GameTileCard> {
                             splashColor: Theme.of(context).colorScheme.primary,
                             label: Text("Revoir la partie",
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.w600)),
+                                  fontSize: 14,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                           ))),
                   // Align(
                   //     child: Container(
