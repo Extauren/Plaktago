@@ -4,7 +4,7 @@ import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
-import 'game/help/help.dart';
+import 'help/help.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;

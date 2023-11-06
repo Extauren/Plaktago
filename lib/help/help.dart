@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/game/board/card_name.dart';
-import 'package:plaktago/game/help/github_page.dart';
+import 'package:plaktago/help/github_page.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 
 class Help extends StatefulWidget {
