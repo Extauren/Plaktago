@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plaktago/game/board/check_board.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
 
 List<BingoCard> createBingoCardList(final int nbLines) {
   List<BingoCard> bingoCard = <BingoCard>[];
