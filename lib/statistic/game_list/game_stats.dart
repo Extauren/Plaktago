@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:plaktago/Components/dialog.dart';
-import 'package:plaktago/Components/outlined_button.dart';
+import 'package:plaktago/components/board.dart';
+import 'package:plaktago/components/dialog.dart';
+import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/game/board/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/game/game.dart';
@@ -54,40 +55,6 @@ class _GameStats extends State<GameStats> {
         .format(DateTime(dateNumber[2], dateNumber[1], dateNumber[0]));
   }
 
-  ShapeBorder getCardShape(final int index) {
-    final Radius corner = Radius.circular(8);
-    if (index == 0) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: corner));
-    }
-    if (index == 4 - 1) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topRight: corner));
-    }
-    if (index == 4 * (4 - 1)) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: corner));
-    }
-    if (index == 4 * 4 - 1) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomRight: corner));
-    }
-    return RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero));
-  }
-
-  Color getCardColor(int index) {
-    if (widget.game.bingoCards.elementAt(index).order <= _sliderValue) {
-      if (widget.game.bingoCards.elementAt(index).isSelect == true) {
-        if (widget.game.bingoCards.elementAt(index).nbLineComplete > 0) {
-          return Color.fromRGBO(
-              148, 224, 130, 1); //193, 224, 148, 1); //148, 224, 130, 1);
-        }
-        return Theme.of(context).colorScheme.secondary;
-      }
-    }
-    return Theme.of(context).cardColor;
-  }
-
   void deleteGame() async {
     widget.isarService.deleteGame(widget.game.id, widget.game.bingoType,
         widget.game.points, widget.game.nbLines);
@@ -111,34 +78,17 @@ class _GameStats extends State<GameStats> {
   }
 
   Widget getIcon() {
-    late Widget icon;
+    late IconData icon;
     if (widget.game.bingoType == BingoType.kta) {
-      icon = Icon(
-        FontAwesomeIcons.dungeon,
-      );
+      icon = FontAwesomeIcons.dungeon;
     }
     if (widget.game.bingoType == BingoType.exploration) {
-      icon = Icon(
-        FontAwesomeIcons.personWalking,
-      );
+      icon = FontAwesomeIcons.personWalking;
     }
     if (widget.game.bingoType == BingoType.plaque) {
-      icon = Icon(
-        Icons.aspect_ratio,
-      );
+      icon = Icons.aspect_ratio;
     }
-    return Container(margin: EdgeInsets.only(right: 15), child: icon);
-  }
-
-  Widget getAlcoolIcon() {
-    Widget icon = Container();
-
-    if (widget.game.isAlcool) {
-      icon = Container(
-          margin: EdgeInsets.only(left: 8, top: 3),
-          child: Icon(Icons.wine_bar, size: 30.0));
-    }
-    return icon;
+    return Container(margin: EdgeInsets.only(right: 15), child: Icon(icon));
   }
 
   @override
@@ -148,7 +98,6 @@ class _GameStats extends State<GameStats> {
           title: Row(children: [
             getIcon(),
             Text('Bingo ${widget.game.bingoType.name}'),
-            getAlcoolIcon(),
           ]),
           actions: [
             Container(
@@ -216,33 +165,11 @@ class _GameStats extends State<GameStats> {
               margin: EdgeInsets.only(top: 20),
               height: MediaQuery.of(context).size.height / 1.77,
               constraints: BoxConstraints(maxWidth: 450, maxHeight: 430),
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                  ),
-                  padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                  itemCount: widget.game.bingoCards.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Align(
-                        child: SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Card(
-                                shape: getCardShape(index),
-                                margin: const EdgeInsets.all(0.5),
-                                color: getCardColor(index),
-                                child: Center(
-                                    child: Container(
-                                        margin: const EdgeInsets.all(0.5),
-                                        child: Text(
-                                            widget.game.bingoCards
-                                                .elementAt(index)
-                                                .name,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black)))))));
-                  })),
+              child: PBoard(
+                bingoCard: widget.game.bingoCards,
+                writePerm: false,
+                sliderValue: _sliderValue,
+              )),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Slider(
