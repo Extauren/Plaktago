@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
-import 'package:plaktago/utils/app_settings.dart';
-import 'package:plaktago/utils/game/game.dart';
-import 'package:plaktago/utils/general.dart';
+import 'package:plaktago/data_class/app_settings.dart';
+import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/data_class/general.dart';
 
 class IsarService extends ChangeNotifier {
   late Future<Isar> db;

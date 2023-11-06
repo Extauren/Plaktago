@@ -1,10 +1,10 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/app_settings.dart';
+import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/general.dart';
-import '../../utils/save_game.dart';
+import 'package:plaktago/data_class/general.dart';
+import '../../data_class/save_game.dart';
 import 'pourcentage.dart';
-import 'number_cards.dart';
 
 class GeneralStatistic extends StatefulWidget {
   final IsarService isarService;
@@ -99,6 +99,12 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     return values;
   }
 
+  int getPourcentage(final int check, final int played) {
+    double pourcentage = 0;
+    pourcentage = check / played * 100;
+    return pourcentage.round();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<General>(
@@ -153,9 +159,73 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                     bingoKta: snapshot.data!.bingoKta.toString(),
                     bingoExplo: snapshot.data!.bingoExplo.toString(),
                   ),
-                NumberCards(
-                    cardList: snapshot.data!.cardList,
-                    appSettings: widget.appSettings),
+                SizedBox(
+                  height: 40,
+                ),
+                // NumberCards(
+                //     cardList: snapshot.data!.cardList,
+                //     appSettings: widget.appSettings),
+                ConstrainedBox(
+                    //height: MediaQuery.of(context).size.height / 1.5,
+                    constraints: BoxConstraints(
+                      maxHeight: 600,
+                    ),
+                    //maxWidth: MediaQuery.of(context).size.width),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: DataTable2(
+                          columnSpacing: 0,
+                          horizontalMargin: 12,
+                          minWidth: 450,
+                          columns: [
+                            DataColumn(
+                              label: Text('Nom'),
+                              //size: ColumnSize.L,
+                            ),
+                            DataColumn2(
+                              label: Text('Proposé'),
+                              size: ColumnSize.S,
+                            ),
+                            DataColumn2(
+                              label: Text('Coché'),
+                              size: ColumnSize.S,
+                            ),
+                            DataColumn2(
+                              label: Text('%'),
+                              size: ColumnSize.S,
+                            ),
+                          ],
+                          rows: List<DataRow>.generate(
+                              snapshot.data!.cardList.length,
+                              (index) => DataRow(cells: [
+                                    DataCell(ConstrainedBox(
+                                        constraints:
+                                            BoxConstraints(maxWidth: 130),
+                                        child: Text(
+                                          snapshot.data!.cardList
+                                              .elementAt(index)
+                                              .cardName,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
+                                        ))),
+                                    DataCell(Text(snapshot.data!.cardList
+                                        .elementAt(index)
+                                        .nbPlayed
+                                        .toString())),
+                                    DataCell(Text(snapshot.data!.cardList
+                                        .elementAt(index)
+                                        .nbCheck
+                                        .toString())),
+                                    DataCell(Text(getPourcentage(
+                                            snapshot.data!.cardList
+                                                .elementAt(index)
+                                                .nbCheck,
+                                            snapshot.data!.cardList
+                                                .elementAt(index)
+                                                .nbPlayed)
+                                        .toString()))
+                                  ]))),
+                    ))
               ])
             ];
           } else if (snapshot.hasError) {

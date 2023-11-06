@@ -1,6 +1,6 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/game/board/check_board.dart';
 
 class PBoard extends StatefulWidget {
@@ -9,6 +9,7 @@ class PBoard extends StatefulWidget {
   final Function? changePoints;
   final Function? addLine;
   final double sliderValue;
+  final ConfettiController? controller;
 
   const PBoard(
       {Key? key,
@@ -16,7 +17,8 @@ class PBoard extends StatefulWidget {
       required this.writePerm,
       this.changePoints,
       this.addLine,
-      this.sliderValue = -1})
+      this.sliderValue = 17,
+      this.controller})
       : super(key: key);
 
   @override
@@ -26,10 +28,31 @@ class PBoard extends StatefulWidget {
 class _PBoard extends State<PBoard> {
   final int nbLines = 4;
   late int order;
-  static CheckBoard checkBoard = CheckBoard(nbLines: 0);
+  static CheckBoard checkBoard = CheckBoard(nbLines: 4);
   static List<int> firstDiagonalValues = [];
   static List<int> secondDiagonalValues = [];
-  late ConfettiController _controllerCenter;
+
+  @override
+  void initState() {
+    super.initState();
+    firstDiagonalValues =
+        List<int>.generate(nbLines, (index) => index * (nbLines + 1));
+    secondDiagonalValues =
+        List<int>.generate(nbLines, (index) => (nbLines - 1) * (index + 1));
+    checkBoard = CheckBoard(nbLines: nbLines);
+    order = getMaxOrder();
+    print(order);
+  }
+
+  int getMaxOrder() {
+    int buffer = 0;
+    for (int it = 0; it < widget.bingoCard.length; it++) {
+      if (buffer < widget.bingoCard.elementAt(it).order) {
+        buffer = widget.bingoCard.elementAt(it).order;
+      }
+    }
+    return buffer + 1;
+  }
 
   ShapeBorder getCardShape(final int index) {
     final Radius corner = Radius.circular(8);
@@ -82,7 +105,7 @@ class _PBoard extends State<PBoard> {
         nbLinesComplete = points / 5;
         widget.addLine!(nbLinesComplete.round());
         if (newState && points % 5 == 0 || points == 9 || points == 13) {
-          _controllerCenter.play();
+          widget.controller!.play();
         }
         widget.changePoints!(points, index);
       });

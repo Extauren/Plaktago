@@ -119,27 +119,38 @@ class _Help extends State<Help> {
                 child: DataTable2(
                     columnSpacing: 12,
                     horizontalMargin: 12,
-                    minWidth: 600,
+                    minWidth: 450,
                     columns: [
                       DataColumn2(
                         label: Text('Nom'),
-                        size: ColumnSize.L,
+                        size: ColumnSize.S,
                       ),
-                      DataColumn(
+                      DataColumn2(
                         label: Text('Type'),
+                        size: ColumnSize.S,
                       ),
-                      DataColumn(
+                      DataColumn2(
                         label: Text('Description'),
+                        size: ColumnSize.S,
                       ),
                     ],
                     rows: List<DataRow>.generate(
                         cardsName.length,
                         (index) => DataRow(cells: [
-                              DataCell(Text(cardsName.elementAt(index).name)),
                               DataCell(Text(
-                                  getType(cardsName.elementAt(index).type))),
-                              DataCell(
-                                  Text(cardsName.elementAt(index).description)),
+                                cardsName.elementAt(index).name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              )),
+                              DataCell(Text(
+                                getType(cardsName.elementAt(index).type),
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                              DataCell(Text(
+                                cardsName.elementAt(index).description,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              )),
                             ]))),
               ))
         ]));

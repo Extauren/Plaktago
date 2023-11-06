@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:plaktago/statistic/game_list/game_tile_card.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/data_class/game.dart';
 
 class GameList extends StatefulWidget {
   final IsarService isarService;

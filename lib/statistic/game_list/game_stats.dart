@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:plaktago/components/board.dart';
 import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/components/outlined_button.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 
 class GameStats extends StatefulWidget {

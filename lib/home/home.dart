@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
+import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/app_settings.dart';
+import 'package:plaktago/data_class/app_settings.dart';
 import '../game/bingo.dart';
 import 'drawer/drawer.dart';
 import 'bingo_type_button.dart';
 import 'mode_button.dart';
 import 'personalize.dart';
-import 'package:plaktago/Components/dialog.dart';
+import 'package:plaktago/components/dialog.dart';
 
 class Home extends StatefulWidget {
   final Game bingoParams;

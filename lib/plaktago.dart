@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/app_settings.dart';
 import 'navigation_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 

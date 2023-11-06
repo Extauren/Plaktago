@@ -1,6 +1,6 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/app_settings.dart';
+import 'package:plaktago/data_class/app_settings.dart';
 
 enum StatType {
   general("Général"),

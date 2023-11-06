@@ -4,15 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:plaktago/Components/dialog.dart';
+import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/home/mode_button.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/data_class/game.dart';
 import 'board/board.dart';
 import 'package:plaktago/game/board/card_name.dart';
-import 'board/bingo_card.dart';
+import '../data_class/bingo_card.dart';
 import 'dart:math';
 import 'package:another_flushbar/flushbar.dart';
 
@@ -304,10 +304,8 @@ class _Bingo extends State<Bingo> {
               child: Container(
                   margin: EdgeInsets.only(top: 30),
                   child: Board(
-                    gameType: widget.bingoParams.bingoType.name,
                     changePoints: changePoints,
                     bingoCard: widget.bingoParams.bingoCards,
-                    nbLines: 4,
                     saveGame: askSaveGame,
                     addLine: addLines,
                   ))),

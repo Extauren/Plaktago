@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/home/mode_button.dart';
 

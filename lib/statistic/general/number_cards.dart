@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/app_settings.dart';
-import '../../utils/save_game.dart';
+import 'package:plaktago/data_class/app_settings.dart';
+import '../../data_class/save_game.dart';
 import 'indicator.dart';
 
 class NumberCards extends StatefulWidget {

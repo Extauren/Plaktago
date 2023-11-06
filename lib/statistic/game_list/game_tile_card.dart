@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:plaktago/game/bingo.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'game_stats.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
