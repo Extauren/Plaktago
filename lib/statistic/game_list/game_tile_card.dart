@@ -2,8 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:plaktago/game/bingo.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'game_stats.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -102,47 +102,6 @@ class _GameTileCard extends State<GameTileCard> {
     }
   }
 
-  Widget getIcon() {
-    if (widget.game.points.toString() == "56") {
-      return Container(
-          margin: EdgeInsets.only(right: 20),
-          child: Icon(
-            FontAwesomeIcons.crown,
-            color: Colors.yellow,
-            size: 20.0,
-          ));
-    } else {
-      if (widget.game.bingoType == BingoType.kta) {
-        return Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Icon(
-              FontAwesomeIcons.dungeon,
-              color: Colors.white,
-              size: 20.0,
-            ));
-      }
-      if (widget.game.bingoType == BingoType.exploration) {
-        return Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Icon(
-              FontAwesomeIcons.personWalking,
-              color: Colors.white,
-              size: 20.0,
-            ));
-      }
-      if (widget.game.bingoType == BingoType.plaque) {
-        return Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Icon(
-              Icons.aspect_ratio,
-              color: Colors.white,
-              size: 20.0,
-            ));
-      }
-    }
-    return Container();
-  }
-
   void setGameToFavorite() {
     widget.game.favorite = !widget.game.favorite;
     setState(() {
@@ -155,7 +114,7 @@ class _GameTileCard extends State<GameTileCard> {
     if (MediaQuery.of(context).size.width > 700) {
       sizeRatio = 2;
     }
-    Widget icon = getIcon();
+    Widget icon = getIcon(widget.game.bingoType);
     return Align(
         child: SizedBox(
             width: MediaQuery.of(context).size.width / sizeRatio,
@@ -191,8 +150,7 @@ class _GameTileCard extends State<GameTileCard> {
                                 widget.game.favorite
                                     ? FontAwesomeIcons.solidHeart
                                     : FontAwesomeIcons.heart,
-                                color: Color.fromRGBO(242, 48, 48,
-                                    1), //Theme.of(context).colorScheme.primary,
+                                color: Color.fromRGBO(242, 48, 48, 1),
                               )))
                     ]),
                   ])),

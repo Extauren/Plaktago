@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/board.dart';
 import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
 
 class GameStats extends StatefulWidget {
@@ -77,26 +78,12 @@ class _GameStats extends State<GameStats> {
     });
   }
 
-  Widget getIcon() {
-    late IconData icon;
-    if (widget.game.bingoType == BingoType.kta) {
-      icon = FontAwesomeIcons.dungeon;
-    }
-    if (widget.game.bingoType == BingoType.exploration) {
-      icon = FontAwesomeIcons.personWalking;
-    }
-    if (widget.game.bingoType == BingoType.plaque) {
-      icon = Icons.aspect_ratio;
-    }
-    return Container(margin: EdgeInsets.only(right: 15), child: Icon(icon));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: PAppBar(
           title: Row(children: [
-            getIcon(),
+            getIcon(widget.game.bingoType),
             Text('Bingo ${widget.game.bingoType.name}'),
           ]),
           actions: [

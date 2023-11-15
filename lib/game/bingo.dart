@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
@@ -8,6 +7,7 @@ import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/home/mode_button.dart';
+import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'board/board.dart';
@@ -65,6 +65,7 @@ class _Bingo extends State<Bingo> {
           cardList.remove(card);
           newBingoCards.add(BingoCard(
               name: card.name,
+              icon: card.icon,
               alcoolRule: card.alcoolRule,
               nbShot: card.nbShot));
         }
@@ -192,26 +193,6 @@ class _Bingo extends State<Bingo> {
     });
   }
 
-  Widget getIcon() {
-    late Widget icon;
-    if (widget.bingoParams.bingoType == BingoType.kta) {
-      icon = Icon(
-        FontAwesomeIcons.dungeon,
-      );
-    }
-    if (widget.bingoParams.bingoType == BingoType.exploration) {
-      icon = Icon(
-        FontAwesomeIcons.personWalking,
-      );
-    }
-    if (widget.bingoParams.bingoType == BingoType.plaque) {
-      icon = Icon(
-        Icons.aspect_ratio,
-      );
-    }
-    return Container(margin: EdgeInsets.only(right: 15), child: icon);
-  }
-
   void addLines(final int newLines) {
     widget.bingoParams.nbLines += newLines;
   }
@@ -224,7 +205,7 @@ class _Bingo extends State<Bingo> {
     return Scaffold(
         appBar: AppBar(
             title: Row(children: [
-          getIcon(),
+          getIcon(widget.bingoParams.bingoType),
           Text(
             'Bingo ${widget.bingoParams.bingoType.name}',
           ),

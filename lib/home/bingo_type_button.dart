@@ -74,7 +74,7 @@ class _BingoTypeButton extends State<BingoTypeButton> {
             final icon = [
               ImageIcon(
                   AssetImage(
-                    'manhole_cover.png',
+                    'assets/manhole_cover.png',
                   ),
                   size: 25,
                   color: Color.lerp(
