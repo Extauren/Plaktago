@@ -16,6 +16,8 @@ class _CardList extends State<CardListStat> {
     return Scaffold(
         appBar: AppBar(),
         body: BestCardsList(
-            cardList: widget.cardList, nbRows: widget.cardList.length));
+          cardList: widget.cardList,
+          nbRows: widget.cardList.length,
+        ));
   }
 }

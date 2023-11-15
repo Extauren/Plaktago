@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 
-class PTable extends StatefulWidget {
-  final int nbRows;
-  final List<String> headerText;
-  final List<List<String>> rowsText;
+class PTable extends StatelessWidget {
   PTable(
       {Key? key,
       required this.nbRows,
       required this.headerText,
-      required this.rowsText})
-      : super(key: key);
+      required this.rowsText,
+      this.headingRowHeight,
+      this.dataRowHeight});
 
-  @override
-  State<PTable> createState() => _PTable();
-}
+  final int nbRows;
+  final List<String> headerText;
+  final List<List<String>> rowsText;
+  final double? headingRowHeight;
+  final double? dataRowHeight;
 
-class _PTable extends State<PTable> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,28 +26,29 @@ class _PTable extends State<PTable> {
               borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
               color: Theme.of(context).colorScheme.secondary),
           horizontalMargin: 12,
-          headingRowHeight: 60,
-          dataRowHeight: 50,
+          headingRowHeight: headingRowHeight,
+          dataRowHeight: dataRowHeight,
+          headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
           columns: [
-            DataColumn2(label: Text(widget.headerText[0]), fixedWidth: 105),
-            DataColumn2(label: Text(widget.headerText[1]), fixedWidth: 100),
-            DataColumn2(label: Text(widget.headerText[2]), fixedWidth: 100),
-            DataColumn2(label: Text(widget.headerText[3]), fixedWidth: 55),
+            DataColumn2(label: Text(headerText[0]), fixedWidth: 101),
+            DataColumn2(label: Text(headerText[1]), fixedWidth: 96),
+            DataColumn2(label: Text(headerText[2]), fixedWidth: 96),
+            DataColumn2(label: Text(headerText[3]), fixedWidth: 55),
           ],
           rows: List<DataRow>.generate(
-              widget.nbRows,
+              nbRows,
               (index) => DataRow(cells: [
                     DataCell(Text(
-                      widget.rowsText[0][index],
+                      rowsText[0][index],
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     )),
                     DataCell(Center(
                         child: Text(
-                      widget.rowsText[1][index],
+                      rowsText[1][index],
                     ))),
-                    DataCell(Center(child: Text(widget.rowsText[2][index]))),
-                    DataCell(Text(widget.rowsText[3][index]))
+                    DataCell(Center(child: Text(rowsText[2][index]))),
+                    DataCell(Text(rowsText[3][index]))
                   ]))),
     );
   }

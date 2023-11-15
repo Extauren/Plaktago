@@ -5,8 +5,15 @@ import 'package:plaktago/data_class/save_game.dart';
 class BestCardsList extends StatefulWidget {
   final List<CardList> cardList;
   final int nbRows;
+  final double? headingRowHeight;
+  final double? dataRowHeight;
 
-  BestCardsList({Key? key, required this.cardList, required this.nbRows})
+  BestCardsList(
+      {Key? key,
+      required this.cardList,
+      required this.nbRows,
+      this.headingRowHeight,
+      this.dataRowHeight})
       : super(key: key);
 
   @override
@@ -23,8 +30,8 @@ class _BestCardsList extends State<BestCardsList> {
     super.initState();
     getPourcentages();
     rowsText[0] = widget.cardList.map((e) => e.cardName.toString()).toList();
-    rowsText[1] = widget.cardList.map((e) => e.nbCheck.toString()).toList();
-    rowsText[2] = widget.cardList.map((e) => e.nbPlayed.toString()).toList();
+    rowsText[1] = widget.cardList.map((e) => e.nbPlayed.toString()).toList();
+    rowsText[2] = widget.cardList.map((e) => e.nbCheck.toString()).toList();
     rowsText[3] = pourcentages;
   }
 
@@ -43,6 +50,11 @@ class _BestCardsList extends State<BestCardsList> {
   @override
   Widget build(BuildContext context) {
     return PTable(
-        headerText: headerText, rowsText: rowsText, nbRows: widget.nbRows);
+      headerText: headerText,
+      rowsText: rowsText,
+      nbRows: widget.nbRows,
+      headingRowHeight: widget.headingRowHeight,
+      dataRowHeight: widget.dataRowHeight,
+    );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/statistic/general/best_cards_list.dart';
 import 'package:plaktago/statistic/general/cards_list.dart';
@@ -135,6 +134,14 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                   height: 65,
                                   width: 100,
                                   child: Card(
+                                      shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              width: 0,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .background),
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
                                       margin: const EdgeInsets.all(0),
                                       color: Color.fromRGBO(57, 65, 89, 1),
                                       child: Center(
@@ -167,52 +174,29 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                   height: 80,
                 ),
                 SizedBox(
-                    height: 312,
+                    height: 280,
                     child: BestCardsList(
                       cardList: snapshot.data!.cardList,
                       nbRows: 5,
+                      headingRowHeight: 50,
+                      dataRowHeight: 45,
                     )),
                 Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 6),
+                        padding: EdgeInsets.only(left: 20, top: 8),
                         child: TextButton(
+                            style: TextButton.styleFrom(
+                              side: BorderSide(
+                                  width: 1,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
                             onPressed: () =>
                                 goToCardListStat(snapshot.data!.cardList),
                             child: Text('Plus de cartes')))),
                 SizedBox(
                   height: 80,
                 ),
-
-                // Align(
-                //     alignment: Alignment.bottomRight,
-                //     child: Container(
-                //         height: 35,
-                //         width: 120,
-                //         margin:
-                //             EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                //         child: FloatingActionButton.extended(
-                //           onPressed: () {},
-                //           elevation: 0.5,
-                //           shape: RoundedRectangleBorder(
-                //               side: BorderSide(
-                //                   width: 0,
-                //                   color: Theme.of(context).colorScheme.surface),
-                //               borderRadius: BorderRadius.circular(10)),
-                //           backgroundColor:
-                //               Theme.of(context).colorScheme.surface,
-                //           splashColor: Theme.of(context).colorScheme.primary,
-                //           label: Text("Plus de cartes",
-                //               style: TextStyle(
-                //                 fontSize: 14,
-                //                 color: Theme.of(context).colorScheme.primary,
-                //               )),
-                //         ))),
-                //   POutlinedButton(
-                //       label: "Liste des cartes",
-                //       onPreed: () => goToCardListStat(snapshot.data!.cardList),
-                //       width: 160,
-                //       margin: EdgeInsets.only(bottom: 10)),
               ])
             ];
           } else if (snapshot.hasError) {
