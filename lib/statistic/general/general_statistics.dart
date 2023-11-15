@@ -1,6 +1,8 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/data_class/app_settings.dart';
+import 'package:plaktago/statistic/general/best_cards_list.dart';
+import 'package:plaktago/statistic/general/cards_list.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/general.dart';
 import '../../data_class/save_game.dart';
@@ -99,10 +101,13 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     return values;
   }
 
-  int getPourcentage(final int check, final int played) {
-    double pourcentage = 0;
-    pourcentage = check / played * 100;
-    return pourcentage.round();
+  void goToCardListStat(final List<CardList> cardList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CardListStat(
+                  cardList: cardList,
+                )));
   }
 
   @override
@@ -131,8 +136,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                   width: 100,
                                   child: Card(
                                       margin: const EdgeInsets.all(0),
-                                      color:
-                                          Theme.of(context).colorScheme.surface,
+                                      color: Color.fromRGBO(57, 65, 89, 1),
                                       child: Center(
                                           child: Column(
                                               crossAxisAlignment:
@@ -160,72 +164,55 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                     bingoExplo: snapshot.data!.bingoExplo.toString(),
                   ),
                 SizedBox(
-                  height: 40,
+                  height: 80,
                 ),
-                // NumberCards(
-                //     cardList: snapshot.data!.cardList,
-                //     appSettings: widget.appSettings),
-                ConstrainedBox(
-                    //height: MediaQuery.of(context).size.height / 1.5,
-                    constraints: BoxConstraints(
-                      maxHeight: 600,
-                    ),
-                    //maxWidth: MediaQuery.of(context).size.width),
+                SizedBox(
+                    height: 312,
+                    child: BestCardsList(
+                      cardList: snapshot.data!.cardList,
+                      nbRows: 5,
+                    )),
+                Align(
+                    alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: DataTable2(
-                          columnSpacing: 0,
-                          horizontalMargin: 12,
-                          minWidth: 450,
-                          columns: [
-                            DataColumn(
-                              label: Text('Nom'),
-                              //size: ColumnSize.L,
-                            ),
-                            DataColumn2(
-                              label: Text('Proposé'),
-                              size: ColumnSize.S,
-                            ),
-                            DataColumn2(
-                              label: Text('Coché'),
-                              size: ColumnSize.S,
-                            ),
-                            DataColumn2(
-                              label: Text('%'),
-                              size: ColumnSize.S,
-                            ),
-                          ],
-                          rows: List<DataRow>.generate(
-                              snapshot.data!.cardList.length,
-                              (index) => DataRow(cells: [
-                                    DataCell(ConstrainedBox(
-                                        constraints:
-                                            BoxConstraints(maxWidth: 130),
-                                        child: Text(
-                                          snapshot.data!.cardList
-                                              .elementAt(index)
-                                              .cardName,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 3,
-                                        ))),
-                                    DataCell(Text(snapshot.data!.cardList
-                                        .elementAt(index)
-                                        .nbPlayed
-                                        .toString())),
-                                    DataCell(Text(snapshot.data!.cardList
-                                        .elementAt(index)
-                                        .nbCheck
-                                        .toString())),
-                                    DataCell(Text(getPourcentage(
-                                            snapshot.data!.cardList
-                                                .elementAt(index)
-                                                .nbCheck,
-                                            snapshot.data!.cardList
-                                                .elementAt(index)
-                                                .nbPlayed)
-                                        .toString()))
-                                  ]))),
-                    ))
+                        padding: EdgeInsets.only(left: 6),
+                        child: TextButton(
+                            onPressed: () =>
+                                goToCardListStat(snapshot.data!.cardList),
+                            child: Text('Plus de cartes')))),
+                SizedBox(
+                  height: 80,
+                ),
+
+                // Align(
+                //     alignment: Alignment.bottomRight,
+                //     child: Container(
+                //         height: 35,
+                //         width: 120,
+                //         margin:
+                //             EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                //         child: FloatingActionButton.extended(
+                //           onPressed: () {},
+                //           elevation: 0.5,
+                //           shape: RoundedRectangleBorder(
+                //               side: BorderSide(
+                //                   width: 0,
+                //                   color: Theme.of(context).colorScheme.surface),
+                //               borderRadius: BorderRadius.circular(10)),
+                //           backgroundColor:
+                //               Theme.of(context).colorScheme.surface,
+                //           splashColor: Theme.of(context).colorScheme.primary,
+                //           label: Text("Plus de cartes",
+                //               style: TextStyle(
+                //                 fontSize: 14,
+                //                 color: Theme.of(context).colorScheme.primary,
+                //               )),
+                //         ))),
+                //   POutlinedButton(
+                //       label: "Liste des cartes",
+                //       onPreed: () => goToCardListStat(snapshot.data!.cardList),
+                //       width: 160,
+                //       margin: EdgeInsets.only(bottom: 10)),
               ])
             ];
           } else if (snapshot.hasError) {
