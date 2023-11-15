@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/statistic/game_list/game_list.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -33,7 +34,7 @@ class _Statistic extends State<Statistic> {
     return Consumer<IsarService>(builder: (context, provider, child) {
       IsarService isarService = context.watch<IsarService>();
       return Scaffold(
-          appBar: AppBar(title: Text("Statistiques")),
+          appBar: PAppBar(title: Text("Statistiques")),
           body: ListView(
               physics: statType == StatType.list
                   ? const NeverScrollableScrollPhysics()
