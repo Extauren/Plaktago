@@ -79,7 +79,7 @@ class _Plaktago extends State<Plaktago> {
     return MaterialApp(
         title: 'Plaktago',
         theme: ThemeData(
-            fontFamily: GoogleFonts.robotoCondensed().fontFamily,
+            fontFamily: GoogleFonts.shrikhand().fontFamily,
             colorScheme: lightColor,
             drawerTheme: DrawerThemeData(backgroundColor: Colors.grey[100]),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -117,20 +117,21 @@ class _Plaktago extends State<Plaktago> {
             }))),
             useMaterial3: true),
         darkTheme: ThemeData(
-            fontFamily: GoogleFonts.robotoCondensed().fontFamily,
+            fontFamily: GoogleFonts.novaRound().fontFamily,
             colorScheme: darkColor,
             appBarTheme: AppBarTheme(
-                backgroundColor: Color.fromRGBO(
-                    44, 50, 66, 1), //Color.fromRGBO(25, 28, 37, 1), //Color.fromRGBO(17, 26, 51, 1), //Colors.grey[800],
+                backgroundColor: darkColor.background,
                 iconTheme: IconThemeData(color: Colors.white),
+                scrolledUnderElevation: 0.0,
                 titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: Colors.white)),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontFamily: GoogleFonts.novaRound().fontFamily,
+                )),
             drawerTheme: DrawerThemeData(backgroundColor: darkColor.background),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: Color.fromRGBO(44, 50, 66,
-                    1), //Color.fromRGBO(25, 28, 37, 1), //Color.fromRGBO(17, 26, 51, 1), //Color.fromRGBO(27, 41, 80, 1), //Colors.grey[800],
+                backgroundColor: darkColor.background,
                 unselectedItemColor: Colors.white,
                 selectedItemColor: darkColor.primary),
             textTheme: TextTheme(
@@ -150,7 +151,10 @@ class _Plaktago extends State<Plaktago> {
             useMaterial3: true),
         themeMode: _themeMode,
         home: display
-            ? NavigationBarApp(changeTheme: changeTheme, appSettings: appSettings, isarService: widget.isarService)
+            ? NavigationBarApp(
+                changeTheme: changeTheme,
+                appSettings: appSettings,
+                isarService: widget.isarService)
             : CircularProgressIndicator());
   }
 }
