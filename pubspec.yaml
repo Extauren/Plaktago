@@ -57,11 +57,12 @@ dependencies:
   data_table_2: ^2.5.8
   webview_flutter: ^4.4.1
   internet_connection_checker_plus: ^2.1.0
+  flutter_launcher_icons: ^0.13.1
+  curved_text: ^0.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -74,6 +75,11 @@ dev_dependencies:
     sdk: flutter
   test: ^1.24.3
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "logo.png"
+  min_sdk_android: 21
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -87,6 +93,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - logo.png
+     - logo512.png
+     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
