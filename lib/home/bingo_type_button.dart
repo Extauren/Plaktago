@@ -71,21 +71,31 @@ class _BingoTypeButton extends State<BingoTypeButton> {
           },
           customIconBuilder: (context, local, global) {
             final text = bingoTypeList[local.index].name;
-            final icon = const [
-              FontAwesomeIcons.moneyBill,
-              FontAwesomeIcons.dungeon,
-              FontAwesomeIcons.personWalking
+            final icon = [
+              ImageIcon(
+                  AssetImage(
+                    'manhole_cover.png',
+                  ),
+                  size: 25,
+                  color: Color.lerp(
+                      Colors.grey[100],
+                      Theme.of(context).colorScheme.primary,
+                      local.animationValue)),
+              Icon(FontAwesomeIcons.dungeon,
+                  color: Color.lerp(
+                      Colors.grey[100],
+                      Theme.of(context).colorScheme.primary,
+                      local.animationValue)),
+              Icon(FontAwesomeIcons.personWalking,
+                  color: Color.lerp(
+                      Colors.grey[100],
+                      Theme.of(context).colorScheme.primary,
+                      local.animationValue))
             ][local.index];
             return Center(
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                  margin: EdgeInsets.only(right: 8),
-                  child: Icon(icon,
-                      color: Color.lerp(
-                          Colors.grey[100],
-                          Theme.of(context).colorScheme.primary,
-                          local.animationValue))),
+              Container(margin: EdgeInsets.only(right: 8), child: icon),
               Text(text,
                   style: TextStyle(
                       color: Color.lerp(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class POutlinedButton extends StatelessWidget {
   const POutlinedButton(
       {Key? key,
+      this.heroTag = "heroTag",
       required this.label,
       required this.onPressed,
       this.iconData,
@@ -11,6 +12,7 @@ class POutlinedButton extends StatelessWidget {
       this.margin,
       this.elevation,
       this.labelFontSize = 17.0});
+  final String heroTag;
   final String label;
   final VoidCallback onPressed;
   final IconData? iconData;
@@ -36,6 +38,7 @@ class POutlinedButton extends StatelessWidget {
             width: width,
             margin: margin,
             child: FloatingActionButton.extended(
+              heroTag: heroTag,
               onPressed: onPressed,
               elevation: elevation,
               backgroundColor: Theme.of(context).colorScheme.surface,

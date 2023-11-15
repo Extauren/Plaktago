@@ -1,5 +1,7 @@
+import 'package:curved_text/curved_text.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -76,7 +78,9 @@ class _Home extends State<Home> {
     if (widget.bingoParams.mode == Mode.personalize) {
       List<BingoCard> buffer = [];
       for (int it = 0; it < persCard.length; it++) {
-        buffer.add(BingoCard(name: persCard.elementAt(it).name));
+        buffer.add(BingoCard(
+            name: persCard.elementAt(it).name,
+            icon: persCard.elementAt(it).icon));
       }
       buffer.shuffle();
       widget.bingoParams.bingoCards = buffer;
@@ -105,8 +109,7 @@ class _Home extends State<Home> {
         animType: AnimType.topSlide,
         dialogType: DialogType.error,
         headerAnimationLoop: false,
-        dialogBackgroundColor:
-            Theme.of(context).colorScheme.surface, //Colors.grey[300],
+        dialogBackgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
           child: Text(
             'Vous devez sélectionner $nbCardNeed cases supplémentaires',
@@ -181,26 +184,43 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              Text(
-                'PLAKTAGO',
-              ),
-            ],
-          ),
-        ),
+        appBar: PAppBar(
+            title: Row(children: [
+          // Container(
+          //     height: 30,
+          //     width: 30,
+          //     margin: const EdgeInsets.only(right: 15),
+          //     child: ImageIcon(AssetImage('manhole_cover.png'))),
+          Text(
+            'PLAKTAGO',
+          )
+        ])),
         drawer: DrawerApp(
             changeTheme: widget.changeTheme,
             appSettings: widget.appSettings,
             isarService: widget.isarService),
         body: ListView(controller: _parentScrollController, children: [
           Container(
-              margin: const EdgeInsets.only(
-                  top: 60.0, left: 10, right: 10, bottom: 20),
-              child: Text("Le bingo des catacombes",
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.center)),
+              margin: EdgeInsets.only(top: 80, bottom: 40),
+              child: CurvedText(
+                curvature: 0.002,
+                text: 'Le bingo des catacombes',
+                textStyle: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              )),
+          // Container(
+          //     margin: const EdgeInsets.only(
+          //         top: 20.0, left: 10, right: 10, bottom: 20),
+          //     child: Text("Le bingo des catacombes",
+          //         style: Theme.of(context).textTheme.titleLarge,
+          //         textAlign: TextAlign.center)),
+          // Container(
+          //     height: 80,
+          //     width: 80,
+          //     margin: const EdgeInsets.only(bottom: 10, top: 20),
+          //     child: Image.asset('manhole_cover.png')),
           FutureBuilder<Game?>(
               future: test,
               builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
@@ -213,8 +233,9 @@ class _Home extends State<Home> {
                           child: Container(
                               height: 42,
                               width: 180,
-                              margin: EdgeInsets.only(top: 10),
+                              margin: EdgeInsets.only(top: 30),
                               child: FloatingActionButton.extended(
+                                  heroTag: 'oldGame',
                                   onPressed: comeBacktoGame,
                                   backgroundColor:
                                       Theme.of(context).colorScheme.primary,
@@ -285,6 +306,7 @@ class _Home extends State<Home> {
                   width: 120,
                   margin: EdgeInsets.only(top: 40, bottom: 20),
                   child: FloatingActionButton.extended(
+                      heroTag: "newGame",
                       onPressed: launchGame,
                       label: Text("Jouer",
                           style: TextStyle(fontSize: 18, color: Colors.black)),
