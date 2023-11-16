@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/statistic/general/best_cards_list.dart';
 import 'package:plaktago/statistic/general/cards_list.dart';
@@ -184,16 +185,14 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                 Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 20, top: 8),
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context).colorScheme.primary),
-                            ),
-                            onPressed: () =>
-                                goToCardListStat(snapshot.data!.cardList),
-                            child: Text('Plus de cartes')))),
+                        padding: EdgeInsets.only(left: 0, top: 10),
+                        child: PBorderButton(
+                          label: "Plus de cartes",
+                          onPressed: () =>
+                              goToCardListStat(snapshot.data!.cardList),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
+                        ))),
                 SizedBox(
                   height: 80,
                 ),
