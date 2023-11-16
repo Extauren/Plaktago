@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/components/border_button.dart';
+import 'package:plaktago/components/separator.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/statistic/general/best_cards_list.dart';
 import 'package:plaktago/statistic/general/cards_list.dart';
@@ -134,24 +135,15 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                               child: SizedBox(
                                   height: 65,
                                   width: 100,
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 0,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .background),
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      margin: const EdgeInsets.all(0),
-                                      color: Color.fromRGBO(57, 65, 89, 1),
-                                      child: Center(
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
+                                  child: Container(
+                                      decoration:
+                                          BoxDecoration(border: Border()),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
                                             Container(
                                                 margin: const EdgeInsets.only(
                                                     top: 4),
@@ -162,18 +154,30 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                                             FontWeight.w600,
                                                         color: Colors.white))),
                                             values[index]
-                                          ])))));
+                                          ]))));
                         })),
                 if (snapshot.data!.nbGames > 0)
-                  Pourcentage(
-                    nbGames: snapshot.data!.nbGames.toString(),
-                    bingoPlaque: snapshot.data!.bingoPlaque.toString(),
-                    bingoKta: snapshot.data!.bingoKta.toString(),
-                    bingoExplo: snapshot.data!.bingoExplo.toString(),
-                  ),
+                  Column(children: [
+                    PSeparator(
+                      text: "Parties",
+                      barWidth: 130,
+                    ),
+                    SizedBox(height: 20),
+                    Pourcentage(
+                      nbGames: snapshot.data!.nbGames.toString(),
+                      bingoPlaque: snapshot.data!.bingoPlaque.toString(),
+                      bingoKta: snapshot.data!.bingoKta.toString(),
+                      bingoExplo: snapshot.data!.bingoExplo.toString(),
+                    ),
+                  ]),
                 SizedBox(
                   height: 80,
                 ),
+                PSeparator(
+                  text: "Liste des cartes",
+                  barWidth: 85,
+                ),
+                SizedBox(height: 40),
                 SizedBox(
                     height: 280,
                     child: BestCardsList(

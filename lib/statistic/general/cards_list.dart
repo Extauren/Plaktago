@@ -15,9 +15,11 @@ class _CardList extends State<CardListStat> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: BestCardsList(
-          cardList: widget.cardList,
-          nbRows: widget.cardList.length,
-        ));
+        body: Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: BestCardsList(
+              cardList: widget.cardList,
+              nbRows: widget.cardList.length,
+            )));
   }
 }

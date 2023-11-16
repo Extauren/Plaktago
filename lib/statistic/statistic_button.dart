@@ -39,14 +39,15 @@ class _StatTypeButton extends State<StatTypeButton> {
                   fontWeight: FontWeight.bold,
                   color: Color.lerp(
                       Colors.white, Colors.black, local.animationValue))),
-          borderWidth: 0.0,
+          borderWidth: 2.0,
           iconAnimationType: AnimationType.onHover,
           style: ToggleStyle(
+            borderColor: Theme.of(context).colorScheme.surface,
             backgroundColor: widget.appSettings.darkMode
-                ? Theme.of(context).colorScheme.surface //Colors.grey[850]
+                ? Theme.of(context).colorScheme.surface
                 : Colors.grey[50],
             indicatorColor: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(15.0),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
