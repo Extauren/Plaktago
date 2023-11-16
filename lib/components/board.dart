@@ -1,5 +1,6 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/game/board/check_board.dart';
 
@@ -124,6 +125,18 @@ class _PBoard extends State<PBoard> {
     return Theme.of(context).cardColor;
   }
 
+  Widget getIcon(final int index) {
+    if (widget.bingoCard.elementAt(index).icon != null) {
+      return Padding(
+          padding: EdgeInsets.only(bottom: 7),
+          child: Icon(
+              IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
+              size: 17,
+              color: Colors.black));
+    }
+    return SizedBox();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -136,25 +149,28 @@ class _PBoard extends State<PBoard> {
         itemBuilder: (BuildContext context, int index) {
           return Align(
               child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: GestureDetector(
-                    onTap: () => _onCardTapped(index),
-                    child: Card(
-                      shape: getCardShape(index),
+            height: 100,
+            width: 100,
+            child: GestureDetector(
+              onTap: () => _onCardTapped(index),
+              child: Card(
+                  shape: getCardShape(index),
+                  margin: const EdgeInsets.all(0.5),
+                  color: getCardColor(index),
+                  child: Container(
                       margin: const EdgeInsets.all(0.5),
-                      color: getCardColor(index),
-                      child: Center(
-                          child: Container(
-                              margin: const EdgeInsets.all(0.5),
-                              child: Text(
-                                  widget.bingoCard.elementAt(index).name,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black)))),
-                    ),
-                  )));
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            getIcon(index),
+                            Text(widget.bingoCard.elementAt(index).name,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black))
+                          ]))),
+            ),
+          ));
         });
   }
 }

@@ -3,10 +3,11 @@ import '../game/board/card_name.dart';
 import 'bingo_type_button.dart';
 
 class PersonalizeCard {
-  String name;
+  final String name;
   bool isSelect;
+  final String? icon;
 
-  PersonalizeCard({required this.name, this.isSelect = false});
+  PersonalizeCard({required this.name, this.isSelect = false, this.icon});
 }
 
 class Personalize extends StatefulWidget {
@@ -50,7 +51,9 @@ class _Personalize extends State<Personalize> {
     });
 
     for (int it = 0; it < cardList.length; it++) {
-      widget.cards.add(PersonalizeCard(name: cardList.elementAt(it).name));
+      widget.cards.add(PersonalizeCard(
+          name: cardList.elementAt(it).name,
+          icon: cardList.elementAt(it).icon));
     }
   }
 
@@ -58,7 +61,7 @@ class _Personalize extends State<Personalize> {
     if (widget.cards.elementAt(index).isSelect) {
       return Theme.of(context).colorScheme.secondary;
     }
-    return Theme.of(context).cardColor;
+    return Theme.of(context).colorScheme.surface;
   }
 
   void _selectCard(final int index) {
@@ -90,11 +93,10 @@ class _Personalize extends State<Personalize> {
                       child: Card(
                           color: getCardColor(index),
                           child: Center(
-                              child: Text(widget.cards[index].name,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black))))));
+                              child: Text(
+                            widget.cards[index].name,
+                            textAlign: TextAlign.center,
+                          )))));
             }));
   }
 }

@@ -5,6 +5,7 @@ part 'bingo_card.g.dart';
 @embedded
 class BingoCard {
   final String name;
+  final String? icon;
   bool isSelect;
   int nbLineComplete;
   int order;
@@ -13,6 +14,7 @@ class BingoCard {
 
   BingoCard(
       {this.name = "",
+      this.icon,
       this.isSelect = false,
       this.nbLineComplete = 0,
       this.order = -1,
