@@ -239,23 +239,11 @@ class _Home extends State<Home> {
                                 onPressed: comeBacktoGame,
                                 width: 180,
                                 height: 42,
-                                labelFontSize: 16,
-                              )
-                              // FloatingActionButton.extended(
-                              //     heroTag: 'oldGame',
-                              //     onPressed: comeBacktoGame,
-                              //     backgroundColor:
-                              //         Theme.of(context).colorScheme.primary,
-                              //     splashColor:
-                              //         Theme.of(context).colorScheme.primary,
-                              //     shape: RoundedRectangleBorder(
-                              //         side: BorderSide(width: 0.0),
-                              //         borderRadius: BorderRadius.circular(15)),
-                              //     label: Text("Reprendre la partie",
-                              //         style: TextStyle(
-                              //             fontSize: 16,
-                              //             color: Colors.black)))
-                              )),
+                                labelStyle: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                              ))),
                     );
                   }
                 }
@@ -314,22 +302,12 @@ class _Home extends State<Home> {
                   child: PBorderButton(
                     heroTag: "newGame",
                     label: "Jouer",
-                    labelFontSize: 18,
+                    labelStyle: TextStyle(fontSize: 18, color: Colors.black),
                     onPressed: launchGame,
                     width: 120,
                     height: 42,
-                  )
-                  // FloatingActionButton.extended(
-                  //     heroTag: "newGame",
-                  //     onPressed: launchGame,
-                  //     label: Text("Jouer",
-                  //         style: TextStyle(fontSize: 18, color: Colors.black)),
-                  //     shape: RoundedRectangleBorder(
-                  //         side: BorderSide(
-                  //             width: 1,
-                  //             color: Theme.of(context).colorScheme.primary),
-                  //         borderRadius: BorderRadius.circular(15)))
-                  )),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  ))),
         ]));
   }
 }
