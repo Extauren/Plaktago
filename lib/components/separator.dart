@@ -15,7 +15,7 @@ class PSeparator extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border(
                   top: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       width: 1.5))),
           child: Container()),
       Padding(
@@ -27,7 +27,7 @@ class PSeparator extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border(
                   top: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       width: 1.5))),
           child: Container()),
     ]);
