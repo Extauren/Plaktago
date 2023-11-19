@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class PBorderButton extends StatelessWidget {
   const PBorderButton(
       {Key? key,
+      this.heroTag = "",
       required this.label,
       required this.onPressed,
       this.iconData,
@@ -10,8 +11,10 @@ class PBorderButton extends StatelessWidget {
       this.width = 110.0,
       this.margin,
       this.elevation = 2,
-      this.labelFontSize = 14.0,
+      this.labelStyle,
       this.backgroundColor});
+
+  final String heroTag;
   final String label;
   final VoidCallback onPressed;
   final IconData? iconData;
@@ -19,11 +22,15 @@ class PBorderButton extends StatelessWidget {
   final double width;
   final EdgeInsetsGeometry? margin;
   final double? elevation;
-  final double labelFontSize;
+  final TextStyle? labelStyle;
   final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle style = labelStyle != null
+        ? labelStyle!
+        : TextStyle(
+            fontSize: 14.0, color: Theme.of(context).colorScheme.primary);
     final Color bckColor = backgroundColor != null
         ? backgroundColor!
         : Theme.of(context).colorScheme.surface;
@@ -41,6 +48,7 @@ class PBorderButton extends StatelessWidget {
             width: width,
             margin: margin,
             child: FloatingActionButton.extended(
+              heroTag: heroTag,
               onPressed: onPressed,
               elevation: elevation,
               backgroundColor: bckColor,
@@ -50,10 +58,7 @@ class PBorderButton extends StatelessWidget {
                       width: 1, color: Theme.of(context).colorScheme.primary),
                   borderRadius: BorderRadius.circular(15)),
               icon: icon,
-              label: Text(label,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: labelFontSize)),
+              label: Text(label, style: style),
             )));
   }
 }

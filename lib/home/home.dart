@@ -2,6 +2,7 @@ import 'package:curved_text/curved_text.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:plaktago/components/app_bar.dart';
+import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -230,24 +231,31 @@ class _Home extends State<Home> {
                   if (snapshot.data != null && activeGame.isPlaying) {
                     child = Align(
                       child: Align(
-                          child: Container(
-                              height: 42,
-                              width: 180,
-                              margin: EdgeInsets.only(top: 30),
-                              child: FloatingActionButton.extended(
-                                  heroTag: 'oldGame',
-                                  onPressed: comeBacktoGame,
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  splashColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  shape: RoundedRectangleBorder(
-                                      side: BorderSide(width: 0.0),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  label: Text("Reprendre la partie",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black))))),
+                          child: Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: PBorderButton(
+                                heroTag: "oldGame",
+                                label: "Reprendre la partie",
+                                onPressed: comeBacktoGame,
+                                width: 180,
+                                height: 42,
+                                labelFontSize: 16,
+                              )
+                              // FloatingActionButton.extended(
+                              //     heroTag: 'oldGame',
+                              //     onPressed: comeBacktoGame,
+                              //     backgroundColor:
+                              //         Theme.of(context).colorScheme.primary,
+                              //     splashColor:
+                              //         Theme.of(context).colorScheme.primary,
+                              //     shape: RoundedRectangleBorder(
+                              //         side: BorderSide(width: 0.0),
+                              //         borderRadius: BorderRadius.circular(15)),
+                              //     label: Text("Reprendre la partie",
+                              //         style: TextStyle(
+                              //             fontSize: 16,
+                              //             color: Colors.black)))
+                              )),
                     );
                   }
                 }
@@ -301,20 +309,27 @@ class _Home extends State<Home> {
                             changeNbCardValue: changeNbCardValue,
                             controller: _childScrollController)))),
           Align(
-              child: Container(
-                  height: 42,
-                  width: 120,
-                  margin: EdgeInsets.only(top: 40, bottom: 20),
-                  child: FloatingActionButton.extended(
-                      heroTag: "newGame",
-                      onPressed: launchGame,
-                      label: Text("Jouer",
-                          style: TextStyle(fontSize: 18, color: Colors.black)),
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              width: 1,
-                              color: Theme.of(context).colorScheme.primary),
-                          borderRadius: BorderRadius.circular(15))))),
+              child: Padding(
+                  padding: EdgeInsets.only(top: 40, bottom: 20),
+                  child: PBorderButton(
+                    heroTag: "newGame",
+                    label: "Jouer",
+                    labelFontSize: 18,
+                    onPressed: launchGame,
+                    width: 120,
+                    height: 42,
+                  )
+                  // FloatingActionButton.extended(
+                  //     heroTag: "newGame",
+                  //     onPressed: launchGame,
+                  //     label: Text("Jouer",
+                  //         style: TextStyle(fontSize: 18, color: Colors.black)),
+                  //     shape: RoundedRectangleBorder(
+                  //         side: BorderSide(
+                  //             width: 1,
+                  //             color: Theme.of(context).colorScheme.primary),
+                  //         borderRadius: BorderRadius.circular(15)))
+                  )),
         ]));
   }
 }
