@@ -126,14 +126,14 @@ class _PBoard extends State<PBoard> {
   }
 
   Widget getIcon(final int index) {
-    if (widget.bingoCard.elementAt(index).icon != null) {
-      return Padding(
-          padding: EdgeInsets.only(bottom: 7),
-          child: Icon(
-              IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
-              size: 17,
-              color: Colors.black));
-    }
+    // if (widget.bingoCard.elementAt(index).icon != null) {
+    //   return Padding(
+    //       padding: EdgeInsets.only(bottom: 7),
+    //       child: Icon(
+    //           IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
+    //           size: 17,
+    //           color: Colors.black));
+    // }
     return SizedBox();
   }
 

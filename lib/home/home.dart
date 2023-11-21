@@ -193,7 +193,7 @@ class _Home extends State<Home> {
           //     margin: const EdgeInsets.only(right: 15),
           //     child: ImageIcon(AssetImage('manhole_cover.png'))),
           Text(
-            'PLAKTAGO',
+            'PLAKTAGO BETA',
           )
         ])),
         drawer: DrawerApp(
