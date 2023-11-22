@@ -1,7 +1,7 @@
 name: Shorebird Patch
 
 on:
-  workflow_dispatch:
+  push:
 
 env:
   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
