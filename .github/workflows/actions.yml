@@ -21,7 +21,6 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
-          cache: true
       - name: Get dependencies of Flutter package
         run: flutter pub get
       - name: "Analyze Flutter project source code"
