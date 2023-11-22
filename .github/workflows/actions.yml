@@ -46,4 +46,4 @@ jobs:
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v0
       - name: 🚀 Shorebird Patch
-        run: shorebird patch android --force
+        run: shorebird patch android
