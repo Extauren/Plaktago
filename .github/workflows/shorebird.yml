@@ -10,7 +10,7 @@ env:
 jobs:
   patch:
     name: ""
-    if: steps.build.outcome == 'success'
+    if: steps.test.outcome == 'success'
     defaults:
       run:
         shell: bash
