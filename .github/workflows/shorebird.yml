@@ -2,7 +2,7 @@ name: Shorebird Patch
 
 on:
   push:
-    #branches: [main]
+    branches: [main]
 
 env:
   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}

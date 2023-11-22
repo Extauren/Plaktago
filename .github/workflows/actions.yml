@@ -1,11 +1,12 @@
-name: flutter-action
+name: Github Action
+
 on:
   push:
     paths-ignore:
       - '**/README.md'
+
 jobs:
   test:
-    name: Tests
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "17.0.8"
@@ -20,8 +21,27 @@ jobs:
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
           cache: true
-      - run: flutter pub get
-      - run: flutter analyze
-      - name: "Unit tests"
+      - name: Get dependencies of Flutter package
+        run: flutter pub get
+      - name: "Analyze Flutter project source code"
+        run: flutter analyze
+      - name: "Run unit tests"
         id: test
         run: flutter test
+
+  patch:
+    needs: test
+    runs-on: ubuntu-latest
+    if: success() && github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        shell: bash
+    env:
+      SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v3
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v0
+      - name: 🚀 Shorebird Patch
+        run: shorebird patch android --force
