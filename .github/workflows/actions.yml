@@ -7,6 +7,7 @@ on:
 
 jobs:
   test:
+    name: Tests
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "17.0.8"
@@ -30,6 +31,7 @@ jobs:
         run: flutter test
 
   patch:
+    name: "Shorebid Patch"
     needs: test
     runs-on: ubuntu-latest
     if: success() && github.ref == 'refs/heads/main'
