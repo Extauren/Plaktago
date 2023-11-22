@@ -6,6 +6,7 @@ on:
 jobs:
   test:
     name: Tests
+    id: test
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "17.0.8"
