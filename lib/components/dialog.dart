@@ -7,19 +7,21 @@ class PDialog {
       {required this.context,
       required this.title,
       required this.desc,
-      required this.bntOkOnPress});
+      required this.bntOkOnPress,
+      this.btnOkLabel = "Ok"});
 
   final BuildContext context;
   final String title;
   final String desc;
   final VoidCallback bntOkOnPress;
+  final String btnOkLabel;
 
   void show() => AwesomeDialog(
       context: context,
       animType: AnimType.bottomSlide,
       dialogType: DialogType.noHeader,
       headerAnimationLoop: false,
-      padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+      padding: EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
       dialogBackgroundColor: Theme.of(context).colorScheme.surface,
       title: title,
       titleTextStyle: TextStyle(
@@ -29,7 +31,7 @@ class PDialog {
       desc: desc,
       descTextStyle: TextStyle(color: Colors.white, fontSize: 15),
       btnOk: PBorderButton(
-        label: "Ok",
+        label: btnOkLabel,
         onPressed: () {
           Navigator.of(context).pop();
           bntOkOnPress();
