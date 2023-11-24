@@ -29,20 +29,20 @@ jobs:
         id: test
         run: flutter test
 
-  patch:
-    name: "Shorebid Patch"
-    needs: test
-    runs-on: ubuntu-latest
-    if: success() && github.ref == 'refs/heads/main'
-    defaults:
-      run:
-        shell: bash
-    env:
-      SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-    steps:
-      - name: 📚 Git Checkout
-        uses: actions/checkout@v3
-      - name: 🐦 Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v0
-      - name: 🚀 Shorebird Patch
-        run: shorebird patch android
+  # patch:
+  #   name: "Shorebid Patch"
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: success() && github.ref == 'refs/heads/main'
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #   env:
+  #     SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+  #   steps:
+  #     - name: 📚 Git Checkout
+  #       uses: actions/checkout@v3
+  #     - name: 🐦 Setup Shorebird
+  #       uses: shorebirdtech/setup-shorebird@v0
+  #     - name: 🚀 Shorebird Patch
+  #       run: shorebird patch android
