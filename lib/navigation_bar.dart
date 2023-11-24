@@ -43,8 +43,8 @@ class _NavigationBar extends State<NavigationBarApp> {
 
   Future<void> _initPackageInfo() async {
     final info = await PackageInfo.fromPlatform();
-    widget.appSettings.version = info.version;
-    //info.version.substring(0, info.version.lastIndexOf('.') + 1);
+    widget.appSettings.version =
+        info.version.substring(0, info.version.lastIndexOf('.') + 1);
     widget.isarService.saveAppSettings(widget.appSettings);
   }
 
