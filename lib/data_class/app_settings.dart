@@ -6,6 +6,8 @@ part 'app_settings.g.dart';
 class AppSettings {
   final Id id = 0;
   bool darkMode;
+  int? patch;
+  String version = "";
 
   AppSettings({this.darkMode = true});
 }

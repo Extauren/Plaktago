@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/utils/check_update.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
@@ -31,6 +33,19 @@ class _NavigationBar extends State<NavigationBarApp> {
   void initState() {
     super.initState();
     pages = getPages();
+    Update(
+            context: context,
+            settings: widget.appSettings,
+            isarService: widget.isarService)
+        .checkForUpdate();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    widget.appSettings.version =
+        info.version.substring(0, info.version.lastIndexOf('.') + 1);
+    widget.isarService.saveAppSettings(widget.appSettings);
   }
 
   // GoRouter router() {
