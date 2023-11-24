@@ -5,7 +5,6 @@ import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
-import 'package:plaktago/utils/check_update.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import '../game/bingo.dart';
@@ -48,7 +47,6 @@ class _Home extends State<Home> {
     super.initState();
     getOnGoingGame();
     test = widget.isarService.getOnGoingGame();
-    Update(context: context).checkForUpdate();
   }
 
   void getOnGoingGame() async {

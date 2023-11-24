@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
@@ -203,7 +204,7 @@ class _Bingo extends State<Bingo> {
       screenSizeRatio = 4;
     }
     return Scaffold(
-        appBar: AppBar(
+        appBar: PAppBar(
             title: Row(children: [
           getIcon(widget.bingoParams.bingoType),
           Text(

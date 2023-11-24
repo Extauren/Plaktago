@@ -1,26 +1,34 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:plaktago/data_class/app_settings.dart';
+import 'package:plaktago/utils/isar_service.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
-final _shorebirdCodePush = ShorebirdCodePush();
-
 class Update {
-  Update({required this.context});
+  Update(
+      {required this.context,
+      required this.settings,
+      required this.isarService});
 
   final BuildContext context;
-  final _isShorebirdAvailable = _shorebirdCodePush.isShorebirdAvailable();
-  int? _currentPatchVersion;
-  bool _isCheckingForUpdate = false;
+  AppSettings settings;
+  IsarService isarService;
+  final _shorebirdCodePush = ShorebirdCodePush();
 
   Future<void> checkForUpdate() async {
-    print(_currentPatchVersion);
+    _shorebirdCodePush.currentPatchNumber().then((currentPatchVersion) {
+      if (currentPatchVersion != null) {
+        settings.patch = currentPatchVersion;
+      } else {
+        settings.patch = 0;
+      }
+      isarService.saveAppSettings(settings);
+    });
     final isUpdateAvailable =
         await _shorebirdCodePush.isNewPatchAvailableForDownload();
 
     if (isUpdateAvailable) {
-      _displayDialog();
-    } else {
       _displayDialog();
     }
   }
