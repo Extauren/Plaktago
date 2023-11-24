@@ -125,7 +125,8 @@ class _Drawer extends State<DrawerApp> {
                 ),
                 Container(
                     margin: EdgeInsets.only(bottom: 15),
-                    child: Text("Version 0.1 beta"))
+                    child: Text(
+                        "Version ${widget.appSettings.version}${widget.appSettings.patch}"))
               ]))
         ]));
   }
