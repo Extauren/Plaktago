@@ -62,7 +62,7 @@ class _BestCardsList extends State<BestCardsList> {
           pourcentage: pourcentage.round(),
           cardName: widget.cardList.elementAt(it).cardName,
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
-          nbCheck: widget.cardList.elementAt(it).nbPlayed));
+          nbCheck: widget.cardList.elementAt(it).nbCheck));
     }
     cardListData.sort((a, b) => b.pourcentage.compareTo(a.pourcentage));
   }
