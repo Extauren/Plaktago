@@ -96,12 +96,16 @@ class _Pourcentage extends State<Pourcentage> {
   }
 
   List<PieChartSectionData> showingSections() {
-    final double plaquePourcentage =
-        int.parse(widget.bingoPlaque) / int.parse(widget.nbGames) * 100;
-    final double ktaPourcentage =
-        int.parse(widget.bingoKta) / int.parse(widget.nbGames) * 100;
-    final double exploPourcentage =
-        int.parse(widget.bingoExplo) / int.parse(widget.nbGames) * 100;
+    double plaquePourcentage = 100;
+    double ktaPourcentage = 0;
+    double exploPourcentage = 0;
+    final int nbGames = int.parse(widget.nbGames);
+
+    if (nbGames > 0) {
+      plaquePourcentage = int.parse(widget.bingoPlaque) / nbGames * 100;
+      ktaPourcentage = int.parse(widget.bingoKta) / nbGames * 100;
+      exploPourcentage = int.parse(widget.bingoExplo) / nbGames * 100;
+    }
 
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
@@ -113,7 +117,9 @@ class _Pourcentage extends State<Pourcentage> {
           return PieChartSectionData(
             color: Colors.indigo[300],
             value: plaquePourcentage,
-            title: "${plaquePourcentage.round().toString()} %",
+            title: nbGames == 0
+                ? "0 %"
+                : "${plaquePourcentage.round().toString()} %",
             radius: radius,
             titleStyle: TextStyle(
               color: Colors.white,

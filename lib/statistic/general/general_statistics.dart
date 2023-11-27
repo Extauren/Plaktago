@@ -156,7 +156,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                             values[index]
                                           ]))));
                         })),
-                if (snapshot.data!.nbGames > 0)
+                if (snapshot.data!.nbGames >= 0)
                   Column(children: [
                     PSeparator(
                       text: "Parties",

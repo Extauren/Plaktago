@@ -67,32 +67,36 @@ class _GameList extends State<GameList> {
             );
             int screenHeight = 140 * snapshot.data!.length;
             children = <Widget>[
-              SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: ListView(children: [
-                    Container(
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        height: screenHeight.toDouble(),
-                        // MediaQuery.of(context).size.height *
-                        //     snapshot.data!.length /
-                        //     6,
-                        child: ListView.builder(
-                            controller:
-                                ScrollController(keepScrollOffset: false),
-                            itemCount: snapshot.data?.length,
-                            itemBuilder: (context, index) {
-                              final Game game = snapshot.data![index]!;
-                              return GameTileCard(
-                                game: game,
-                                index: index,
-                                getStat: getGames,
-                                updateState: updateState,
-                                cardKey: cardList[index],
-                                isarService: widget.isarService,
-                                getGames: getGames,
-                              );
-                            }))
-                  ]))
+              if (snapshot.data!.isNotEmpty)
+                SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView(children: [
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          height: screenHeight.toDouble(),
+                          child: ListView.builder(
+                              controller:
+                                  ScrollController(keepScrollOffset: false),
+                              itemCount: snapshot.data?.length,
+                              itemBuilder: (context, index) {
+                                final Game game = snapshot.data![index]!;
+                                return GameTileCard(
+                                  game: game,
+                                  index: index,
+                                  getStat: getGames,
+                                  updateState: updateState,
+                                  cardKey: cardList[index],
+                                  isarService: widget.isarService,
+                                  getGames: getGames,
+                                );
+                              }))
+                    ]))
+              else
+                Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 4),
+                    child: Text("Pas de parties enrengistrées",
+                        style: TextStyle(fontSize: 20)))
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[
