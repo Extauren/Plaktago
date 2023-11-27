@@ -160,7 +160,6 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                   Column(children: [
                     PSeparator(
                       text: "Parties",
-                      barWidth: 130,
                     ),
                     SizedBox(height: 20),
                     Pourcentage(
@@ -175,7 +174,6 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                 ),
                 PSeparator(
                   text: "Liste des cartes",
-                  barWidth: 85,
                 ),
                 SizedBox(height: 40),
                 SizedBox(
