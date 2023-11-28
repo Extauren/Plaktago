@@ -1,6 +1,5 @@
 ![Github actions](https://github.com/Extauren/Plaktago-App/actions/workflows/actions.yml/badge.svg)
-
-[![cov](https://extauren.github.io/Plaktago-App/badges/coverage.svg)](https://github.com/Extauren/Plaktago-App/actions)
+[![codecov](https://codecov.io/gh/Extauren/Plaktago-App/graph/badge.svg?token=UHGE8MFLHG)](https://codecov.io/gh/Extauren/Plaktago-App)
 
 # PLAKTAGO
 
