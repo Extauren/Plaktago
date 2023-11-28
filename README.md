@@ -1,4 +1,4 @@
-![Github actions](https://github.com/Extauren/Plaktago-App/actions/workflows/actions.yaml/badge.svg)
+![Github actions](https://github.com/Extauren/Plaktago-App/actions/workflows/actions.yml/badge.svg)
 
 # PLAKTAGO
 
