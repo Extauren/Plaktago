@@ -23,11 +23,16 @@ jobs:
           cache: true
       - name: Get dependencies of Flutter package
         run: flutter pub get
-      - name: "Analyze Flutter project source code"
+      - name: Analyze Flutter project source code
         run: flutter analyze
-      - name: "Run unit tests"
+      - name: Run unit tests
         id: test
-        run: flutter test
+        run: flutter test --coverage
+      - name: Update Coverage Badge
+        # GitHub actions: default branch variable
+        # https://stackoverflow.com/questions/64781462/github-actions-default-branch-variable
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: we-cli/coverage-badge-action@main
 
   # patch:
   #   name: "Shorebid Patch"
