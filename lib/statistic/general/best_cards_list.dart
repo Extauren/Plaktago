@@ -64,7 +64,11 @@ class _BestCardsList extends State<BestCardsList> {
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
           nbCheck: widget.cardList.elementAt(it).nbCheck));
     }
-    cardListData.sort((a, b) => b.pourcentage.compareTo(a.pourcentage));
+    cardListData.sort((a, b) {
+      int cmp = b.pourcentage.compareTo(a.pourcentage);
+      if (cmp != 0) return cmp;
+      return b.nbPlayed.compareTo(a.nbPlayed);
+    });
   }
 
   @override
