@@ -136,8 +136,13 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                   height: 65,
                                   width: 100,
                                   child: Container(
-                                      decoration:
-                                          BoxDecoration(border: Border()),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15)),
+                                          border: Border.all(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary)),
                                       child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
