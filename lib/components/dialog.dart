@@ -21,7 +21,7 @@ class PDialog {
       animType: AnimType.bottomSlide,
       dialogType: DialogType.noHeader,
       headerAnimationLoop: false,
-      padding: EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+      padding: EdgeInsets.only(top: 20, left: 25, right: 25, bottom: 10),
       dialogBackgroundColor: Theme.of(context).colorScheme.surface,
       title: title,
       titleTextStyle: TextStyle(
