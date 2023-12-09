@@ -1,5 +1,6 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/game/board/check_board.dart';
@@ -126,14 +127,14 @@ class _PBoard extends State<PBoard> {
   }
 
   Widget getIcon(final int index) {
-    // if (widget.bingoCard.elementAt(index).icon != null) {
-    //   return Padding(
-    //       padding: EdgeInsets.only(bottom: 7),
-    //       child: Icon(
-    //           IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
-    //           size: 17,
-    //           color: Colors.black));
-    // }
+    if (widget.bingoCard.elementAt(index).icon != null) {
+      return Padding(
+          padding: EdgeInsets.only(bottom: 7),
+          child: Icon(
+              IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
+              size: 17,
+              color: Colors.black));
+    }
     return SizedBox();
   }
 
