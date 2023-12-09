@@ -207,13 +207,11 @@ class _Bingo extends State<Bingo> {
         appBar: PAppBar(
             title: Row(children: [
           getIcon(widget.bingoParams.bingoType),
+          //Theme.of(context).colorScheme.primary),
           Text(
             'Bingo ${widget.bingoParams.bingoType.name}',
+            //style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
-          if (widget.bingoParams.isAlcool)
-            Container(
-                margin: EdgeInsets.only(left: 8, top: 3),
-                child: Icon(Icons.wine_bar, size: 30.0)),
         ])),
         body: ListView(children: [
           Align(
@@ -222,65 +220,62 @@ class _Bingo extends State<Bingo> {
                   width: MediaQuery.of(context).size.width,
                   constraints: BoxConstraints(maxWidth: 450),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                            width: MediaQuery.of(context).size.width /
-                                screenSizeRatio,
-                            child: timer),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width /
-                                screenSizeRatio,
+                            width: MediaQuery.of(context).size.width / 2.5,
                             child: Container(
-                                margin: EdgeInsets.only(
-                                    top: widget.bingoParams.isAlcool ? 0 : 5),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Points : ",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500)),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            widget.bingoParams.points
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w400),
-                                          ))
-                                    ],
-                                  ),
-                                  if (widget.bingoParams.isAlcool)
-                                    Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text("Shots : ",
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  border: Border.all(
+                                      width: 1.5,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
+                              child: timer,
+                            )),
+                        //SizedBox(height: 25),
+                        SizedBox(
+                            height: 53,
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
+                                child: Container(
+                                    margin: EdgeInsets.only(top: 3),
+                                    child: Column(children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text("Points : ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500)),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: Text(
+                                                widget.bingoParams.points
+                                                    .toString(),
                                                 style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 24,
                                                     fontWeight:
-                                                        FontWeight.w500)),
-                                            Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10),
-                                                child: Text(
-                                                  widget.bingoParams.nbShot
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ))
-                                          ],
-                                        ))
-                                ])))
+                                                        FontWeight.w400),
+                                              ))
+                                        ],
+                                      ),
+                                    ]))))
                       ]))),
           Center(
               child: Container(
