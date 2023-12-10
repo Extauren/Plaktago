@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/utils/get_card_icon.dart';
 import '../game/board/card_name.dart';
 import 'bingo_type_button.dart';
 
@@ -6,8 +7,13 @@ class PersonalizeCard {
   final String name;
   bool isSelect;
   final String? icon;
+  Color textColor;
 
-  PersonalizeCard({required this.name, this.isSelect = false, this.icon});
+  PersonalizeCard(
+      {required this.name,
+      this.isSelect = false,
+      this.icon,
+      this.textColor = Colors.white});
 }
 
 class Personalize extends StatefulWidget {
@@ -70,9 +76,11 @@ class _Personalize extends State<Personalize> {
           widget.nbCardSelect < 16) {
         widget.cards.elementAt(index).isSelect = true;
         widget.changeNbCardValue(widget.nbCardSelect + 1);
+        widget.cards.elementAt(index).textColor = Colors.black;
       } else if (widget.cards.elementAt(index).isSelect == true) {
         widget.cards.elementAt(index).isSelect = false;
         widget.changeNbCardValue(widget.nbCardSelect - 1);
+        widget.cards.elementAt(index).textColor = Colors.white;
       }
     });
   }
@@ -93,10 +101,18 @@ class _Personalize extends State<Personalize> {
                       child: Card(
                           color: getCardColor(index),
                           child: Center(
-                              child: Text(
-                            widget.cards[index].name,
-                            textAlign: TextAlign.center,
-                          )))));
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                getCardIcon(widget.cards.elementAt(index),
+                                    widget.cards.elementAt(index).textColor),
+                                Text(widget.cards.elementAt(index).name,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: widget.cards
+                                            .elementAt(index)
+                                            .textColor))
+                              ])))));
             }));
   }
 }

@@ -1,9 +1,8 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/game/board/check_board.dart';
+import 'package:plaktago/utils/get_card_icon.dart';
 
 class PBoard extends StatefulWidget {
   final List<BingoCard> bingoCard;
@@ -126,17 +125,17 @@ class _PBoard extends State<PBoard> {
     return Theme.of(context).cardColor;
   }
 
-  Widget getIcon(final int index) {
-    if (widget.bingoCard.elementAt(index).icon != null) {
-      return Padding(
-          padding: EdgeInsets.only(bottom: 7),
-          child: Icon(
-              IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
-              size: 17,
-              color: Colors.black));
-    }
-    return SizedBox();
-  }
+  // Widget getIcon(final int index) {
+  //   if (widget.bingoCard.elementAt(index).icon != null) {
+  //     return Padding(
+  //         padding: EdgeInsets.only(bottom: 7),
+  //         child: Icon(
+  //             IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
+  //             size: 17,
+  //             color: Colors.black));
+  //   }
+  //   return SizedBox();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +162,7 @@ class _PBoard extends State<PBoard> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            getIcon(index),
+                            getCardIcon(widget.bingoCard.elementAt(index)),
                             Text(widget.bingoCard.elementAt(index).name,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
