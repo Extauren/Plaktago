@@ -38,6 +38,8 @@ class PDialog {
         },
         height: 40,
       ),
+      borderSide:
+          BorderSide(width: 1, color: Theme.of(context).colorScheme.secondary),
       btnCancel: PBorderButton(
         label: "Annuler",
         onPressed: Navigator.of(context).pop,
