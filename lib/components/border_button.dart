@@ -52,7 +52,7 @@ class PBorderButton extends StatelessWidget {
               onPressed: onPressed,
               elevation: elevation,
               backgroundColor: bckColor,
-              splashColor: bckColor,
+              splashColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 side: BorderSide(
