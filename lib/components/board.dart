@@ -77,23 +77,23 @@ class _PBoard extends State<PBoard> {
   }
 
   void _onCardTapped(final int index) {
-    bool newState = !widget.bingoCard.elementAt(index).isSelect;
+    BingoCard card = widget.bingoCard.elementAt(index);
+    bool newState = !card.isSelect;
     int points = 0;
     double nbLinesComplete = 0.0;
 
     if (widget.writePerm) {
       (newState) ? points += 1 : points -= 1;
       if (newState) {
-        widget.bingoCard.elementAt(index).order = order;
+        card.order = order;
         order += 1;
       }
       if (!newState) {
-        widget.bingoCard.elementAt(index).order = -1;
+        card.order = -1;
         order -= 1;
       }
       setState(() {
-        widget.bingoCard.elementAt(index).isSelect =
-            !widget.bingoCard.elementAt(index).isSelect;
+        card.isSelect = !card.isSelect;
         points += checkBoard.checkColumn(widget.bingoCard, index, newState);
         points += checkBoard.checkLine(widget.bingoCard, index, newState);
         if (firstDiagonalValues.contains(index)) {
@@ -113,10 +113,10 @@ class _PBoard extends State<PBoard> {
     }
   }
 
-  Color getCardColor(int index) {
-    if (widget.bingoCard.elementAt(index).order <= widget.sliderValue) {
-      if (widget.bingoCard.elementAt(index).isSelect == true) {
-        if (widget.bingoCard.elementAt(index).nbLineComplete > 0) {
+  Color getCardColor(final BingoCard card) {
+    if (card.order <= widget.sliderValue) {
+      if (card.isSelect == true) {
+        if (card.nbLineComplete > 0) {
           return Colors.green[300]!;
         }
         return Theme.of(context).colorScheme.secondary;
@@ -124,18 +124,6 @@ class _PBoard extends State<PBoard> {
     }
     return Theme.of(context).cardColor;
   }
-
-  // Widget getIcon(final int index) {
-  //   if (widget.bingoCard.elementAt(index).icon != null) {
-  //     return Padding(
-  //         padding: EdgeInsets.only(bottom: 7),
-  //         child: Icon(
-  //             IconDataSolid(int.parse(widget.bingoCard.elementAt(index).icon!)),
-  //             size: 17,
-  //             color: Colors.black));
-  //   }
-  //   return SizedBox();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +135,7 @@ class _PBoard extends State<PBoard> {
         padding: EdgeInsets.all(10.0),
         itemCount: nbLines * nbLines,
         itemBuilder: (BuildContext context, int index) {
+          BingoCard card = widget.bingoCard.elementAt(index);
           return Align(
               child: SizedBox(
             height: 100,
@@ -156,14 +145,14 @@ class _PBoard extends State<PBoard> {
               child: Card(
                   shape: getCardShape(index),
                   margin: const EdgeInsets.all(0.5),
-                  color: getCardColor(index),
+                  color: getCardColor(card),
                   child: Container(
                       margin: const EdgeInsets.all(0.5),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            getCardIcon(widget.bingoCard.elementAt(index)),
-                            Text(widget.bingoCard.elementAt(index).name,
+                            getCardIcon(card),
+                            Text(card.name,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
