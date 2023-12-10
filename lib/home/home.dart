@@ -1,6 +1,5 @@
 import 'package:curved_text/curved_text.dart';
 import 'package:flutter/material.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
@@ -62,13 +61,6 @@ class _Home extends State<Home> {
     test = widget.isarService.getOnGoingGame();
   }
 
-  void resetHome() {
-    setState(() {
-      widget.bingoParams.resetGameData();
-      nbCards = 0;
-    });
-  }
-
   void changeNbCardValue(int value) {
     setState(() {
       nbCards = value;
@@ -105,23 +97,12 @@ class _Home extends State<Home> {
   void launchGame() {
     final int nbCardNeed = 16 - nbCards;
     if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
-      AwesomeDialog(
-        context: context,
-        animType: AnimType.topSlide,
-        dialogType: DialogType.error,
-        headerAnimationLoop: false,
-        dialogBackgroundColor: Theme.of(context).colorScheme.surface,
-        body: Center(
-          child: Text(
-            'Vous devez sélectionner $nbCardNeed cases supplémentaires',
-            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
-          ),
-        ),
-        title: 'Erreur',
-        titleTextStyle: TextStyle(color: Colors.black),
-        desc: 'This is also Ignored',
-        btnOkOnPress: () {},
-      ).show();
+      PDialog(
+              context: context,
+              desc: 'Vous devez sélectionner $nbCardNeed cases supplémentaires',
+              title: "Erreur",
+              bntOkOnPress: () {})
+          .show();
       return;
     }
     if (isPlaying) {
@@ -137,10 +118,6 @@ class _Home extends State<Home> {
     startGame();
   }
 
-  void refresh() {
-    setState(() {});
-  }
-
   void comeBacktoGame() {
     Navigator.push(
         context,
@@ -154,20 +131,6 @@ class _Home extends State<Home> {
         getOnGoingGame();
       });
     });
-  }
-
-  void setIsAcool() {
-    setState(() {
-      if (widget.bingoParams.isAlcool) {
-        widget.bingoParams.isAlcool = false;
-      } else {
-        widget.bingoParams.isAlcool = true;
-      }
-    });
-  }
-
-  void btek() {
-    print("BTek");
   }
 
   void updateBingoType(final BingoType bingoType) {
@@ -308,7 +271,6 @@ class _Home extends State<Home> {
                     height: 42,
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ))),
-          //CheckUpdate()
         ]));
   }
 }
