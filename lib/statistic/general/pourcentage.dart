@@ -73,7 +73,7 @@ class _Pourcentage extends State<Pourcentage> {
                             height: 4,
                           ),
                           Indicator(
-                            color: Colors.deepPurple[300]!,
+                            color: Colors.amber[400]!,
                             text: 'KTA',
                             isSquare: false,
                           ),
@@ -130,7 +130,7 @@ class _Pourcentage extends State<Pourcentage> {
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.deepPurple[300],
+            color: Colors.amber[400],
             value: ktaPourcentage,
             title: "${ktaPourcentage.round().toString()} %",
             radius: radius,

@@ -186,8 +186,9 @@ class _Bingo extends State<Bingo> {
             builder: (BuildContext context) {
               return AlertDialog(
                   title: Text(style: TextStyle(color: Colors.black), "Bingo"),
-                  content: Text(
-                      style: TextStyle(color: Colors.black), "Vous avez gagné"),
+                  content: Image.asset('assets/logo.png'),
+                  // Text(
+                  //     style: TextStyle(color: Colors.black), "Vous avez gagné"),
                   backgroundColor: Colors.yellow[300]);
             });
       }

@@ -16,14 +16,16 @@ class PAppBar extends StatefulWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   @override
   final Size preferredSize;
+  final Color? borderColor;
 
-  PAppBar({
-    super.key,
-    this.title,
-    this.actions,
-    this.toolbarHeight,
-    this.bottom,
-  }) : preferredSize =
+  PAppBar(
+      {super.key,
+      this.title,
+      this.actions,
+      this.toolbarHeight,
+      this.bottom,
+      this.borderColor})
+      : preferredSize =
             _PreferredAppBarSize(toolbarHeight, bottom?.preferredSize.height);
 
   @override
@@ -36,9 +38,11 @@ class _PAppBar extends State<PAppBar> {
     return AppBar(
         title: widget.title,
         actions: widget.actions,
-        //backgroundColor: Theme.of(context).colorScheme.surface,
         shape: Border(
             bottom: BorderSide(
-                color: Theme.of(context).colorScheme.surface, width: 1.0)));
+                color: widget.borderColor == null
+                    ? Theme.of(context).colorScheme.surface
+                    : widget.borderColor!,
+                width: 1.0)));
   }
 }

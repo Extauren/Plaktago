@@ -119,34 +119,59 @@ class _GameStats extends State<GameStats> {
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width / 2,
                         ),
-                        child: Text(
-                          widget.game.time,
-                          style: const TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.bold),
-                        )),
+                        child: Container(
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            height: 50,
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                border: Border.all(
+                                    width: 1.5,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary)),
+                            child: Center(
+                                child: Text(
+                              widget.game.time,
+                              style: const TextStyle(
+                                  fontSize: 26, fontWeight: FontWeight.bold),
+                            )))),
                     ConstrainedBox(
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width / 2,
                         ),
                         child: Container(
-                            margin: EdgeInsets.only(top: 3, left: 50),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Points : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500)),
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      widget.game.points.toString(),
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w400),
-                                    ))
-                              ],
-                            )))
+                            margin: EdgeInsets.only(left: 50),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                height: 50,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Points : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          widget.game.points.toString(),
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400),
+                                        ))
+                                  ],
+                                ))))
                   ])),
           Container(
               margin: EdgeInsets.only(top: 20),

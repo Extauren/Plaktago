@@ -66,8 +66,10 @@ class _BingoTypeButton extends State<BingoTypeButton> {
             return VerticalDivider(
                 indent: 10.0,
                 endIndent: 10.0,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(
-                    opacity)); //Colors.white.withOpacity(opacity));
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withOpacity(opacity));
           },
           customIconBuilder: (context, local, global) {
             final text = bingoTypeList[local.index].name;

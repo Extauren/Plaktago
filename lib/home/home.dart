@@ -1,4 +1,3 @@
-import 'package:curved_text/curved_text.dart';
 import 'package:flutter/material.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/border_button.dart';
@@ -149,42 +148,31 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PAppBar(
-            title: Row(children: [
-          // Container(
-          //     height: 30,
-          //     width: 30,
-          //     margin: const EdgeInsets.only(right: 15),
-          //     child: ImageIcon(AssetImage('manhole_cover.png'))),
-          Text(
-            'PLAKTAGO BETA',
-          )
-        ])),
+          borderColor: Theme.of(context).colorScheme.background,
+        ),
         drawer: DrawerApp(
             changeTheme: widget.changeTheme,
             appSettings: widget.appSettings,
             isarService: widget.isarService),
         body: ListView(controller: _parentScrollController, children: [
+          // Container(
+          //     margin: EdgeInsets.only(top: 80, bottom: 40),
+          //     child: CurvedText(
+          //       curvature: 0.002,
+          //       text: 'Le bingo des catacombes',
+          //       textStyle: TextStyle(
+          //           fontSize: 25,
+          //           color: Colors.white,
+          //           fontWeight: FontWeight.bold),
+          //     )),
           Container(
-              margin: EdgeInsets.only(top: 80, bottom: 40),
-              child: CurvedText(
-                curvature: 0.002,
-                text: 'Le bingo des catacombes',
-                textStyle: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              )),
+              margin:
+                  const EdgeInsets.only(bottom: 0, top: 0, left: 50, right: 50),
+              child: Image.asset('assets/lettrahge0_1x.png')),
           // Container(
           //     margin: const EdgeInsets.only(
-          //         top: 20.0, left: 10, right: 10, bottom: 20),
-          //     child: Text("Le bingo des catacombes",
-          //         style: Theme.of(context).textTheme.titleLarge,
-          //         textAlign: TextAlign.center)),
-          // Container(
-          //     height: 80,
-          //     width: 80,
-          //     margin: const EdgeInsets.only(bottom: 10, top: 20),
-          //     child: Image.asset('manhole_cover.png')),
+          //         bottom: 0, top: 0, left: 110, right: 110),
+          //     child: Image.asset('assets/homePlaque.png')),
           FutureBuilder<Game?>(
               future: test,
               builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
@@ -271,6 +259,10 @@ class _Home extends State<Home> {
                     height: 42,
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ))),
+          Container(
+              margin: const EdgeInsets.only(
+                  bottom: 0, top: 30, left: 80, right: 80),
+              child: Image.asset('assets/homePlaque.png'))
         ]));
   }
 }
