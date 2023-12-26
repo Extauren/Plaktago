@@ -31,16 +31,13 @@ class _Plaktago extends State<Plaktago> {
   final ColorScheme darkColor = ColorScheme(
       brightness: Brightness.dark,
       primary: Color.fromRGBO(242, 217, 141, 1),
-      //Color.fromRGBO(217, 187, 143, 1),
       onPrimary: Colors.black,
-      secondary:
-          Color.fromRGBO(149, 169, 225, 1), //Color.fromRGBO(224, 194, 148, 1),
+      secondary: Color.fromRGBO(149, 169, 225, 1),
       onSecondary: Colors.black,
       error: Colors.red,
       onError: Colors.red,
-      background: Color.fromRGBO(25, 28, 37, 1), //Colors.grey[900]!,
-      onBackground:
-          Color.fromRGBO(25, 28, 37, 1), //Color.fromRGBO(217, 187, 143, 1),
+      background: Color.fromRGBO(25, 28, 37, 1),
+      onBackground: Color.fromRGBO(25, 28, 37, 1),
       surface: Color.fromRGBO(44, 50, 66, 1),
       onSurface: Colors.white);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/data_class/game.dart';
@@ -116,8 +117,8 @@ class _NavigationBar extends State<NavigationBarApp> {
                 label: 'Statistiques',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book),
-                label: 'Aide',
+                icon: Icon(Icons.settings),
+                label: 'Settings',
               ),
             ],
             currentIndex: _selectedIndex,

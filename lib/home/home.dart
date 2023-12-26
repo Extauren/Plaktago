@@ -147,122 +147,107 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PAppBar(
-          borderColor: Theme.of(context).colorScheme.background,
-        ),
-        drawer: DrawerApp(
-            changeTheme: widget.changeTheme,
-            appSettings: widget.appSettings,
-            isarService: widget.isarService),
+        // appBar: PAppBar(
+        //   borderColor: Theme.of(context).colorScheme.background,
+        // ),
+        // drawer: DrawerApp(
+        //     changeTheme: widget.changeTheme,
+        //     appSettings: widget.appSettings,
+        //     isarService: widget.isarService),
         body: ListView(controller: _parentScrollController, children: [
-          // Container(
-          //     margin: EdgeInsets.only(top: 80, bottom: 40),
-          //     child: CurvedText(
-          //       curvature: 0.002,
-          //       text: 'Le bingo des catacombes',
-          //       textStyle: TextStyle(
-          //           fontSize: 25,
-          //           color: Colors.white,
-          //           fontWeight: FontWeight.bold),
-          //     )),
-          Container(
-              margin:
-                  const EdgeInsets.only(bottom: 0, top: 0, left: 50, right: 50),
-              child: Image.asset('assets/lettrahge0_1x.png')),
-          // Container(
-          //     margin: const EdgeInsets.only(
-          //         bottom: 0, top: 0, left: 110, right: 110),
-          //     child: Image.asset('assets/homePlaque.png')),
-          FutureBuilder<Game?>(
-              future: test,
-              builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
-                Widget child = Container();
-                if (snapshot.hasData) {
-                  isPlaying = snapshot.data!.isPlaying;
-                  if (snapshot.data != null && activeGame.isPlaying) {
-                    child = Align(
-                      child: Align(
-                          child: Padding(
-                              padding: EdgeInsets.only(top: 30),
-                              child: PBorderButton(
-                                heroTag: "oldGame",
-                                label: "Reprendre la partie",
-                                onPressed: comeBacktoGame,
-                                width: 180,
-                                height: 42,
-                                labelStyle: TextStyle(
-                                    fontSize: 16, color: Colors.black),
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                              ))),
-                    );
+      Container(
+          margin: const EdgeInsets.only(top: 40, left: 60, right: 60),
+          child: Image.asset('assets/lettrahge0_1x.png')),
+      FutureBuilder<Game?>(
+          future: test,
+          builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
+            Widget child = Container();
+            if (snapshot.hasData) {
+              isPlaying = snapshot.data!.isPlaying;
+              if (snapshot.data != null && activeGame.isPlaying) {
+                child = Align(
+                  child: Align(
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 30),
+                          child: PBorderButton(
+                            heroTag: "oldGame",
+                            label: "Reprendre la partie",
+                            onPressed: comeBacktoGame,
+                            width: 180,
+                            height: 42,
+                            labelStyle:
+                                TextStyle(fontSize: 16, color: Colors.black),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                          ))),
+                );
+              }
+            }
+            return child;
+          }),
+      Container(
+          margin: EdgeInsets.only(top: 40, left: 0, right: 0),
+          child: BingoTypeButton(
+            key: bingoTypeKey,
+            bingoType: widget.bingoParams.bingoType,
+            updateBingoType: updateBingoType,
+          )),
+      Container(
+          margin: EdgeInsets.only(top: 40, bottom: 0),
+          child: ModeButton(
+            mode: widget.bingoParams.mode,
+            updateBingoMode: setMode,
+          )),
+      if (widget.bingoParams.mode == Mode.personalize)
+        Container(
+            margin: EdgeInsets.only(top: 40),
+            child: NotificationListener(
+                onNotification: (ScrollNotification notification) {
+                  if (notification is ScrollUpdateNotification) {
+                    if (notification.metrics.pixels ==
+                        notification.metrics.maxScrollExtent) {
+                      _parentScrollController.animateTo(
+                          _parentScrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn);
+                    } else if (notification.metrics.pixels ==
+                        notification.metrics.minScrollExtent) {
+                      _parentScrollController.animateTo(
+                          _parentScrollController.position.minScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn);
+                    }
                   }
-                }
-                return child;
-              }),
-          Container(
-              margin: EdgeInsets.only(top: 40, left: 0, right: 0),
-              child: BingoTypeButton(
-                key: bingoTypeKey,
-                bingoType: widget.bingoParams.bingoType,
-                updateBingoType: updateBingoType,
-              )),
-          Container(
-              margin: EdgeInsets.only(top: 40, bottom: 0),
-              child: ModeButton(
-                mode: widget.bingoParams.mode,
-                updateBingoMode: setMode,
-              )),
-          if (widget.bingoParams.mode == Mode.personalize)
-            Container(
-                margin: EdgeInsets.only(top: 40),
-                child: NotificationListener(
-                    onNotification: (ScrollNotification notification) {
-                      if (notification is ScrollUpdateNotification) {
-                        if (notification.metrics.pixels ==
-                            notification.metrics.maxScrollExtent) {
-                          _parentScrollController.animateTo(
-                              _parentScrollController.position.maxScrollExtent,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
-                        } else if (notification.metrics.pixels ==
-                            notification.metrics.minScrollExtent) {
-                          _parentScrollController.animateTo(
-                              _parentScrollController.position.minScrollExtent,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
-                        }
-                      }
-                      return true;
-                    },
-                    child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width,
-                          maxHeight: MediaQuery.of(context).size.height,
-                        ),
-                        child: Personalize(
-                            key: personalizeKey,
-                            cards: persCard,
-                            type: widget.bingoParams.bingoType,
-                            nbCardSelect: nbCards,
-                            changeNbCardValue: changeNbCardValue,
-                            controller: _childScrollController)))),
-          Align(
-              child: Padding(
-                  padding: EdgeInsets.only(top: 40, bottom: 20),
-                  child: PBorderButton(
-                    heroTag: "newGame",
-                    label: "Jouer",
-                    labelStyle: TextStyle(fontSize: 18, color: Colors.black),
-                    onPressed: launchGame,
-                    width: 120,
-                    height: 42,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ))),
-          Container(
-              margin: const EdgeInsets.only(
-                  bottom: 0, top: 30, left: 80, right: 80),
-              child: Image.asset('assets/homePlaque.png'))
-        ]));
+                  return true;
+                },
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width,
+                      maxHeight: MediaQuery.of(context).size.height,
+                    ),
+                    child: Personalize(
+                        key: personalizeKey,
+                        cards: persCard,
+                        type: widget.bingoParams.bingoType,
+                        nbCardSelect: nbCards,
+                        changeNbCardValue: changeNbCardValue,
+                        controller: _childScrollController)))),
+      Align(
+          child: Padding(
+              padding: EdgeInsets.only(top: 40, bottom: 20),
+              child: PBorderButton(
+                heroTag: "newGame",
+                label: "Jouer",
+                labelStyle: TextStyle(fontSize: 18, color: Colors.black),
+                onPressed: launchGame,
+                width: 120,
+                height: 42,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+              ))),
+      Container(
+          margin:
+              const EdgeInsets.only(bottom: 0, top: 10, left: 80, right: 80),
+          child: Image.asset('assets/homePlaque.png'))
+    ]));
   }
 }

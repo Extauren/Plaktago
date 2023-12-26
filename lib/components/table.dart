@@ -31,8 +31,8 @@ class PTable extends StatelessWidget {
           headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
           columns: [
             DataColumn2(
-                label: Center(child: Text(headerText[0])), fixedWidth: 101),
-            DataColumn2(label: Text(headerText[1]), fixedWidth: 96),
+                label: Center(child: Text(headerText[0])), fixedWidth: 95),
+            DataColumn2(label: Text(headerText[1]), fixedWidth: 94),
             DataColumn2(label: Text(headerText[2]), fixedWidth: 96),
             DataColumn2(label: Text(headerText[3]), fixedWidth: 55),
           ],
@@ -51,7 +51,9 @@ class PTable extends StatelessWidget {
                       rowsText[1][index],
                     ))),
                     DataCell(Center(child: Text(rowsText[2][index]))),
-                    DataCell(Text(rowsText[3][index]))
+                    DataCell(Text(
+                      rowsText[3][index],
+                    ))
                   ]))),
     );
   }
