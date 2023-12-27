@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import '../game/bingo.dart';
-import 'drawer/drawer.dart';
 import 'bingo_type_button.dart';
 import 'mode_button.dart';
 import 'personalize.dart';
