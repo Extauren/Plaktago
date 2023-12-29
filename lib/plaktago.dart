@@ -152,6 +152,13 @@ class _Plaktago extends State<Plaktago> {
                 changeTheme: changeTheme,
                 appSettings: appSettings,
                 isarService: widget.isarService)
-            : CircularProgressIndicator());
+            : Center(
+                child: SizedBox(
+                  width: 275.0,
+                  height: 275.0,
+                  child: Image.asset("assets/plaque_faisceau1rond.png",
+                      fit: BoxFit.scaleDown),
+                ),
+              ));
   }
 }
