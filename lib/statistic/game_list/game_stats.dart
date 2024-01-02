@@ -14,7 +14,8 @@ import 'package:plaktago/utils/isar_service.dart';
 class GameStats extends StatefulWidget {
   final Game game;
   final IsarService isarService;
-  const GameStats({Key? key, required this.game, required this.isarService})
+  final bool displayTimer;
+  const GameStats({Key? key, required this.game, required this.isarService, required this.displayTimer})
       : super(key: key);
 
   @override
@@ -115,6 +116,7 @@ class _GameStats extends State<GameStats> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (widget.displayTimer)
                     ConstrainedBox(
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width / 2,

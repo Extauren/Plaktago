@@ -23,6 +23,7 @@ class _BingoTimer extends State<BingoTimer> {
     onStopped: () {},
     onEnded: () {},
   );
+  double fontSize = 24;
 
   @override
   void initState() {
@@ -44,6 +45,9 @@ class _BingoTimer extends State<BingoTimer> {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 330) {
+      fontSize = 22;
+    }
     return Column(
       children: <Widget>[
         StreamBuilder<int>(
@@ -54,10 +58,12 @@ class _BingoTimer extends State<BingoTimer> {
             widget.timer = value;
             widget.time = StopWatchTimer.getDisplayTime(value,
                 hours: _isHours, milliSecond: false);
-            return Text(
+            return SizedBox(
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: Center(child: Text(
               widget.time,
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            );
+              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+            )));
           },
         ),
         Row(

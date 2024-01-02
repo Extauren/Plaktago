@@ -8,6 +8,7 @@ class AppSettings {
   bool darkMode;
   int? patch;
   String version = "";
+  bool displayTimer = true;
 
   AppSettings({this.darkMode = true});
 }
