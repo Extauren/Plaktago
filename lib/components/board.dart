@@ -135,7 +135,7 @@ class _PBoard extends State<PBoard> {
         itemCount: nbLines * nbLines,
         itemBuilder: (BuildContext context, int index) {
           final BingoCard card = widget.bingoCard.elementAt(index);
-          final Widget icon = getCardIcon(card);
+          final Widget icon = getCardIcon(card, EdgeInsets.only(top: 15));
           final AlignmentGeometry textAlign =
               card.icon == null ? Alignment.center : Alignment.bottomCenter;
           final double textPadding = card.icon == null ? 0 : 20;
