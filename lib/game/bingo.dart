@@ -22,12 +22,14 @@ class Bingo extends StatefulWidget {
   final bool newGame;
   final IsarService isarService;
   final Id id;
+  final bool displayTimer;
   Bingo({
     Key? key,
     required this.bingoParams,
     required this.newGame,
     required this.isarService,
     this.id = -1,
+    required this.displayTimer,
   }) : super(key: key);
 
   @override
@@ -199,6 +201,21 @@ class _Bingo extends State<Bingo> {
     widget.bingoParams.nbLines += newLines;
   }
 
+  void deleteGame() {
+    widget.isarService.deleteOnGoingGame();
+    widget.bingoParams.resetGameData();
+    Navigator.pop(context, true);
+  }
+
+  void askDeleteGame() {
+    PDialog(
+            context: context,
+            title: "Supprimer la partie",
+            desc: "Voulez vous vraiment supprimer cette partie ?",
+            bntOkOnPress: deleteGame)
+        .show();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width > 700) {
@@ -213,7 +230,9 @@ class _Bingo extends State<Bingo> {
             'Bingo ${widget.bingoParams.bingoType.name}',
             //style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
-        ])),
+        ]), actions: [
+          IconButton(icon: Icon(FontAwesomeIcons.trash), onPressed: askDeleteGame, color: Theme.of(context).colorScheme.primary)]),
+        ),
         body: ListView(children: [
           Align(
               child: Container(
@@ -224,8 +243,10 @@ class _Bingo extends State<Bingo> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (widget.displayTimer)
                         SizedBox(
                             width: MediaQuery.of(context).size.width / 2.5,
+                          height: 53,
                             child: Container(
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
