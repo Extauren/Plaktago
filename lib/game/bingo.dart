@@ -206,14 +206,13 @@ class _Bingo extends State<Bingo> {
     }
     return Scaffold(
         appBar: PAppBar(
-            title: Row(children: [
-          getIcon(widget.bingoParams.bingoType),
-          //Theme.of(context).colorScheme.primary),
-          Text(
-            'Bingo ${widget.bingoParams.bingoType.name}',
-            //style: TextStyle(color: Theme.of(context).colorScheme.primary),
-          ),
-        ])),
+          title: Row(children: [
+            getIcon(widget.bingoParams.bingoType),
+            Text(
+              'Bingo ${widget.bingoParams.bingoType.name}',
+            ),
+          ]),
+        ),
         body: ListView(children: [
           Align(
               child: Container(
@@ -278,15 +277,14 @@ class _Bingo extends State<Bingo> {
                                       ),
                                     ]))))
                       ]))),
-          Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 30),
-                  child: Board(
-                    changePoints: changePoints,
-                    bingoCard: widget.bingoParams.bingoCards,
-                    saveGame: askSaveGame,
-                    addLine: addLines,
-                  ))),
+          Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Board(
+                changePoints: changePoints,
+                bingoCard: widget.bingoParams.bingoCards,
+                saveGame: askSaveGame,
+                addLine: addLines,
+              )),
         ]));
   }
 }
