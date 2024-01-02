@@ -142,6 +142,12 @@ class IsarService extends ChangeNotifier {
     return isDelete;
   }
 
+  Future<bool> deleteOnGoingGame() async {
+    final isar = await db;
+    bool isDelete = isar.writeTxnSync(() => isar.games.deleteSync(-1));
+    return isDelete;
+  }
+
   Future<void> updateGame(Game game) async {
     final isar = await db;
     isar.writeTxnSync(() => isar.games.putSync(game));
