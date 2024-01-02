@@ -16,6 +16,7 @@ class GameTileCard extends StatefulWidget {
   final GlobalKey<ExpansionTileCardState> cardKey;
   final IsarService isarService;
   final Function getGames;
+  final bool displayTimer;
   GameTileCard(
       {Key? key,
       required this.game,
@@ -24,7 +25,8 @@ class GameTileCard extends StatefulWidget {
       required this.updateState,
       required this.cardKey,
       required this.isarService,
-      required this.getGames})
+      required this.getGames,
+      required this.displayTimer})
       : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class _GameTileCard extends State<GameTileCard> {
             builder: (context) => GameStats(
                   game: widget.game,
                   isarService: widget.isarService,
+                  displayTimer: false,
                 ))).then((value) {
       setState(() {
         widget.getStat();
@@ -72,6 +75,7 @@ class _GameTileCard extends State<GameTileCard> {
                   newGame: false,
                   isarService: widget.isarService,
                   id: widget.game.id,
+                  displayTimer: false,
                 ))).then((value) {
       setState(() {
         widget.getStat();
@@ -186,6 +190,7 @@ class _GameTileCard extends State<GameTileCard> {
                                 Text(widget.game.points.toString(),
                                     style: TextStyle(fontSize: 20)),
                               ])),
+                          if (widget.displayTimer)
                           SizedBox(
                               width:
                                   (MediaQuery.of(context).size.width - 60) / 3,
