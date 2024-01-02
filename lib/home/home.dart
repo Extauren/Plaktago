@@ -82,7 +82,8 @@ class _Home extends State<Home> {
             builder: (context) => Bingo(
                 bingoParams: activeGame,
                 newGame: true,
-                isarService: widget.isarService))).then((value) {
+                isarService: widget.isarService,
+                displayTimer: widget.appSettings.displayTimer))).then((value) {
       nbCards = 0;
       setState(() {
         test = Future.value(null);
@@ -122,7 +123,8 @@ class _Home extends State<Home> {
             builder: (context) => Bingo(
                 bingoParams: activeGame,
                 newGame: false,
-                isarService: widget.isarService))).then((value) {
+                isarService: widget.isarService,
+                displayTimer: widget.appSettings.displayTimer))).then((value) {
       setState(() {
         test = Future.value(null);
         getOnGoingGame();
