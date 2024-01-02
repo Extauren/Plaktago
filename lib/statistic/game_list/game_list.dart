@@ -88,6 +88,7 @@ class _GameList extends State<GameList> {
                                   cardKey: cardList[index],
                                   isarService: widget.isarService,
                                   getGames: getGames,
+                                  displayTimer: false
                                 );
                               }))
                     ]))
@@ -95,7 +96,7 @@ class _GameList extends State<GameList> {
                 Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 4),
-                    child: Text("Pas de parties enrengistrées",
+                    child: Text("Pas de parties enregistrées",
                         style: TextStyle(fontSize: 20)))
             ];
           } else if (snapshot.hasError) {
