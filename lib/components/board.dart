@@ -117,7 +117,7 @@ class _PBoard extends State<PBoard> {
     if (card.order <= widget.sliderValue) {
       if (card.isSelect == true) {
         if (card.nbLineComplete > 0) {
-          return Colors.green[300]!;
+          return Theme.of(context).colorScheme.primary;
         }
         return Theme.of(context).colorScheme.secondary;
       }
@@ -130,36 +130,41 @@ class _PBoard extends State<PBoard> {
     return GridView.builder(
         controller: ScrollController(keepScrollOffset: false),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: nbLines,
-        ),
+            crossAxisCount: nbLines, childAspectRatio: 100 / 115),
         padding: EdgeInsets.all(10.0),
         itemCount: nbLines * nbLines,
         itemBuilder: (BuildContext context, int index) {
-          BingoCard card = widget.bingoCard.elementAt(index);
+          final BingoCard card = widget.bingoCard.elementAt(index);
+          final Widget icon = getCardIcon(card, EdgeInsets.only(top: 15));
+          final AlignmentGeometry textAlign =
+              card.icon == null ? Alignment.center : Alignment.bottomCenter;
+          final double textPadding = card.icon == null ? 0 : 20;
           return Align(
-              child: SizedBox(
-            height: 100,
-            width: 100,
             child: GestureDetector(
               onTap: () => _onCardTapped(index),
               child: Card(
                   shape: getCardShape(index),
-                  margin: const EdgeInsets.all(0.5),
+                  margin: const EdgeInsets.all(1),
                   color: getCardColor(card),
                   child: Container(
                       margin: const EdgeInsets.all(0.5),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            getCardIcon(card),
-                            Text(card.name,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black))
-                          ]))),
+                      child: Stack(alignment: Alignment.center, children: [
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                                padding: EdgeInsets.only(top: 5), child: icon)),
+                        Align(
+                            alignment: textAlign,
+                            child: Padding(
+                                padding: EdgeInsets.only(bottom: textPadding),
+                                child: Text(card.name,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black))))
+                      ]))),
             ),
-          ));
+          );
         });
   }
 }

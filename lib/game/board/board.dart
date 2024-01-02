@@ -76,9 +76,9 @@ class _Board extends State<Board> {
             createParticlePath: drawStar,
           ),
         ),
-        Container(
+        SizedBox(
             height: MediaQuery.of(context).size.height / 1.77,
-            constraints: BoxConstraints(maxWidth: 450, maxHeight: 450),
+            //constraints: BoxConstraints(maxWidth: 450, maxHeight: 490),
             child: PBoard(
               bingoCard: widget.bingoCard,
               writePerm: true,
@@ -87,7 +87,7 @@ class _Board extends State<Board> {
               controller: _controllerCenter,
             )),
         POutlinedButton(
-            label: "Sauvegarder la partie",
+            label: "Enregistrer la partie",
             onPressed: widget.saveGame,
             iconData: Icons.save,
             margin: EdgeInsets.only(bottom: 10)),

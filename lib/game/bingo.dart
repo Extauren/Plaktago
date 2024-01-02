@@ -299,15 +299,14 @@ class _Bingo extends State<Bingo> {
                                       ),
                                     ]))))
                       ]))),
-          Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 30),
-                  child: Board(
-                    changePoints: changePoints,
-                    bingoCard: widget.bingoParams.bingoCards,
-                    saveGame: askSaveGame,
-                    addLine: addLines,
-                  ))),
+          Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Board(
+                changePoints: changePoints,
+                bingoCard: widget.bingoParams.bingoCards,
+                saveGame: askSaveGame,
+                addLine: addLines,
+              )),
         ]));
   }
 }
