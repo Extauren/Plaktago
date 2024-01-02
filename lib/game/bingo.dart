@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/game/timer/timer.dart';
@@ -232,7 +233,6 @@ class _Bingo extends State<Bingo> {
           ),
         ]), actions: [
           IconButton(icon: Icon(FontAwesomeIcons.trash), onPressed: askDeleteGame, color: Theme.of(context).colorScheme.primary)]),
-        ),
         body: ListView(children: [
           Align(
               child: Container(
