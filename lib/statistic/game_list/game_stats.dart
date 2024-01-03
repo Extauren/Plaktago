@@ -15,7 +15,11 @@ class GameStats extends StatefulWidget {
   final Game game;
   final IsarService isarService;
   final bool displayTimer;
-  const GameStats({Key? key, required this.game, required this.isarService, required this.displayTimer})
+  const GameStats(
+      {Key? key,
+      required this.game,
+      required this.isarService,
+      required this.displayTimer})
       : super(key: key);
 
   @override
@@ -117,28 +121,28 @@ class _GameStats extends State<GameStats> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (widget.displayTimer)
-                    ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 2,
-                        ),
-                        child: Container(
-                            width: MediaQuery.of(context).size.width / 2.5,
-                            height: 50,
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                border: Border.all(
-                                    width: 1.5,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary)),
-                            child: Center(
-                                child: Text(
-                              widget.game.time,
-                              style: const TextStyle(
-                                  fontSize: 26, fontWeight: FontWeight.bold),
-                            )))),
+                      ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 2,
+                          ),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: 50,
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  border: Border.all(
+                                      width: 1.5,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
+                              child: Center(
+                                  child: Text(
+                                widget.game.time,
+                                style: const TextStyle(
+                                    fontSize: 26, fontWeight: FontWeight.bold),
+                              )))),
                     ConstrainedBox(
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width / 2,
@@ -178,7 +182,7 @@ class _GameStats extends State<GameStats> {
           Container(
               margin: EdgeInsets.only(top: 20),
               height: MediaQuery.of(context).size.height / 1.77,
-              constraints: BoxConstraints(maxWidth: 450, maxHeight: 430),
+              constraints: BoxConstraints(maxWidth: 450, maxHeight: 475),
               child: PBoard(
                 bingoCard: widget.game.bingoCards,
                 writePerm: false,
