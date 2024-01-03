@@ -127,10 +127,12 @@ class _PBoard extends State<PBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final double fontSize = MediaQuery.of(context).size.width * 0.035;
+  
     return GridView.builder(
         controller: ScrollController(keepScrollOffset: false),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: nbLines, childAspectRatio: 100 / 115),
+            crossAxisCount: nbLines, childAspectRatio: 100 / 125),
         padding: EdgeInsets.all(10.0),
         itemCount: nbLines * nbLines,
         itemBuilder: (BuildContext context, int index) {
@@ -160,6 +162,7 @@ class _PBoard extends State<PBoard> {
                                 child: Text(card.name,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
+                                      fontSize: fontSize,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black))))
                       ]))),
