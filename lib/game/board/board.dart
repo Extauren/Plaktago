@@ -77,8 +77,7 @@ class _Board extends State<Board> {
           ),
         ),
         SizedBox(
-            height: MediaQuery.of(context).size.height / 1.77,
-            //constraints: BoxConstraints(maxWidth: 450, maxHeight: 490),
+            height: MediaQuery.of(context).size.width / 0.8,
             child: PBoard(
               bingoCard: widget.bingoCard,
               writePerm: true,
@@ -88,6 +87,7 @@ class _Board extends State<Board> {
             )),
         POutlinedButton(
             label: "Enregistrer la partie",
+            width: MediaQuery.of(context).size.width / 1.5,
             onPressed: widget.saveGame,
             iconData: Icons.save,
             margin: EdgeInsets.only(bottom: 10)),
