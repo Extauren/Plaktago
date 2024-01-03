@@ -97,6 +97,7 @@ class _Bingo extends State<Bingo> {
 
   void _saveGame() {
     initializeDateFormatting();
+    var outputFormat = DateFormat('dd/MM/yy');
     late Game game;
     if (widget.newGame) {
       game = Game(
@@ -106,7 +107,7 @@ class _Bingo extends State<Bingo> {
           bingoType: widget.bingoParams.bingoType,
           time: timer.getTime(),
           hour: DateFormat("HH:mm").format(DateTime.now()),
-          date: DateFormat('d/M/y').format(DateTime.now()),
+          date: outputFormat.format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
           bingoCards: widget.bingoParams.bingoCards,
@@ -120,7 +121,7 @@ class _Bingo extends State<Bingo> {
           bingoType: widget.bingoParams.bingoType,
           time: timer.getTime(),
           hour: DateFormat("HH:mm").format(DateTime.now()),
-          date: DateFormat('d/M/y').format(DateTime.now()),
+          date: outputFormat.format(DateTime.now()),
           isAlcool: widget.bingoParams.isAlcool,
           nbShot: widget.bingoParams.nbShot,
           bingoCards: widget.bingoParams.bingoCards,
@@ -134,6 +135,7 @@ class _Bingo extends State<Bingo> {
 
   void _saveOnGoingGame() {
     initializeDateFormatting();
+    var outputFormat = DateFormat('dd/MM/yy');
     Game game = Game(
         id: -1,
         gameNumber: widget.bingoParams.gameNumber,
@@ -141,7 +143,7 @@ class _Bingo extends State<Bingo> {
         bingoType: widget.bingoParams.bingoType,
         time: timer.getTime(),
         hour: DateFormat("HH:mm").format(DateTime.now()),
-        date: DateFormat('d/M/y').format(DateTime.now()),
+        date: outputFormat.format(DateTime.now()),
         isAlcool: widget.bingoParams.isAlcool,
         nbShot: widget.bingoParams.nbShot,
         bingoCards: widget.bingoParams.bingoCards,
@@ -190,8 +192,6 @@ class _Bingo extends State<Bingo> {
               return AlertDialog(
                   title: Text(style: TextStyle(color: Colors.black), "Bingo"),
                   content: Image.asset('assets/logo.png'),
-                  // Text(
-                  //     style: TextStyle(color: Colors.black), "Vous avez gagné"),
                   backgroundColor: Colors.yellow[300]);
             });
       }
@@ -219,6 +219,8 @@ class _Bingo extends State<Bingo> {
 
   @override
   Widget build(BuildContext context) {
+    final double fontSize = MediaQuery.of(context).size.width * 0.055;
+    final double borderHeight = MediaQuery.of(context).size.width / 6.7;
     if (MediaQuery.of(context).size.width > 700) {
       screenSizeRatio = 4;
     }
@@ -226,19 +228,16 @@ class _Bingo extends State<Bingo> {
         appBar: PAppBar(
             title: Row(children: [
           getIcon(widget.bingoParams.bingoType),
-          //Theme.of(context).colorScheme.primary),
           Text(
             'Bingo ${widget.bingoParams.bingoType.name}',
-            //style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
         ]), actions: [
           IconButton(icon: Icon(FontAwesomeIcons.trash), onPressed: askDeleteGame, color: Theme.of(context).colorScheme.primary)]),
         body: ListView(children: [
           Align(
               child: Container(
-                  margin: EdgeInsets.only(top: 40),
+                  margin: EdgeInsets.only(top: 20),
                   width: MediaQuery.of(context).size.width,
-                  constraints: BoxConstraints(maxWidth: 450),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,9 +245,9 @@ class _Bingo extends State<Bingo> {
                         if (widget.displayTimer)
                         SizedBox(
                             width: MediaQuery.of(context).size.width / 2.5,
-                          height: 53,
+                          height: borderHeight,
                             child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 40),
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15)),
@@ -259,9 +258,8 @@ class _Bingo extends State<Bingo> {
                                           .secondary)),
                               child: timer,
                             )),
-                        //SizedBox(height: 25),
                         SizedBox(
-                            height: 53,
+                            height: borderHeight,
                             width: MediaQuery.of(context).size.width / 2.5,
                             child: Container(
                                 padding: EdgeInsets.all(5),
@@ -274,7 +272,7 @@ class _Bingo extends State<Bingo> {
                                             .colorScheme
                                             .secondary)),
                                 child: Container(
-                                    margin: EdgeInsets.only(top: 3),
+                                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.width / 150),
                                     child: Column(children: [
                                       Row(
                                         mainAxisAlignment:
@@ -282,7 +280,7 @@ class _Bingo extends State<Bingo> {
                                         children: [
                                           Text("Points : ",
                                               style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: fontSize,
                                                   fontWeight: FontWeight.w500)),
                                           Padding(
                                               padding: const EdgeInsets.only(
@@ -291,7 +289,7 @@ class _Bingo extends State<Bingo> {
                                                 widget.bingoParams.points
                                                     .toString(),
                                                 style: TextStyle(
-                                                    fontSize: 24,
+                                                    fontSize: fontSize * 1.2,
                                                     fontWeight:
                                                         FontWeight.w400),
                                               ))
@@ -299,14 +297,15 @@ class _Bingo extends State<Bingo> {
                                       ),
                                     ]))))
                       ]))),
-          Container(
-              margin: EdgeInsets.only(top: 30),
-              child: Board(
-                changePoints: changePoints,
-                bingoCard: widget.bingoParams.bingoCards,
-                saveGame: askSaveGame,
-                addLine: addLines,
-              )),
+          Center(
+              child: Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Board(
+                    changePoints: changePoints,
+                    bingoCard: widget.bingoParams.bingoCards,
+                    saveGame: askSaveGame,
+                    addLine: addLines,
+                  ))),
         ]));
   }
 }
