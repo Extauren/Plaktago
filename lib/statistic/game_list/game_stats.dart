@@ -144,7 +144,7 @@ class _GameStats extends State<GameStats> {
                           maxWidth: MediaQuery.of(context).size.width / 2,
                         ),
                         child: Container(
-                            margin: EdgeInsets.only(left: 50),
+                            margin: EdgeInsets.only(left: widget.displayTimer ? 50 : 0),
                             child: Container(
                                 width: MediaQuery.of(context).size.width / 2.5,
                                 height: 50,
