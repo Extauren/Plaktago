@@ -190,8 +190,6 @@ class _Bingo extends State<Bingo> {
               return AlertDialog(
                   title: Text(style: TextStyle(color: Colors.black), "Bingo"),
                   content: Image.asset('assets/logo.png'),
-                  // Text(
-                  //     style: TextStyle(color: Colors.black), "Vous avez gagné"),
                   backgroundColor: Colors.yellow[300]);
             });
       }
@@ -225,14 +223,19 @@ class _Bingo extends State<Bingo> {
     return Scaffold(
         appBar: PAppBar(
             title: Row(children: [
-          getIcon(widget.bingoParams.bingoType),
-          //Theme.of(context).colorScheme.primary),
-          Text(
-            'Bingo ${widget.bingoParams.bingoType.name}',
-            //style: TextStyle(color: Theme.of(context).colorScheme.primary),
-          ),
-        ]), actions: [
-          IconButton(icon: Icon(FontAwesomeIcons.trash), onPressed: askDeleteGame, color: Theme.of(context).colorScheme.primary)]),
+              getIcon(widget.bingoParams.bingoType),
+              Text(
+                'Bingo ${widget.bingoParams.bingoType.name}',
+              ),
+            ]),
+            actions: [
+              Padding(
+                  padding: EdgeInsets.only(right: 5),
+                  child: IconButton(
+                      icon: Icon(FontAwesomeIcons.trash),
+                      onPressed: askDeleteGame,
+                      color: Theme.of(context).colorScheme.primary))
+            ]),
         body: ListView(children: [
           Align(
               child: Container(
@@ -244,22 +247,21 @@ class _Bingo extends State<Bingo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (widget.displayTimer)
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
-                          height: 53,
-                            child: Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                  border: Border.all(
-                                      width: 1.5,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary)),
-                              child: timer,
-                            )),
-                        //SizedBox(height: 25),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: 53,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
+                                child: timer,
+                              )),
                         SizedBox(
                             height: 53,
                             width: MediaQuery.of(context).size.width / 2.5,
