@@ -90,7 +90,7 @@ class _Board extends State<Board> {
             width: MediaQuery.of(context).size.width / 1.5,
             onPressed: widget.saveGame,
             iconData: Icons.save,
-            margin: EdgeInsets.only(bottom: 10)),
+            margin: EdgeInsets.only(bottom: 10, top: 10)),
       ],
     );
   }

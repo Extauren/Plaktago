@@ -154,7 +154,14 @@ class _Home extends State<Home> {
         //     changeTheme: widget.changeTheme,
         //     appSettings: widget.appSettings,
         //     isarService: widget.isarService),
-        body: ListView(controller: _parentScrollController, children: [
+        body: Container(
+            // decoration: BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage("assets/background.png"),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+            child: ListView(controller: _parentScrollController, children: [
       Container(
           margin: const EdgeInsets.only(top: 40, left: 60, right: 60),
           child: Image.asset('assets/lettrahge0_1x.png')),
@@ -248,6 +255,6 @@ class _Home extends State<Home> {
           margin:
               const EdgeInsets.only(bottom: 0, top: 10, left: 80, right: 80),
           child: Image.asset('assets/homePlaque.png'))
-    ]));
+    ])));
   }
 }

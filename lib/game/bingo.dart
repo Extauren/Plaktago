@@ -227,13 +227,27 @@ class _Bingo extends State<Bingo> {
     return Scaffold(
         appBar: PAppBar(
             title: Row(children: [
-          getIcon(widget.bingoParams.bingoType),
-          Text(
-            'Bingo ${widget.bingoParams.bingoType.name}',
-          ),
-        ]), actions: [
-          IconButton(icon: Icon(FontAwesomeIcons.trash), onPressed: askDeleteGame, color: Theme.of(context).colorScheme.primary)]),
-        body: ListView(children: [
+              getIcon(widget.bingoParams.bingoType),
+              Text(
+                'Bingo ${widget.bingoParams.bingoType.name}',
+              ),
+            ]),
+            actions: [
+              IconButton(
+                  icon: Icon(FontAwesomeIcons.trash),
+                  onPressed: askDeleteGame,
+                  color: Theme.of(context).colorScheme.primary)
+            ]),
+        body:
+            // Container(
+            //     decoration: BoxDecoration(
+            //       image: DecorationImage(
+            //         image: AssetImage("assets/background_pink.png"),
+            //         fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //     child:
+            ListView(children: [
           Align(
               child: Container(
                   margin: EdgeInsets.only(top: 20),
@@ -243,21 +257,23 @@ class _Bingo extends State<Bingo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (widget.displayTimer)
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.5,
-                          height: borderHeight,
-                            child: Container(
-                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 40),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                  border: Border.all(
-                                      width: 1.5,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary)),
-                              child: timer,
-                            )),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: borderHeight,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    top:
+                                        MediaQuery.of(context).size.width / 40),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
+                                child: timer,
+                              )),
                         SizedBox(
                             height: borderHeight,
                             width: MediaQuery.of(context).size.width / 2.5,
@@ -272,7 +288,9 @@ class _Bingo extends State<Bingo> {
                                             .colorScheme
                                             .secondary)),
                                 child: Container(
-                                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.width / 150),
+                                    margin: EdgeInsets.only(
+                                        top: MediaQuery.of(context).size.width /
+                                            150),
                                     child: Column(children: [
                                       Row(
                                         mainAxisAlignment:
@@ -306,6 +324,8 @@ class _Bingo extends State<Bingo> {
                     saveGame: askSaveGame,
                     addLine: addLines,
                   ))),
-        ]));
+        ]
+                //)
+                ));
   }
 }
