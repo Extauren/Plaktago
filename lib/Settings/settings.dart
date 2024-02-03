@@ -56,7 +56,15 @@ class _Settings extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PAppBar(title: Text("Paramètres")),
+        appBar: PAppBar(
+          title: Text("Paramètres"),
+          actions: [
+            Padding(
+                padding: EdgeInsetsDirectional.only(end: 10),
+                child: Text(
+                    'v${widget.appSettings.version}${widget.appSettings.patch}'))
+          ],
+        ),
         body: Container(
             margin: EdgeInsets.only(top: 20),
             child: ListView(children: [

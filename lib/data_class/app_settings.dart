@@ -6,9 +6,9 @@ part 'app_settings.g.dart';
 class AppSettings {
   final Id id = 0;
   bool darkMode;
-  int? patch;
+  int? patch = 0;
   String version = "";
-  bool displayTimer = true;
+  bool displayTimer;
 
-  AppSettings({this.darkMode = true});
+  AppSettings({this.darkMode = true, this.displayTimer = true});
 }
