@@ -62,7 +62,7 @@ class _Settings extends State<Settings> {
             child: ListView(children: [
               Column(children: [
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Text("Afficher le timer"),
+                  Text("Afficher le temps"),
                   SizedBox(height: 15),
                   DefaultTextStyle.merge(
                       child: IconTheme.merge(
@@ -92,14 +92,14 @@ class _Settings extends State<Settings> {
                                       !widget.appSettings.displayTimer,
                                   widget.isarService
                                       .saveAppSettings(widget.appSettings)
-                                  //_darkMode = b, widget.changeTheme()
                                 }),
-                            // iconBuilder: (value) => value
-                            //     ? Icon(FontAwesomeIcons.solidMoon,
-                            //         size: 18.0,
-                            //         color: Theme.of(context).colorScheme.surface)
-                            //     : Icon(FontAwesomeIcons.solidSun,
-                            //         size: 18.0, color: Colors.black),
+                            iconBuilder: (value) => value
+                                ? Icon(FontAwesomeIcons.check,
+                                    size: 18.0,
+                                    color:
+                                        Theme.of(context).colorScheme.surface)
+                                : Icon(FontAwesomeIcons.x,
+                                    size: 18.0, color: Colors.black),
                           ))),
                 ]),
               ]),
