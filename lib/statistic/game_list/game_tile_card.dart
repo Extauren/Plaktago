@@ -44,7 +44,7 @@ class _GameTileCard extends State<GameTileCard> {
             builder: (context) => GameStats(
                   game: widget.game,
                   isarService: widget.isarService,
-                  displayTimer: false,
+                  displayTimer: widget.displayTimer,
                 ))).then((value) {
       setState(() {
         widget.getStat();
@@ -75,7 +75,7 @@ class _GameTileCard extends State<GameTileCard> {
                   newGame: false,
                   isarService: widget.isarService,
                   id: widget.game.id,
-                  displayTimer: false,
+                  displayTimer: widget.displayTimer,
                 ))).then((value) {
       setState(() {
         widget.getStat();
@@ -193,15 +193,16 @@ class _GameTileCard extends State<GameTileCard> {
                                     style: TextStyle(fontSize: 20)),
                               ])),
                           if (widget.displayTimer)
-                          SizedBox(
-                              width:
-                                  (MediaQuery.of(context).size.width - 60) / 3,
-                              child: Column(children: [
-                                Text("Durée"),
-                                SizedBox(height: 10),
-                                Text(widget.game.time.toString(),
-                                    style: TextStyle(fontSize: 20)),
-                              ])),
+                            SizedBox(
+                                width:
+                                    (MediaQuery.of(context).size.width - 60) /
+                                        3,
+                                child: Column(children: [
+                                  Text("Durée"),
+                                  SizedBox(height: 10),
+                                  Text(widget.game.time.toString(),
+                                      style: TextStyle(fontSize: 20)),
+                                ])),
                         ])),
                 SizedBox(height: 10),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [

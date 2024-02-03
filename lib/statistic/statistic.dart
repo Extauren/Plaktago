@@ -52,8 +52,7 @@ class _Statistic extends State<Statistic> {
                       appSettings: widget.appSettings),
                 if (statType == StatType.list)
                   GameList(
-                    isarService: isarService,
-                  )
+                      isarService: isarService, appSettings: widget.appSettings)
               ]));
     });
   }

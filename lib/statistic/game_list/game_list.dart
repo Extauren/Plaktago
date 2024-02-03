@@ -1,13 +1,18 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/statistic/game_list/game_tile_card.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/game.dart';
 
 class GameList extends StatefulWidget {
   final IsarService isarService;
-  const GameList({Key? key, required this.isarService}) : super(key: key);
+  final AppSettings appSettings;
+
+  const GameList(
+      {Key? key, required this.isarService, required this.appSettings})
+      : super(key: key);
 
   @override
   State<GameList> createState() => _GameList();
@@ -81,15 +86,15 @@ class _GameList extends State<GameList> {
                               itemBuilder: (context, index) {
                                 final Game game = snapshot.data![index]!;
                                 return GameTileCard(
-                                  game: game,
-                                  index: index,
-                                  getStat: getGames,
-                                  updateState: updateState,
-                                  cardKey: cardList[index],
-                                  isarService: widget.isarService,
-                                  getGames: getGames,
-                                  displayTimer: false
-                                );
+                                    game: game,
+                                    index: index,
+                                    getStat: getGames,
+                                    updateState: updateState,
+                                    cardKey: cardList[index],
+                                    isarService: widget.isarService,
+                                    getGames: getGames,
+                                    displayTimer:
+                                        widget.appSettings.displayTimer);
                               }))
                     ]))
               else
