@@ -87,9 +87,11 @@ class _GameStats extends State<GameStats> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PAppBar(
-          title: Row(children: [
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             getIcon(widget.game.bingoType),
-            Text('Bingo ${widget.game.bingoType.name}'),
+            Text(widget.game.bingoType.name),
+            Text(widget.game.date)
           ]),
           actions: [
             Container(
@@ -107,13 +109,13 @@ class _GameStats extends State<GameStats> {
           ],
         ),
         body: ListView(children: [
-          Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    formatDate,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ))),
+          // Center(
+          //     child: Container(
+          //         margin: EdgeInsets.only(top: 20),
+          //         child: Text(
+          //           formatDate,
+          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          //         ))),
           Container(
               margin: EdgeInsets.only(top: 20),
               child: Row(
