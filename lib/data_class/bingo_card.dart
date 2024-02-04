@@ -11,6 +11,7 @@ class BingoCard {
   int order;
   final String alcoolRule;
   final int nbShot;
+  final String desc;
 
   BingoCard(
       {this.name = "",
@@ -19,5 +20,6 @@ class BingoCard {
       this.nbLineComplete = 0,
       this.order = -1,
       this.alcoolRule = "",
-      this.nbShot = 0});
+      this.nbShot = 0,
+      this.desc = ""});
 }

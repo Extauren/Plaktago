@@ -1,5 +1,6 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/game/board/check_board.dart';
 import 'package:plaktago/utils/get_card_icon.dart';
@@ -113,6 +114,19 @@ class _PBoard extends State<PBoard> {
     }
   }
 
+  void _displayCardDescription(final int index) {
+    final BingoCard card = widget.bingoCard.elementAt(index);
+    final String desc = card.desc == "" ? "Pas de description" : card.desc;
+
+    PDialog(
+            context: context,
+            title: card.name,
+            desc: desc,
+            bntOkOnPress: () {},
+            displayBtn: false)
+        .show();
+  }
+
   Color getCardColor(final BingoCard card) {
     if (card.order <= widget.sliderValue) {
       if (card.isSelect == true) {
@@ -128,7 +142,7 @@ class _PBoard extends State<PBoard> {
   @override
   Widget build(BuildContext context) {
     final double fontSize = MediaQuery.of(context).size.width * 0.035;
-  
+
     return GridView.builder(
         controller: ScrollController(keepScrollOffset: false),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -144,6 +158,7 @@ class _PBoard extends State<PBoard> {
           return Align(
             child: GestureDetector(
               onTap: () => _onCardTapped(index),
+              onLongPress: () => _displayCardDescription(index),
               child: Card(
                   shape: getCardShape(index),
                   margin: const EdgeInsets.all(1),
@@ -162,7 +177,7 @@ class _PBoard extends State<PBoard> {
                                 child: Text(card.name,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: fontSize,
+                                        fontSize: fontSize,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black))))
                       ]))),

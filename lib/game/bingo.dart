@@ -71,7 +71,8 @@ class _Bingo extends State<Bingo> {
               name: card.name,
               icon: card.icon,
               alcoolRule: card.alcoolRule,
-              nbShot: card.nbShot));
+              nbShot: card.nbShot,
+              desc: card.description));
         }
         newBingoCards.shuffle();
         widget.bingoParams.bingoCards = newBingoCards;
