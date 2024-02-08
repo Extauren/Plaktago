@@ -50,7 +50,9 @@ class _PColorPicker extends State<PColorPicker> {
   @override
   void initState() {
     screenPickerColor = Colors.blue;
-    dialogPickerColor = HexColor.fromHex(widget.appSettings.secondaryColor);
+    dialogPickerColor = widget.appSettings.secondaryColor != ""
+        ? HexColor.fromHex(widget.appSettings.secondaryColor)
+        : Color.fromRGBO(149, 169, 225, 1);
     dialogSelectColor = const Color(0xFFA239CA);
     isDark = false;
     super.initState();

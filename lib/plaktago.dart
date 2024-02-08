@@ -18,7 +18,7 @@ class _Plaktago extends State<Plaktago> {
   AppSettings appSettings = AppSettings();
   ThemeMode _themeMode = ThemeMode.dark;
   bool display = false;
-  late ColorScheme darkColor;
+  ColorScheme? darkColor;
 
   @override
   void initState() {
@@ -38,8 +38,9 @@ class _Plaktago extends State<Plaktago> {
           brightness: Brightness.dark,
           primary: Color.fromRGBO(242, 217, 141, 1),
           onPrimary: Colors.black,
-          secondary: HexColor.fromHex(
-              appSettings.secondaryColor), //Color.fromRGBO(149, 169, 225, 1),
+          secondary: appSettings.secondaryColor != ""
+              ? HexColor.fromHex(appSettings.secondaryColor)
+              : Color.fromRGBO(149, 169, 225, 1),
           onSecondary: Colors.black,
           error: Colors.red,
           onError: Colors.red,
@@ -71,7 +72,7 @@ class _Plaktago extends State<Plaktago> {
             fontFamily: GoogleFonts.novaRound().fontFamily,
             colorScheme: darkColor,
             appBarTheme: AppBarTheme(
-                backgroundColor: darkColor.background,
+                backgroundColor: darkColor?.background,
                 iconTheme: IconThemeData(color: Colors.white),
                 scrolledUnderElevation: 0.0,
                 titleTextStyle: TextStyle(
@@ -80,11 +81,12 @@ class _Plaktago extends State<Plaktago> {
                   color: Colors.white,
                   fontFamily: GoogleFonts.novaRound().fontFamily,
                 )),
-            drawerTheme: DrawerThemeData(backgroundColor: darkColor.background),
+            drawerTheme:
+                DrawerThemeData(backgroundColor: darkColor?.background),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: darkColor.background,
+                backgroundColor: darkColor?.background,
                 unselectedItemColor: Colors.white,
-                selectedItemColor: darkColor.primary),
+                selectedItemColor: darkColor?.primary),
             textTheme: TextTheme(
                 titleLarge: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -97,7 +99,7 @@ class _Plaktago extends State<Plaktago> {
             cardColor: Colors.grey[100],
             elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
-              return darkColor.primary;
+              return darkColor?.primary;
             }))),
             useMaterial3: true),
         themeMode: _themeMode,
