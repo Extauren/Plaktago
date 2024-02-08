@@ -22,7 +22,10 @@ class _App extends State<App> {
         builder: (context, child) {
           return Consumer<IsarService>(builder: (context, provider, child) {
             IsarService isarService = context.watch<IsarService>();
-            return MaterialApp(home: Plaktago(isarService: isarService));
+            return MaterialApp(
+                home: Plaktago(
+              isarService: isarService,
+            ));
           });
         });
   }

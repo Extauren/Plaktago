@@ -6,7 +6,7 @@ import 'package:plaktago/utils/check_update.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
-import 'Settings/settings.dart';
+import 'settings/settings.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;

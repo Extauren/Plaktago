@@ -32,13 +32,18 @@ const AppSettingsSchema = CollectionSchema(
       name: r'patch',
       type: IsarType.long,
     ),
-    r'secondaryColor': PropertySchema(
+    r'primaryColor': PropertySchema(
       id: 3,
+      name: r'primaryColor',
+      type: IsarType.string,
+    ),
+    r'secondaryColor': PropertySchema(
+      id: 4,
       name: r'secondaryColor',
       type: IsarType.string,
     ),
     r'version': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'version',
       type: IsarType.string,
     )
@@ -63,6 +68,7 @@ int _appSettingsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.primaryColor.length * 3;
   bytesCount += 3 + object.secondaryColor.length * 3;
   bytesCount += 3 + object.version.length * 3;
   return bytesCount;
@@ -77,8 +83,9 @@ void _appSettingsSerialize(
   writer.writeBool(offsets[0], object.darkMode);
   writer.writeBool(offsets[1], object.displayTimer);
   writer.writeLong(offsets[2], object.patch);
-  writer.writeString(offsets[3], object.secondaryColor);
-  writer.writeString(offsets[4], object.version);
+  writer.writeString(offsets[3], object.primaryColor);
+  writer.writeString(offsets[4], object.secondaryColor);
+  writer.writeString(offsets[5], object.version);
 }
 
 AppSettings _appSettingsDeserialize(
@@ -90,10 +97,11 @@ AppSettings _appSettingsDeserialize(
   final object = AppSettings(
     darkMode: reader.readBoolOrNull(offsets[0]) ?? true,
     displayTimer: reader.readBoolOrNull(offsets[1]) ?? true,
+    secondaryColor: reader.readStringOrNull(offsets[4]) ?? "#ff95a9e1",
   );
   object.patch = reader.readLongOrNull(offsets[2]);
-  object.secondaryColor = reader.readString(offsets[3]);
-  object.version = reader.readString(offsets[4]);
+  object.primaryColor = reader.readString(offsets[3]);
+  object.version = reader.readString(offsets[5]);
   return object;
 }
 
@@ -113,6 +121,8 @@ P _appSettingsDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readStringOrNull(offset) ?? "#ff95a9e1") as P;
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -350,6 +360,142 @@ extension AppSettingsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'primaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'primaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'primaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'primaryColor',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'primaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'primaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'primaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'primaryColor',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'primaryColor',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      primaryColorIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'primaryColor',
+        value: '',
       ));
     });
   }
@@ -670,6 +816,19 @@ extension AppSettingsQuerySortBy
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByPrimaryColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'primaryColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByPrimaryColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'primaryColor', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortBySecondaryColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'secondaryColor', Sort.asc);
@@ -747,6 +906,19 @@ extension AppSettingsQuerySortThenBy
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByPrimaryColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'primaryColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByPrimaryColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'primaryColor', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenBySecondaryColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'secondaryColor', Sort.asc);
@@ -793,6 +965,13 @@ extension AppSettingsQueryWhereDistinct
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QDistinct> distinctByPrimaryColor(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'primaryColor', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QDistinct> distinctBySecondaryColor(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -832,6 +1011,12 @@ extension AppSettingsQueryProperty
   QueryBuilder<AppSettings, int?, QQueryOperations> patchProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'patch');
+    });
+  }
+
+  QueryBuilder<AppSettings, String, QQueryOperations> primaryColorProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'primaryColor');
     });
   }
 

@@ -26,7 +26,7 @@ class _Plaktago extends State<Plaktago> {
     super.initState();
   }
 
-  void getAppSettings() async {
+  Future<ColorScheme> getAppSettings() async {
     appSettings = await widget.isarService.getAppSettings();
     setState(() {
       if (appSettings.darkMode) {
@@ -36,10 +36,13 @@ class _Plaktago extends State<Plaktago> {
       }
       darkColor = ColorScheme(
           brightness: Brightness.dark,
-          primary: Color.fromRGBO(242, 217, 141, 1),
+          primary: appSettings.primaryColor != ""
+              ? HexColor.fromHex(appSettings.primaryColor)
+              : Color.fromRGBO(242, 217, 141, 1),
           onPrimary: Colors.black,
-          secondary: HexColor.fromHex(
-              appSettings.secondaryColor), //Color.fromRGBO(149, 169, 225, 1),
+          secondary: appSettings.secondaryColor != ""
+              ? HexColor.fromHex(appSettings.secondaryColor)
+              : Color.fromRGBO(149, 169, 225, 1),
           onSecondary: Colors.black,
           error: Colors.red,
           onError: Colors.red,
@@ -47,8 +50,8 @@ class _Plaktago extends State<Plaktago> {
           onBackground: Color.fromRGBO(25, 28, 37, 1),
           surface: Color.fromRGBO(44, 50, 66, 1),
           onSurface: Colors.white);
-      display = true;
     });
+    return darkColor;
   }
 
   void changeTheme() {
@@ -65,54 +68,61 @@ class _Plaktago extends State<Plaktago> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Plaktago',
-        theme: ThemeData(
-            fontFamily: GoogleFonts.novaRound().fontFamily,
-            colorScheme: darkColor,
-            appBarTheme: AppBarTheme(
-                backgroundColor: darkColor.background,
-                iconTheme: IconThemeData(color: Colors.white),
-                scrolledUnderElevation: 0.0,
-                titleTextStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontFamily: GoogleFonts.novaRound().fontFamily,
-                )),
-            drawerTheme: DrawerThemeData(backgroundColor: darkColor.background),
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: darkColor.background,
-                unselectedItemColor: Colors.white,
-                selectedItemColor: darkColor.primary),
-            textTheme: TextTheme(
-                titleLarge: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                ),
-                titleMedium: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                )),
-            cardColor: Colors.grey[100],
-            elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith((states) {
-              return darkColor.primary;
-            }))),
-            useMaterial3: true),
-        themeMode: _themeMode,
-        home: display
-            ? NavigationBarApp(
-                changeTheme: changeTheme,
-                appSettings: appSettings,
-                isarService: widget.isarService)
-            : Center(
-                child: SizedBox(
-                  width: 275.0,
-                  height: 275.0,
-                  child: Image.asset("assets/plaque_faisceau1rond.png",
-                      fit: BoxFit.scaleDown),
-                ),
-              ));
+    return FutureBuilder(
+        future: getAppSettings(),
+        builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) =>
+            snapshot.hasData
+                ? MaterialApp(
+                    title: 'Plaktago',
+                    theme: ThemeData(
+                        fontFamily: GoogleFonts.novaRound().fontFamily,
+                        colorScheme: darkColor,
+                        appBarTheme: AppBarTheme(
+                            backgroundColor: darkColor.background,
+                            iconTheme: IconThemeData(color: Colors.white),
+                            scrolledUnderElevation: 0.0,
+                            titleTextStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontFamily: GoogleFonts.novaRound().fontFamily,
+                            )),
+                        drawerTheme:
+                            DrawerThemeData(
+                                backgroundColor: darkColor.background),
+                        bottomNavigationBarTheme:
+                            BottomNavigationBarThemeData(
+                                backgroundColor: darkColor.background,
+                                unselectedItemColor: Colors.white,
+                                selectedItemColor: darkColor.primary),
+                        textTheme: TextTheme(
+                            titleLarge: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26,
+                            ),
+                            titleMedium: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            )),
+                        cardColor: Colors.grey[100],
+                        elevatedButtonTheme: ElevatedButtonThemeData(style:
+                            ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith((states) {
+                          return darkColor.primary;
+                        }))),
+                        useMaterial3: true),
+                    themeMode: _themeMode,
+                    home: NavigationBarApp(
+                        changeTheme: changeTheme,
+                        appSettings: appSettings,
+                        isarService: widget.isarService))
+                : Center(
+                    child: SizedBox(
+                      width: 275.0,
+                      height: 275.0,
+                      child: Image.asset("assets/plaque_faisceau1rond.png",
+                          fit: BoxFit.scaleDown),
+                    ),
+                  ));
   }
 }
