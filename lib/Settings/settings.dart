@@ -1,6 +1,7 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:plaktago/Settings/color_picker.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/game/board/card_name.dart';
@@ -111,6 +112,13 @@ class _Settings extends State<Settings> {
                           ))),
                 ]),
               ]),
+              Container(
+                  margin: EdgeInsets.only(top: 10),
+                  height: 100,
+                  width: 100,
+                  child: PColorPicker(
+                      appSettings: widget.appSettings,
+                      isarService: widget.isarService))
             ])));
   }
 }

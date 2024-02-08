@@ -32,8 +32,13 @@ const AppSettingsSchema = CollectionSchema(
       name: r'patch',
       type: IsarType.long,
     ),
-    r'version': PropertySchema(
+    r'secondaryColor': PropertySchema(
       id: 3,
+      name: r'secondaryColor',
+      type: IsarType.string,
+    ),
+    r'version': PropertySchema(
+      id: 4,
       name: r'version',
       type: IsarType.string,
     )
@@ -58,6 +63,7 @@ int _appSettingsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.secondaryColor.length * 3;
   bytesCount += 3 + object.version.length * 3;
   return bytesCount;
 }
@@ -71,7 +77,8 @@ void _appSettingsSerialize(
   writer.writeBool(offsets[0], object.darkMode);
   writer.writeBool(offsets[1], object.displayTimer);
   writer.writeLong(offsets[2], object.patch);
-  writer.writeString(offsets[3], object.version);
+  writer.writeString(offsets[3], object.secondaryColor);
+  writer.writeString(offsets[4], object.version);
 }
 
 AppSettings _appSettingsDeserialize(
@@ -85,7 +92,8 @@ AppSettings _appSettingsDeserialize(
     displayTimer: reader.readBoolOrNull(offsets[1]) ?? true,
   );
   object.patch = reader.readLongOrNull(offsets[2]);
-  object.version = reader.readString(offsets[3]);
+  object.secondaryColor = reader.readString(offsets[3]);
+  object.version = reader.readString(offsets[4]);
   return object;
 }
 
@@ -103,6 +111,8 @@ P _appSettingsDeserializeProp<P>(
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -344,6 +354,142 @@ extension AppSettingsQueryFilter
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'secondaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'secondaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'secondaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'secondaryColor',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'secondaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'secondaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'secondaryColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'secondaryColor',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'secondaryColor',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      secondaryColorIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'secondaryColor',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition> versionEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -524,6 +670,19 @@ extension AppSettingsQuerySortBy
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortBySecondaryColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secondaryColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortBySecondaryColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secondaryColor', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByVersion() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'version', Sort.asc);
@@ -588,6 +747,19 @@ extension AppSettingsQuerySortThenBy
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenBySecondaryColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secondaryColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenBySecondaryColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secondaryColor', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByVersion() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'version', Sort.asc);
@@ -618,6 +790,14 @@ extension AppSettingsQueryWhereDistinct
   QueryBuilder<AppSettings, AppSettings, QDistinct> distinctByPatch() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'patch');
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QDistinct> distinctBySecondaryColor(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'secondaryColor',
+          caseSensitive: caseSensitive);
     });
   }
 
@@ -652,6 +832,12 @@ extension AppSettingsQueryProperty
   QueryBuilder<AppSettings, int?, QQueryOperations> patchProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'patch');
+    });
+  }
+
+  QueryBuilder<AppSettings, String, QQueryOperations> secondaryColorProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'secondaryColor');
     });
   }
 
