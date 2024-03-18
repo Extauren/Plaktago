@@ -126,7 +126,7 @@ class _Settings extends State<Settings> {
                 ]),
               ]),
               Container(
-                  margin: EdgeInsets.only(top: 0),
+                  margin: EdgeInsets.only(top: 30),
                   height: 80,
                   width: 80,
                   child: PColorPicker(
