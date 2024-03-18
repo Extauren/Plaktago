@@ -1,17 +1,18 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:plaktago/data_class/app_settings.dart';
-import 'package:plaktago/utils/hex_color.dart';
-import 'package:plaktago/utils/isar_service.dart';
 import 'package:restart_app/restart_app.dart';
 
 class PColorPicker extends StatefulWidget {
-  final AppSettings appSettings;
-  final IsarService isarService;
+  final String title;
+  final Color color;
+  final Function changeColor;
 
   const PColorPicker(
-      {Key? key, required this.appSettings, required this.isarService})
+      {Key? key,
+      required this.title,
+      required this.color,
+      required this.changeColor})
       : super(key: key);
 
   @override
@@ -22,45 +23,22 @@ class _PColorPicker extends State<PColorPicker> {
   late Color screenPickerColor; // Color for picker shown in Card on the screen.
   late Color dialogPickerColor; // Color for picker in dialog using onChanged
   late Color dialogSelectColor; // Color for picker using color select dialog.
-  late bool isDark;
 
-  // Define some custom colors for the custom picker segment.
-  // The 'guide' color values are from
-  // https://material.io/design/color/the-color-system.html#color-theme-creation
-  static const Color guidePrimary = Color(0xFF6200EE);
-  static const Color guidePrimaryVariant = Color(0xFF3700B3);
-  static const Color guideSecondary = Color(0xFF03DAC6);
-  static const Color guideSecondaryVariant = Color(0xFF018786);
-  static const Color guideError = Color(0xFFB00020);
-  static const Color guideErrorDark = Color(0xFFCF6679);
-  static const Color blueBlues = Color(0xFF174378);
+  static const Color guidePrimary = Color.fromRGBO(242, 217, 141, 1);
+  static const Color guideSecondary = Color.fromRGBO(149, 169, 225, 1);
 
-  // Make a custom ColorSwatch to name map from the above custom colors.
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
     ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
-    ColorTools.createPrimarySwatch(guidePrimaryVariant): 'Guide Purple Variant',
     ColorTools.createAccentSwatch(guideSecondary): 'Guide Teal',
-    ColorTools.createAccentSwatch(guideSecondaryVariant): 'Guide Teal Variant',
-    ColorTools.createPrimarySwatch(guideError): 'Guide Error',
-    ColorTools.createPrimarySwatch(guideErrorDark): 'Guide Error Dark',
-    ColorTools.createPrimarySwatch(blueBlues): 'Blue blues',
   };
 
   @override
   void initState() {
-    screenPickerColor = Colors.blue;
-    dialogPickerColor = widget.appSettings.secondaryColor != ""
-        ? HexColor.fromHex(widget.appSettings.secondaryColor)
-        : Color.fromRGBO(149, 169, 225, 1);
-    dialogSelectColor = const Color(0xFFA239CA);
-    isDark = false;
+    screenPickerColor = Colors.red;
+    dialogPickerColor = widget.color;
+    dialogSelectColor = dialogPickerColor;
     super.initState();
-  }
-
-  void _changeSecondaryColor(final Color color) {
-    widget.appSettings.secondaryColor = '#${color.value.toRadixString(16)}';
-    widget.isarService.saveAppSettings(widget.appSettings);
   }
 
   void _showRestartBanner() {
@@ -81,13 +59,13 @@ class _PColorPicker extends State<PColorPicker> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(left: 10, right: 20, top: 10),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
         child: ListTile(
-          title: const Text('Changer la couleurs secondaire'),
+          title: Text(widget.title),
           trailing: ColorIndicator(
             width: 44,
             height: 44,
-            borderRadius: 4,
+            borderRadius: 4.0,
             color: dialogPickerColor,
             onSelectFocus: false,
             onSelect: () async {
@@ -98,8 +76,7 @@ class _PColorPicker extends State<PColorPicker> {
                 });
               } else {
                 setState(() {
-                  _changeSecondaryColor(dialogPickerColor);
-                  print(dialogPickerColor);
+                  widget.changeColor(dialogPickerColor);
                   _showRestartBanner();
                 });
               }
@@ -137,6 +114,7 @@ class _PColorPicker extends State<PColorPicker> {
         ColorPickerType.primary: false,
         ColorPickerType.accent: false,
         ColorPickerType.wheel: true,
+        ColorPickerType.custom: true,
       },
       customColorSwatchesAndNames: colorsNameMap,
     ).showPickerDialog(

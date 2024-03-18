@@ -154,7 +154,7 @@ class _Home extends State<Home> {
         //     changeTheme: widget.changeTheme,
         //     appSettings: widget.appSettings,
         //     isarService: widget.isarService),
-        body: Container(
+        body: SizedBox(
             // decoration: BoxDecoration(
             //   image: DecorationImage(
             //     image: AssetImage("assets/background.png"),

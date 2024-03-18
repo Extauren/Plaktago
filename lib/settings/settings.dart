@@ -1,12 +1,13 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:plaktago/Settings/color_picker.dart';
 import 'package:plaktago/components/app_bar.dart';
+import 'package:plaktago/components/color_picker.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/game/board/card_name.dart';
-import 'package:plaktago/Settings/github_page.dart';
+import 'package:plaktago/settings/github_page.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/utils/hex_color.dart';
 import 'package:plaktago/utils/isar_service.dart';
 
 class Settings extends StatefulWidget {
@@ -54,6 +55,18 @@ class _Settings extends State<Settings> {
     return i.join(', ');
   }
 
+  void changePrimaryColor(final Color color) {
+    widget.appSettings.primaryColor = '#${color.value.toRadixString(16)}';
+    //widget.appSettings.secondaryColor = '#${color.value.toRadixString(16)}';
+    widget.isarService.saveAppSettings(widget.appSettings);
+    print(widget.appSettings);
+  }
+
+  void changeSecondaryColor(final Color color) {
+    widget.appSettings.secondaryColor = '#${color.value.toRadixString(16)}';
+    widget.isarService.saveAppSettings(widget.appSettings);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,11 +109,11 @@ class _Settings extends State<Settings> {
                                     : Theme.of(context).colorScheme.surface),
                             borderWidth: 3.0,
                             height: 40.0,
-                            onChanged: (b) => setState(() => {
+                            onChanged: (b) => setState(() {
                                   widget.appSettings.displayTimer =
-                                      !widget.appSettings.displayTimer,
+                                      !widget.appSettings.displayTimer;
                                   widget.isarService
-                                      .saveAppSettings(widget.appSettings)
+                                      .saveAppSettings(widget.appSettings);
                                 }),
                             iconBuilder: (value) => value
                                 ? Icon(FontAwesomeIcons.check,
@@ -113,12 +126,25 @@ class _Settings extends State<Settings> {
                 ]),
               ]),
               Container(
-                  margin: EdgeInsets.only(top: 10),
-                  height: 100,
-                  width: 100,
+                  margin: EdgeInsets.only(top: 0),
+                  height: 80,
+                  width: 80,
                   child: PColorPicker(
-                      appSettings: widget.appSettings,
-                      isarService: widget.isarService))
+                      color: widget.appSettings.primaryColor != ""
+                          ? HexColor.fromHex(widget.appSettings.primaryColor)
+                          : Color.fromRGBO(242, 217, 141, 1),
+                      changeColor: changePrimaryColor,
+                      title: "Changer la couleurs primaire")),
+              Container(
+                  margin: EdgeInsets.only(top: 0),
+                  height: 80,
+                  width: 80,
+                  child: PColorPicker(
+                      color: widget.appSettings.secondaryColor != ""
+                          ? HexColor.fromHex(widget.appSettings.secondaryColor)
+                          : Color.fromRGBO(149, 169, 225, 1),
+                      changeColor: changeSecondaryColor,
+                      title: "Changer la couleurs secondaire")),
             ])));
   }
 }
