@@ -58,60 +58,31 @@ class _PColorPicker extends State<PColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: const Text('Click this color to modify it in a dialog. '
-          'The color is modified while dialog is open, but returns '
-          'to previous value if dialog is cancelled'),
-      subtitle: Text(
-        // ignore: lines_longer_than_80_chars
-        '${ColorTools.materialNameAndCode(dialogPickerColor, colorSwatchNameMap: colorsNameMap)} '
-        'aka ${ColorTools.nameThatColor(dialogPickerColor)}',
-      ),
-      trailing: ColorIndicator(
-        width: 44,
-        height: 44,
-        borderRadius: 4,
-        color: dialogPickerColor,
-        onSelectFocus: false,
-        onSelect: () async {
-          // Store current color before we open the dialog.
-          final Color colorBeforeDialog = dialogPickerColor;
-          // Wait for the picker to close, if dialog was dismissed,
-          // then restore the color we had before it was opened.
-          if (!(await colorPickerDialog())) {
-            setState(() {
-              dialogPickerColor = colorBeforeDialog;
-            });
-          }
-        },
-      ),
-    );
-    // Padding(
-    //     padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-    //     child:
-    //     ListTile(
-    //   title: Text(widget.title),
-    //   trailing: ColorIndicator(
-    //     width: 44,
-    //     height: 44,
-    //     borderRadius: 4.0,
-    //     color: dialogPickerColor,
-    //     onSelectFocus: false,
-    //     onSelect: () async {
-    //       final Color colorBeforeDialog = dialogPickerColor;
-    //       if (!(await colorPickerDialog())) {
-    //         setState(() {
-    //           dialogPickerColor = colorBeforeDialog;
-    //         });
-    //       } else {
-    //         setState(() {
-    //           //widget.changeColor(dialogPickerColor);
-    //           _showRestartBanner();
-    //         });
-    //       }
-    //     },
-    //   ),
-    // );
+    return Padding(
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+        child: ListTile(
+          title: Text(widget.title),
+          trailing: ColorIndicator(
+            width: 44,
+            height: 44,
+            borderRadius: 4.0,
+            color: dialogPickerColor,
+            onSelectFocus: false,
+            onSelect: () async {
+              final Color colorBeforeDialog = dialogPickerColor;
+              if (!(await colorPickerDialog())) {
+                setState(() {
+                  dialogPickerColor = colorBeforeDialog;
+                });
+              } else {
+                setState(() {
+                  widget.changeColor(dialogPickerColor);
+                  _showRestartBanner();
+                });
+              }
+            },
+          ),
+        ));
   }
 
   Future<bool> colorPickerDialog() async {
@@ -125,21 +96,12 @@ class _PColorPicker extends State<PColorPicker> {
       spacing: 5,
       runSpacing: 5,
       wheelDiameter: 155,
-      heading: Text(
-        'Select color',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      subheading: Text(
-        'Select color shade',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      wheelSubheading: Text(
-        'Selected color and its shades',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      showMaterialName: true,
-      showColorName: true,
-      showColorCode: true,
+      heading: Padding(
+          padding: EdgeInsets.only(bottom: 15),
+          child: Text(
+            'Choississez une couleur',
+            style: Theme.of(context).textTheme.titleMedium,
+          )),
       copyPasteBehavior: const ColorPickerCopyPasteBehavior(
         longPressMenu: true,
       ),
@@ -149,59 +111,17 @@ class _PColorPicker extends State<PColorPicker> {
       colorCodePrefixStyle: Theme.of(context).textTheme.bodySmall,
       selectedPickerTypeColor: Theme.of(context).colorScheme.primary,
       pickersEnabled: const <ColorPickerType, bool>{
-        ColorPickerType.both: false,
-        ColorPickerType.primary: true,
-        ColorPickerType.accent: true,
-        ColorPickerType.bw: false,
-        ColorPickerType.custom: true,
+        ColorPickerType.primary: false,
+        ColorPickerType.accent: false,
         ColorPickerType.wheel: true,
+        ColorPickerType.custom: true,
       },
       customColorSwatchesAndNames: colorsNameMap,
     ).showPickerDialog(
       context,
       actionsPadding: const EdgeInsets.all(16),
       constraints:
-          const BoxConstraints(minHeight: 480, minWidth: 300, maxWidth: 320),
+          const BoxConstraints(minHeight: 350, minWidth: 300, maxWidth: 320),
     );
   }
-
-  // Future<bool> colorPickerDialog() async {
-  //   return ColorPicker(
-  //     color: dialogPickerColor,
-  //     onColorChanged: (Color color) =>
-  //         setState(() => dialogPickerColor = color),
-  //     width: 40,
-  //     height: 40,
-  //     borderRadius: 4,
-  //     spacing: 5,
-  //     runSpacing: 5,
-  //     wheelDiameter: 155,
-  //     heading: Padding(
-  //         padding: EdgeInsets.only(bottom: 15),
-  //         child: Text(
-  //           'Choississez une couleur',
-  //           style: Theme.of(context).textTheme.titleMedium,
-  //         )),
-  //     copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-  //       longPressMenu: true,
-  //     ),
-  //     materialNameTextStyle: Theme.of(context).textTheme.bodySmall,
-  //     colorNameTextStyle: Theme.of(context).textTheme.bodySmall,
-  //     colorCodeTextStyle: Theme.of(context).textTheme.bodyMedium,
-  //     colorCodePrefixStyle: Theme.of(context).textTheme.bodySmall,
-  //     selectedPickerTypeColor: Theme.of(context).colorScheme.primary,
-  //     pickersEnabled: const <ColorPickerType, bool>{
-  //       ColorPickerType.primary: false,
-  //       ColorPickerType.accent: false,
-  //       ColorPickerType.wheel: true,
-  //       ColorPickerType.custom: true,
-  //     },
-  //     customColorSwatchesAndNames: colorsNameMap,
-  //   ).showPickerDialog(
-  //     context,
-  //     actionsPadding: const EdgeInsets.all(16),
-  //     constraints:
-  //         const BoxConstraints(minHeight: 350, minWidth: 300, maxWidth: 320),
-  //   );
-  // }
 }

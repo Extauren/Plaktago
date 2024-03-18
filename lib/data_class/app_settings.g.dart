@@ -97,10 +97,10 @@ AppSettings _appSettingsDeserialize(
   final object = AppSettings(
     darkMode: reader.readBoolOrNull(offsets[0]) ?? true,
     displayTimer: reader.readBoolOrNull(offsets[1]) ?? true,
-    secondaryColor: reader.readStringOrNull(offsets[4]) ?? "#ff95a9e1",
+    primaryColor: reader.readStringOrNull(offsets[3]) ?? "",
+    secondaryColor: reader.readStringOrNull(offsets[4]) ?? "",
   );
   object.patch = reader.readLongOrNull(offsets[2]);
-  object.primaryColor = reader.readString(offsets[3]);
   object.version = reader.readString(offsets[5]);
   return object;
 }
@@ -119,9 +119,9 @@ P _appSettingsDeserializeProp<P>(
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 4:
-      return (reader.readStringOrNull(offset) ?? "#ff95a9e1") as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 5:
       return (reader.readString(offset)) as P;
     default:

@@ -9,12 +9,12 @@ class AppSettings {
   int? patch = 0;
   String version = "";
   bool displayTimer;
-  String secondaryColor;
   String primaryColor;
+  String secondaryColor;
 
   AppSettings(
       {this.darkMode = true,
       this.displayTimer = true,
-      this.secondaryColor = "",
-      this.primaryColor = ""});
+      this.primaryColor = "",
+      this.secondaryColor = ""});
 }
