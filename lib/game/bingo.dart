@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
@@ -16,7 +14,6 @@ import 'board/board.dart';
 import 'package:plaktago/game/board/card_name.dart';
 import '../data_class/bingo_card.dart';
 import 'dart:math';
-import 'package:another_flushbar/flushbar.dart';
 
 class Bingo extends StatefulWidget {
   final Game bingoParams;
@@ -78,12 +75,12 @@ class _Bingo extends State<Bingo> {
         widget.bingoParams.bingoCards = newBingoCards;
       }
     }
-    _saveOnGoingGame();
+    _saveGame(false);
     timer1 = Timer.periodic(
       const Duration(
         seconds: 60,
       ),
-      (t) => _saveOnGoingGame(),
+      (t) => () => _saveGame(false),
     );
   }
 
@@ -92,100 +89,31 @@ class _Bingo extends State<Bingo> {
             context: context,
             title: "Sauvegarder la partie",
             desc: "Voulez vous vraiment sauvegarder cette partie ?",
-            bntOkOnPress: _saveGame)
+            bntOkOnPress: () => _saveGame(true))
         .show();
   }
 
-  void _saveGame() {
-    initializeDateFormatting();
-    var outputFormat = DateFormat('dd/MM/yy');
-    late Game game;
-    if (widget.newGame) {
-      game = Game(
-          id: widget.id,
-          gameNumber: widget.bingoParams.gameNumber,
-          points: widget.bingoParams.points,
-          bingoType: widget.bingoParams.bingoType,
-          time: timer.getTime(),
-          hour: DateFormat("HH:mm").format(DateTime.now()),
-          date: outputFormat.format(DateTime.now()),
-          isAlcool: widget.bingoParams.isAlcool,
-          nbShot: widget.bingoParams.nbShot,
-          bingoCards: widget.bingoParams.bingoCards,
-          updateGame: widget.bingoParams.updateGame,
-          nbLines: widget.bingoParams.nbLines);
-    } else {
-      game = Game(
-          id: widget.bingoParams.gameNumber,
-          gameNumber: widget.bingoParams.gameNumber,
-          points: widget.bingoParams.points,
-          bingoType: widget.bingoParams.bingoType,
-          time: timer.getTime(),
-          hour: DateFormat("HH:mm").format(DateTime.now()),
-          date: outputFormat.format(DateTime.now()),
-          isAlcool: widget.bingoParams.isAlcool,
-          nbShot: widget.bingoParams.nbShot,
-          bingoCards: widget.bingoParams.bingoCards,
-          updateGame: widget.bingoParams.updateGame,
-          nbLines: widget.bingoParams.nbLines);
-    }
-    widget.isarService.saveGame(game, true);
-    widget.bingoParams.resetGameData();
-    Navigator.pop(context, true);
-  }
+  void _saveGame(final bool newGame) {
+    int id = 0;
 
-  void _saveOnGoingGame() {
-    initializeDateFormatting();
-    var outputFormat = DateFormat('dd/MM/yy');
-    Game game = Game(
-        id: -1,
-        gameNumber: widget.bingoParams.gameNumber,
-        points: widget.bingoParams.points,
-        bingoType: widget.bingoParams.bingoType,
-        time: timer.getTime(),
-        hour: DateFormat("HH:mm").format(DateTime.now()),
-        date: outputFormat.format(DateTime.now()),
-        isAlcool: widget.bingoParams.isAlcool,
-        nbShot: widget.bingoParams.nbShot,
-        bingoCards: widget.bingoParams.bingoCards,
-        isPlaying: widget.bingoParams.isPlaying,
-        updateGame: widget.bingoParams.updateGame,
-        nbLines: widget.bingoParams.nbLines);
-    widget.isarService.saveGame(game, false);
+    if (newGame) {
+    if (widget.newGame) {
+      id = widget.id;
+    } else {
+      id = widget.bingoParams.gameNumber;
+    }
+    widget.isarService.saveGame(widget.bingoParams, id, newGame);
+    Navigator.pop(context, true);
+    } else {
+    widget.isarService.saveGame(widget.bingoParams, -1, newGame);
+    }
   }
 
   void changePoints(final int newPoint, final int index) {
     setState(() {
-      if (widget.bingoParams.isAlcool && newPoint > 0) {
-        Flushbar(
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 70),
-          borderRadius: BorderRadius.circular(8),
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          titleText: Center(
-              child: Text("Jeux d'alcool",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.black))),
-          messageText: Center(
-              child: Text(
-            widget.bingoParams.bingoCards.elementAt(index).alcoolRule,
-            style: TextStyle(fontSize: 16, color: Colors.black),
-          )),
-          duration: Duration(seconds: 15),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ).show(context);
-        widget.bingoParams.nbShot +=
-            widget.bingoParams.bingoCards.elementAt(index).nbShot;
-      }
-      if (widget.bingoParams.isAlcool && newPoint < 0) {
-        widget.bingoParams.nbShot -=
-            widget.bingoParams.bingoCards.elementAt(index).nbShot;
-      }
       widget.bingoParams.points += newPoint;
       widget.bingoParams.time = timer.getTime();
-      _saveOnGoingGame();
+      _saveGame(false);
       if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,
@@ -229,6 +157,7 @@ class _Bingo extends State<Bingo> {
         appBar: PAppBar(
             title: Row(children: [
               getIcon(widget.bingoParams.bingoType),
+              SizedBox(width: 15),
               Text(
                 'Bingo ${widget.bingoParams.bingoType.name}',
               ),
@@ -240,14 +169,6 @@ class _Bingo extends State<Bingo> {
                   color: Theme.of(context).colorScheme.primary)
             ]),
         body:
-            // Container(
-            //     decoration: BoxDecoration(
-            //       image: DecorationImage(
-            //         image: AssetImage("assets/background_pink.png"),
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //     child:
             ListView(children: [
           Align(
               child: Container(

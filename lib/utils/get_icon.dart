@@ -3,20 +3,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 
 Widget getIcon(final BingoType bingoType, [final Color? color]) {
-  late Widget icon;
-  if (bingoType == BingoType.kta) {
-    icon = Icon(FontAwesomeIcons.dungeon, color: color ?? Colors.white);
-  }
-  if (bingoType == BingoType.exploration) {
-    icon = Icon(FontAwesomeIcons.personWalking, color: color ?? Colors.white);
-  }
+  late IconData icon;
+
   if (bingoType == BingoType.plaque) {
-    icon = ImageIcon(
+    return ImageIcon(
         AssetImage(
           'assets/manhole_cover.png',
         ),
         size: 27,
         color: color ?? Colors.white);
   }
-  return Container(margin: EdgeInsets.only(right: 15), child: icon);
+  if (bingoType == BingoType.kta) {
+    icon = FontAwesomeIcons.dungeon;
+  }
+  if (bingoType == BingoType.exploration) {
+    icon = FontAwesomeIcons.personWalking;
+  }
+  if (bingoType == BingoType.chantier) {
+    icon = FontAwesomeIcons.personDigging;
+  }
+  return Icon(icon, color: color ?? Colors.white);
 }

@@ -151,7 +151,7 @@ List<CardName> cardNameListPlaque = [
   CardName(
       name: "Fumi",
       type: [BingoType.kta],
-      icon: "0xf75fa",
+      icon: "0xf75f",
       alcoolRule: "Boire sans lumière"),
   CardName(
       name: "Perdu",

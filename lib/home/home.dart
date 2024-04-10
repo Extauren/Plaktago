@@ -147,20 +147,7 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: PAppBar(
-        //   borderColor: Theme.of(context).colorScheme.background,
-        // ),
-        // drawer: DrawerApp(
-        //     changeTheme: widget.changeTheme,
-        //     appSettings: widget.appSettings,
-        //     isarService: widget.isarService),
         body: SizedBox(
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage("assets/background.png"),
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
             child: ListView(controller: _parentScrollController, children: [
       Container(
           margin: const EdgeInsets.only(top: 40, left: 60, right: 60),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
@@ -88,10 +90,15 @@ class IsarService extends ChangeNotifier {
     saveGeneral(general);
   }
 
-  Future<void> saveGame(Game game, bool newGame) async {
+  Future<void> saveGame(Game game, int id, bool newGame) async {
     final isar = await db;
     final General? general = await isar.generals.get(0);
     final Id lastId = game.id;
+
+    initializeDateFormatting();
+    game.id = id;
+    game.hour = DateFormat("HH:mm").format(DateTime.now());
+    game.date = DateFormat('dd/MM/yy').format(DateTime.now());
     if (newGame) {
       if (general == null) {
         game.gameNumber = 1;
@@ -108,6 +115,9 @@ class IsarService extends ChangeNotifier {
         updateGeneralStats(game.bingoType, game.points, newGame,
             game.bingoCards, 1, game.nbLines);
       }
+    }
+    if (id != -1) {
+      game.resetGameData();
     }
   }
 

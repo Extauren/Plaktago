@@ -60,6 +60,7 @@ dependencies:
   restart_app: ^1.2.1
   package_info_plus: ^4.2.0
   flex_color_picker: ^3.3.1
+  group_button: ^5.3.4
 
 dev_dependencies:
   flutter_test:
