@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:plaktago/components/board.dart';
-import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 
 class Board extends StatefulWidget {
   final Function changePoints;
   final List<BingoCard> bingoCard;
-  final VoidCallback saveGame;
   final Function addLine;
 
   Board(
       {Key? key,
       required this.changePoints,
       required this.bingoCard,
-      required this.saveGame,
       required this.addLine})
       : super(key: key);
 
@@ -85,12 +82,6 @@ class _Board extends State<Board> {
               addLine: widget.addLine,
               controller: _controllerCenter,
             )),
-        POutlinedButton(
-            label: "Enregistrer la partie",
-            width: MediaQuery.of(context).size.width / 1.5,
-            onPressed: widget.saveGame,
-            iconData: Icons.save,
-            margin: EdgeInsets.only(bottom: 10, top: 10)),
       ],
     );
   }

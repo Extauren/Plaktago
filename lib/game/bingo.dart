@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:isar/isar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
-import 'package:plaktago/components/dialog.dart';
+import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/game/create_game.dart';
+import 'package:plaktago/game/display_score.dart';
+import 'package:plaktago/game/game_action.dart';
+import 'package:plaktago/game/timer/display_timer.dart';
 import 'package:plaktago/game/timer/timer.dart';
 import 'package:plaktago/home/mode_button.dart';
 import 'package:plaktago/utils/get_icon.dart';
@@ -34,7 +37,8 @@ class Bingo extends StatefulWidget {
 class _Bingo extends State<Bingo> {
   int screenSizeRatio = 2;
   late BingoTimer timer;
-  late Timer timer1;
+  late Timer saveTimer;
+  late GameAction gameAction; 
 
   @override
   void initState() {
@@ -48,45 +52,21 @@ class _Bingo extends State<Bingo> {
         widget.bingoParams.bingoCards = createCardGame(widget.bingoParams, widget.newGame, 16);
       }
     }
-    _saveGame(false);
-    timer1 = Timer.periodic(
+    gameAction = GameAction(isarService: widget.isarService);
+    gameAction.saveGame(context, false, widget.newGame, widget.id, widget.bingoParams);
+    saveTimer = Timer.periodic(
       const Duration(
         seconds: 60,
       ),
-      (t) => () => _saveGame(false),
+      (t) => () => gameAction.saveGame(context, false, widget.newGame, widget.id, widget.bingoParams),
     );
-  }
-
-  void askSaveGame() {
-    PDialog(
-            context: context,
-            title: "Sauvegarder la partie",
-            desc: "Voulez vous vraiment sauvegarder cette partie ?",
-            bntOkOnPress: () => _saveGame(true))
-        .show();
-  }
-
-  void _saveGame(final bool newGame) {
-    int id = 0;
-
-    if (newGame) {
-    if (widget.newGame) {
-      id = widget.id;
-    } else {
-      id = widget.bingoParams.gameNumber;
-    }
-    widget.isarService.saveGame(widget.bingoParams, id, newGame);
-    Navigator.pop(context, true);
-    } else {
-    widget.isarService.saveGame(widget.bingoParams, -1, newGame);
-    }
   }
 
   void changePoints(final int newPoint, final int index) {
     setState(() {
       widget.bingoParams.points += newPoint;
       widget.bingoParams.time = timer.getTime();
-      _saveGame(false);
+      gameAction.saveGame(context, false, widget.newGame, widget.id, widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,
@@ -104,24 +84,8 @@ class _Bingo extends State<Bingo> {
     widget.bingoParams.nbLines += newLines;
   }
 
-  void deleteGame() {
-    widget.isarService.deleteOnGoingGame();
-    widget.bingoParams.resetGameData();
-    Navigator.pop(context, true);
-  }
-
-  void askDeleteGame() {
-    PDialog(
-            context: context,
-            title: "Supprimer la partie",
-            desc: "Voulez vous vraiment supprimer cette partie ?",
-            bntOkOnPress: deleteGame)
-        .show();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.width * 0.055;
     final double borderHeight = MediaQuery.of(context).size.width / 6.7;
     if (MediaQuery.of(context).size.width > 700) {
       screenSizeRatio = 4;
@@ -138,7 +102,7 @@ class _Bingo extends State<Bingo> {
             actions: [
               IconButton(
                   icon: Icon(FontAwesomeIcons.trash),
-                  onPressed: askDeleteGame,
+                  onPressed: () => gameAction.askDeleteGame(context, widget.bingoParams),
                   color: Theme.of(context).colorScheme.primary)
             ]),
         body:
@@ -152,63 +116,8 @@ class _Bingo extends State<Bingo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (widget.displayTimer)
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width / 2.5,
-                              height: borderHeight,
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    top:
-                                        MediaQuery.of(context).size.width / 40),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    border: Border.all(
-                                        width: 1.5,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary)),
-                                child: timer,
-                              )),
-                        SizedBox(
-                            height: borderHeight,
-                            width: MediaQuery.of(context).size.width / 2.5,
-                            child: Container(
-                                padding: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    border: Border.all(
-                                        width: 1.5,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary)),
-                                child: Container(
-                                    margin: EdgeInsets.only(
-                                        top: MediaQuery.of(context).size.width /
-                                            150),
-                                    child: Column(children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text("Points : ",
-                                              style: TextStyle(
-                                                  fontSize: fontSize,
-                                                  fontWeight: FontWeight.w500)),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Text(
-                                                widget.bingoParams.points
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: fontSize * 1.2,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ))
-                                        ],
-                                      ),
-                                    ]))))
+                          DisplayTimer(borderHeight: borderHeight, timer: timer),
+                        DisplayScore(score: widget.bingoParams.points, borderHeight: borderHeight)
                       ]))),
           Center(
               child: Container(
@@ -216,11 +125,16 @@ class _Bingo extends State<Bingo> {
                   child: Board(
                     changePoints: changePoints,
                     bingoCard: widget.bingoParams.bingoCards,
-                    saveGame: askSaveGame,
                     addLine: addLines,
                   ))),
+                  POutlinedButton(
+            label: "Enregistrer la partie",
+            width: MediaQuery.of(context).size.width / 1.5,
+            onPressed: () => gameAction.askSaveGame(context, widget.newGame, widget.id, widget.bingoParams),
+            iconData: Icons.save,
+            margin: EdgeInsets.only(bottom: 10, top: 10)),
         ]
-                //)
-                ));
+      )
+    );
   }
 }
