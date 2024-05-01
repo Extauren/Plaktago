@@ -29,20 +29,18 @@ class _BingoTypeButton extends State<BingoTypeButton> {
   final List<BingoType> bingoTypeList = [
     BingoType.plaque,
     BingoType.kta,
-    BingoType.exploration
+    BingoType.exploration,
+    BingoType.chantier,
   ];
-  int value = 0;
-  List<String> gameTypeName = ["Plaque", "KTA", "Explo", "Chantier", "Relou", "Autre"];
-  int selectBingoType = 0;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: 
       Column(children: [
-      GroupButton(
+      GroupButton<BingoType>(
         onSelected: (string, index, isSelected) => {widget.updateBingoType(bingoTypeList[index])},
-        buttons: [BingoType.plaque, BingoType.kta, BingoType.exploration, BingoType.chantier],
+        buttons: bingoTypeList,
         buttonBuilder: (selected, type, context) {
           return SizedBox(
             height: 60,

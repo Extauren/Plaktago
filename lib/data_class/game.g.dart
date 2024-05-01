@@ -229,11 +229,13 @@ const _GamebingoTypeEnumValueMap = {
   'plaque': 0,
   'kta': 1,
   'exploration': 2,
+  'chantier': 3,
 };
 const _GamebingoTypeValueEnumMap = {
   0: BingoType.plaque,
   1: BingoType.kta,
   2: BingoType.exploration,
+  3: BingoType.chantier,
 };
 const _GamemodeEnumValueMap = {
   'random': 0,

@@ -71,6 +71,9 @@ class IsarService extends ChangeNotifier {
       if (bingoType == BingoType.exploration) {
         general.bingoExplo += saveGame;
       }
+      if (bingoType == BingoType.chantier) {
+        general.bingoChantier += saveGame;
+      }
       general.nbLines += nbLines;
       general.nbPoints += points;
     }
@@ -81,9 +84,11 @@ class IsarService extends ChangeNotifier {
       for (int i = 0; i < bingoCardList.length; i++) {
         final int index = general.cardList
             .indexWhere((element) => element.cardName == bingoCardList[i].name);
-        general.cardList[index].nbPlayed += 1;
-        if (bingoCardList[i].isSelect) {
-          general.cardList[index].nbCheck += 1;
+        if (index != -1) {
+          general.cardList[index].nbPlayed += 1;
+          if (bingoCardList[i].isSelect) {
+            general.cardList[index].nbCheck += 1;
+          }
         }
       }
     }

@@ -17,9 +17,9 @@ const GeneralSchema = CollectionSchema(
   name: r'General',
   id: 3338436836839990578,
   properties: {
-    r'bingoAlcool': PropertySchema(
+    r'bingoChantier': PropertySchema(
       id: 0,
-      name: r'bingoAlcool',
+      name: r'bingoChantier',
       type: IsarType.long,
     ),
     r'bingoExplo': PropertySchema(
@@ -101,7 +101,7 @@ void _generalSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.bingoAlcool);
+  writer.writeLong(offsets[0], object.bingoChantier);
   writer.writeLong(offsets[1], object.bingoExplo);
   writer.writeLong(offsets[2], object.bingoKta);
   writer.writeLong(offsets[3], object.bingoPlaque);
@@ -124,7 +124,7 @@ General _generalDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = General();
-  object.bingoAlcool = reader.readLong(offsets[0]);
+  object.bingoChantier = reader.readLong(offsets[0]);
   object.bingoExplo = reader.readLong(offsets[1]);
   object.bingoKta = reader.readLong(offsets[2]);
   object.bingoPlaque = reader.readLong(offsets[3]);
@@ -268,43 +268,44 @@ extension GeneralQueryWhere on QueryBuilder<General, General, QWhereClause> {
 
 extension GeneralQueryFilter
     on QueryBuilder<General, General, QFilterCondition> {
-  QueryBuilder<General, General, QAfterFilterCondition> bingoAlcoolEqualTo(
+  QueryBuilder<General, General, QAfterFilterCondition> bingoChantierEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'bingoAlcool',
+        property: r'bingoChantier',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<General, General, QAfterFilterCondition> bingoAlcoolGreaterThan(
+  QueryBuilder<General, General, QAfterFilterCondition>
+      bingoChantierGreaterThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'bingoAlcool',
+        property: r'bingoChantier',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<General, General, QAfterFilterCondition> bingoAlcoolLessThan(
+  QueryBuilder<General, General, QAfterFilterCondition> bingoChantierLessThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'bingoAlcool',
+        property: r'bingoChantier',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<General, General, QAfterFilterCondition> bingoAlcoolBetween(
+  QueryBuilder<General, General, QAfterFilterCondition> bingoChantierBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -312,7 +313,7 @@ extension GeneralQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'bingoAlcool',
+        property: r'bingoChantier',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -844,15 +845,15 @@ extension GeneralQueryLinks
     on QueryBuilder<General, General, QFilterCondition> {}
 
 extension GeneralQuerySortBy on QueryBuilder<General, General, QSortBy> {
-  QueryBuilder<General, General, QAfterSortBy> sortByBingoAlcool() {
+  QueryBuilder<General, General, QAfterSortBy> sortByBingoChantier() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoAlcool', Sort.asc);
+      return query.addSortBy(r'bingoChantier', Sort.asc);
     });
   }
 
-  QueryBuilder<General, General, QAfterSortBy> sortByBingoAlcoolDesc() {
+  QueryBuilder<General, General, QAfterSortBy> sortByBingoChantierDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoAlcool', Sort.desc);
+      return query.addSortBy(r'bingoChantier', Sort.desc);
     });
   }
 
@@ -943,15 +944,15 @@ extension GeneralQuerySortBy on QueryBuilder<General, General, QSortBy> {
 
 extension GeneralQuerySortThenBy
     on QueryBuilder<General, General, QSortThenBy> {
-  QueryBuilder<General, General, QAfterSortBy> thenByBingoAlcool() {
+  QueryBuilder<General, General, QAfterSortBy> thenByBingoChantier() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoAlcool', Sort.asc);
+      return query.addSortBy(r'bingoChantier', Sort.asc);
     });
   }
 
-  QueryBuilder<General, General, QAfterSortBy> thenByBingoAlcoolDesc() {
+  QueryBuilder<General, General, QAfterSortBy> thenByBingoChantierDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bingoAlcool', Sort.desc);
+      return query.addSortBy(r'bingoChantier', Sort.desc);
     });
   }
 
@@ -1054,9 +1055,9 @@ extension GeneralQuerySortThenBy
 
 extension GeneralQueryWhereDistinct
     on QueryBuilder<General, General, QDistinct> {
-  QueryBuilder<General, General, QDistinct> distinctByBingoAlcool() {
+  QueryBuilder<General, General, QDistinct> distinctByBingoChantier() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'bingoAlcool');
+      return query.addDistinctBy(r'bingoChantier');
     });
   }
 
@@ -1111,9 +1112,9 @@ extension GeneralQueryProperty
     });
   }
 
-  QueryBuilder<General, int, QQueryOperations> bingoAlcoolProperty() {
+  QueryBuilder<General, int, QQueryOperations> bingoChantierProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'bingoAlcool');
+      return query.addPropertyName(r'bingoChantier');
     });
   }
 

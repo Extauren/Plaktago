@@ -4,16 +4,13 @@ import 'package:isar/isar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/dialog.dart';
+import 'package:plaktago/game/create_game.dart';
 import 'package:plaktago/game/timer/timer.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/home/mode_button.dart';
 import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'board/board.dart';
-import 'package:plaktago/game/board/card_name.dart';
-import '../data_class/bingo_card.dart';
-import 'dart:math';
 
 class Bingo extends StatefulWidget {
   final Game bingoParams;
@@ -42,37 +39,13 @@ class _Bingo extends State<Bingo> {
   @override
   void initState() {
     super.initState();
-    List<BingoCard> newBingoCards = [];
 
     widget.bingoParams.isPlaying = true;
     timer = BingoTimer(time: widget.bingoParams.time);
     if (widget.newGame) {
       widget.bingoParams.points = 0;
       if (widget.bingoParams.mode == Mode.random) {
-        CardName card;
-        List<CardName> cardList = <CardName>[];
-        cardList = cardNameListPlaque
-            .where((element) =>
-                element.type.contains(widget.bingoParams.bingoType))
-            .toList();
-        for (int it = 0; it < 4 * 4; it++) {
-          if (cardList.isEmpty &&
-              widget.bingoParams.bingoType == BingoType.exploration) {
-            cardList = cardNameListPlaque
-                .where((element) => element.type.contains(BingoType.kta))
-                .toList();
-          }
-          card = cardList.elementAt(Random().nextInt(cardList.length));
-          cardList.remove(card);
-          newBingoCards.add(BingoCard(
-              name: card.name,
-              icon: card.icon,
-              alcoolRule: card.alcoolRule,
-              nbShot: card.nbShot,
-              desc: card.description));
-        }
-        newBingoCards.shuffle();
-        widget.bingoParams.bingoCards = newBingoCards;
+        widget.bingoParams.bingoCards = createCardGame(widget.bingoParams, widget.newGame, 16);
       }
     }
     _saveGame(false);

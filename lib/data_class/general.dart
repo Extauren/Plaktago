@@ -12,7 +12,7 @@ class General {
   int bingoKta = 0;
   int bingoExplo = 0;
   int bingoWin = 0;
-  int bingoAlcool = 0;
+  int bingoChantier = 0;
   int nbLines = 0;
   int nbPoints = 0;
   List<CardList> cardList =
