@@ -3,7 +3,7 @@ import 'package:plaktago/data_class/bingo_card.dart';
 import 'dart:math';
 
 import 'package:plaktago/data_class/game.dart';
-import 'package:plaktago/game/board/card_name.dart';
+import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/game/board/cardName/chantier.dart';
 import 'package:plaktago/game/board/cardName/explo.dart';
 

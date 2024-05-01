@@ -36,7 +36,7 @@ class _BingoTypeButton extends State<BingoTypeButton> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: 
+      child:
       Column(children: [
       GroupButton<BingoType>(
         onSelected: (string, index, isSelected) => {widget.updateBingoType(bingoTypeList[index])},

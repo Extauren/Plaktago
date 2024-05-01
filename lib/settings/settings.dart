@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/color_picker.dart';
 import 'package:plaktago/data_class/app_settings.dart';
-import 'package:plaktago/game/board/card_name.dart';
+import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/settings/github_page.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/utils/hex_color.dart';

@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:plaktago/game/board/card_name.dart';
+import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/data_class/save_game.dart';
 
 part 'general.g.dart';

@@ -1,4 +1,4 @@
-import 'package:plaktago/game/board/card_name.dart';
+import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 
 List<CardName> chantierCard = [
