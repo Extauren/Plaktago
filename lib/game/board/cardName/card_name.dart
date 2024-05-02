@@ -25,6 +25,8 @@ class CardName {
 }
 
 List<CardName> cardNameListPlaque = [
+  CardName(name: "Percée", type: [BingoType.kta], description: "Bière percée / bouteille cassée"),
+  CardName(name: "Quiproquo", type: [BingoType.kta], description: "uelqu'un confond une personne avec quelqu'un d'autre/Erreur de Blase (en vrai pas en discussion)"),
   CardName(name: "Baisse pas sa lampe", type: [BingoType.kta], description: "Personne éblouissant les autres avec sa lumière"),
   CardName(name: "Déchet / Poubelle", type: [BingoType.kta], description: "Déchet ou poubelle dans une salle ou galerie"),
   CardName(name: "Ktasnob", type: [BingoType.kta], description: "Ktaphile snob"),
@@ -32,7 +34,7 @@ List<CardName> cardNameListPlaque = [
   CardName(name: "Tageur / Odeur de bombe", type: [BingoType.kta], description: "Personne en train de tagger ou ordeur de bomb dans une galerie"),
   CardName(name: "Bourré / Défoncé", type: [BingoType.kta], description: "Quelqu'un de trop bourré ou défoncé"),
   CardName(name: "Animal domestic", type: [BingoType.kta], description: "Animal domestic descendus par une personne"),
-  CardName(name: "Mauvaise fois", type: [BingoType.kta], description: "Une personne de mauvaise fois"),
+  CardName(name: "Mauvaise fois", type: [BingoType.kta], description: "Négocie les règles du Bingo"),
   CardName(name: "Ktaphile startup pack", type: [BingoType.kta], description: "Cuissarde / Acet / Armytek / JBLxtreme / Kit"),
   CardName(name: "Débat nul", type: [BingoType.kta], description: "Débat sans intérêt"),
   CardName(name: "Bus",type: [BingoType.plaque, BingoType.kta],icon: "0xe533",description: "Groupe supérieure à 5 personnes"),
@@ -61,7 +63,8 @@ List<CardName> cardNameListPlaque = [
   CardName(name: "Discute plaque ouverte",type: [BingoType.plaque],),
   CardName(name: "Fusion de groupe",type: [BingoType.plaque, BingoType.kta],icon: "0xe068",description: "FDeux groupe qui squatte / bouge ensemble", difficulty: Difficulty.easy),
   CardName(name: "Tous dans la même tenue",type: [BingoType.plaque, BingoType.kta],icon: "0xf508", description: "Personnes habilé de la même façcon ou dans un même thème", difficulty: Difficulty.hard),
-  CardName(name: "Repas / Apéro",type: [BingoType.kta],icon: "0xe4c6"),
+  CardName(name: "Repas",type: [BingoType.kta],icon: "0xe4c6", description: "Repas partagé consistant et/ou cuisine élaborée =! Sandwich/Houmous etc"),
+  CardName(name: "Apéro", type: [BingoType.kta], description: "Une bière et des trucs à partager"),
   CardName(name: "Fumi",type: [BingoType.kta],icon: "0xf75f", description: "Tu vois pas devant toi", difficulty: Difficulty.medium),
   CardName(name: "Perdu",type: [BingoType.kta],icon: "0xe551", description: "Personne ne sachant pas ou elle se trouve", difficulty: Difficulty.medium),
   CardName(name: "Chantier", type: [BingoType.kta], icon: "0xf85e"),
