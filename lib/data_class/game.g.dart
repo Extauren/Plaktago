@@ -137,11 +137,9 @@ void _gameSerialize(
   writer.writeBool(offsets[3], object.favorite);
   writer.writeLong(offsets[4], object.gameNumber);
   writer.writeString(offsets[5], object.hour);
-  writer.writeBool(offsets[6], object.isAlcool);
   writer.writeBool(offsets[7], object.isPlaying);
   writer.writeByte(offsets[8], object.mode.index);
   writer.writeLong(offsets[9], object.nbLines);
-  writer.writeLong(offsets[10], object.nbShot);
   writer.writeLong(offsets[11], object.points);
   writer.writeString(offsets[12], object.time);
 }
@@ -167,12 +165,10 @@ Game _gameDeserialize(
     gameNumber: reader.readLongOrNull(offsets[4]) ?? -1,
     hour: reader.readStringOrNull(offsets[5]) ?? "",
     id: id,
-    isAlcool: reader.readBoolOrNull(offsets[6]) ?? false,
     isPlaying: reader.readBoolOrNull(offsets[7]) ?? false,
     mode:
         _GamemodeValueEnumMap[reader.readByteOrNull(offsets[8])] ?? Mode.random,
     nbLines: reader.readLongOrNull(offsets[9]) ?? 0,
-    nbShot: reader.readLongOrNull(offsets[10]) ?? -1,
     points: reader.readLongOrNull(offsets[11]) ?? 0,
     time: reader.readStringOrNull(offsets[12]) ?? "",
   );

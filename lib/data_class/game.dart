@@ -15,8 +15,6 @@ class Game {
   String date;
   String hour;
   String time;
-  bool isAlcool;
-  int nbShot;
   bool favorite;
   List<BingoCard> bingoCards;
   @enumerated
@@ -29,12 +27,10 @@ class Game {
       {this.id = Isar.autoIncrement,
       this.gameNumber = -1,
       this.points = 0,
-      this.bingoType = BingoType.plaque,
+      this.bingoType = BingoType.kta,
       this.date = "",
       this.hour = "",
       this.time = "",
-      this.isAlcool = false,
-      this.nbShot = -1,
       this.favorite = false,
       this.bingoCards = const <BingoCard>[],
       this.mode = Mode.random,
@@ -50,9 +46,7 @@ class Game {
     points = 0;
     isPlaying = false;
     gameNumber = -1;
-    isAlcool = false;
     favorite = false;
-    nbShot = 0;
     time = "";
     date = "";
     hour = "";
