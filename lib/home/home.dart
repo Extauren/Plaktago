@@ -16,13 +16,13 @@ class Home extends StatefulWidget {
   final Function changeTheme;
   final AppSettings appSettings;
   final IsarService isarService;
-  Home(
-      {Key? key,
-      required this.changeTheme,
-      required this.appSettings,
-      required this.bingoParams,
-      required this.isarService})
-      : super(key: key);
+  Home({
+    Key? key,
+    required this.changeTheme,
+    required this.appSettings,
+    required this.bingoParams,
+    required this.isarService
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _Home();
@@ -36,14 +36,12 @@ class _Home extends State<Home> {
   ScrollController _childScrollController = ScrollController();
   ScrollController _parentScrollController = ScrollController();
   Game activeGame = Game();
-  late Future<Game?> test = Future.value(null);
-  bool isPlaying = false;
+  late Future<Game?> futureGame = Future.value(null);
 
   @override
   void initState() {
     super.initState();
     getOnGoingGame();
-    test = widget.isarService.getOnGoingGame();
   }
 
   void getOnGoingGame() async {
@@ -57,15 +55,14 @@ class _Home extends State<Home> {
       activeGame = Game();
     }
     setState(() {
-      test = widget.isarService.getOnGoingGame();      
+      futureGame = widget.isarService.getOnGoingGame();      
     });
   }
 
-  void changeNbCardValue(int value) {
+  void changeNbCardValue(int value) =>
     setState(() {
       nbCards = value;
     });
-  }
 
   void startGame() {
     if (widget.bingoParams.mode == Mode.personalize) {
@@ -89,7 +86,6 @@ class _Home extends State<Home> {
                 displayTimer: widget.appSettings.displayTimer))).then((value) {
       nbCards = 0;
       setState(() {
-        test = Future.value(null);
         getOnGoingGame();
       });
     });
@@ -106,7 +102,7 @@ class _Home extends State<Home> {
           .show();
       return;
     }
-    if (isPlaying) {
+    if (activeGame.isPlaying) {
       PDialog(
               context: context,
               title: 'Partie en cours',
@@ -137,7 +133,7 @@ class _Home extends State<Home> {
           margin: const EdgeInsets.only(top: 40, left: 60, right: 60),
           child: Image.asset('assets/lettrahge0_1x.png')),
       ComeBacktoGameButton(
-        game: test,
+        game: futureGame,
         activeGame: activeGame,
         isarService: widget.isarService,
         displayTimer: widget.appSettings.displayTimer,

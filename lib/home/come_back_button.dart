@@ -46,28 +46,27 @@ class _ComeBacktoGameButton extends State<ComeBacktoGameButton> {
     return FutureBuilder<Game?>(
       future: widget.game,
       builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
-        Widget child = Container();
+        Color backgroundColor = Colors.grey[600]!;
+        void Function() comeBack = () {};
         if (snapshot.hasData) {
-          if (snapshot.data != null && snapshot.data!.isPlaying) {
-            child = Align(
-              child: Align(
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: PBorderButton(
-                        heroTag: "oldGame",
-                        label: "Reprendre la partie",
-                        onPressed: _comeBacktoGame,
-                        width: 180,
-                        height: 42,
-                        labelStyle:
-                            TextStyle(fontSize: 16, color: Colors.black),
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary,
-                      ))),
-            );
+          if (snapshot.data!.isPlaying) {
+            backgroundColor = Theme.of(context).colorScheme.primary;
+            comeBack = _comeBacktoGame;
           }
         }
-        return child;
+        return Align(
+          child: Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: PBorderButton(
+                heroTag: "oldGame",
+                label: "Reprendre la partie",
+                onPressed: comeBack,
+                width: 180,
+                height: 42,
+                labelStyle: TextStyle(fontSize: 16, color: Colors.black),
+                backgroundColor: backgroundColor,
+                splashColor: backgroundColor,
+        )));
       });
   }
 
