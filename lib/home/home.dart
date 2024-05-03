@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/home/come_back_button.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import '../game/bingo.dart';
@@ -55,7 +56,9 @@ class _Home extends State<Home> {
     } else {
       activeGame = Game();
     }
-    test = widget.isarService.getOnGoingGame();
+    setState(() {
+      test = widget.isarService.getOnGoingGame();      
+    });
   }
 
   void changeNbCardValue(int value) {
@@ -116,69 +119,29 @@ class _Home extends State<Home> {
     startGame();
   }
 
-  void comeBacktoGame() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Bingo(
-                bingoParams: activeGame,
-                newGame: false,
-                isarService: widget.isarService,
-                displayTimer: widget.appSettings.displayTimer))).then((value) {
-      setState(() {
-        test = Future.value(null);
-        getOnGoingGame();
-      });
-    });
-  }
-
-  void updateBingoType(final BingoType bingoType) {
+  void updateBingoType(final BingoType bingoType) =>
     setState(() {
       widget.bingoParams.bingoType = bingoType;
     });
-  }
 
-  void setMode(final Mode mode) {
+  void setMode(final Mode mode) =>
     setState(() {
       widget.bingoParams.mode = mode;
     });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SizedBox(
-            child: ListView(controller: _parentScrollController, children: [
+        body: ListView(controller: _parentScrollController, children: [
       Container(
           margin: const EdgeInsets.only(top: 40, left: 60, right: 60),
           child: Image.asset('assets/lettrahge0_1x.png')),
-      FutureBuilder<Game?>(
-          future: test,
-          builder: (BuildContext context, AsyncSnapshot<Game?> snapshot) {
-            Widget child = Container();
-            if (snapshot.hasData) {
-              isPlaying = snapshot.data!.isPlaying;
-              if (snapshot.data != null && activeGame.isPlaying) {
-                child = Align(
-                  child: Align(
-                      child: Padding(
-                          padding: EdgeInsets.only(top: 30),
-                          child: PBorderButton(
-                            heroTag: "oldGame",
-                            label: "Reprendre la partie",
-                            onPressed: comeBacktoGame,
-                            width: 180,
-                            height: 42,
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.black),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                          ))),
-                );
-              }
-            }
-            return child;
-          }),
+      ComeBacktoGameButton(
+        game: test,
+        activeGame: activeGame,
+        isarService: widget.isarService,
+        displayTimer: widget.appSettings.displayTimer,
+        getOnGoingGame: getOnGoingGame),
       Container(
           margin: EdgeInsets.only(top: 40, left: 0, right: 0),
           child: BingoTypeButton(
@@ -242,6 +205,6 @@ class _Home extends State<Home> {
           margin:
               const EdgeInsets.only(bottom: 0, top: 10, left: 80, right: 80),
           child: Image.asset('assets/homePlaque.png'))
-    ])));
+    ]));
   }
 }

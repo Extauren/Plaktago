@@ -26,12 +26,6 @@ class BingoTypeButton extends StatefulWidget {
 }
 
 class _BingoTypeButton extends State<BingoTypeButton> {
-  final List<BingoType> bingoTypeList = [
-    BingoType.plaque,
-    BingoType.kta,
-    BingoType.exploration,
-    BingoType.chantier,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +33,8 @@ class _BingoTypeButton extends State<BingoTypeButton> {
       child:
       Column(children: [
       GroupButton<BingoType>(
-        onSelected: (string, index, isSelected) => {widget.updateBingoType(bingoTypeList[index])},
-        buttons: bingoTypeList,
+        onSelected: (string, index, isSelected) => {widget.updateBingoType(BingoType.values[index])},
+        buttons: BingoType.values,
         buttonBuilder: (selected, type, context) {
           return SizedBox(
             height: 60,
