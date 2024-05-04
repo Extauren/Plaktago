@@ -7,30 +7,19 @@ class GameAction {
   final IsarService isarService;
 
   GameAction({required this.isarService});
-  
-  void saveGame(BuildContext context, final bool newGame, final bool newGameBis, final int id, final Game game) {
-    int id = 0;
 
-    if (newGame) {
-      if (newGameBis) {
-        id = id;
-      } else {
-        id = game.gameNumber;
-      }
-      isarService.saveGame(game, id, newGame);
+  void saveGame(final BuildContext context, Game game) {
+      isarService.saveGame(game);
       Navigator.pop(context, true);
-      } else {
-      isarService.saveGame(game, -1, newGame);
-    }
   }
 
   void askSaveGame(BuildContext context, final bool newGameBis, final int id, final Game game) {
     PDialog(
-            context: context,
-            title: "Sauvegarder la partie",
-            desc: "Voulez vous vraiment sauvegarder cette partie ?",
-            bntOkOnPress: () => saveGame(context, true, newGameBis, id, game))
-        .show();
+      context: context,
+      title: "Sauvegarder la partie",
+      desc: "Voulez vous vraiment sauvegarder cette partie ?",
+      bntOkOnPress: () => saveGame(context, game)
+    ).show();
   }
 
   void deleteGame(BuildContext context, Game game) {
@@ -41,10 +30,10 @@ class GameAction {
 
   void askDeleteGame(BuildContext context, Game game) {
     PDialog(
-            context: context,
-            title: "Supprimer la partie",
-            desc: "Voulez vous vraiment supprimer cette partie ?",
-            bntOkOnPress: () => deleteGame(context, game))
-        .show();
+      context: context,
+      title: "Supprimer la partie",
+      desc: "Voulez vous vraiment supprimer cette partie ?",
+      bntOkOnPress: () => deleteGame(context, game)
+    ).show();
   }
 }

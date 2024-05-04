@@ -36,7 +36,7 @@ class _Home extends State<Home> {
   ScrollController _childScrollController = ScrollController();
   ScrollController _parentScrollController = ScrollController();
   Game activeGame = Game();
-  late Future<Game?> futureGame = Future.value(null);
+  Future<Game?> futureGame = Future.value(null);
 
   @override
   void initState() {
@@ -49,20 +49,18 @@ class _Home extends State<Home> {
     if (game != null) {
       setState(() {
         activeGame = game;
-        print(activeGame.isPlaying);
+        print("LOAD GAME");
+        print(activeGame.bingoCards.length);
+        futureGame = widget.isarService.getOnGoingGame();
       });
-    } else {
-      activeGame = Game();
     }
-    setState(() {
-      futureGame = widget.isarService.getOnGoingGame();      
-    });
   }
 
-  void changeNbCardValue(int value) =>
-    setState(() {
-      nbCards = value;
-    });
+  void changeNbCardValue(int value) => setState(() { nbCards = value; });
+
+  void updateBingoType(final BingoType bingoType) => setState(() { widget.bingoParams.bingoType = bingoType; });
+
+  void setMode(final Mode mode) => setState(() { widget.bingoParams.mode = mode; });
 
   void startGame() {
     if (widget.bingoParams.mode == Mode.personalize) {
@@ -114,16 +112,6 @@ class _Home extends State<Home> {
     }
     startGame();
   }
-
-  void updateBingoType(final BingoType bingoType) =>
-    setState(() {
-      widget.bingoParams.bingoType = bingoType;
-    });
-
-  void setMode(final Mode mode) =>
-    setState(() {
-      widget.bingoParams.mode = mode;
-    });
 
   @override
   Widget build(BuildContext context) {

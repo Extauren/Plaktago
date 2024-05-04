@@ -95,35 +95,26 @@ class IsarService extends ChangeNotifier {
     saveGeneral(general);
   }
 
-  Future<void> saveGame(Game game, int id, bool newGame) async {
+  Future<void> saveGame(Game game) async {
     final isar = await db;
     final General? general = await isar.generals.get(0);
-    final Id lastId = game.id;
 
     initializeDateFormatting();
-    game.id = id;
     game.hour = DateFormat("HH:mm").format(DateTime.now());
     game.date = DateFormat('dd/MM/yy').format(DateTime.now());
-    if (newGame) {
-      if (general == null) {
-        game.gameNumber = 1;
-        game.id = 1;
-      } else if (game.id == -1) {
-        game.gameNumber = general.nbGames + 1;
-        game.id = game.gameNumber;
-      }
-    }
+    game.id = general!.nbGames + 1;
+    game.gameNumber = game.id;
     isar.writeTxnSync(() => isar.games.putSync(game));
-    if (game.gameNumber != -1 && lastId == -1) {
-      isar.writeTxnSync(() => isar.games.deleteSync(-1));
-      if (!game.updateGame) {
-        updateGeneralStats(game.bingoType, game.points, newGame,
-            game.bingoCards, 1, game.nbLines);
-      }
-    }
-    if (id != -1) {
-      game.resetGameData();
-    }
+    updateGeneralStats(game.bingoType, game.points, true, game.bingoCards, 1, game.nbLines);
+    isar.writeTxnSync(() => isar.games.deleteSync(-1));
+    game.resetGameData();
+  }
+
+  Future<void> saveTempGame(Game game) async {
+    final isar = await db;
+
+    game.id = -1;
+    isar.writeTxnSync(() => isar.games.putSync(game));
   }
 
   Future<Game?> getOnGoingGame() async {

@@ -53,12 +53,12 @@ class _Bingo extends State<Bingo> {
       }
     }
     gameAction = GameAction(isarService: widget.isarService);
-    gameAction.saveGame(context, false, widget.newGame, widget.id, widget.bingoParams);
+    widget.isarService.saveTempGame(widget.bingoParams);
     saveTimer = Timer.periodic(
       const Duration(
         seconds: 60,
       ),
-      (t) => () => gameAction.saveGame(context, false, widget.newGame, widget.id, widget.bingoParams),
+      (t) => () => widget.isarService.saveTempGame(widget.bingoParams),
     );
   }
 
@@ -66,7 +66,7 @@ class _Bingo extends State<Bingo> {
     setState(() {
       widget.bingoParams.points += newPoint;
       widget.bingoParams.time = timer.getTime();
-      gameAction.saveGame(context, false, widget.newGame, widget.id, widget.bingoParams);
+      widget.isarService.saveTempGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
             context: context,
