@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/utils/get_card_icon.dart';
-import '../game/board/cardName/card_name.dart';
-import 'bingo_type_button.dart';
+import '../../game/board/cardName/card_name.dart';
+import '../bingo_type_button.dart';
 
 class PersonalizeCard {
   final String name;

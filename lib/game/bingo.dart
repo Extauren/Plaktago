@@ -13,7 +13,7 @@ import 'package:plaktago/home/mode_button.dart';
 import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:plaktago/data_class/game.dart';
-import 'board/board.dart';
+import 'package:plaktago/game/board/board.dart';
 
 class Bingo extends StatefulWidget {
   final Game bingoParams;
