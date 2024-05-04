@@ -43,7 +43,6 @@ class _PBoard extends State<PBoard> {
         List<int>.generate(nbLines, (index) => (nbLines - 1) * (index + 1));
     checkBoard = CheckBoard(nbLines: nbLines);
     order = getMaxOrder();
-    print(order);
   }
 
   int getMaxOrder() {

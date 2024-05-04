@@ -49,8 +49,6 @@ class _Home extends State<Home> {
     if (game != null) {
       setState(() {
         activeGame = game;
-        print("LOAD GAME");
-        print(activeGame.bingoCards.length);
         futureGame = widget.isarService.getOnGoingGame();
       });
     }

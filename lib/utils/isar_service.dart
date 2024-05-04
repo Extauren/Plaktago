@@ -172,7 +172,6 @@ class IsarService extends ChangeNotifier {
 
   Future<void> saveAppSettings(final AppSettings appSettings) async {
     final isar = await db;
-    print(appSettings.secondaryColor);
     isar.writeTxnSync(() => isar.appSettings.putSync(appSettings));
   }
 }

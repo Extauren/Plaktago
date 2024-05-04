@@ -46,8 +46,6 @@ class _Plaktago extends State<Plaktago> {
       // } else {
       //   _themeMode = ThemeMode.light;
       // }
-      print(appSettings.primaryColor);
-      print(appSettings.secondaryColor);
       darkColor = ColorScheme(
           brightness: Brightness.dark,
           primary: appSettings.primaryColor != ""

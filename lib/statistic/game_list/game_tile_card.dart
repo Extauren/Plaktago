@@ -115,7 +115,6 @@ class _GameTileCard extends State<GameTileCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     if (MediaQuery.of(context).size.width > 700) {
       sizeRatio = 2;
     }
