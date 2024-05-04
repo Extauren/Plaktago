@@ -13,7 +13,7 @@ class GameAction {
       Navigator.pop(context, true);
   }
 
-  void askSaveGame(BuildContext context, final bool newGameBis, final int id, final Game game) {
+  void askSaveGame(BuildContext context, final Game game) {
     PDialog(
       context: context,
       title: "Sauvegarder la partie",

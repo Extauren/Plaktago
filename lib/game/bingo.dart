@@ -21,6 +21,7 @@ class Bingo extends StatefulWidget {
   final IsarService isarService;
   final Id id;
   final bool displayTimer;
+
   Bingo({
     Key? key,
     required this.bingoParams,
@@ -55,12 +56,12 @@ class _Bingo extends State<Bingo> {
     gameAction = GameAction(isarService: widget.isarService);
     widget.isarService.saveTempGame(widget.bingoParams);
     saveTimer = Timer.periodic(
-      const Duration(
-        seconds: 60,
-      ),
+      const Duration(seconds: 60),
       (t) => () => widget.isarService.saveTempGame(widget.bingoParams),
     );
   }
+
+  void addLines(final int newLines) => widget.bingoParams.nbLines += newLines;
 
   void changePoints(final int newPoint, final int index) {
     setState(() {
@@ -69,19 +70,17 @@ class _Bingo extends State<Bingo> {
       widget.isarService.saveTempGame(widget.bingoParams);
       if (widget.bingoParams.points == 56) {
         showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                  title: Text(style: TextStyle(color: Colors.black), "Bingo"),
-                  content: Image.asset('assets/logo.png'),
-                  backgroundColor: Colors.yellow[300]);
-            });
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(style: TextStyle(color: Colors.black), "Bingo"),
+              content: Image.asset('assets/logo.png'),
+              backgroundColor: Colors.yellow[300]
+            );
+          }
+        );
       }
     });
-  }
-
-  void addLines(final int newLines) {
-    widget.bingoParams.nbLines += newLines;
   }
 
   @override
@@ -91,48 +90,55 @@ class _Bingo extends State<Bingo> {
       screenSizeRatio = 4;
     }
     return Scaffold(
-        appBar: PAppBar(
-            title: Row(children: [
-              getIcon(widget.bingoParams.bingoType),
-              SizedBox(width: 15),
-              Text(
-                'Bingo ${widget.bingoParams.bingoType.name}',
-              ),
-            ]),
-            actions: [
-              IconButton(
-                  icon: Icon(FontAwesomeIcons.trash),
-                  onPressed: () => gameAction.askDeleteGame(context, widget.bingoParams),
-                  color: Theme.of(context).colorScheme.primary)
-            ]),
-        body:
-            ListView(children: [
+      appBar: PAppBar(
+        title: Row(
+          children: [
+            getIcon(widget.bingoParams.bingoType),
+            SizedBox(width: 15),
+            Text('Bingo ${widget.bingoParams.bingoType.name}'),
+          ]
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(FontAwesomeIcons.trash),
+            onPressed: () => gameAction.askDeleteGame(context, widget.bingoParams),
+            color: Theme.of(context).colorScheme.primary)
+        ]
+      ),
+      body: ListView(
+        children: [
           Align(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20),
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (widget.displayTimer)
-                          DisplayTimer(borderHeight: borderHeight, timer: timer),
-                        DisplayScore(score: widget.bingoParams.points, borderHeight: borderHeight)
-                      ]))),
+            child: Container(
+              margin: EdgeInsets.only(top: 20),
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (widget.displayTimer)
+                    DisplayTimer(borderHeight: borderHeight, timer: timer),
+                  DisplayScore(score: widget.bingoParams.points, borderHeight: borderHeight)
+                ]
+              )
+            )
+          ),
           Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Board(
-                    changePoints: changePoints,
-                    bingoCard: widget.bingoParams.bingoCards,
-                    addLine: addLines,
-                  ))),
-                  POutlinedButton(
+            child: Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Board(
+                changePoints: changePoints,
+                bingoCard: widget.bingoParams.bingoCards,
+                addLine: addLines,
+              )
+            )
+          ),
+          POutlinedButton(
             label: "Enregistrer la partie",
             width: MediaQuery.of(context).size.width / 1.5,
-            onPressed: () => gameAction.askSaveGame(context, widget.newGame, widget.id, widget.bingoParams),
+            onPressed: () => gameAction.askSaveGame(context, widget.bingoParams),
             iconData: Icons.save,
-            margin: EdgeInsets.only(bottom: 10, top: 10)),
+            margin: EdgeInsets.only(bottom: 10, top: 10)
+          ),
         ]
       )
     );
