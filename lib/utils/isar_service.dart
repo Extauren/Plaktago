@@ -102,8 +102,13 @@ class IsarService extends ChangeNotifier {
     initializeDateFormatting();
     game.hour = DateFormat("HH:mm").format(DateTime.now());
     game.date = DateFormat('dd/MM/yy').format(DateTime.now());
-    game.id = general!.nbGames + 1;
-    game.gameNumber = game.id;
+    if (general == null) {
+      game.gameNumber = 1;
+      game.id = 1;
+    } else {
+      game.id = general!.nbGames + 1;
+      game.gameNumber = game.id;
+    }
     isar.writeTxnSync(() => isar.games.putSync(game));
     updateGeneralStats(game.bingoType, game.points, true, game.bingoCards, 1, game.nbLines);
     isar.writeTxnSync(() => isar.games.deleteSync(-1));
