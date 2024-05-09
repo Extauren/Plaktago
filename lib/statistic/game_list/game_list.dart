@@ -1,13 +1,18 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:plaktago/statistic/game_list/game_stat.dart';
+import 'package:plaktago/data_class/app_settings.dart';
+import 'package:plaktago/statistic/game_list/game_tile_card.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:plaktago/data_class/game.dart';
 
 class GameList extends StatefulWidget {
   final IsarService isarService;
-  const GameList({Key? key, required this.isarService}) : super(key: key);
+  final AppSettings appSettings;
+
+  const GameList(
+      {Key? key, required this.isarService, required this.appSettings})
+      : super(key: key);
 
   @override
   State<GameList> createState() => _GameList();
@@ -65,32 +70,39 @@ class _GameList extends State<GameList> {
             snapshot.data?.sort(
               (a, b) => b!.gameNumber.compareTo(a!.gameNumber),
             );
+            int screenHeight = 140 * snapshot.data!.length;
             children = <Widget>[
-              SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: ListView(children: [
-                    Container(
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        height: MediaQuery.of(context).size.height *
-                            snapshot.data!.length /
-                            9,
-                        child: ListView.builder(
-                            controller:
-                                ScrollController(keepScrollOffset: false),
-                            itemCount: snapshot.data?.length,
-                            itemBuilder: (context, index) {
-                              final Game game = snapshot.data![index]!;
-                              return GameStat(
-                                game: game,
-                                index: index,
-                                getStat: getGames,
-                                updateState: updateState,
-                                cardKey: cardList[index],
-                                isarService: widget.isarService,
-                                getGames: getGames,
-                              );
-                            }))
-                  ]))
+              if (snapshot.data!.isNotEmpty)
+                SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView(children: [
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          height: screenHeight.toDouble(),
+                          child: ListView.builder(
+                              controller:
+                                  ScrollController(keepScrollOffset: false),
+                              itemCount: snapshot.data?.length,
+                              itemBuilder: (context, index) {
+                                final Game game = snapshot.data![index]!;
+                                return GameTileCard(
+                                    game: game,
+                                    index: index,
+                                    getStat: getGames,
+                                    updateState: updateState,
+                                    cardKey: cardList[index],
+                                    isarService: widget.isarService,
+                                    getGames: getGames,
+                                    displayTimer:
+                                        widget.appSettings.displayTimer);
+                              }))
+                    ]))
+              else
+                Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 4),
+                    child: Text("Pas de parties enregistrées",
+                        style: TextStyle(fontSize: 20)))
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[
@@ -105,17 +117,7 @@ class _GameList extends State<GameList> {
               ),
             ];
           } else {
-            children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
-            ];
+            children = const <Widget>[];
           }
           return Center(
             child: Column(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:group_button/group_button.dart';
+import 'package:plaktago/utils/get_icon.dart';
 
 enum BingoType {
   plaque("Plaque"),
   kta("KTA"),
-  exploration("Exploration");
+  exploration("Explo"),
+  chantier("Chantier");
 
   const BingoType(this.name);
   final String name;
@@ -24,41 +26,48 @@ class BingoTypeButton extends StatefulWidget {
 }
 
 class _BingoTypeButton extends State<BingoTypeButton> {
+
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: SegmentedButton<BingoType>(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.selected)) {
-              return Theme.of(context).colorScheme.primary;
-            }
-            return Theme.of(context).colorScheme.surface;
-          },
+      child:
+      Column(children: [
+      GroupButton<BingoType>(
+        onSelected: (string, index, isSelected) => {widget.updateBingoType(BingoType.values[index])},
+        buttons: BingoType.values,
+        buttonBuilder: (selected, type, context) {
+          return SizedBox(
+            height: 60,
+            width: 120,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: selected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              color: Theme.of(context).colorScheme.surface,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  getIcon(
+                    type,
+                    selected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    type.name,
+                    style: TextStyle(color: selected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface),  
+                  )
+                ])));
+        },
+        maxSelected: 1,
+        options: GroupButtonOptions(
+          spacing: 0,
+          runSpacing: 0,
         ),
       ),
-      segments: <ButtonSegment<BingoType>>[
-        ButtonSegment<BingoType>(
-            value: BingoType.plaque,
-            label: Text(BingoType.plaque.name),
-            // style: TextStyle(fontFamily: 'RobotCondensed')),
-            icon: Icon(Icons.aspect_ratio)),
-        ButtonSegment<BingoType>(
-            value: BingoType.kta,
-            label: Text(BingoType.kta.name),
-            icon: Icon(FontAwesomeIcons.dungeon)),
-        ButtonSegment<BingoType>(
-            value: BingoType.exploration,
-            label: Text(BingoType.exploration.name),
-            icon: Icon(FontAwesomeIcons.personWalking)),
-      ],
-      selected: <BingoType>{widget.bingoType},
-      onSelectionChanged: (Set<BingoType> newSelection) {
-        setState(() {
-          widget.updateBingoType(newSelection.first);
-        });
-      },
-    ));
+  ])
+    );
   }
 }

@@ -1,15 +1,25 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:plaktago/game/board/bingo_card.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:plaktago/components/app_bar.dart';
+import 'package:plaktago/components/board.dart';
+import 'package:plaktago/components/dialog.dart';
+import 'package:plaktago/components/outlined_button.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
+import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
 
 class GameStats extends StatefulWidget {
   final Game game;
   final IsarService isarService;
-  const GameStats({Key? key, required this.game, required this.isarService})
+  final bool displayTimer;
+  const GameStats(
+      {Key? key,
+      required this.game,
+      required this.isarService,
+      required this.displayTimer})
       : super(key: key);
 
   @override
@@ -19,6 +29,7 @@ class GameStats extends StatefulWidget {
 class _GameStats extends State<GameStats> {
   late double _sliderValue;
   late double _sliderMaxValue;
+  String formatDate = "";
 
   @override
   void initState() {
@@ -34,62 +45,35 @@ class _GameStats extends State<GameStats> {
       _sliderMaxValue = double.parse(maxOrder.order.toString());
     }
     _sliderValue = _sliderMaxValue;
+    getDate();
   }
 
-  ShapeBorder getCardShape(final int index) {
-    final Radius corner = Radius.circular(8);
-    if (index == 0) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: corner));
-    }
-    if (index == 4 - 1) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topRight: corner));
-    }
-    if (index == 4 * (4 - 1)) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: corner));
-    }
-    if (index == 4 * 4 - 1) {
-      return RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomRight: corner));
-    }
-    return RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero));
-  }
+  void getDate() {
+    List<int> dateNumber = [];
 
-  Color getCardColor(int index) {
-    if (widget.game.bingoCards.elementAt(index).order <= _sliderValue) {
-      if (widget.game.bingoCards.elementAt(index).isSelect == true) {
-        if (widget.game.bingoCards.elementAt(index).nbLineComplete > 0) {
-          return Color.fromRGBO(153, 219, 129, 1);
-        }
-        return Theme.of(context).colorScheme.secondary;
-      }
+    initializeDateFormatting('fr');
+    final dateTimeFormat = DateFormat.yMMMMd("fr");
+    List<String> dateList = widget.game.date.split('/');
+    for (int i = 0; i < dateList.length; i++) {
+      dateNumber.add(int.parse(dateList[i]));
     }
-    return Theme.of(context).cardColor;
+    formatDate = dateTimeFormat
+        .format(DateTime(dateNumber[2], dateNumber[1], dateNumber[0]));
   }
 
   void deleteGame() async {
-    widget.isarService
-        .deleteGame(widget.game.id, widget.game.bingoType, widget.game.points);
+    widget.isarService.deleteGame(widget.game.id, widget.game.bingoType,
+        widget.game.points, widget.game.nbLines);
     Navigator.pop(context);
   }
 
   void checkDeleteGame() {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.warning,
-      animType: AnimType.scale,
-      dialogBackgroundColor: Colors.grey[300],
-      title: 'Supprimer la partie',
-      titleTextStyle:
-          TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      desc: 'Voulez vous vraiment supprimer cette partie ?',
-      descTextStyle: TextStyle(color: Colors.black),
-      btnOkOnPress: deleteGame,
-      btnCancelText: "Annuler",
-      btnCancelOnPress: () => {},
-    ).show();
+    PDialog(
+            context: context,
+            title: "Supprimer la partie",
+            desc: "Voulez vous vraiment supprimer cette partie ?",
+            bntOkOnPress: deleteGame)
+        .show();
   }
 
   void setGameToFavorite() {
@@ -99,127 +83,114 @@ class _GameStats extends State<GameStats> {
     });
   }
 
-  Widget getIcon() {
-    late Widget icon;
-    if (widget.game.bingoType == BingoType.kta) {
-      icon = Icon(
-        FontAwesomeIcons.dungeon,
-      );
-    }
-    if (widget.game.bingoType == BingoType.exploration) {
-      icon = Icon(
-        FontAwesomeIcons.personWalking,
-      );
-    }
-    if (widget.game.bingoType == BingoType.plaque) {
-      icon = Icon(
-        Icons.aspect_ratio,
-      );
-    }
-    return Container(margin: EdgeInsets.only(right: 15), child: icon);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(children: [
-            getIcon(),
-            Text(
-              'Bingo ${widget.game.bingoType.name}',
-            )
+        appBar: PAppBar(
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            getIcon(widget.game.bingoType),
+            Text(widget.game.bingoType.name),
+            Text(widget.game.date)
           ]),
           actions: [
-            IconButton(
-              onPressed: setGameToFavorite,
-              icon: Icon(
-                widget.game.favorite
-                    ? FontAwesomeIcons.heartCircleCheck
-                    : FontAwesomeIcons.heart,
-                color: Theme.of(context).colorScheme.primary,
-                size: 28,
-              ),
-            ),
+            Container(
+                margin: EdgeInsets.only(right: 10),
+                child: IconButton(
+                  onPressed: setGameToFavorite,
+                  icon: Icon(
+                    widget.game.favorite
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    color: Color.fromRGBO(242, 48, 48, 1),
+                    size: 28,
+                  ),
+                )),
           ],
         ),
         body: ListView(children: [
-          Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 30),
-                  child: Text(
-                    widget.game.date,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ))),
+          // Center(
+          //     child: Container(
+          //         margin: EdgeInsets.only(top: 20),
+          //         child: Text(
+          //           formatDate,
+          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          //         ))),
           Container(
               margin: EdgeInsets.only(top: 20),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 2,
-                        ),
-                        child: Text(
-                          widget.game.time,
-                          style: const TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.bold),
-                        )),
+                    if (widget.displayTimer)
+                      ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 2,
+                          ),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: 50,
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  border: Border.all(
+                                      width: 1.5,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
+                              child: Center(
+                                  child: Text(
+                                widget.game.time,
+                                style: const TextStyle(
+                                    fontSize: 26, fontWeight: FontWeight.bold),
+                              )))),
                     ConstrainedBox(
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width / 2,
                         ),
                         child: Container(
-                            margin: EdgeInsets.only(top: 3, left: 50),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Points : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500)),
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      widget.game.points.toString(),
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w400),
-                                    ))
-                              ],
-                            )))
+                            margin: EdgeInsets.only(
+                                left: widget.displayTimer ? 50 : 0),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                height: 50,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Points : ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          widget.game.points.toString(),
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400),
+                                        ))
+                                  ],
+                                ))))
                   ])),
           Container(
               margin: EdgeInsets.only(top: 20),
-              height: MediaQuery.of(context).size.height / 1.77,
-              constraints: BoxConstraints(maxWidth: 450, maxHeight: 430),
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                  ),
-                  padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                  itemCount: widget.game.bingoCards.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Align(
-                        child: SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Card(
-                                shape: getCardShape(index),
-                                margin: const EdgeInsets.all(0.5),
-                                color: getCardColor(index),
-                                child: Center(
-                                    child: Container(
-                                        margin: const EdgeInsets.all(0.5),
-                                        child: Text(
-                                            widget.game.bingoCards
-                                                .elementAt(index)
-                                                .name,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black)))))));
-                  })),
+              height: MediaQuery.of(context).size.height / 1.74,
+              constraints: BoxConstraints(maxWidth: 450, maxHeight: 520),
+              child: PBoard(
+                bingoCard: widget.game.bingoCards,
+                writePerm: false,
+                sliderValue: _sliderValue,
+              )),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Slider(
@@ -227,32 +198,22 @@ class _GameStats extends State<GameStats> {
                 max: _sliderMaxValue,
                 value: _sliderValue,
                 divisions: _sliderMaxValue.toInt(),
-                inactiveColor: Theme.of(context).colorScheme.onBackground,
+                inactiveColor: Theme.of(context).colorScheme.surface,
+                thumbColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).cardColor,
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => Theme.of(context).colorScheme.surface),
                 onChanged: (value) {
                   setState(() {
                     _sliderValue = value;
                   });
                 },
               )),
-          Align(
-              child: Container(
-                  width: 230,
-                  height: 40,
-                  margin: EdgeInsets.only(top: 20, bottom: 10),
-                  child: ElevatedButton(
-                    onPressed: () => {},
-                    child: TextButton.icon(
-                      onPressed: deleteGame,
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        'Supprimer la partie',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  )))
+          POutlinedButton(
+              label: "Supprimer la partie",
+              onPressed: checkDeleteGame,
+              iconData: Icons.delete,
+              margin: EdgeInsets.only(top: 20, bottom: 10)),
         ]));
   }
 }

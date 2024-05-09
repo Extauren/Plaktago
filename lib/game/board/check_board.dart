@@ -1,4 +1,4 @@
-import 'bingo_card.dart';
+import 'package:plaktago/data_class/bingo_card.dart';
 
 class CheckBoard {
   final int nbLines;

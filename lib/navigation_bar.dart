@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:plaktago/utils/game/game.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:plaktago/data_class/app_settings.dart';
+import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/utils/check_update.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/app_settings.dart';
 import 'home/home.dart';
 import 'statistic/statistic.dart';
-import 'help.dart';
+import 'settings/settings.dart';
 
 class NavigationBarApp extends StatefulWidget {
   final Function changeTheme;
@@ -31,6 +33,19 @@ class _NavigationBar extends State<NavigationBarApp> {
   void initState() {
     super.initState();
     pages = getPages();
+    Update(
+            context: context,
+            settings: widget.appSettings,
+            isarService: widget.isarService)
+        .checkForUpdate();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    widget.appSettings.version =
+        info.version.substring(0, info.version.lastIndexOf('.') + 1);
+    widget.isarService.saveAppSettings(widget.appSettings);
   }
 
   // GoRouter router() {
@@ -61,13 +76,14 @@ class _NavigationBar extends State<NavigationBarApp> {
   List<Widget> getPages() {
     return [
       Home(
-          key: homeKey,
-          changeTheme: widget.changeTheme,
-          appSettings: widget.appSettings,
-          bingoParams: Game(),
-          isarService: widget.isarService),
-      Statistic(),
-      Help()
+        key: homeKey,
+        changeTheme: widget.changeTheme,
+        appSettings: widget.appSettings,
+        bingoParams: Game(),
+        isarService: widget.isarService,
+      ),
+      Statistic(appSettings: widget.appSettings),
+      Settings(appSettings: widget.appSettings, isarService: widget.isarService)
     ];
   }
 
@@ -80,26 +96,33 @@ class _NavigationBar extends State<NavigationBarApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        body: pages[_selectedIndex],
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+              border: Border(
+                  top: BorderSide(
+                      color: Theme.of(context).colorScheme.surface,
+                      width: 1.0))),
+          child: BottomNavigationBar(
+            elevation: 0.0,
+            type: BottomNavigationBarType.fixed,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.graphic_eq),
+                label: 'Statistiques',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Paramètres',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.graphic_eq),
-            label: 'Statistiques',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: 'Aide',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
-    );
+        ));
   }
 }

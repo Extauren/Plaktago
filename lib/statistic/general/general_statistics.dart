@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/components/border_button.dart';
+import 'package:plaktago/components/separator.dart';
+import 'package:plaktago/data_class/app_settings.dart';
+import 'package:plaktago/statistic/general/best_cards_list.dart';
+import 'package:plaktago/statistic/general/cards_list.dart';
 import 'package:plaktago/utils/isar_service.dart';
-import 'package:plaktago/utils/general.dart';
-import '../../utils/save_game.dart';
-import 'graph.dart';
-import 'graph2.dart';
+import 'package:plaktago/data_class/general.dart';
+import '../../data_class/save_game.dart';
+import 'pourcentage.dart';
 
 class GeneralStatistic extends StatefulWidget {
   final IsarService isarService;
-  const GeneralStatistic({Key? key, required this.isarService})
+  final AppSettings appSettings;
+  const GeneralStatistic(
+      {Key? key, required this.isarService, required this.appSettings})
       : super(key: key);
 
   @override
@@ -28,8 +34,8 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   ];
   final List<String> titles = [
     "Total",
-    "Gagnés",
-    "Plus jouée",
+    "Lignes",
+    "Points",
     "Plaque",
     "Kta",
     "Explo",
@@ -54,40 +60,55 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     values[0] = Text(data.nbGames.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
-    values[1] = Text(data.bingoWin.toString(),
-        style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: textFontSize));
-    // final List tmp = data.cardList;
-    // for (int it = 0; it < tmp.length; it++) {
-    //   cardList.add(CardList.fromJson(tmp.elementAt(it)));
-    // }
-    // values[2] = Container(
-    //     margin: EdgeInsets.only(top: 4),
-    //     child: Text(cardList[0].cardName.toString(),
-    //         style: TextStyle(
-    //             fontWeight: FontWeight.w600,
-    //             color: Colors.black,
-    //             fontSize: 18)));
+    values[1] = data.nbLines < 0
+        ? Text("Null",
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: textFontSize))
+        : Text(data.nbLines.toString(),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: textFontSize));
+    values[2] = data.nbPoints < 0
+        ? Text("Null",
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: textFontSize))
+        : Text(data.nbPoints.toString(),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: textFontSize));
     values[3] = Text(data.bingoPlaque.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     values[4] = Text(data.bingoKta.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     values[5] = Text(data.bingoExplo.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: Colors.white,
             fontSize: textFontSize));
     return values;
+  }
+
+  void goToCardListStat(final List<CardList> cardList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CardListStat(
+                  cardList: cardList,
+                )));
   }
 
   @override
@@ -114,16 +135,20 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                               child: SizedBox(
                                   height: 65,
                                   width: 100,
-                                  child: Card(
-                                      margin: const EdgeInsets.all(0),
-                                      color: Colors.indigo[100],
-                                      child: Center(
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15)),
+                                          border: Border.all(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary)),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
                                             Container(
                                                 margin: const EdgeInsets.only(
                                                     top: 4),
@@ -132,19 +157,51 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        color: Colors.black))),
+                                                        color: Colors.white))),
                                             values[index]
-                                          ])))));
+                                          ]))));
                         })),
-                if (snapshot.data!.nbGames > 0)
-                  PieChartSample2(
-                    nbGames: snapshot.data!.nbGames.toString(),
-                    bingoPlaque: snapshot.data!.bingoPlaque.toString(),
-                    bingoKta: snapshot.data!.bingoKta.toString(),
-                    bingoExplo: snapshot.data!.bingoExplo.toString(),
-                  ),
-                BarChartSample2(
-                  cardList: snapshot.data!.cardList,
+                if (snapshot.data!.nbGames >= 0)
+                  Column(children: [
+                    PSeparator(
+                      text: "Parties",
+                    ),
+                    SizedBox(height: 20),
+                    Pourcentage(
+                      nbGames: snapshot.data!.nbGames.toString(),
+                      bingoPlaque: snapshot.data!.bingoPlaque.toString(),
+                      bingoKta: snapshot.data!.bingoKta.toString(),
+                      bingoExplo: snapshot.data!.bingoExplo.toString(),
+                    ),
+                  ]),
+                SizedBox(
+                  height: 80,
+                ),
+                PSeparator(
+                  text: "Liste des cartes",
+                ),
+                SizedBox(height: 40),
+                SizedBox(
+                    height: 280,
+                    child: BestCardsList(
+                      cardList: snapshot.data!.cardList,
+                      nbRows: 5,
+                      headingRowHeight: 50,
+                      dataRowHeight: 45,
+                    )),
+                Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 0, top: 10),
+                        child: PBorderButton(
+                          label: "Plus de cartes",
+                          onPressed: () =>
+                              goToCardListStat(snapshot.data!.cardList),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
+                        ))),
+                SizedBox(
+                  height: 80,
                 ),
               ])
             ];
@@ -161,17 +218,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
               ),
             ];
           } else {
-            children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
-            ];
+            children = const <Widget>[];
           }
           return Center(
             child: Column(

@@ -32,6 +32,17 @@ class _ModeButton extends State<ModeButton> {
             icon: Icon(Icons.settings)),
       ],
       selected: <Mode>{widget.mode},
+      showSelectedIcon: false,
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStatePropertyAll(Theme.of(context).colorScheme.surface),
+          foregroundColor: MaterialStateColor.resolveWith((states) {
+            return states.contains(MaterialState.selected)
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface;
+          }),
+          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
       onSelectionChanged: (Set<Mode> newSelection) {
         setState(() {
           widget.updateBingoMode(newSelection.first);

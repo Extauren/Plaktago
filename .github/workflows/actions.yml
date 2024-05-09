@@ -1,11 +1,10 @@
-name: flutter-action
+name: Github Action
+
 on:
   push:
-    branches: [main, develop]
     paths-ignore:
       - '**/README.md'
-  pull_request:
-    branches: [main, develop]
+
 jobs:
   test:
     name: Tests
@@ -18,11 +17,35 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: ${{env.JAVA_VERSION}}
-          cache: gradle
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
           cache: true
-      - run: flutter pub get
-      #- run: flutter analyze
-      - run: flutter test
+      - name: Get dependencies of Flutter package
+        run: flutter pub get
+      - name: Analyze Flutter project source code
+        run: flutter analyze
+      - name: Run unit tests
+        id: test
+        run: flutter test --coverage
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  # patch:
+  #   name: "Shorebid Patch"
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: success() && github.ref == 'refs/heads/main'
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #   env:
+  #     SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+  #   steps:
+  #     - name: 📚 Git Checkout
+  #       uses: actions/checkout@v3
+  #     - name: 🐦 Setup Shorebird
+  #       uses: shorebirdtech/setup-shorebird@v0
+  #     - name: 🚀 Shorebird Patch
+  #       run: shorebird patch android
