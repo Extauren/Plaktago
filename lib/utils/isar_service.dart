@@ -106,7 +106,7 @@ class IsarService extends ChangeNotifier {
       game.gameNumber = 1;
       game.id = 1;
     } else {
-      game.id = general!.nbGames + 1;
+      game.id = general.nbGames + 1;
       game.gameNumber = game.id;
     }
     isar.writeTxnSync(() => isar.games.putSync(game));
