@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:isar/isar.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/outlined_button.dart';
 import 'package:plaktago/game/create_game.dart';
