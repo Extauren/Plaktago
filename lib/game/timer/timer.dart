@@ -44,7 +44,7 @@ class _BingoTimer extends State<BingoTimer> {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.width * 0.06;
+    final double fontSize = MediaQuery.of(context).size.width * 0.055;
     return Column(
       children: <Widget>[
         StreamBuilder<int>(

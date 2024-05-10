@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 class DisplayScore extends StatelessWidget {
   final int score;
   final double borderHeight;
+  final double width;
 
-  DisplayScore({required this.score, required this.borderHeight});
+  DisplayScore({
+    required this.score,
+    required this.borderHeight,
+    required this.width
+  });
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.width * 0.055;
+    final double fontSize = MediaQuery.of(context).size.width * 0.048;
     return SizedBox(
       height: borderHeight,
-      width: MediaQuery.of(context).size.width / 2.5,
+      width: width,
       child: Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(

@@ -4,19 +4,24 @@ import 'package:plaktago/game/timer/timer.dart';
 
 class DisplayTimer extends StatelessWidget {
   final double borderHeight;
+  final double width;
   final BingoTimer timer;
 
-  DisplayTimer({required this.borderHeight, required this.timer});
+  DisplayTimer({
+    required this.borderHeight,
+    required this.timer, 
+    required this.width
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 2.5,
+      width: width,
       height: borderHeight,
       child: Container(
         padding: EdgeInsets.only(
             top:
-                MediaQuery.of(context).size.width / 40),
+                MediaQuery.of(context).size.width / 50),
         decoration: BoxDecoration(
             borderRadius:
                 BorderRadius.all(Radius.circular(15)),
