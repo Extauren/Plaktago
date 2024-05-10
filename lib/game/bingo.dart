@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:isar/isar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
 import 'package:plaktago/components/outlined_button.dart';
@@ -35,7 +34,6 @@ class Bingo extends StatefulWidget {
 }
 
 class _Bingo extends State<Bingo> {
-  int screenSizeRatio = 2;
   late BingoTimer timer;
   late Timer saveTimer;
   late GameAction gameAction; 
@@ -84,10 +82,8 @@ class _Bingo extends State<Bingo> {
 
   @override
   Widget build(BuildContext context) {
-    final double borderHeight = MediaQuery.of(context).size.width / 6.7;
-    if (MediaQuery.of(context).size.width > 700) {
-      screenSizeRatio = 4;
-    }
+    final double borderHeight = MediaQuery.of(context).size.width / 7.9;
+    final double width = MediaQuery.of(context).size.width / 2.8;
     return Scaffold(
       appBar: PAppBar(
         title: Row(
@@ -115,8 +111,8 @@ class _Bingo extends State<Bingo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (widget.displayTimer)
-                    DisplayTimer(borderHeight: borderHeight, timer: timer),
-                  DisplayScore(score: widget.bingoParams.points, borderHeight: borderHeight)
+                    DisplayTimer(borderHeight: borderHeight, width: width, timer: timer),
+                  DisplayScore(score: widget.bingoParams.points, borderHeight: borderHeight, width: width)
                 ]
               )
             )
@@ -133,10 +129,11 @@ class _Bingo extends State<Bingo> {
           ),
           POutlinedButton(
             label: "Enregistrer la partie",
-            width: MediaQuery.of(context).size.width / 1.5,
+            width: MediaQuery.of(context).size.width / 1.7,
             onPressed: () => gameAction.askSaveGame(context, widget.bingoParams),
             iconData: Icons.save,
-            margin: EdgeInsets.only(bottom: 10, top: 10)
+            margin: EdgeInsets.only(bottom: 10, top: 10),
+            labelFontSize: MediaQuery.of(context).size.width / 25,
           ),
         ]
       )

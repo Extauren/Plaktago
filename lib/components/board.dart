@@ -20,7 +20,8 @@ class PBoard extends StatefulWidget {
       this.changePoints,
       this.addLine,
       this.sliderValue = 17,
-      this.controller})
+      this.controller,
+      })
       : super(key: key);
 
   @override
@@ -33,6 +34,7 @@ class _PBoard extends State<PBoard> {
   static CheckBoard checkBoard = CheckBoard(nbLines: 4);
   static List<int> firstDiagonalValues = [];
   static List<int> secondDiagonalValues = [];
+
 
   @override
   void initState() {
@@ -118,12 +120,12 @@ class _PBoard extends State<PBoard> {
     final String desc = card.desc == "" ? "Pas de description" : card.desc;
 
     PDialog(
-            context: context,
-            title: card.name,
-            desc: desc,
-            bntOkOnPress: () {},
-            displayBtn: false)
-        .show();
+      context: context,
+      title: card.name,
+      desc: desc,
+      bntOkOnPress: () {},
+      displayBtn: false
+    ).show();
   }
 
   Color getCardColor(final BingoCard card) {
@@ -140,7 +142,7 @@ class _PBoard extends State<PBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.width * 0.035;
+    final double fontSize = MediaQuery.of(context).size.width * 0.032;
 
     return GridView.builder(
         controller: ScrollController(keepScrollOffset: false),
@@ -150,10 +152,12 @@ class _PBoard extends State<PBoard> {
         itemCount: nbLines * nbLines,
         itemBuilder: (BuildContext context, int index) {
           final BingoCard card = widget.bingoCard.elementAt(index);
-          final Widget icon = getCardIcon(card, EdgeInsets.only(top: 15));
-          final AlignmentGeometry textAlign =
-              card.icon == null ? Alignment.center : Alignment.bottomCenter;
-          final double textPadding = card.icon == null ? 0 : 20;
+          final Widget icon = getCardIcon(card, EdgeInsets.only(top: 15), context);
+          final AlignmentGeometry textAlign = card.icon == null ? Alignment.center : Alignment.bottomCenter;
+          const double horizonTextPadding = 2.0;
+          final textStyle = TextStyle(fontSize: fontSize,fontWeight: FontWeight.w600,color: Colors.black);
+          final Size txtSize = _textSize(card.name, textStyle);
+
           return Align(
             child: GestureDetector(
               onTap: () => _onCardTapped(index),
@@ -168,20 +172,42 @@ class _PBoard extends State<PBoard> {
                         Align(
                             alignment: Alignment.topCenter,
                             child: Padding(
-                                padding: EdgeInsets.only(top: 5), child: icon)),
+                                padding: EdgeInsets.only(top: 2), child: icon)),
                         Align(
-                            alignment: textAlign,
-                            child: Padding(
-                                padding: EdgeInsets.only(bottom: textPadding),
-                                child: Text(card.name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: fontSize,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black))))
-                      ]))),
+                          alignment: textAlign,
+                          child: LayoutBuilder(builder: (context, constraints) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: card.icon == null ? 0 : getTextPadding(txtSize.width, constraints.maxWidth), left: horizonTextPadding, right: horizonTextPadding),
+                            child: Text(
+                              card.name,
+                              textAlign: TextAlign.center,
+                              style: textStyle
+                            )
+                          );}
+                        )),
+                      ])))
             ),
           );
         });
+  }
+
+  double getTextPadding (final double txtWitdh, final double txtSpace) {
+    print(txtSpace.toInt());
+    print(txtWitdh.toInt());
+
+    if (txtWitdh > txtSpace * 2) {
+      return 10.0;
+    }
+    if (txtWitdh <= txtSpace) {
+      return 25;
+    }
+    return 15.0;
+  }
+  
+  Size _textSize(String text, TextStyle style) {
+    final TextPainter textPainter = TextPainter(
+        text: TextSpan(text: text, style: style), maxLines: 1, textDirection: TextDirection.ltr)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
+    return textPainter.size;
   }
 }
