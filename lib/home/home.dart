@@ -122,7 +122,7 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        controller: parentScrollController, 
+        controller: parentScrollController,
         children: [
           Container(
             margin: const EdgeInsets.only(top: 40, left: 60, right: 60),
@@ -173,7 +173,7 @@ class _Home extends State<Home> {
             )
           ),
           Container(
-            margin: const EdgeInsets.only(bottom: 0, top: 10, left: 80, right: 80),
+            margin: const EdgeInsets.only(bottom: 20, top: 20, left: 80, right: 80),
             child: Image.asset('assets/homePlaque.png')
           )
         ]

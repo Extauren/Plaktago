@@ -130,11 +130,11 @@ class _Bingo extends State<Bingo> {
             )
           ),
           POutlinedButton(
+            margin: EdgeInsets.only(bottom: 20, top: 20),
             label: "Enregistrer la partie",
             width: MediaQuery.of(context).size.width / 1.7,
             onPressed: () => gameAction.askSaveGame(context, widget.bingoParams),
             iconData: Icons.save,
-            margin: EdgeInsets.only(bottom: 10, top: 10),
             labelFontSize: MediaQuery.of(context).size.width / 25,
           ),
         ]
