@@ -2,7 +2,6 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
-import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/components/color_picker.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/game/board/cardName/card_name.dart';
@@ -136,7 +135,7 @@ class _Settings extends State<Settings> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     PColorPicker(
-                      title: "Couleurs primaire",
+                      title: "Couleur primaire",
                       color: widget.appSettings.primaryColor != ""
                         ? HexColor.fromHex(widget.appSettings.primaryColor)
                         : Color.fromRGBO(242, 217, 141, 1),
@@ -144,7 +143,7 @@ class _Settings extends State<Settings> {
                     ),
                     SizedBox(height: 20),
                     PColorPicker(
-                      title: "Couleurs secondaire",
+                      title: "Couleur secondaire",
                       color: widget.appSettings.secondaryColor != ""
                         ? HexColor.fromHex(widget.appSettings.secondaryColor)
                         : Color.fromRGBO(149, 169, 225, 1),
