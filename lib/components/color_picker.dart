@@ -58,31 +58,31 @@ class _PColorPicker extends State<PColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: ListTile(
-          title: Text(widget.title),
-          trailing: ColorIndicator(
-            width: 44,
-            height: 44,
-            borderRadius: 4.0,
-            color: dialogPickerColor,
-            onSelectFocus: false,
-            onSelect: () async {
-              final Color colorBeforeDialog = dialogPickerColor;
-              if (!(await colorPickerDialog())) {
-                setState(() {
-                  dialogPickerColor = colorBeforeDialog;
-                });
-              } else {
-                setState(() {
-                  widget.changeColor(dialogPickerColor);
-                  _showRestartBanner();
-                });
-              }
-            },
-          ),
-        ));
+    return SizedBox(
+        width: 220,
+        child: Row(
+            children: <Widget>[
+              ColorIndicator(
+                borderRadius: 8.0,
+                color: dialogPickerColor,
+                onSelectFocus: false,
+                onSelect: () async {
+                  final Color colorBeforeDialog = dialogPickerColor;
+                  if (!(await colorPickerDialog())) {
+                    setState(() {
+                      dialogPickerColor = colorBeforeDialog;
+                    });
+                  } else {
+                    setState(() {
+                      widget.changeColor(dialogPickerColor);
+                      _showRestartBanner();
+                    });
+                  }
+                },
+              ),
+              SizedBox(width: 40),
+              Text(widget.title),
+        ]));
   }
 
   Future<bool> colorPickerDialog() async {
@@ -97,10 +97,10 @@ class _PColorPicker extends State<PColorPicker> {
       runSpacing: 5,
       wheelDiameter: 155,
       heading: Padding(
-          padding: EdgeInsets.only(bottom: 15),
+          padding: EdgeInsets.only(bottom: 10),
           child: Text(
             'Choississez une couleur',
-            style: Theme.of(context).textTheme.titleMedium,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
           )),
       copyPasteBehavior: const ColorPickerCopyPasteBehavior(
         longPressMenu: true,
@@ -117,6 +117,10 @@ class _PColorPicker extends State<PColorPicker> {
         ColorPickerType.custom: true,
       },
       customColorSwatchesAndNames: colorsNameMap,
+      pickerTypeLabels: <ColorPickerType, String>{
+        ColorPickerType.custom : "Aléatoire",
+        ColorPickerType.wheel: "Roue"
+      }
     ).showPickerDialog(
       context,
       actionsPadding: const EdgeInsets.all(16),
