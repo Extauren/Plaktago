@@ -2,11 +2,13 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/app_bar.dart';
+import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/components/color_picker.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/settings/github_page.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/settings/update_button.dart';
 import 'package:plaktago/utils/hex_color.dart';
 import 'package:plaktago/utils/isar_service.dart';
 
@@ -84,6 +86,8 @@ class _Settings extends State<Settings> {
             child: ListView(children: [
               Column(children: [
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  UpdateButton(),
+                  SizedBox(height: 40),
                   Text("Afficher le temps"),
                   SizedBox(height: 15),
                   DefaultTextStyle.merge(
@@ -125,26 +129,30 @@ class _Settings extends State<Settings> {
                           ))),
                 ]),
               ]),
-              Container(
-                  margin: EdgeInsets.only(top: 30),
-                  height: 80,
-                  width: 80,
-                  child: PColorPicker(
+              Padding(
+                padding: EdgeInsets.only(top: 40),
+                child:
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PColorPicker(
+                      title: "Couleurs primaire",
                       color: widget.appSettings.primaryColor != ""
-                          ? HexColor.fromHex(widget.appSettings.primaryColor)
-                          : Color.fromRGBO(242, 217, 141, 1),
-                      changeColor: changePrimaryColor,
-                      title: "Changer la couleurs primaire")),
-              Container(
-                  margin: EdgeInsets.only(top: 0),
-                  height: 80,
-                  width: 80,
-                  child: PColorPicker(
+                        ? HexColor.fromHex(widget.appSettings.primaryColor)
+                        : Color.fromRGBO(242, 217, 141, 1),
+                      changeColor: changePrimaryColor
+                    ),
+                    SizedBox(height: 20),
+                    PColorPicker(
+                      title: "Couleurs secondaire",
                       color: widget.appSettings.secondaryColor != ""
-                          ? HexColor.fromHex(widget.appSettings.secondaryColor)
-                          : Color.fromRGBO(149, 169, 225, 1),
+                        ? HexColor.fromHex(widget.appSettings.secondaryColor)
+                        : Color.fromRGBO(149, 169, 225, 1),
                       changeColor: changeSecondaryColor,
-                      title: "Changer la couleurs secondaire")),
+                    )
+                  ]
+                )
+              )
             ])));
   }
 }
