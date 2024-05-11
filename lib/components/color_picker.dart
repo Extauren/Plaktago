@@ -118,7 +118,7 @@ class _PColorPicker extends State<PColorPicker> {
       },
       customColorSwatchesAndNames: colorsNameMap,
       pickerTypeLabels: <ColorPickerType, String>{
-        ColorPickerType.custom : "Aléatoire",
+        ColorPickerType.custom : "Défault",
         ColorPickerType.wheel: "Roue"
       }
     ).showPickerDialog(
