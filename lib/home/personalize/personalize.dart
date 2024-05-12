@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:plaktago/game/board/cardName/chantier.dart';
+import 'package:plaktago/game/board/cardName/explo.dart';
 import 'package:plaktago/utils/get_card_icon.dart';
 import '../../game/board/cardName/card_name.dart';
 import '../bingo_type_button.dart';
@@ -44,14 +46,15 @@ class _Personalize extends State<Personalize> {
     List<CardName> cardList = [];
 
     widget.cards.clear();
-    cardList = cardNameListPlaque
-        .where((element) => element.type.contains(widget.type))
-        .toList();
-    if (widget.type == BingoType.exploration) {
-      cardList.addAll(cardNameListPlaque
-          .where((element) => element.type.contains(BingoType.kta))
-          .toList());
-    }
+    cardList = cardNameListPlaque + exploCard + chantierCard;
+    cardList = cardList.where((element) => element.type.contains(widget.type)).toList();
+        // .where((element) => element.type.contains(widget.type))
+        // .toList();
+    // if (widget.type == BingoType.exploration) {
+    //   cardList.addAll(cardNameListPlaque
+    //       .where((element) => element.type.contains(BingoType.kta))
+    //       .toList());
+    // }
     cardList.sort((a, b) {
       return a.name.toLowerCase().compareTo(b.name.toLowerCase());
     });
