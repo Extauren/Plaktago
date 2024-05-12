@@ -85,7 +85,7 @@ class _Settings extends State<Settings> {
             child: ListView(children: [
               Column(children: [
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  UpdateButton(),
+                  UpdateButton(isarService: widget.isarService, settings: widget.appSettings),
                   SizedBox(height: 40),
                   Text("Afficher le temps"),
                   SizedBox(height: 15),
