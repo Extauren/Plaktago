@@ -21,7 +21,7 @@ class UpdateButton extends StatefulWidget {
 
 class _UpdateButton extends State<UpdateButton> {
   final _shorebirdCodePush = ShorebirdCodePush();
-  Color _backgroundColor = Colors.grey[400]!;
+  Color _backgroundColor = Colors.grey[600]!;
   bool updateAvailable = false;
 
   @override
