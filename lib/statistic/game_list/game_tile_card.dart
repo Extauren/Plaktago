@@ -115,7 +115,6 @@ class _GameTileCard extends State<GameTileCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     if (MediaQuery.of(context).size.width > 700) {
       sizeRatio = 2;
     }
@@ -143,6 +142,7 @@ class _GameTileCard extends State<GameTileCard> {
                       Container(margin: EdgeInsets.only(left: 20)),
                     ]),
                     icon,
+                    SizedBox(width: 15),
                     if (MediaQuery.of(context).size.width > 370)
                       Text(widget.game.bingoType.name),
                     Spacer(),

@@ -24,14 +24,6 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   late final Future<General> data;
   bool nbGame = false;
   double textFontSize = 22;
-  List<Widget> values = [
-    Container(),
-    Container(),
-    Container(),
-    Container(),
-    Container(),
-    Container(),
-  ];
   final List<String> titles = [
     "Total",
     "Lignes",
@@ -39,6 +31,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
     "Plaque",
     "Kta",
     "Explo",
+    "Chantier"
   ];
   List<CardList> cardList = [];
 
@@ -49,14 +42,8 @@ class _GeneralStatistic extends State<GeneralStatistic> {
   }
 
   List<Widget> getStatistics(final General data) {
-    List<Widget> values = [
-      Container(),
-      Container(),
-      Container(),
-      Container(),
-      Container(),
-      Container(),
-    ];
+    List<Widget> values = List.generate(titles.length, (index) => Container());
+
     values[0] = Text(data.nbGames.toString(),
         style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -99,6 +86,11 @@ class _GeneralStatistic extends State<GeneralStatistic> {
             fontWeight: FontWeight.w600,
             color: Colors.white,
             fontSize: textFontSize));
+    values[6] = Text(data.bingoChantier.toString(),
+        style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            fontSize: textFontSize));
     return values;
   }
 
@@ -122,14 +114,14 @@ class _GeneralStatistic extends State<GeneralStatistic> {
             children = [
               Column(children: [
                 SizedBox(
-                    height: 190,
+                    height: 240,
                     width: 370,
                     child: GridView.builder(
                         controller: ScrollController(keepScrollOffset: false),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3, childAspectRatio: 1.5),
                         padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-                        itemCount: 6,
+                        itemCount: 7,
                         itemBuilder: (BuildContext context, int index) {
                           return Align(
                               child: SizedBox(
@@ -172,10 +164,11 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                       bingoPlaque: snapshot.data!.bingoPlaque.toString(),
                       bingoKta: snapshot.data!.bingoKta.toString(),
                       bingoExplo: snapshot.data!.bingoExplo.toString(),
+                      bingoChantier: snapshot.data!.bingoChantier.toString(),
                     ),
                   ]),
                 SizedBox(
-                  height: 80,
+                  height: 40,
                 ),
                 PSeparator(
                   text: "Liste des cartes",
@@ -201,7 +194,7 @@ class _GeneralStatistic extends State<GeneralStatistic> {
                               Theme.of(context).colorScheme.background,
                         ))),
                 SizedBox(
-                  height: 80,
+                  height: 20,
                 ),
               ])
             ];

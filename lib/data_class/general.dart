@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:plaktago/game/board/card_name.dart';
+import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/data_class/save_game.dart';
 
 part 'general.g.dart';
@@ -12,7 +12,7 @@ class General {
   int bingoKta = 0;
   int bingoExplo = 0;
   int bingoWin = 0;
-  int bingoAlcool = 0;
+  int bingoChantier = 0;
   int nbLines = 0;
   int nbPoints = 0;
   List<CardList> cardList =

@@ -44,7 +44,7 @@ class _BingoTimer extends State<BingoTimer> {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.width * 0.06;
+    final double fontSize = MediaQuery.of(context).size.width * 0.055;
     return Column(
       children: <Widget>[
         StreamBuilder<int>(
@@ -63,27 +63,6 @@ class _BingoTimer extends State<BingoTimer> {
             )));
           },
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: <Widget>[
-        //     // Padding(
-        //     //   padding: const EdgeInsets.symmetric(horizontal: 2),
-        //     //   child: RoundedButton(
-        //     //     icon: Icons.play_arrow,
-        //     //     color: Theme.of(context).colorScheme.primary,
-        //     //     onTap: _stopWatchTimer.onStartTimer,
-        //     //   ),
-        //     // ),
-        //     // Padding(
-        //     //   padding: const EdgeInsets.symmetric(horizontal: 2),
-        //     //   child: RoundedButton(
-        //     //     icon: Icons.stop,
-        //     //     color: Theme.of(context).colorScheme.primary,
-        //     //     onTap: _stopWatchTimer.onStopTimer,
-        //     //   ),
-        //     // ),
-        //   ],
-        // ),
       ],
     );
   }

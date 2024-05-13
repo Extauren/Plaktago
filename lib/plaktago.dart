@@ -46,8 +46,6 @@ class _Plaktago extends State<Plaktago> {
       // } else {
       //   _themeMode = ThemeMode.light;
       // }
-      print(appSettings.primaryColor);
-      print(appSettings.secondaryColor);
       darkColor = ColorScheme(
           brightness: Brightness.dark,
           primary: appSettings.primaryColor != ""
@@ -127,13 +125,19 @@ class _Plaktago extends State<Plaktago> {
                 }))),
                 useMaterial3: true),
             themeMode: _themeMode,
-            home: 
-            isActive ?
-            NavigationBarApp(
+            home: isActive ?
+              NavigationBarApp(
                 changeTheme: () {},
                 appSettings: appSettings,
                 isarService: widget.isarService)
-            : CircularProgressIndicator()
+              : 
+              SizedBox(
+                height: 50,
+                width: 50,
+                child: Center(
+                  child: CircularProgressIndicator()
+                )
+              )
       );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
@@ -69,6 +71,9 @@ class IsarService extends ChangeNotifier {
       if (bingoType == BingoType.exploration) {
         general.bingoExplo += saveGame;
       }
+      if (bingoType == BingoType.chantier) {
+        general.bingoChantier += saveGame;
+      }
       general.nbLines += nbLines;
       general.nbPoints += points;
     }
@@ -79,36 +84,42 @@ class IsarService extends ChangeNotifier {
       for (int i = 0; i < bingoCardList.length; i++) {
         final int index = general.cardList
             .indexWhere((element) => element.cardName == bingoCardList[i].name);
-        general.cardList[index].nbPlayed += 1;
-        if (bingoCardList[i].isSelect) {
-          general.cardList[index].nbCheck += 1;
+        if (index != -1) {
+          general.cardList[index].nbPlayed += 1;
+          if (bingoCardList[i].isSelect) {
+            general.cardList[index].nbCheck += 1;
+          }
         }
       }
     }
     saveGeneral(general);
   }
 
-  Future<void> saveGame(Game game, bool newGame) async {
+  Future<void> saveGame(Game game) async {
     final isar = await db;
     final General? general = await isar.generals.get(0);
-    final Id lastId = game.id;
-    if (newGame) {
-      if (general == null) {
-        game.gameNumber = 1;
-        game.id = 1;
-      } else if (game.id == -1) {
-        game.gameNumber = general.nbGames + 1;
-        game.id = game.gameNumber;
-      }
+
+    initializeDateFormatting();
+    game.hour = DateFormat("HH:mm").format(DateTime.now());
+    game.date = DateFormat('dd/MM/yy').format(DateTime.now());
+    if (general == null) {
+      game.gameNumber = 1;
+      game.id = 1;
+    } else {
+      game.id = general.nbGames + 1;
+      game.gameNumber = game.id;
     }
     isar.writeTxnSync(() => isar.games.putSync(game));
-    if (game.gameNumber != -1 && lastId == -1) {
-      isar.writeTxnSync(() => isar.games.deleteSync(-1));
-      if (!game.updateGame) {
-        updateGeneralStats(game.bingoType, game.points, newGame,
-            game.bingoCards, 1, game.nbLines);
-      }
-    }
+    updateGeneralStats(game.bingoType, game.points, true, game.bingoCards, 1, game.nbLines);
+    isar.writeTxnSync(() => isar.games.deleteSync(-1));
+    game.resetGameData();
+  }
+
+  Future<void> saveTempGame(Game game) async {
+    final isar = await db;
+
+    game.id = -1;
+    isar.writeTxnSync(() => isar.games.putSync(game));
   }
 
   Future<Game?> getOnGoingGame() async {
@@ -166,7 +177,6 @@ class IsarService extends ChangeNotifier {
 
   Future<void> saveAppSettings(final AppSettings appSettings) async {
     final isar = await db;
-    print(appSettings.secondaryColor);
     isar.writeTxnSync(() => isar.appSettings.putSync(appSettings));
   }
 }

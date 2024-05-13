@@ -49,39 +49,29 @@ const GameSchema = CollectionSchema(
       name: r'hour',
       type: IsarType.string,
     ),
-    r'isAlcool': PropertySchema(
-      id: 6,
-      name: r'isAlcool',
-      type: IsarType.bool,
-    ),
     r'isPlaying': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'isPlaying',
       type: IsarType.bool,
     ),
     r'mode': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'mode',
       type: IsarType.byte,
       enumMap: _GamemodeEnumValueMap,
     ),
     r'nbLines': PropertySchema(
-      id: 9,
+      id: 8,
       name: r'nbLines',
       type: IsarType.long,
     ),
-    r'nbShot': PropertySchema(
-      id: 10,
-      name: r'nbShot',
-      type: IsarType.long,
-    ),
     r'points': PropertySchema(
-      id: 11,
+      id: 9,
       name: r'points',
       type: IsarType.long,
     ),
     r'time': PropertySchema(
-      id: 12,
+      id: 10,
       name: r'time',
       type: IsarType.string,
     )
@@ -137,13 +127,11 @@ void _gameSerialize(
   writer.writeBool(offsets[3], object.favorite);
   writer.writeLong(offsets[4], object.gameNumber);
   writer.writeString(offsets[5], object.hour);
-  writer.writeBool(offsets[6], object.isAlcool);
-  writer.writeBool(offsets[7], object.isPlaying);
-  writer.writeByte(offsets[8], object.mode.index);
-  writer.writeLong(offsets[9], object.nbLines);
-  writer.writeLong(offsets[10], object.nbShot);
-  writer.writeLong(offsets[11], object.points);
-  writer.writeString(offsets[12], object.time);
+  writer.writeBool(offsets[6], object.isPlaying);
+  writer.writeByte(offsets[7], object.mode.index);
+  writer.writeLong(offsets[8], object.nbLines);
+  writer.writeLong(offsets[9], object.points);
+  writer.writeString(offsets[10], object.time);
 }
 
 Game _gameDeserialize(
@@ -161,20 +149,18 @@ Game _gameDeserialize(
         ) ??
         const <BingoCard>[],
     bingoType: _GamebingoTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
-        BingoType.plaque,
+        BingoType.kta,
     date: reader.readStringOrNull(offsets[2]) ?? "",
     favorite: reader.readBoolOrNull(offsets[3]) ?? false,
     gameNumber: reader.readLongOrNull(offsets[4]) ?? -1,
     hour: reader.readStringOrNull(offsets[5]) ?? "",
     id: id,
-    isAlcool: reader.readBoolOrNull(offsets[6]) ?? false,
-    isPlaying: reader.readBoolOrNull(offsets[7]) ?? false,
+    isPlaying: reader.readBoolOrNull(offsets[6]) ?? false,
     mode:
-        _GamemodeValueEnumMap[reader.readByteOrNull(offsets[8])] ?? Mode.random,
-    nbLines: reader.readLongOrNull(offsets[9]) ?? 0,
-    nbShot: reader.readLongOrNull(offsets[10]) ?? -1,
-    points: reader.readLongOrNull(offsets[11]) ?? 0,
-    time: reader.readStringOrNull(offsets[12]) ?? "",
+        _GamemodeValueEnumMap[reader.readByteOrNull(offsets[7])] ?? Mode.random,
+    nbLines: reader.readLongOrNull(offsets[8]) ?? 0,
+    points: reader.readLongOrNull(offsets[9]) ?? 0,
+    time: reader.readStringOrNull(offsets[10]) ?? "",
   );
   return object;
 }
@@ -196,7 +182,7 @@ P _gameDeserializeProp<P>(
           const <BingoCard>[]) as P;
     case 1:
       return (_GamebingoTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-          BingoType.plaque) as P;
+          BingoType.kta) as P;
     case 2:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 3:
@@ -208,17 +194,13 @@ P _gameDeserializeProp<P>(
     case 6:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 8:
       return (_GamemodeValueEnumMap[reader.readByteOrNull(offset)] ??
           Mode.random) as P;
+    case 8:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
     case 9:
       return (reader.readLongOrNull(offset) ?? 0) as P;
     case 10:
-      return (reader.readLongOrNull(offset) ?? -1) as P;
-    case 11:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
-    case 12:
       return (reader.readStringOrNull(offset) ?? "") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -229,11 +211,13 @@ const _GamebingoTypeEnumValueMap = {
   'plaque': 0,
   'kta': 1,
   'exploration': 2,
+  'chantier': 3,
 };
 const _GamebingoTypeValueEnumMap = {
   0: BingoType.plaque,
   1: BingoType.kta,
   2: BingoType.exploration,
+  3: BingoType.chantier,
 };
 const _GamemodeEnumValueMap = {
   'random': 0,
@@ -838,15 +822,6 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterFilterCondition> isAlcoolEqualTo(bool value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isAlcool',
-        value: value,
-      ));
-    });
-  }
-
   QueryBuilder<Game, Game, QAfterFilterCondition> isPlayingEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -952,58 +927,6 @@ extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'nbLines',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterFilterCondition> nbShotBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'nbShot',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1265,18 +1188,6 @@ extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcool() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByIsAlcoolDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.desc);
-    });
-  }
-
   QueryBuilder<Game, Game, QAfterSortBy> sortByIsPlaying() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPlaying', Sort.asc);
@@ -1310,18 +1221,6 @@ extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
   QueryBuilder<Game, Game, QAfterSortBy> sortByNbLinesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nbLines', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShot() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> sortByNbShotDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.desc);
     });
   }
 
@@ -1423,18 +1322,6 @@ extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Game, Game, QAfterSortBy> thenByIsAlcool() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByIsAlcoolDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isAlcool', Sort.desc);
-    });
-  }
-
   QueryBuilder<Game, Game, QAfterSortBy> thenByIsPlaying() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPlaying', Sort.asc);
@@ -1468,18 +1355,6 @@ extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
   QueryBuilder<Game, Game, QAfterSortBy> thenByNbLinesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nbLines', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShot() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Game, Game, QAfterSortBy> thenByNbShotDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'nbShot', Sort.desc);
     });
   }
 
@@ -1541,12 +1416,6 @@ extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
     });
   }
 
-  QueryBuilder<Game, Game, QDistinct> distinctByIsAlcool() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isAlcool');
-    });
-  }
-
   QueryBuilder<Game, Game, QDistinct> distinctByIsPlaying() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isPlaying');
@@ -1562,12 +1431,6 @@ extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
   QueryBuilder<Game, Game, QDistinct> distinctByNbLines() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nbLines');
-    });
-  }
-
-  QueryBuilder<Game, Game, QDistinct> distinctByNbShot() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'nbShot');
     });
   }
 
@@ -1628,12 +1491,6 @@ extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Game, bool, QQueryOperations> isAlcoolProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isAlcool');
-    });
-  }
-
   QueryBuilder<Game, bool, QQueryOperations> isPlayingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isPlaying');
@@ -1649,12 +1506,6 @@ extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
   QueryBuilder<Game, int, QQueryOperations> nbLinesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'nbLines');
-    });
-  }
-
-  QueryBuilder<Game, int, QQueryOperations> nbShotProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'nbShot');
     });
   }
 
