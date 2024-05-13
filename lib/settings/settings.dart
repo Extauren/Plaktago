@@ -35,13 +35,6 @@ class _Settings extends State<Settings> {
     });
   }
 
-  // void changeDisplayTimer() {
-  //   setState(() {
-  //     widget.appSettings.displayTimer = !widget.appSettings.displayTimer;
-  //   });
-  //   widget.isarService.saveAppSettings(widget.appSettings);
-  // }
-
   void goToGithubPage() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => GithubPage()));
@@ -58,7 +51,6 @@ class _Settings extends State<Settings> {
 
   void changePrimaryColor(final Color color) {
     widget.appSettings.primaryColor = '#${color.value.toRadixString(16)}';
-    //widget.appSettings.secondaryColor = '#${color.value.toRadixString(16)}';
     widget.isarService.saveAppSettings(widget.appSettings);
     print(widget.appSettings);
   }

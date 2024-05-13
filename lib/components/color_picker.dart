@@ -59,7 +59,7 @@ class _PColorPicker extends State<PColorPicker> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 220,
+        width: 210,
         child: Row(
             children: <Widget>[
               ColorIndicator(
