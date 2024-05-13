@@ -192,9 +192,6 @@ class _PBoard extends State<PBoard> {
   }
 
   double getTextPadding (final double txtWitdh, final double txtSpace) {
-    print(txtSpace.toInt());
-    print(txtWitdh.toInt());
-
     if (txtWitdh > txtSpace * 2) {
       return 10.0;
     }
