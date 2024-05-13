@@ -44,7 +44,7 @@ class _GameTileCard extends State<GameTileCard> {
             builder: (context) => GameStats(
                   game: widget.game,
                   isarService: widget.isarService,
-                  displayTimer: true,
+                  displayTimer: widget.displayTimer,
                 ))).then((value) {
       setState(() {
         widget.getStat();
@@ -65,23 +65,23 @@ class _GameTileCard extends State<GameTileCard> {
     );
   }
 
-  // void setGame() {
-  //   widget.game.updateGame = true;
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) => Bingo(
-  //                 bingoParams: widget.game,
-  //                 newGame: false,
-  //                 isarService: widget.isarService,
-  //                 id: widget.game.id,
-  //                 displayTimer: true,
-  //               ))).then((value) {
-  //     setState(() {
-  //       widget.getStat();
-  //     });
-  //   });
-  // }
+  void setGame() {
+    widget.game.updateGame = true;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Bingo(
+                  bingoParams: widget.game,
+                  newGame: false,
+                  isarService: widget.isarService,
+                  id: widget.game.id,
+                  displayTimer: widget.displayTimer,
+                ))).then((value) {
+      setState(() {
+        widget.getStat();
+      });
+    });
+  }
 
   // void comeBackToGame() {
   //   if (widget.game.isPlaying) {
@@ -115,6 +115,7 @@ class _GameTileCard extends State<GameTileCard> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
     if (MediaQuery.of(context).size.width > 700) {
       sizeRatio = 2;
     }
@@ -142,7 +143,8 @@ class _GameTileCard extends State<GameTileCard> {
                       Container(margin: EdgeInsets.only(left: 20)),
                     ]),
                     icon,
-                    Text(widget.game.bingoType.name),
+                    if (MediaQuery.of(context).size.width > 370)
+                      Text(widget.game.bingoType.name),
                     Spacer(),
                     Row(children: [
                       Text(widget.game.date),

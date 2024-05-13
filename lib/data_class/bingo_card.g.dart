@@ -18,33 +18,38 @@ const BingoCardSchema = Schema(
       name: r'alcoolRule',
       type: IsarType.string,
     ),
-    r'icon': PropertySchema(
+    r'desc': PropertySchema(
       id: 1,
+      name: r'desc',
+      type: IsarType.string,
+    ),
+    r'icon': PropertySchema(
+      id: 2,
       name: r'icon',
       type: IsarType.string,
     ),
     r'isSelect': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isSelect',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     ),
     r'nbLineComplete': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'nbLineComplete',
       type: IsarType.long,
     ),
     r'nbShot': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'nbShot',
       type: IsarType.long,
     ),
     r'order': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'order',
       type: IsarType.long,
     )
@@ -62,6 +67,7 @@ int _bingoCardEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.alcoolRule.length * 3;
+  bytesCount += 3 + object.desc.length * 3;
   {
     final value = object.icon;
     if (value != null) {
@@ -79,12 +85,13 @@ void _bingoCardSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.alcoolRule);
-  writer.writeString(offsets[1], object.icon);
-  writer.writeBool(offsets[2], object.isSelect);
-  writer.writeString(offsets[3], object.name);
-  writer.writeLong(offsets[4], object.nbLineComplete);
-  writer.writeLong(offsets[5], object.nbShot);
-  writer.writeLong(offsets[6], object.order);
+  writer.writeString(offsets[1], object.desc);
+  writer.writeString(offsets[2], object.icon);
+  writer.writeBool(offsets[3], object.isSelect);
+  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[5], object.nbLineComplete);
+  writer.writeLong(offsets[6], object.nbShot);
+  writer.writeLong(offsets[7], object.order);
 }
 
 BingoCard _bingoCardDeserialize(
@@ -95,12 +102,13 @@ BingoCard _bingoCardDeserialize(
 ) {
   final object = BingoCard(
     alcoolRule: reader.readStringOrNull(offsets[0]) ?? "",
-    icon: reader.readStringOrNull(offsets[1]),
-    isSelect: reader.readBoolOrNull(offsets[2]) ?? false,
-    name: reader.readStringOrNull(offsets[3]) ?? "",
-    nbLineComplete: reader.readLongOrNull(offsets[4]) ?? 0,
-    nbShot: reader.readLongOrNull(offsets[5]) ?? 0,
-    order: reader.readLongOrNull(offsets[6]) ?? -1,
+    desc: reader.readStringOrNull(offsets[1]) ?? "",
+    icon: reader.readStringOrNull(offsets[2]),
+    isSelect: reader.readBoolOrNull(offsets[3]) ?? false,
+    name: reader.readStringOrNull(offsets[4]) ?? "",
+    nbLineComplete: reader.readLongOrNull(offsets[5]) ?? 0,
+    nbShot: reader.readLongOrNull(offsets[6]) ?? 0,
+    order: reader.readLongOrNull(offsets[7]) ?? -1,
   );
   return object;
 }
@@ -115,16 +123,18 @@ P _bingoCardDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    case 2:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 3:
       return (reader.readStringOrNull(offset) ?? "") as P;
+    case 2:
+      return (reader.readStringOrNull(offset)) as P;
+    case 3:
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 4:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 5:
       return (reader.readLongOrNull(offset) ?? 0) as P;
     case 6:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
+    case 7:
       return (reader.readLongOrNull(offset) ?? -1) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -262,6 +272,136 @@ extension BingoCardQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'alcoolRule',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'desc',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'desc',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'desc',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'desc',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'desc',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'desc',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'desc',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'desc',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'desc',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'desc',
         value: '',
       ));
     });

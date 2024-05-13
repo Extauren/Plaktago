@@ -23,7 +23,6 @@ class _BingoTimer extends State<BingoTimer> {
     onStopped: () {},
     onEnded: () {},
   );
-  double fontSize = 24;
 
   @override
   void initState() {
@@ -45,9 +44,7 @@ class _BingoTimer extends State<BingoTimer> {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 330) {
-      fontSize = 22;
-    }
+    final double fontSize = MediaQuery.of(context).size.width * 0.06;
     return Column(
       children: <Widget>[
         StreamBuilder<int>(
@@ -59,34 +56,34 @@ class _BingoTimer extends State<BingoTimer> {
             widget.time = StopWatchTimer.getDisplayTime(value,
                 hours: _isHours, milliSecond: false);
             return SizedBox(
-              width: MediaQuery.of(context).size.width / 3.5,
+              width: MediaQuery.of(context).size.width / 3,
               child: Center(child: Text(
               widget.time,
               style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
             )));
           },
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 2),
-            //   child: RoundedButton(
-            //     icon: Icons.play_arrow,
-            //     color: Theme.of(context).colorScheme.primary,
-            //     onTap: _stopWatchTimer.onStartTimer,
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 2),
-            //   child: RoundedButton(
-            //     icon: Icons.stop,
-            //     color: Theme.of(context).colorScheme.primary,
-            //     onTap: _stopWatchTimer.onStopTimer,
-            //   ),
-            // ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: <Widget>[
+        //     // Padding(
+        //     //   padding: const EdgeInsets.symmetric(horizontal: 2),
+        //     //   child: RoundedButton(
+        //     //     icon: Icons.play_arrow,
+        //     //     color: Theme.of(context).colorScheme.primary,
+        //     //     onTap: _stopWatchTimer.onStartTimer,
+        //     //   ),
+        //     // ),
+        //     // Padding(
+        //     //   padding: const EdgeInsets.symmetric(horizontal: 2),
+        //     //   child: RoundedButton(
+        //     //     icon: Icons.stop,
+        //     //     color: Theme.of(context).colorScheme.primary,
+        //     //     onTap: _stopWatchTimer.onStopTimer,
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
       ],
     );
   }

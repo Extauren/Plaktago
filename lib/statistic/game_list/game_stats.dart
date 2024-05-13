@@ -87,9 +87,11 @@ class _GameStats extends State<GameStats> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PAppBar(
-          title: Row(children: [
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             getIcon(widget.game.bingoType),
-            Text('Bingo ${widget.game.bingoType.name}'),
+            Text(widget.game.bingoType.name),
+            Text(widget.game.date)
           ]),
           actions: [
             Container(
@@ -107,13 +109,13 @@ class _GameStats extends State<GameStats> {
           ],
         ),
         body: ListView(children: [
-          Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 30),
-                  child: Text(
-                    formatDate,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ))),
+          // Center(
+          //     child: Container(
+          //         margin: EdgeInsets.only(top: 20),
+          //         child: Text(
+          //           formatDate,
+          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          //         ))),
           Container(
               margin: EdgeInsets.only(top: 20),
               child: Row(
@@ -148,7 +150,8 @@ class _GameStats extends State<GameStats> {
                           maxWidth: MediaQuery.of(context).size.width / 2,
                         ),
                         child: Container(
-                            margin: EdgeInsets.only(left: 50),
+                            margin: EdgeInsets.only(
+                                left: widget.displayTimer ? 50 : 0),
                             child: Container(
                                 width: MediaQuery.of(context).size.width / 2.5,
                                 height: 50,
@@ -181,8 +184,8 @@ class _GameStats extends State<GameStats> {
                   ])),
           Container(
               margin: EdgeInsets.only(top: 20),
-              height: MediaQuery.of(context).size.height / 1.77,
-              constraints: BoxConstraints(maxWidth: 450, maxHeight: 475),
+              height: MediaQuery.of(context).size.height / 1.74,
+              constraints: BoxConstraints(maxWidth: 450, maxHeight: 520),
               child: PBoard(
                 bingoCard: widget.game.bingoCards,
                 writePerm: false,
