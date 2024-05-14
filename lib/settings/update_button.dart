@@ -31,16 +31,13 @@ class _UpdateButton extends State<UpdateButton> {
   }
 
   Future<void> checkForUpdate() async {
-    _shorebirdCodePush.currentPatchNumber().then((currentPatchVersion) {
-      if (currentPatchVersion != null) {
-        widget.settings.patch = currentPatchVersion;
-      } else {
-        widget.settings.patch = 0;
+    bool buffer = await _shorebirdCodePush.isNewPatchAvailableForDownload();
+
+    setState(() {
+      updateAvailable = buffer;
+      if (updateAvailable) {
+        _backgroundColor = Theme.of(context).colorScheme.primary;
       }
-      widget.isarService.saveAppSettings(widget.settings);
-    });
-    setState(() async {
-      updateAvailable = await _shorebirdCodePush.isNewPatchAvailableForDownload();      
     });
   }
 
@@ -71,7 +68,7 @@ class _UpdateButton extends State<UpdateButton> {
 
   @override
   Widget build(BuildContext context) {
-    if (updateAvailable == true) { _backgroundColor = Theme.of(context).colorScheme.primary; }    return Align(
+    return Align(
       child: SizedBox(
         height: 40,
         width: 135,
