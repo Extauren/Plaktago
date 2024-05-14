@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'package:provider/provider.dart';
 import 'plaktago.dart';
 
 void main() {
-  runApp(App());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  .then((_) {
+    runApp(App());
+  });
 }
 
 class App extends StatefulWidget {
