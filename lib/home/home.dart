@@ -125,7 +125,7 @@ class _Home extends State<Home> {
         controller: parentScrollController,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 40, left: 60, right: 60),
+            margin: const EdgeInsets.only(top: 20, left: 60, right: 60),
             child: Image.asset('assets/lettrahge0_1x.png')
           ),
           ComeBacktoGameButton(
