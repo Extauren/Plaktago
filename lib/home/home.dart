@@ -120,64 +120,72 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        controller: parentScrollController,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20, left: 60, right: 60),
-            child: Image.asset('assets/lettrahge0_1x.png')
-          ),
-          ComeBacktoGameButton(
-            game: futureGame,
-            activeGame: activeGame,
-            isarService: widget.isarService,
-            displayTimer: widget.appSettings.displayTimer,
-            getOnGoingGame: getOnGoingGame
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 40, left: 0, right: 0),
-            child: BingoTypeButton(
-              key: bingoTypeKey,
-              bingoType: widget.bingoParams.bingoType,
-              updateBingoType: updateBingoType,
-            )
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 40, bottom: 0),
-            child: ModeButton(
-              mode: widget.bingoParams.mode,
-              updateBingoMode: setMode,
-            )
-          ),
-          if (widget.bingoParams.mode == Mode.personalize)
-            Perso(
-              parentScrollController: parentScrollController,
-              cards: persCard,
-              type: widget.bingoParams.bingoType,
-              nbCards: nbCards,
-              changeNbCardValue: changeNbCardValue,
-            ),
-          Align(
-            child: Padding(
-              padding: EdgeInsets.only(top: 40, bottom: 20),
-              child: PBorderButton(
-                heroTag: "newGame",
-                label: "Jouer",
-                labelStyle: TextStyle(fontSize: 18, color: Colors.black),
-                onPressed: launchGame,
-                width: 120,
-                height: 42,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              )
-            )
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 20, top: 20, left: 80, right: 80),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        Widget plaque = Container();
+        if (constraints.maxHeight > 700) {
+          plaque = Container(
+            margin: const EdgeInsets.only(top: 0, left: 80, right: 80),
             child: Image.asset('assets/homePlaque.png')
+          );
+        }
+        return Scaffold(
+          body: ListView(
+            controller: parentScrollController,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 20, left: 60, right: 60),
+                child: Image.asset('assets/lettrahge0_1x.png')
+              ),
+              ComeBacktoGameButton(
+                game: futureGame,
+                activeGame: activeGame,
+                isarService: widget.isarService,
+                displayTimer: widget.appSettings.displayTimer,
+                getOnGoingGame: getOnGoingGame
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 40, left: 0, right: 0),
+                child: BingoTypeButton(
+                  key: bingoTypeKey,
+                  bingoType: widget.bingoParams.bingoType,
+                  updateBingoType: updateBingoType,
+                )
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 40, bottom: 0),
+                child: ModeButton(
+                  mode: widget.bingoParams.mode,
+                  updateBingoMode: setMode,
+                )
+              ),
+              if (widget.bingoParams.mode == Mode.personalize)
+                Perso(
+                  parentScrollController: parentScrollController,
+                  cards: persCard,
+                  type: widget.bingoParams.bingoType,
+                  nbCards: nbCards,
+                  changeNbCardValue: changeNbCardValue,
+                ),
+              Align(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 40, bottom: 20),
+                  child: PBorderButton(
+                    heroTag: "newGame",
+                    label: "Jouer",
+                    labelStyle: TextStyle(fontSize: 18, color: Colors.black),
+                    onPressed: launchGame,
+                    width: 120,
+                    height: 42,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  )
+                )
+              ),
+              plaque
+            ]
           )
-        ]
-      )
+        );
+      }
     );
   }
 }
