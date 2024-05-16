@@ -123,7 +123,7 @@ class _Home extends State<Home> {
     return LayoutBuilder(
       builder: (context, constraints) {
         Widget plaque = Container();
-        if (constraints.maxHeight > 700) {
+        if (constraints.maxHeight > 640) {
           plaque = Container(
             margin: const EdgeInsets.only(top: 0, left: 80, right: 80),
             child: Image.asset('assets/homePlaque.png')
