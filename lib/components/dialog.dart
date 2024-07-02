@@ -8,6 +8,7 @@ class PDialog {
       required this.title,
       required this.desc,
       required this.bntOkOnPress,
+      this.footer = "",
       this.btnOkLabel = "Ok",
       this.displayBtn = true});
 
@@ -17,6 +18,7 @@ class PDialog {
   final VoidCallback bntOkOnPress;
   final String btnOkLabel;
   final bool displayBtn;
+  final String footer;
 
   void show() => AwesomeDialog(
           context: context,
@@ -41,15 +43,17 @@ class PDialog {
                   },
                   height: 40,
                 )
-              : Container(),
+              : footer != "" ? Center(child: Text(footer)) : null,
           borderSide: BorderSide(
               width: 0.5, color: Theme.of(context).colorScheme.secondary),
-          btnCancel: displayBtn
+          btnCancel: 
+          displayBtn
               ? PBorderButton(
                   label: "Annuler",
                   onPressed: Navigator.of(context).pop,
                   height: 40,
                 )
-              : Container())
+              : null
+      )
       .show();
 }

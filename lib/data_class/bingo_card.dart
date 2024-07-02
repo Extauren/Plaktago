@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:plaktago/game/board/cardName/card_name.dart';
 
 part 'bingo_card.g.dart';
 
@@ -9,17 +10,17 @@ class BingoCard {
   bool isSelect;
   int nbLineComplete;
   int order;
-  final String alcoolRule;
-  final int nbShot;
   final String desc;
+  @enumerated
+  final Difficulty difficulty;
 
-  BingoCard(
-      {this.name = "",
-      this.icon,
-      this.isSelect = false,
-      this.nbLineComplete = 0,
-      this.order = -1,
-      this.alcoolRule = "",
-      this.nbShot = 0,
-      this.desc = ""});
+  BingoCard({
+    this.name = "",
+    this.icon,
+    this.isSelect = false,
+    this.nbLineComplete = 0,
+    this.order = -1,
+    this.desc = "",
+    this.difficulty = Difficulty.unknow
+  });
 }

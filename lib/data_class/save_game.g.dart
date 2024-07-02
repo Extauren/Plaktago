@@ -18,13 +18,19 @@ const CardListSchema = Schema(
       name: r'cardName',
       type: IsarType.string,
     ),
-    r'nbCheck': PropertySchema(
+    r'difficulty': PropertySchema(
       id: 1,
+      name: r'difficulty',
+      type: IsarType.byte,
+      enumMap: _CardListdifficultyEnumValueMap,
+    ),
+    r'nbCheck': PropertySchema(
+      id: 2,
       name: r'nbCheck',
       type: IsarType.long,
     ),
     r'nbPlayed': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'nbPlayed',
       type: IsarType.long,
     )
@@ -52,8 +58,9 @@ void _cardListSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.cardName);
-  writer.writeLong(offsets[1], object.nbCheck);
-  writer.writeLong(offsets[2], object.nbPlayed);
+  writer.writeByte(offsets[1], object.difficulty.index);
+  writer.writeLong(offsets[2], object.nbCheck);
+  writer.writeLong(offsets[3], object.nbPlayed);
 }
 
 CardList _cardListDeserialize(
@@ -64,8 +71,11 @@ CardList _cardListDeserialize(
 ) {
   final object = CardList(
     cardName: reader.readStringOrNull(offsets[0]) ?? "",
-    nbCheck: reader.readLongOrNull(offsets[1]) ?? 0,
-    nbPlayed: reader.readLongOrNull(offsets[2]) ?? 0,
+    difficulty:
+        _CardListdifficultyValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+            Difficulty.unknow,
+    nbCheck: reader.readLongOrNull(offsets[2]) ?? 0,
+    nbPlayed: reader.readLongOrNull(offsets[3]) ?? 0,
   );
   return object;
 }
@@ -80,13 +90,29 @@ P _cardListDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 1:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (_CardListdifficultyValueEnumMap[reader.readByteOrNull(offset)] ??
+          Difficulty.unknow) as P;
     case 2:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
+    case 3:
       return (reader.readLongOrNull(offset) ?? 0) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _CardListdifficultyEnumValueMap = {
+  'easy': 0,
+  'medium': 1,
+  'hard': 2,
+  'unknow': 3,
+};
+const _CardListdifficultyValueEnumMap = {
+  0: Difficulty.easy,
+  1: Difficulty.medium,
+  2: Difficulty.hard,
+  3: Difficulty.unknow,
+};
 
 extension CardListQueryFilter
     on QueryBuilder<CardList, CardList, QFilterCondition> {
@@ -216,6 +242,59 @@ extension CardListQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'cardName',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CardList, CardList, QAfterFilterCondition> difficultyEqualTo(
+      Difficulty value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'difficulty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CardList, CardList, QAfterFilterCondition> difficultyGreaterThan(
+    Difficulty value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'difficulty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CardList, CardList, QAfterFilterCondition> difficultyLessThan(
+    Difficulty value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'difficulty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CardList, CardList, QAfterFilterCondition> difficultyBetween(
+    Difficulty lower,
+    Difficulty upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'difficulty',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }

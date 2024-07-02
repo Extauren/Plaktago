@@ -43,13 +43,9 @@ class PTable extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ))),
-                DataCell(Center(
-                    child: Text(
-                  rowsText[1][index],
-                ))),
+                DataCell(Center(child: Text(rowsText[1][index]))),
                 DataCell(Center(child: Text(rowsText[2][index]))),
-                DataCell(Text(
-                  rowsText[3][index],
+                DataCell(Center(child: Text(rowsText[3][index]),
                 ))
               ])),
     );
