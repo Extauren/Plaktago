@@ -79,7 +79,7 @@ class _NavigationBar extends State<NavigationBarApp> {
         key: homeKey,
         changeTheme: widget.changeTheme,
         appSettings: widget.appSettings,
-        bingoParams: Game(),
+        // bingoParams: Game(),
         isarService: widget.isarService,
       ),
       Statistic(appSettings: widget.appSettings),

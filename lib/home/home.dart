@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:plaktago/components/border_button.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
+import 'package:plaktago/game/create_game.dart';
 import 'package:plaktago/home/come_back_button.dart';
 import 'package:plaktago/home/personalize/perso.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -13,7 +15,6 @@ import 'package:plaktago/home/personalize/personalize.dart';
 import 'package:plaktago/components/dialog.dart';
 
 class Home extends StatefulWidget {
-  final Game bingoParams;
   final Function changeTheme;
   final AppSettings appSettings;
   final IsarService isarService;
@@ -22,7 +23,6 @@ class Home extends StatefulWidget {
     Key? key,
     required this.changeTheme,
     required this.appSettings,
-    required this.bingoParams,
     required this.isarService
   }) : super(key: key);
 
@@ -35,8 +35,9 @@ class _Home extends State<Home> {
   int nbCards = 0;
   List<PersonalizeCard> persCard = [];
   ScrollController parentScrollController = ScrollController();
-  Game activeGame = Game();
-  Future<Game?> futureGame = Future.value(null);
+  Game newGame = Game();
+  List<Game> onGoingGameList = <Game>[];
+  Future<List<Game>?> futureOnGoingGames = Future.value(null);
 
   @override
   void initState() {
@@ -45,27 +46,27 @@ class _Home extends State<Home> {
   }
 
   void getOnGoingGame() async {
-    Game? game = await widget.isarService.getOnGoingGame();
-    if (game != null) {
+    List<Game?> onGoingGameList = await widget.isarService.getOnGoingGames();
+    if (onGoingGameList != []) {
       setState(() {
-        activeGame = game;
-        futureGame = widget.isarService.getOnGoingGame();
+        onGoingGameList = onGoingGameList;
+        futureOnGoingGames = widget.isarService.getOnGoingGames();
       });
     } else {
       setState(() {
-        futureGame = Future.value(null);
+        futureOnGoingGames = Future.value(null);
       });
     }
   }
 
   void changeNbCardValue(int value) => setState(() { nbCards = value; });
 
-  void updateBingoType(final BingoType bingoType) => setState(() { widget.bingoParams.bingoType = bingoType; });
+  void updateBingoType(final BingoType bingoType) => setState(() { newGame.bingoType = bingoType; });
 
-  void setMode(final Mode mode) => setState(() { widget.bingoParams.mode = mode; });
+  void setMode(final Mode mode) => setState(() { newGame.mode = mode; });
 
-  void startGame() {
-    if (widget.bingoParams.mode == Mode.personalize) {
+  void startGame() async {
+    if (newGame.mode == Mode.personalize) {
       List<BingoCard> buffer = [];
       for (int it = 0; it < persCard.length; it++) {
         buffer.add(BingoCard(
@@ -74,14 +75,19 @@ class _Home extends State<Home> {
         ));
       }
       buffer.shuffle();
-      widget.bingoParams.bingoCards = buffer;
+      newGame.bingoCards = buffer;
+      newGame.gameNumber = await widget.isarService.getOnGoingGameLenght();
     }
-    activeGame = widget.bingoParams;
+    newGame.id = Isar.autoIncrement;
+    newGame.isPlaying = true;
+    newGame.bingoCards = createCardGame(newGame, true, 16);
+    widget.isarService.saveTempGame(newGame);
+    List<Game> test = await widget.isarService.getOnGoingGames();
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Bingo(
-          bingoParams: activeGame,
+          gameList: test,
           newGame: true,
           isarService: widget.isarService,
           displayTimer: widget.appSettings.displayTimer
@@ -97,7 +103,7 @@ class _Home extends State<Home> {
   void launchGame() {
     final int nbCardNeed = 16 - nbCards;
 
-    if (nbCards < 16 && widget.bingoParams.mode == Mode.personalize) {
+    if (nbCards < 16 && newGame.mode == Mode.personalize) {
       PDialog(
         context: context,
         desc: 'Vous devez sélectionner $nbCardNeed cases supplémentaires',
@@ -106,15 +112,15 @@ class _Home extends State<Home> {
       ).show();
       return;
     }
-    if (activeGame.isPlaying) {
-      PDialog(
-        context: context,
-        title: 'Partie en cours',
-        desc: 'Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?',
-        bntOkOnPress: startGame
-      ).show();
-      return;
-    }
+    // if (activeGame.isPlaying) {
+    //   PDialog(
+    //     context: context,
+    //     title: 'Partie en cours',
+    //     desc: 'Vous avez déja une partie en cours, êtes vous sur de vouloir la supprimer ?',
+    //     bntOkOnPress: startGame
+    //   ).show();
+    //   return;
+    // }
     startGame();
   }
 
@@ -138,8 +144,7 @@ class _Home extends State<Home> {
                 child: Image.asset('assets/lettrahge0_1x.png')
               ),
               ComeBacktoGameButton(
-                game: futureGame,
-                activeGame: activeGame,
+                onGoingGames: futureOnGoingGames,
                 isarService: widget.isarService,
                 displayTimer: widget.appSettings.displayTimer,
                 getOnGoingGame: getOnGoingGame
@@ -148,22 +153,22 @@ class _Home extends State<Home> {
                 margin: EdgeInsets.only(top: 40, left: 0, right: 0),
                 child: BingoTypeButton(
                   key: bingoTypeKey,
-                  bingoType: widget.bingoParams.bingoType,
+                  bingoType: newGame.bingoType,
                   updateBingoType: updateBingoType,
                 )
               ),
               Container(
                 margin: EdgeInsets.only(top: 40, bottom: 0),
                 child: ModeButton(
-                  mode: widget.bingoParams.mode,
+                  mode: newGame.mode,
                   updateBingoMode: setMode,
                 )
               ),
-              if (widget.bingoParams.mode == Mode.personalize)
+              if (newGame.mode == Mode.personalize)
                 Perso(
                   parentScrollController: parentScrollController,
                   cards: persCard,
-                  type: widget.bingoParams.bingoType,
+                  type: newGame.bingoType,
                   nbCards: nbCards,
                   changeNbCardValue: changeNbCardValue,
                 ),

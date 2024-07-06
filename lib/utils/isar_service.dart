@@ -109,6 +109,7 @@ class IsarService extends ChangeNotifier {
       game.id = general.nbGames + 1;
       game.gameNumber = game.id;
     }
+    game.isPlaying = false;
     isar.writeTxnSync(() => isar.games.putSync(game));
     updateGeneralStats(game.bingoType, game.points, true, game.bingoCards, 1, game.nbLines);
     isar.writeTxnSync(() => isar.games.deleteSync(-1));
@@ -118,19 +119,17 @@ class IsarService extends ChangeNotifier {
   Future<void> saveTempGame(Game game) async {
     final isar = await db;
 
-    game.id = -1;
     isar.writeTxnSync(() => isar.games.putSync(game));
   }
 
-  Future<Game?> getOnGoingGame() async {
+  Future<List<Game>> getOnGoingGames() async {
     final isar = await db;
-    return isar.games.get(-1);
+    return isar.games.filter().isPlayingEqualTo(true).findAll();
   }
 
   Future<List<Game>> getAllGames() async {
     final isar = await db;
-    List<Game> games = await isar.games.where().findAll();
-    return games.where((element) => element.id != -1).toList();
+    return isar.games.filter().isPlayingEqualTo(false).findAll();
   }
 
   Stream<List<Game>> listenToGame() async* {
@@ -153,10 +152,9 @@ class IsarService extends ChangeNotifier {
     return isDelete;
   }
 
-  Future<bool> deleteOnGoingGame() async {
+  Future<void> deleteOnGoingGame(final Id id) async {
     final isar = await db;
-    bool isDelete = isar.writeTxnSync(() => isar.games.deleteSync(-1));
-    return isDelete;
+    isar.writeTxn(() => isar.games.delete(id));
   }
 
   Future<void> updateGame(Game game) async {
@@ -178,5 +176,11 @@ class IsarService extends ChangeNotifier {
   Future<void> saveAppSettings(final AppSettings appSettings) async {
     final isar = await db;
     isar.writeTxnSync(() => isar.appSettings.putSync(appSettings));
+  }
+
+  Future<int> getOnGoingGameLenght() async {
+    final isar = await db;
+    var test = await isar.games.filter().isPlayingEqualTo(true).findAll();
+    return test.length;
   }
 }

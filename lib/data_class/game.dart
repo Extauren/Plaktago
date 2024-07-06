@@ -25,7 +25,7 @@ class Game {
   bool updateGame;
   Game(
       {this.id = Isar.autoIncrement,
-      this.gameNumber = -1,
+      this.gameNumber = 0,
       this.points = 0,
       this.bingoType = BingoType.kta,
       this.date = "",
@@ -45,7 +45,6 @@ class Game {
     bingoCards = <BingoCard>[];
     points = 0;
     isPlaying = false;
-    gameNumber = -1;
     favorite = false;
     time = "";
     date = "";

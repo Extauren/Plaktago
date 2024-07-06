@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:plaktago/components/dialog.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -22,18 +23,23 @@ class GameAction {
     ).show();
   }
 
-  void deleteGame(BuildContext context, Game game) {
-    isarService.deleteOnGoingGame();
-    game.resetGameData();
-    Navigator.pop(context, true);
+  void deleteGame(BuildContext context, final Id gameId) {
+    isarService.deleteOnGoingGame(gameId);
   }
 
-  void askDeleteGame(BuildContext context, Game game) {
+  // void deleteOnGoingGame(BuildContext context, OnGoingGame game) {
+  //   isarService.deleteOnGoingGame();
+  //   game.resetGameData();
+  //   Navigator.pop(context, true);
+  // }
+
+  bool askDeleteGame(BuildContext context, final Id gameId) {
     PDialog(
       context: context,
       title: "Supprimer la partie",
       desc: "Voulez vous vraiment supprimer cette partie ?",
-      bntOkOnPress: () => deleteGame(context, game)
+      bntOkOnPress: () => deleteGame(context, gameId)
     ).show();
+    return true;
   }
 }
