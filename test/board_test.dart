@@ -6,7 +6,7 @@ List<BingoCard> createBingoCardList(final int nbLines) {
   List<BingoCard> bingoCard = <BingoCard>[];
 
   for (int it = 0; it < nbLines * nbLines; it++) {
-    bingoCard.add(BingoCard(name: "cardName", alcoolRule: '', nbShot: 0));
+    bingoCard.add(BingoCard(name: "cardName"));
   }
   return bingoCard;
 }
@@ -52,7 +52,7 @@ void main() {
       expect(bingoCard, result);
     });
 
-    test('First column  and fist line complete', () {
+    test('First column and fist line complete', () {
       CheckBoard checkBoard = CheckBoard(nbLines: nbLines);
       List<BingoCard> bingoCard = createBingoCardList(nbLines);
       List<BingoCard> result = List.from(bingoCard);

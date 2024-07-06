@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:plaktago/game/bingo.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';

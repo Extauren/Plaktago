@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:plaktago/data_class/app_settings.dart';
-import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/check_update.dart';
 import 'package:plaktago/utils/isar_service.dart';
 import 'home/home.dart';
