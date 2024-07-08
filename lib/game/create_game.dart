@@ -5,7 +5,6 @@ import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/game/board/cardName/chantier.dart';
 import 'package:plaktago/game/board/cardName/explo.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
 
 List<BingoCard> createCardGame(Game game, final bool newGame, final int boardSize) {
   List<BingoCard> bingoCard = <BingoCard>[];
@@ -16,27 +15,16 @@ List<BingoCard> createCardGame(Game game, final bool newGame, final int boardSiz
   final int nbMedCard = getNbMedCard(cardList);
   final int nbHardCard = getNbHardCard(cardList);
 
-  if (game.bingoType == BingoType.kta) {
-    for (int it = 0; it < boardSize; it++) {
-      if (it == nbHardCard) difficulty = Difficulty.medium;
-      if (it == nbMedCard + nbHardCard) difficulty = Difficulty.easy;
-      card = cardList.where((element) =>
-        element.difficulty == difficulty).elementAt(Random().nextInt(cardList.where((element) =>
-        element.difficulty == difficulty).toList().length));
-      cardList.remove(card);
-      bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description, difficulty: card.difficulty));
-    }
-  } else {
-    for (int it = 0; it < boardSize; it++) {
-      card = cardList.elementAt(Random().nextInt(cardList.length));
-      cardList.remove(card);
-      bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description));
-    }
+  for (int it = 0; it < boardSize; it++) {
+    if (it == nbHardCard) difficulty = Difficulty.medium;
+    if (it == nbMedCard + nbHardCard) difficulty = Difficulty.easy;
+    card = cardList.where((element) =>
+      element.difficulty == difficulty).elementAt(Random().nextInt(cardList.where((element) =>
+      element.difficulty == difficulty).toList().length));
+    cardList.remove(card);
+    bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description, difficulty: card.difficulty));
   }
   bingoCard.shuffle();
-  for (int it = 0; it < boardSize; it++) {
-  }
-
   return bingoCard;
 }
 
