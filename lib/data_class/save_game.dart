@@ -11,9 +11,16 @@ class CardList {
   int nbCheck;
   String desc;
   @enumerated
-  List<BingoType> type;
+  List<BingoType>? type;
   @enumerated
   Difficulty difficulty;
 
-  CardList({this.cardName = "", this.nbPlayed = 0, this.nbCheck = 0, this.difficulty = Difficulty.unknow, this.desc = "", this.type = const []});
+  CardList({
+    this.cardName = "",
+    this.nbPlayed = 0,
+    this.nbCheck = 0,
+    this.difficulty = Difficulty.unknow,
+    this.desc = "",
+    this.type
+  });
 }

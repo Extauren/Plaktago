@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/components/table.dart';
 import 'package:plaktago/data_class/save_game.dart';
-import 'package:plaktago/game/board/cardName/card_name.dart';
 
 class CardListData {
   final int pourcentage;
-  final String difficulty;
+  final String type;
   final String cardName;
   final int nbPlayed;
   final int nbCheck;
 
-  CardListData(
-      { required this.pourcentage,
-      required this.difficulty,
-      required this.cardName,
-      required this.nbPlayed,
-      required this.nbCheck});
+  CardListData({
+    required this.pourcentage,
+    required this.type,
+    required this.cardName,
+    required this.nbPlayed,
+    required this.nbCheck
+  });
 }
 
 class BestCardsList extends StatefulWidget {
@@ -24,13 +24,13 @@ class BestCardsList extends StatefulWidget {
   final double? headingRowHeight;
   final double? dataRowHeight;
 
-  BestCardsList(
-      {Key? key,
-      required this.cardList,
-      required this.nbRows,
-      this.headingRowHeight,
-      this.dataRowHeight})
-      : super(key: key);
+  BestCardsList({
+    Key? key,
+    required this.cardList,
+    required this.nbRows,
+    this.headingRowHeight,
+    this.dataRowHeight
+  }) : super(key: key);
 
   @override
   State<BestCardsList> createState() => _BestCardsList();
@@ -48,34 +48,33 @@ class _BestCardsList extends State<BestCardsList> {
     rowsText[0] = cardListData.map((e) => e.cardName).toList();
     rowsText[1] = cardListData.map((e) => e.nbPlayed.toString()).toList();
     rowsText[2] = cardListData.map((e) => e.nbCheck.toString()).toList();
-    rowsText[3] = cardListData.map((e) => e.difficulty.toString()).toList();
+    rowsText[3] = cardListData.map((e) => e.type.toString()).toList();
   }
 
   void getPourcentages() {
     double pourcentage = 0;
-    String difficulty = "NA";
+    String type = "NA";
+    int cmp = 0;
 
     for (int it = 0; it < widget.cardList.length; it++) {
       if (widget.cardList.elementAt(it).nbPlayed == 0) {
         pourcentage = 0;
       } else {
         pourcentage = widget.cardList.elementAt(it).nbCheck /
-            widget.cardList.elementAt(it).nbPlayed *
-            100;
+          widget.cardList.elementAt(it).nbPlayed * 100;
       }
-      // if (widget.cardList.elementAt(it).difficulty != Difficulty.unknow) {
-      //   difficulty = widget.cardList.elementAt(it).difficulty.name[0].toUpperCase();
-      // }
-      difficulty = widget.cardList.elementAt(it).type[0].toString();
+      if (widget.cardList.elementAt(it).type != null) {
+        type = widget.cardList.elementAt(it).type![0].toString();
+      }
       cardListData.add(CardListData(
           pourcentage: pourcentage.round(),
-          difficulty: difficulty,
+          type: type,
           cardName: widget.cardList.elementAt(it).cardName,
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
           nbCheck: widget.cardList.elementAt(it).nbCheck));
     }
     cardListData.sort((a, b) {
-      int cmp = b.pourcentage.compareTo(a.pourcentage);
+      cmp = b.pourcentage.compareTo(a.pourcentage);
       if (cmp != 0) return cmp;
       return b.nbPlayed.compareTo(a.nbPlayed);
     });

@@ -60,7 +60,12 @@ int _cardListEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.cardName.length * 3;
   bytesCount += 3 + object.desc.length * 3;
-  bytesCount += 3 + object.type.length;
+  {
+    final value = object.type;
+    if (value != null) {
+      bytesCount += 3 + value.length;
+    }
+  }
   return bytesCount;
 }
 
@@ -75,7 +80,7 @@ void _cardListSerialize(
   writer.writeByte(offsets[2], object.difficulty.index);
   writer.writeLong(offsets[3], object.nbCheck);
   writer.writeLong(offsets[4], object.nbPlayed);
-  writer.writeByteList(offsets[5], object.type.map((e) => e.index).toList());
+  writer.writeByteList(offsets[5], object.type?.map((e) => e.index).toList());
 }
 
 CardList _cardListDeserialize(
@@ -93,10 +98,9 @@ CardList _cardListDeserialize(
     nbCheck: reader.readLongOrNull(offsets[3]) ?? 0,
     nbPlayed: reader.readLongOrNull(offsets[4]) ?? 0,
     type: reader
-            .readByteList(offsets[5])
-            ?.map((e) => _CardListtypeValueEnumMap[e] ?? BingoType.plaque)
-            .toList() ??
-        const [],
+        .readByteList(offsets[5])
+        ?.map((e) => _CardListtypeValueEnumMap[e] ?? BingoType.plaque)
+        .toList(),
   );
   return object;
 }
@@ -121,10 +125,9 @@ P _cardListDeserializeProp<P>(
       return (reader.readLongOrNull(offset) ?? 0) as P;
     case 5:
       return (reader
-              .readByteList(offset)
-              ?.map((e) => _CardListtypeValueEnumMap[e] ?? BingoType.plaque)
-              .toList() ??
-          const []) as P;
+          .readByteList(offset)
+          ?.map((e) => _CardListtypeValueEnumMap[e] ?? BingoType.plaque)
+          .toList()) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -572,6 +575,22 @@ extension CardListQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CardList, CardList, QAfterFilterCondition> typeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'type',
+      ));
+    });
+  }
+
+  QueryBuilder<CardList, CardList, QAfterFilterCondition> typeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'type',
       ));
     });
   }

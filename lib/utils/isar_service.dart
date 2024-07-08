@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plaktago/data_class/bingo_card.dart';
+import 'package:plaktago/data_class/save_game.dart';
 import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/data_class/app_settings.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/data_class/general.dart';
+import 'package:plaktago/utils/get_all_cards.dart';
 
 class IsarService extends ChangeNotifier {
   late Future<Isar> db;
@@ -48,7 +50,28 @@ class IsarService extends ChangeNotifier {
     if (general.nbPoints < 0) {
       general.nbPoints = 0;
     }
+    general.cardList = updateCardList(general.cardList);
     return general;
+  }
+
+  List<CardList> updateCardList(final List<CardList> oldCardList) {
+    List<CardList> cardList = getAllCards().map((item) => CardList(
+      cardName: item.name,
+      difficulty: item.difficulty,
+      desc: item.description,
+      type: item.type
+    )).toList();
+
+    for (int it = 0; it < oldCardList.length; it++) {
+      final int index = cardList.indexWhere((element) => element.cardName == oldCardList[it].cardName);
+      if (index != -1) {
+        cardList[index].nbCheck = oldCardList[it].nbCheck;
+        cardList[index].nbPlayed = oldCardList[it].nbPlayed;
+      }
+    }
+    cardList.sort((a, b) => a.cardName.toString().compareTo(b.cardName.toString()));
+
+    return cardList;
   }
 
   void updateGeneralStats(
@@ -81,6 +104,7 @@ class IsarService extends ChangeNotifier {
       general.bingoWin += saveGame;
     }
     if (saveGame == 1) {
+      general.cardList = updateCardList(general.cardList);
       for (int i = 0; i < bingoCardList.length; i++) {
         final int index = general.cardList
             .indexWhere((element) => element.cardName == bingoCardList[i].name);

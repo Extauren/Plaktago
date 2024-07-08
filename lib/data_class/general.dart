@@ -16,5 +16,10 @@ class General {
   int nbLines = 0;
   int nbPoints = 0;
   List<CardList> cardList =
-      cardNameListPlaque.map((item) => CardList(cardName: item.name, difficulty: item.difficulty, desc: item.description, type: item.type)).toList();
+    cardNameListPlaque.map((item) => CardList(
+      cardName: item.name,
+      difficulty: item.difficulty,
+      desc: item.description,
+      type: item.type
+    )).toList();
 }
