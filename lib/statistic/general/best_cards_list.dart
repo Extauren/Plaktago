@@ -37,7 +37,7 @@ class BestCardsList extends StatefulWidget {
 }
 
 class _BestCardsList extends State<BestCardsList> {
-  List<String> headerText = ["Nom", "Joué", "Coché", "Diff"];
+  List<String> headerText = ["Nom", "Joué", "Coché", "Type"];
   List<List<String>> rowsText = [[], [], [], []];
   List<CardListData> cardListData = [];
 
@@ -63,9 +63,10 @@ class _BestCardsList extends State<BestCardsList> {
             widget.cardList.elementAt(it).nbPlayed *
             100;
       }
-      if (widget.cardList.elementAt(it).difficulty != Difficulty.unknow) {
-        difficulty = widget.cardList.elementAt(it).difficulty.name[0].toUpperCase();
-      }
+      // if (widget.cardList.elementAt(it).difficulty != Difficulty.unknow) {
+      //   difficulty = widget.cardList.elementAt(it).difficulty.name[0].toUpperCase();
+      // }
+      difficulty = widget.cardList.elementAt(it).type[0].toString();
       cardListData.add(CardListData(
           pourcentage: pourcentage.round(),
           difficulty: difficulty,

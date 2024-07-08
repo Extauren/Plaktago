@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/utils/get_icon.dart';
 
 class PTable extends StatelessWidget {
   PTable(
@@ -45,8 +47,7 @@ class PTable extends StatelessWidget {
                 ))),
                 DataCell(Center(child: Text(rowsText[1][index]))),
                 DataCell(Center(child: Text(rowsText[2][index]))),
-                DataCell(Center(child: Text(rowsText[3][index]),
-                ))
+                DataCell(getIcon(BingoType.values.firstWhere((e) => e.toString() == rowsText[3][index])))
               ])),
     );
   }
