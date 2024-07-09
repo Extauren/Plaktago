@@ -13,15 +13,16 @@ const BingoCardSchema = Schema(
   name: r'BingoCard',
   id: 1326637416618505046,
   properties: {
-    r'alcoolRule': PropertySchema(
-      id: 0,
-      name: r'alcoolRule',
-      type: IsarType.string,
-    ),
     r'desc': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'desc',
       type: IsarType.string,
+    ),
+    r'difficulty': PropertySchema(
+      id: 1,
+      name: r'difficulty',
+      type: IsarType.byte,
+      enumMap: _BingoCarddifficultyEnumValueMap,
     ),
     r'icon': PropertySchema(
       id: 2,
@@ -43,13 +44,8 @@ const BingoCardSchema = Schema(
       name: r'nbLineComplete',
       type: IsarType.long,
     ),
-    r'nbShot': PropertySchema(
-      id: 6,
-      name: r'nbShot',
-      type: IsarType.long,
-    ),
     r'order': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'order',
       type: IsarType.long,
     )
@@ -66,7 +62,6 @@ int _bingoCardEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.alcoolRule.length * 3;
   bytesCount += 3 + object.desc.length * 3;
   {
     final value = object.icon;
@@ -84,14 +79,13 @@ void _bingoCardSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.alcoolRule);
-  writer.writeString(offsets[1], object.desc);
+  writer.writeString(offsets[0], object.desc);
+  writer.writeByte(offsets[1], object.difficulty.index);
   writer.writeString(offsets[2], object.icon);
   writer.writeBool(offsets[3], object.isSelect);
   writer.writeString(offsets[4], object.name);
   writer.writeLong(offsets[5], object.nbLineComplete);
-  writer.writeLong(offsets[6], object.nbShot);
-  writer.writeLong(offsets[7], object.order);
+  writer.writeLong(offsets[6], object.order);
 }
 
 BingoCard _bingoCardDeserialize(
@@ -101,14 +95,15 @@ BingoCard _bingoCardDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = BingoCard(
-    alcoolRule: reader.readStringOrNull(offsets[0]) ?? "",
-    desc: reader.readStringOrNull(offsets[1]) ?? "",
+    desc: reader.readStringOrNull(offsets[0]) ?? "",
+    difficulty:
+        _BingoCarddifficultyValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+            Difficulty.unknow,
     icon: reader.readStringOrNull(offsets[2]),
     isSelect: reader.readBoolOrNull(offsets[3]) ?? false,
     name: reader.readStringOrNull(offsets[4]) ?? "",
     nbLineComplete: reader.readLongOrNull(offsets[5]) ?? 0,
-    nbShot: reader.readLongOrNull(offsets[6]) ?? 0,
-    order: reader.readLongOrNull(offsets[7]) ?? -1,
+    order: reader.readLongOrNull(offsets[6]) ?? -1,
   );
   return object;
 }
@@ -123,7 +118,8 @@ P _bingoCardDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 1:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      return (_BingoCarddifficultyValueEnumMap[reader.readByteOrNull(offset)] ??
+          Difficulty.unknow) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
@@ -133,150 +129,27 @@ P _bingoCardDeserializeProp<P>(
     case 5:
       return (reader.readLongOrNull(offset) ?? 0) as P;
     case 6:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
-    case 7:
       return (reader.readLongOrNull(offset) ?? -1) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
+const _BingoCarddifficultyEnumValueMap = {
+  'easy': 0,
+  'medium': 1,
+  'hard': 2,
+  'unknow': 3,
+};
+const _BingoCarddifficultyValueEnumMap = {
+  0: Difficulty.easy,
+  1: Difficulty.medium,
+  2: Difficulty.hard,
+  3: Difficulty.unknow,
+};
+
 extension BingoCardQueryFilter
     on QueryBuilder<BingoCard, BingoCard, QFilterCondition> {
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> alcoolRuleEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'alcoolRule',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition>
-      alcoolRuleGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'alcoolRule',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> alcoolRuleLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'alcoolRule',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> alcoolRuleBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'alcoolRule',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition>
-      alcoolRuleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'alcoolRule',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> alcoolRuleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'alcoolRule',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> alcoolRuleContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'alcoolRule',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> alcoolRuleMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'alcoolRule',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition>
-      alcoolRuleIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'alcoolRule',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition>
-      alcoolRuleIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'alcoolRule',
-        value: '',
-      ));
-    });
-  }
-
   QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> descEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -403,6 +276,60 @@ extension BingoCardQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'desc',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> difficultyEqualTo(
+      Difficulty value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'difficulty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition>
+      difficultyGreaterThan(
+    Difficulty value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'difficulty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> difficultyLessThan(
+    Difficulty value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'difficulty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> difficultyBetween(
+    Difficulty lower,
+    Difficulty upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'difficulty',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -741,59 +668,6 @@ extension BingoCardQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'nbLineComplete',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> nbShotEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> nbShotGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> nbShotLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'nbShot',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<BingoCard, BingoCard, QAfterFilterCondition> nbShotBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'nbShot',
         lower: lower,
         includeLower: includeLower,
         upper: upper,

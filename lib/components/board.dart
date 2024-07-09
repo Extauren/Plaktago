@@ -124,7 +124,8 @@ class _PBoard extends State<PBoard> {
       title: card.name,
       desc: desc,
       bntOkOnPress: () {},
-      displayBtn: false
+      displayBtn: false,
+      footer: card.difficulty.name
     ).show();
   }
 

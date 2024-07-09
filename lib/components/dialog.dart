@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/border_button.dart';
 
 class PDialog {
@@ -8,6 +9,7 @@ class PDialog {
       required this.title,
       required this.desc,
       required this.bntOkOnPress,
+      this.footer = "",
       this.btnOkLabel = "Ok",
       this.displayBtn = true});
 
@@ -17,6 +19,7 @@ class PDialog {
   final VoidCallback bntOkOnPress;
   final String btnOkLabel;
   final bool displayBtn;
+  final String footer;
 
   void show() => AwesomeDialog(
           context: context,
@@ -41,15 +44,17 @@ class PDialog {
                   },
                   height: 40,
                 )
-              : Container(),
+              : footer != "" ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(IconDataSolid(int.parse("0xf624"))), SizedBox(width: 8), Text(footer)]) : null,
           borderSide: BorderSide(
               width: 0.5, color: Theme.of(context).colorScheme.secondary),
-          btnCancel: displayBtn
+          btnCancel: 
+          displayBtn
               ? PBorderButton(
                   label: "Annuler",
                   onPressed: Navigator.of(context).pop,
                   height: 40,
                 )
-              : Container())
+              : null
+      )
       .show();
 }
