@@ -21,6 +21,11 @@ List<BingoCard> createCardGame(Game game, final bool newGame, final int boardSiz
     card = cardList.where((element) =>
       element.difficulty == difficulty).elementAt(Random().nextInt(cardList.where((element) =>
       element.difficulty == difficulty).toList().length));
+    if (card.excludes != null) {
+      for (int it = 0; it < card.excludes!.length; it++) {
+        cardList.remove(cardList.where((e) => e.name == card.excludes![it]).first);
+      }
+    }
     cardList.remove(card);
     bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description, difficulty: card.difficulty));
   }

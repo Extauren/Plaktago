@@ -16,13 +16,16 @@ class CardName {
   final String? icon;
   final String description;
   final Difficulty difficulty;
+  final List<String>? excludes;
 
-  const CardName(
-      {required this.name,
-      required this.type,
-      this.icon,
-      this.description = "",
-      this.difficulty = Difficulty.easy});
+  const CardName({
+    required this.name,
+    required this.type,
+    this.icon,
+    this.description = "",
+    this.difficulty = Difficulty.easy,
+    this.excludes
+  });
 }
 
 List<CardName> cardNameListPlaque = [
@@ -31,7 +34,7 @@ List<CardName> cardNameListPlaque = [
   CardName(name: "Baisse pas sa lampe", type: [BingoType.kta], icon: "0xf0eb", description: "Personne éblouissant les autres avec sa lumière", difficulty: Difficulty.easy),
   CardName(name: "Déchet / Poubelle", type: [BingoType.kta], icon: "0xf2ed", description: "Déchet ou poubelle dans une salle ou galerie", difficulty: Difficulty.easy),
   //CardName(name: "Ktasnob", type: [BingoType.kta], description: "Ktaphile snob"),
-  CardName(name: "Enceinte à fond", type: [BingoType.kta], icon: "0xf028", description: "Musique trop forte / baisse pas la musique quand il passe devant", difficulty: Difficulty.easy),
+  CardName(name: "Enceinte à fond", type: [BingoType.kta], icon: "0xf028", description: "Musique trop forte / baisse pas la musique quand il passe devant", difficulty: Difficulty.easy, excludes: ["Hardtech de mauvais goût"]),
   CardName(name: "Taggeur", type: [BingoType.kta], icon: "0xf5bd", description: "Personne en train de tagger ou odeur de bombe dans une galerie", difficulty: Difficulty.medium),
   CardName(name: "Bourré / Défoncé", type: [BingoType.kta], icon: "0xf0fc", description: "Quelqu'un de bourré ou défoncé", difficulty: Difficulty.medium),
   CardName(name: "Animal domestic", type: [BingoType.kta], icon: "0xf6d3", description: "Animal domestique descendu par une personne", difficulty: Difficulty.medium),
@@ -64,13 +67,13 @@ List<CardName> cardNameListPlaque = [
   CardName(name: "Discute plaque ouverte",type: [BingoType.plaque], difficulty: Difficulty.hard),
   CardName(name: "Fusion de groupe",type: [BingoType.kta, BingoType.plaque],icon: "0xe068",description: "Deux groupes qui squattent / bougent ensemble", difficulty: Difficulty.easy),
   CardName(name: "Tous dans la même tenue",type: [BingoType.kta, BingoType.plaque],icon: "0xf508", description: "Personnes habilé de la même façon ou dans un même thème", difficulty: Difficulty.hard),
-  CardName(name: "Repas",type: [BingoType.kta],icon: "0xf2e7", description: "Repas partagé consistant et/ou cuisine élaborée, différent sandwich, houmous, etc", difficulty: Difficulty.medium),
-  CardName(name: "Apéro", type: [BingoType.kta], icon: "0xe4c6", description: "Une bière et des trucs à partager", difficulty: Difficulty.easy),
+  CardName(name: "Repas",type: [BingoType.kta],icon: "0xf2e7", description: "Repas partagé consistant et/ou cuisine élaborée, différent sandwich, houmous, etc", difficulty: Difficulty.medium, excludes: ["Apéro"]),
+  CardName(name: "Apéro", type: [BingoType.kta], icon: "0xe4c6", description: "Une bière et des trucs à partager", difficulty: Difficulty.easy, excludes: ["Repas"]),
   CardName(name: "Fumi",type: [BingoType.kta],icon: "0xf75f", description: "Tu vois pas devant toi", difficulty: Difficulty.medium),
   CardName(name: "Perdu",type: [BingoType.kta],icon: "0xe551", description: "Personne ne sachant pas où elle se trouve", difficulty: Difficulty.medium),
   CardName(name: "Chantier", type: [BingoType.kta], icon: "0xf85e", difficulty: Difficulty.medium),
   CardName(name: "Traquenard",type: [BingoType.kta],icon: "0xe535",description: "Changement / nouveau plan qui fait remonter plus tard", difficulty: Difficulty.easy),
   CardName(name: "Hamac", type: [BingoType.kta], description: "Présence d'un hamac installé quelqu'il soit", difficulty: Difficulty.easy),
   CardName(name: "Plan papier", type: [BingoType.kta], icon: "0xf279", description: "Objet tangible qui représente le réseau", difficulty: Difficulty.hard),
-  CardName(name: "Hardtech de mauvais goût", type: [BingoType.kta], icon: "0xf001", description: "Musique électronique trop fort", difficulty: Difficulty.easy)
+  CardName(name: "Hardtech de mauvais goût", type: [BingoType.kta], icon: "0xf001", description: "Musique électronique trop fort", difficulty: Difficulty.easy, excludes: ["Enceinte à fond"])
 ];
