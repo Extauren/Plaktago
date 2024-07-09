@@ -3,14 +3,12 @@ import 'dart:math';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/game/board/cardName/card_name.dart';
-import 'package:plaktago/game/board/cardName/chantier.dart';
-import 'package:plaktago/game/board/cardName/explo.dart';
+import 'package:plaktago/utils/get_all_cards.dart';
 
 List<BingoCard> createCardGame(Game game, final bool newGame, final int boardSize) {
   List<BingoCard> bingoCard = <BingoCard>[];
   CardName card = CardName(name: "", type: []);
-  List<CardName> allCard = cardNameListPlaque + exploCard + chantierCard;
-  List<CardName> cardList = allCard.where((element) => element.type.contains(game.bingoType)).toList();
+  List<CardName> cardList = getAllCards().where((element) => element.type.contains(game.bingoType)).toList();
   Difficulty difficulty = Difficulty.hard;
   final int nbMedCard = getNbMedCard(cardList);
   final int nbHardCard = getNbHardCard(cardList);
