@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/components/border_button.dart';
 
 class PDialog {
@@ -43,7 +44,7 @@ class PDialog {
                   },
                   height: 40,
                 )
-              : footer != "" ? Center(child: Text(footer)) : null,
+              : footer != "" ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(IconDataSolid(int.parse("0xf624"))), SizedBox(width: 8), Text(footer)]) : null,
           borderSide: BorderSide(
               width: 0.5, color: Theme.of(context).colorScheme.secondary),
           btnCancel: 
