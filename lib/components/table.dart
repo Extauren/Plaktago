@@ -30,10 +30,10 @@ class _Ptable extends State<PTable> {
   void _sortByType(final bool ascending) {
     setState(() {
       if (ascending) {
-        widget.cardData.sort((a, b) => a.type.compareTo(b.type));
+        widget.cardData.sort((a, b) => a.type.name.compareTo(b.type.name));
       }
       else {
-        widget.cardData.sort((a, b) => b.type.compareTo(a.type));
+        widget.cardData.sort((a, b) => b.type.name.compareTo(a.type.name));
       }
     });
   }
@@ -44,7 +44,7 @@ class _Ptable extends State<PTable> {
         widget.cardData.sort((a, b) => a.cardName.compareTo(b.cardName));
       }
       else {
-        widget.cardData.sort((a, b) => b.type.compareTo(a.type));
+        widget.cardData.sort((a, b) => b.cardName.compareTo(a.cardName));
       }
     });
   }
@@ -88,7 +88,7 @@ class _Ptable extends State<PTable> {
             )),
             DataCell(Center(child: Text(widget.cardData.elementAt(index).nbPlayed.toString()))),
             DataCell(Center(child: Text(widget.cardData.elementAt(index).nbCheck.toString()))),
-            DataCell(getIcon(BingoType.values.firstWhere((e) => e.toString() == widget.cardData.elementAt(index).type))),
+            DataCell(getIcon(widget.cardData.elementAt(index).type)),
           ],
           onSelectChanged: (value) => CardDialog(context: context, card: widget.cardData.elementAt(index)).show()
         )
@@ -148,9 +148,9 @@ class CardDialog {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  getIcon(BingoType.values.firstWhere((e) => e.toString() == card.type)),
+                  getIcon(card.type),
                   SizedBox(height: 8),
-                  Text(card.type.split('.')[1])
+                  Text(card.type.name)
                 ],
               ),
               Column(

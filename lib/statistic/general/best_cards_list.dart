@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/components/table.dart';
 import 'package:plaktago/data_class/save_game.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 
 class CardListData {
   final int pourcentage;
-  final String type;
+  final BingoType type;
   final String cardName;
   final int nbPlayed;
   final int nbCheck;
@@ -52,7 +53,6 @@ class _BestCardsList extends State<BestCardsList> {
 
   void getPourcentages() {
     double pourcentage = 0;
-    String type = "NA";
     int cmp = 0;
 
     for (int it = 0; it < widget.cardList.length; it++) {
@@ -62,12 +62,9 @@ class _BestCardsList extends State<BestCardsList> {
         pourcentage = widget.cardList.elementAt(it).nbCheck /
           widget.cardList.elementAt(it).nbPlayed * 100;
       }
-      if (widget.cardList.elementAt(it).type != null) {
-        type = widget.cardList.elementAt(it).type![0].toString();
-      }
       cardListData.add(CardListData(
           pourcentage: pourcentage.round(),
-          type: type,
+          type: widget.cardList.elementAt(it).type![0],
           cardName: widget.cardList.elementAt(it).cardName,
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
           nbCheck: widget.cardList.elementAt(it).nbCheck,

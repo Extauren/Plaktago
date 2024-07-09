@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:plaktago/game/board/cardName/card_name.dart';
 import 'package:plaktago/data_class/save_game.dart';
+import 'package:plaktago/utils/get_all_cards.dart';
 
 part 'general.g.dart';
 
@@ -16,7 +16,7 @@ class General {
   int nbLines = 0;
   int nbPoints = 0;
   List<CardList> cardList =
-    cardNameListPlaque.map((item) => CardList(
+    getAllCards().map((item) => CardList(
       cardName: item.name,
       difficulty: item.difficulty,
       desc: item.description,
