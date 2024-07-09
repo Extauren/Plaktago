@@ -8,13 +8,17 @@ class CardListData {
   final String cardName;
   final int nbPlayed;
   final int nbCheck;
+  final String difficulty;
+  final String desc;
 
   CardListData({
     required this.pourcentage,
     required this.type,
     required this.cardName,
     required this.nbPlayed,
-    required this.nbCheck
+    required this.nbCheck,
+    required this.difficulty,
+    required this.desc
   });
 }
 
@@ -38,17 +42,12 @@ class BestCardsList extends StatefulWidget {
 
 class _BestCardsList extends State<BestCardsList> {
   List<String> headerText = ["Nom", "Joué", "Coché", "Type"];
-  List<List<String>> rowsText = [[], [], [], []];
   List<CardListData> cardListData = [];
 
   @override
   void initState() {
     super.initState();
     getPourcentages();
-    rowsText[0] = cardListData.map((e) => e.cardName).toList();
-    rowsText[1] = cardListData.map((e) => e.nbPlayed.toString()).toList();
-    rowsText[2] = cardListData.map((e) => e.nbCheck.toString()).toList();
-    rowsText[3] = cardListData.map((e) => e.type.toString()).toList();
   }
 
   void getPourcentages() {
@@ -71,7 +70,10 @@ class _BestCardsList extends State<BestCardsList> {
           type: type,
           cardName: widget.cardList.elementAt(it).cardName,
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
-          nbCheck: widget.cardList.elementAt(it).nbCheck));
+          nbCheck: widget.cardList.elementAt(it).nbCheck,
+          difficulty: widget.cardList.elementAt(it).difficulty.name,
+          desc: widget.cardList.elementAt(it).desc
+      ));
     }
     cardListData.sort((a, b) {
       cmp = b.pourcentage.compareTo(a.pourcentage);
@@ -84,7 +86,7 @@ class _BestCardsList extends State<BestCardsList> {
   Widget build(BuildContext context) {
     return PTable(
       headerText: headerText,
-      rowsText: rowsText,
+      cardData: cardListData,
       nbRows: widget.nbRows,
       headingRowHeight: widget.headingRowHeight,
       dataRowHeight: widget.dataRowHeight,

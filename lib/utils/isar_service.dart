@@ -69,8 +69,6 @@ class IsarService extends ChangeNotifier {
         cardList[index].nbPlayed = oldCardList[it].nbPlayed;
       }
     }
-    cardList.sort((a, b) => a.cardName.toString().compareTo(b.cardName.toString()));
-
     return cardList;
   }
 
