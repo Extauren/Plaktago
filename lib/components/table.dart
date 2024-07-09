@@ -2,7 +2,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
 import 'package:plaktago/statistic/general/best_cards_list.dart';
 import 'package:plaktago/utils/get_icon.dart';
 
