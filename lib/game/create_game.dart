@@ -3,40 +3,31 @@ import 'dart:math';
 import 'package:plaktago/data_class/bingo_card.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/game/board/cardName/card_name.dart';
-import 'package:plaktago/game/board/cardName/chantier.dart';
-import 'package:plaktago/game/board/cardName/explo.dart';
-import 'package:plaktago/home/bingo_type_button.dart';
+import 'package:plaktago/utils/get_all_cards.dart';
 
 List<BingoCard> createCardGame(Game game, final bool newGame, final int boardSize) {
   List<BingoCard> bingoCard = <BingoCard>[];
   CardName card = CardName(name: "", type: []);
-  List<CardName> allCard = cardNameListPlaque + exploCard + chantierCard;
-  List<CardName> cardList = allCard.where((element) => element.type.contains(game.bingoType)).toList();
+  List<CardName> cardList = getAllCards().where((element) => element.type.contains(game.bingoType)).toList();
   Difficulty difficulty = Difficulty.hard;
   final int nbMedCard = getNbMedCard(cardList);
   final int nbHardCard = getNbHardCard(cardList);
 
-  if (game.bingoType == BingoType.kta) {
-    for (int it = 0; it < boardSize; it++) {
-      if (it == nbHardCard) difficulty = Difficulty.medium;
-      if (it == nbMedCard + nbHardCard) difficulty = Difficulty.easy;
-      card = cardList.where((element) =>
-        element.difficulty == difficulty).elementAt(Random().nextInt(cardList.where((element) =>
-        element.difficulty == difficulty).toList().length));
-      cardList.remove(card);
-      bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description, difficulty: card.difficulty));
+  for (int it = 0; it < boardSize; it++) {
+    if (it == nbHardCard) difficulty = Difficulty.medium;
+    if (it == nbMedCard + nbHardCard) difficulty = Difficulty.easy;
+    card = cardList.where((element) =>
+      element.difficulty == difficulty).elementAt(Random().nextInt(cardList.where((element) =>
+      element.difficulty == difficulty).toList().length));
+    if (card.excludes != null) {
+      for (int it = 0; it < card.excludes!.length; it++) {
+        cardList.remove(cardList.where((e) => e.name == card.excludes![it]).first);
+      }
     }
-  } else {
-    for (int it = 0; it < boardSize; it++) {
-      card = cardList.elementAt(Random().nextInt(cardList.length));
-      cardList.remove(card);
-      bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description));
-    }
+    cardList.remove(card);
+    bingoCard.add(BingoCard(name: card.name, icon: card.icon, desc: card.description, difficulty: card.difficulty));
   }
   bingoCard.shuffle();
-  for (int it = 0; it < boardSize; it++) {
-  }
-
   return bingoCard;
 }
 

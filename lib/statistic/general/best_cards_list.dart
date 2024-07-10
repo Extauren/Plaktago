@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:plaktago/components/table.dart';
 import 'package:plaktago/data_class/save_game.dart';
-import 'package:plaktago/game/board/cardName/card_name.dart';
+import 'package:plaktago/home/bingo_type_button.dart';
 
 class CardListData {
   final int pourcentage;
-  final String difficulty;
+  final BingoType type;
   final String cardName;
   final int nbPlayed;
   final int nbCheck;
+  final String difficulty;
+  final String desc;
 
-  CardListData(
-      { required this.pourcentage,
-      required this.difficulty,
-      required this.cardName,
-      required this.nbPlayed,
-      required this.nbCheck});
+  CardListData({
+    required this.pourcentage,
+    required this.type,
+    required this.cardName,
+    required this.nbPlayed,
+    required this.nbCheck,
+    required this.difficulty,
+    required this.desc
+  });
 }
 
 class BestCardsList extends StatefulWidget {
@@ -24,57 +29,51 @@ class BestCardsList extends StatefulWidget {
   final double? headingRowHeight;
   final double? dataRowHeight;
 
-  BestCardsList(
-      {Key? key,
-      required this.cardList,
-      required this.nbRows,
-      this.headingRowHeight,
-      this.dataRowHeight})
-      : super(key: key);
+  BestCardsList({
+    Key? key,
+    required this.cardList,
+    required this.nbRows,
+    this.headingRowHeight,
+    this.dataRowHeight
+  }) : super(key: key);
 
   @override
   State<BestCardsList> createState() => _BestCardsList();
 }
 
 class _BestCardsList extends State<BestCardsList> {
-  List<String> headerText = ["Nom", "Joué", "Coché", "Diff"];
-  List<List<String>> rowsText = [[], [], [], []];
+  List<String> headerText = ["Nom", "Joué", "Coché", "Type"];
   List<CardListData> cardListData = [];
 
   @override
   void initState() {
     super.initState();
     getPourcentages();
-    rowsText[0] = cardListData.map((e) => e.cardName).toList();
-    rowsText[1] = cardListData.map((e) => e.nbPlayed.toString()).toList();
-    rowsText[2] = cardListData.map((e) => e.nbCheck.toString()).toList();
-    rowsText[3] = cardListData.map((e) => e.difficulty.toString()).toList();
   }
 
   void getPourcentages() {
     double pourcentage = 0;
-    String difficulty = "NA";
+    int cmp = 0;
 
     for (int it = 0; it < widget.cardList.length; it++) {
       if (widget.cardList.elementAt(it).nbPlayed == 0) {
         pourcentage = 0;
       } else {
         pourcentage = widget.cardList.elementAt(it).nbCheck /
-            widget.cardList.elementAt(it).nbPlayed *
-            100;
-      }
-      if (widget.cardList.elementAt(it).difficulty != Difficulty.unknow) {
-        difficulty = widget.cardList.elementAt(it).difficulty.name[0].toUpperCase();
+          widget.cardList.elementAt(it).nbPlayed * 100;
       }
       cardListData.add(CardListData(
           pourcentage: pourcentage.round(),
-          difficulty: difficulty,
+          type: widget.cardList.elementAt(it).type![0],
           cardName: widget.cardList.elementAt(it).cardName,
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
-          nbCheck: widget.cardList.elementAt(it).nbCheck));
+          nbCheck: widget.cardList.elementAt(it).nbCheck,
+          difficulty: widget.cardList.elementAt(it).difficulty.name,
+          desc: widget.cardList.elementAt(it).desc
+      ));
     }
     cardListData.sort((a, b) {
-      int cmp = b.pourcentage.compareTo(a.pourcentage);
+      cmp = b.pourcentage.compareTo(a.pourcentage);
       if (cmp != 0) return cmp;
       return b.nbPlayed.compareTo(a.nbPlayed);
     });
@@ -84,7 +83,7 @@ class _BestCardsList extends State<BestCardsList> {
   Widget build(BuildContext context) {
     return PTable(
       headerText: headerText,
-      rowsText: rowsText,
+      cardData: cardListData,
       nbRows: widget.nbRows,
       headingRowHeight: widget.headingRowHeight,
       dataRowHeight: widget.dataRowHeight,
