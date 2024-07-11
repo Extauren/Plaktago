@@ -73,8 +73,8 @@ class _Ptable extends State<PTable> {
       headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
       columns: [
         DataColumn2(label: Center(child: Text(widget.headerText[0])), size: ColumnSize.M, onSort: ((columnIndex, ascending) => _sortByName(ascending))),
-        DataColumn2(label: Text(widget.headerText[1]), size: ColumnSize.S), // Icone case vide
-        DataColumn2(label: Text(widget.headerText[2]), size: ColumnSize.S), // Icone case remplis
+        DataColumn2(label: Icon(IconDataSolid(int.parse("0xf00d"))), size: ColumnSize.S), // Icone case vide
+        DataColumn2(label: Icon(IconDataSolid(int.parse("0xf00c"))), size: ColumnSize.S), // Icone case remplis
         DataColumn2(label: Text(widget.headerText[3]), size: ColumnSize.S, onSort: ((columnIndex, ascending) => _sortByType(ascending))), //Icone type de bingo ?
       ],
       rows: List<DataRow>.generate(widget.nbRows,
@@ -113,18 +113,23 @@ class CardDialog {
     animType: AnimType.bottomSlide,
     dialogType: DialogType.noHeader,
     headerAnimationLoop: false,
-    padding: EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 10),
+    padding: EdgeInsets.only(top: 5, left: 30, right: 30, bottom: 10),
     dialogBackgroundColor: Theme.of(context).colorScheme.surface,
     body: Column(
       children: [
-        getCardIcon(card.icon, EdgeInsets.only(top: 0), context),
-        Text(
-          card.cardName,
-          style: TextStyle(
-            fontSize: 18,
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.bold
-          )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            getCardIcon(card.icon, EdgeInsets.only(right: 10), context, Theme.of(context).colorScheme.primaryContainer),
+            Text(
+              card.cardName,
+              style: TextStyle(
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold
+              )
+            )
+          ]
         ),
         Padding(
           padding: EdgeInsets.only(top: 10),
@@ -146,7 +151,7 @@ class CardDialog {
         Padding(
           padding: EdgeInsets.only(top: 30),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
