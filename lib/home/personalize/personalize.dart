@@ -101,7 +101,7 @@ class _Personalize extends State<Personalize> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                 getCardIcon(
-                                    widget.cards.elementAt(index),
+                                    widget.cards.elementAt(index).icon,
                                     EdgeInsets.only(right: 10),
                                     context,
                                     widget.cards.elementAt(index).textColor),

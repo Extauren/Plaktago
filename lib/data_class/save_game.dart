@@ -14,6 +14,7 @@ class CardList {
   List<BingoType>? type;
   @enumerated
   Difficulty difficulty;
+  String? icon;
 
   CardList({
     this.cardName = "",
@@ -21,6 +22,7 @@ class CardList {
     this.nbCheck = 0,
     this.difficulty = Difficulty.unknow,
     this.desc = "",
-    this.type
+    this.type,
+    this.icon
   });
 }

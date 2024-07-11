@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plaktago/statistic/general/best_cards_list.dart';
+import 'package:plaktago/utils/get_card_icon.dart';
 import 'package:plaktago/utils/get_icon.dart';
 
 class PTable extends StatefulWidget {
@@ -29,10 +30,10 @@ class _Ptable extends State<PTable> {
   void _sortByType(final bool ascending) {
     setState(() {
       if (ascending) {
-        widget.cardData.sort((a, b) => a.type.name.compareTo(b.type.name));
+        widget.cardData.sort((a, b) => a.type[0].name.compareTo(b.type[0].name));
       }
       else {
-        widget.cardData.sort((a, b) => b.type.name.compareTo(a.type.name));
+        widget.cardData.sort((a, b) => b.type[0].name.compareTo(a.type[0].name));
       }
     });
   }
@@ -50,7 +51,9 @@ class _Ptable extends State<PTable> {
 
   @override
   Widget build(BuildContext context) {
-    return DataTable2(
+    return Padding(padding: EdgeInsets.symmetric(horizontal: 10),
+    child:
+    DataTable2(
       showCheckboxColumn: false,
       showHeadingCheckBox: false,
       showBottomBorder: false,
@@ -69,10 +72,10 @@ class _Ptable extends State<PTable> {
       dataRowHeight: widget.dataRowHeight,
       headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
       columns: [
-        DataColumn2(label: Center(child: Text(widget.headerText[0])), fixedWidth: 95, onSort: ((columnIndex, ascending) => _sortByName(ascending))),
-        DataColumn2(label: Text(widget.headerText[1]), fixedWidth: 90),
-        DataColumn2(label: Text(widget.headerText[2]), fixedWidth: 96),
-        DataColumn2(label: Text(widget.headerText[3]), fixedWidth: 77, onSort: ((columnIndex, ascending) => _sortByType(ascending))),
+        DataColumn2(label: Center(child: Text(widget.headerText[0])), size: ColumnSize.M, onSort: ((columnIndex, ascending) => _sortByName(ascending))),
+        DataColumn2(label: Text(widget.headerText[1]), size: ColumnSize.S), // Icone case vide
+        DataColumn2(label: Text(widget.headerText[2]), size: ColumnSize.S), // Icone case remplis
+        DataColumn2(label: Text(widget.headerText[3]), size: ColumnSize.S, onSort: ((columnIndex, ascending) => _sortByType(ascending))), //Icone type de bingo ?
       ],
       rows: List<DataRow>.generate(widget.nbRows,
         (index) => DataRow(
@@ -87,12 +90,12 @@ class _Ptable extends State<PTable> {
             )),
             DataCell(Center(child: Text(widget.cardData.elementAt(index).nbPlayed.toString()))),
             DataCell(Center(child: Text(widget.cardData.elementAt(index).nbCheck.toString()))),
-            DataCell(getIcon(widget.cardData.elementAt(index).type)),
+            DataCell(getIcon(widget.cardData.elementAt(index).type[0])),
           ],
           onSelectChanged: (value) => CardDialog(context: context, card: widget.cardData.elementAt(index)).show()
         )
       ),
-    );
+    ));
   }
 }
 
@@ -114,6 +117,7 @@ class CardDialog {
     dialogBackgroundColor: Theme.of(context).colorScheme.surface,
     body: Column(
       children: [
+        getCardIcon(card.icon, EdgeInsets.only(top: 0), context),
         Text(
           card.cardName,
           style: TextStyle(
@@ -147,9 +151,9 @@ class CardDialog {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  getIcon(card.type),
+                  getIcon(card.type[0]),
                   SizedBox(height: 8),
-                  Text(card.type.name)
+                  Text(card.type[0].name)
                 ],
               ),
               Column(

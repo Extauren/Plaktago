@@ -20,6 +20,7 @@ class General {
       cardName: item.name,
       difficulty: item.difficulty,
       desc: item.description,
-      type: item.type
+      type: item.type,
+      icon: item.icon
     )).toList();
 }

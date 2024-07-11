@@ -5,12 +5,13 @@ import 'package:plaktago/home/bingo_type_button.dart';
 
 class CardListData {
   final int pourcentage;
-  final BingoType type;
+  final List<BingoType> type;
   final String cardName;
   final int nbPlayed;
   final int nbCheck;
   final String difficulty;
   final String desc;
+  final String? icon;
 
   CardListData({
     required this.pourcentage,
@@ -19,7 +20,8 @@ class CardListData {
     required this.nbPlayed,
     required this.nbCheck,
     required this.difficulty,
-    required this.desc
+    required this.desc,
+    required this.icon
   });
 }
 
@@ -64,12 +66,13 @@ class _BestCardsList extends State<BestCardsList> {
       }
       cardListData.add(CardListData(
           pourcentage: pourcentage.round(),
-          type: widget.cardList.elementAt(it).type![0],
+          type: widget.cardList.elementAt(it).type!,
           cardName: widget.cardList.elementAt(it).cardName,
           nbPlayed: widget.cardList.elementAt(it).nbPlayed,
           nbCheck: widget.cardList.elementAt(it).nbCheck,
           difficulty: widget.cardList.elementAt(it).difficulty.name,
-          desc: widget.cardList.elementAt(it).desc
+          desc: widget.cardList.elementAt(it).desc,
+          icon: widget.cardList.elementAt(it).icon
       ));
     }
     cardListData.sort((a, b) {

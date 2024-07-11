@@ -153,7 +153,7 @@ class _PBoard extends State<PBoard> {
         itemCount: nbLines * nbLines,
         itemBuilder: (BuildContext context, int index) {
           final BingoCard card = widget.bingoCard.elementAt(index);
-          final Widget icon = getCardIcon(card, EdgeInsets.only(top: 15), context);
+          final Widget icon = getCardIcon(card.icon, EdgeInsets.only(top: 15), context);
           final AlignmentGeometry textAlign = card.icon == null ? Alignment.center : Alignment.bottomCenter;
           const double horizonTextPadding = 2.0;
           final textStyle = TextStyle(fontSize: fontSize,fontWeight: FontWeight.w600,color: Colors.black);

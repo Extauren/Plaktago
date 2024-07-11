@@ -59,7 +59,8 @@ class IsarService extends ChangeNotifier {
       cardName: item.name,
       difficulty: item.difficulty,
       desc: item.description,
-      type: item.type
+      type: item.type,
+      icon: item.icon
     )).toList();
 
     for (int it = 0; it < oldCardList.length; it++) {
