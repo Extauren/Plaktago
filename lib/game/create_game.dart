@@ -12,13 +12,19 @@ List<BingoCard> createCardGame(Game game, final bool newGame, final int boardSiz
   Difficulty difficulty = Difficulty.hard;
   final int nbMedCard = getNbMedCard(cardList);
   final int nbHardCard = getNbHardCard(cardList);
+  int nbRandomCard = 0;
 
   for (int it = 0; it < boardSize; it++) {
     if (it == nbHardCard) difficulty = Difficulty.medium;
     if (it == nbMedCard + nbHardCard) difficulty = Difficulty.easy;
+    nbRandomCard = cardList.where((e) => e.difficulty == difficulty).toList().length;
+    if (nbRandomCard <= 0) {
+      card = cardList.elementAt(Random().nextInt(cardList.length));
+    }
+    else {
     card = cardList.where((element) =>
-      element.difficulty == difficulty).elementAt(Random().nextInt(cardList.where((element) =>
-      element.difficulty == difficulty).toList().length));
+      element.difficulty == difficulty).elementAt(Random().nextInt(nbRandomCard));
+    }
     if (card.excludes != null) {
       for (int it = 0; it < card.excludes!.length; it++) {
         cardList.remove(cardList.where((e) => e.name == card.excludes![it]).first);
