@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:plaktago/game/bingo.dart';
 import 'package:plaktago/data_class/game.dart';
 import 'package:plaktago/utils/get_icon.dart';
 import 'package:plaktago/utils/isar_service.dart';
@@ -64,23 +63,23 @@ class _GameTileCard extends State<GameTileCard> {
     );
   }
 
-  void setGame() {
-    widget.game.updateGame = true;
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Bingo(
-                  bingoParams: widget.game,
-                  newGame: false,
-                  isarService: widget.isarService,
-                  id: widget.game.id,
-                  displayTimer: widget.displayTimer,
-                ))).then((value) {
-      setState(() {
-        widget.getStat();
-      });
-    });
-  }
+  // void setGame() {
+  //   widget.game.updateGame = true;
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => Bingo(
+  //                 bingoParams: widget.game,
+  //                 newGame: false,
+  //                 isarService: widget.isarService,
+  //                 id: widget.game.id,
+  //                 displayTimer: widget.displayTimer,
+  //               ))).then((value) {
+  //     setState(() {
+  //       widget.getStat();
+  //     });
+  //   });
+  // }
 
   // void comeBackToGame() {
   //   if (widget.game.isPlaying) {

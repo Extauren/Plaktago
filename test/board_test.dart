@@ -52,7 +52,7 @@ void main() {
       expect(bingoCard, result);
     });
 
-    test('First column  and fist line complete', () {
+    test('First column and fist line complete', () {
       CheckBoard checkBoard = CheckBoard(nbLines: nbLines);
       List<BingoCard> bingoCard = createBingoCardList(nbLines);
       List<BingoCard> result = List.from(bingoCard);
